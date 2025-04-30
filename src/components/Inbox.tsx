@@ -8,7 +8,7 @@ export default function Inbox() {
           </h1>
           <div className="w-full border border-gray-300">
             <div className="flex mt-2">
-              <strong className="pr-10 ml-8 mt-2 text-[20px]">보내신 분</strong>
+              <strong className="pr-10 ml-8 mt-3 text-[20px]">보내신 분</strong>
               <p className="px-6 pb-6 mt-2">userName</p>
             </div>
             <div className="flex border-b border-b-gray-300">

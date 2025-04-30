@@ -21,9 +21,9 @@ export default function InboxMessage() {
                 <th className="w-10 px-4 text-left">
                   <input type="checkbox" />
                 </th>
-                <th className="w-20 px-4 text-left">번호</th>
-                <th className="w-[300px] px-4 text-left">제목</th>
-                <th className="w-32 px-10 text-right">날짜</th>
+                <th className="w-20 px-4 text-left text-[16px] font-normal">번호</th>
+                <th className="w-[300px] px-4 text-left text-[16px] font-normal">제목</th>
+                <th className="w-32 px-10 text-right text-[16px] font-normal">날짜</th>
               </tr>
             </thead>
             <tbody>

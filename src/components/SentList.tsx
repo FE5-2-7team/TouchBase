@@ -19,7 +19,7 @@ export default function SentList() {
           <table className="w-full table-fixed">
             <thead className="border-t-1 border-b-1 border-gray-400 h-10">
               <tr className="items-center">
-                <th className="w-10 px-4 text-left">
+                <th className="w-10 px-4 text-left text-base font-normal">
                   <input type="checkbox" />
                 </th>
                 <th className="w-20 px-4 text-left">번호</th>
