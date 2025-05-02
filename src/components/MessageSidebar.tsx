@@ -1,7 +1,7 @@
 export default function MessageSidebar() {
   return (
     <>
-      <div className="mt-20">
+      <div className="mt-20 cursor-pointer">
         <ul>
           <li className="text-center text-white text-2xl font-bold h-[73px] p-[15px] bg-[#0033A0]">
             받은 쪽지함

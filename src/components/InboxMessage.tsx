@@ -13,7 +13,7 @@ export default function InboxMessage() {
   return (
     <>
       <div className="flex justify-center">
-        <div className="w-3/5 mr-[250px]">
+        <div className="w-6/7">
           <h1 className="text-2xl font-bold mb-20 mt-20 text-center">받은쪽지함</h1>
           <table className="w-full table-fixed">
             <thead className="border-t-1 border-b-1 border-gray-400 h-10">
