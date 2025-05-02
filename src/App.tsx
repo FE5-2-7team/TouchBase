@@ -1,9 +1,7 @@
-import Header from "./components/layout/Header";
-
 export default function App() {
   return (
     <>
-      <Header />
+      <h1>App Component</h1>
     </>
   );
 }
