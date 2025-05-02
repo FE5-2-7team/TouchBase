@@ -17,7 +17,7 @@ const TeamList = [
 const liItemStyle = "flex cursor-pointer";
 const liImgStyle = "mr-3 h-7 w-7";
 const iconDiv = "w-[30px] h-[30px] bg-white rounded-2xl mt-6";
-const iconStyle = "w-5 h-5 ml-[5px] mt-1";
+const iconStyle = "w-5 h-5 ml-[5px] mt-1 text-[#002779]";
 
 export default function Header() {
   return (
