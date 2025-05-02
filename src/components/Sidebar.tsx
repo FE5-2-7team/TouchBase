@@ -1,16 +1,25 @@
 import { Link } from "react-router-dom";
+import { FaBaseball } from "react-icons/fa6";
+import { FaRegThumbsUp } from "react-icons/fa6";
+import { IoGift } from "react-icons/io5";
+import { FaYoutube } from "react-icons/fa";
+import { TbHandMove } from "react-icons/tb";
 
 export default function Sidebar() {
   const navItems = [
-    { icon: "", title: "경기일정", to: "/schedule" },
-    { icon: "", title: "인기글", to: "/popular" },
-    { icon: "", title: "구단 굿즈", to: "/goods" },
+    { icon: <FaBaseball />, title: "경기일정", href: "#" },
+    { icon: <FaRegThumbsUp />, title: "인기글", to: "/popular" },
+    { icon: <IoGift />, title: "구단 굿즈", href: "#" },
     {
-      icon: "",
+      icon: <FaYoutube />,
       title: "유튜브",
       href: "https://www.youtube.com/channel/UCsebzRfMhwYfjeBIxNX1brg",
     },
-    { icon: "", title: "홈페이지", href: "https://www.doosanbears.com" },
+    {
+      icon: <TbHandMove />,
+      title: "홈페이지",
+      href: "https://www.doosanbears.com",
+    },
   ];
 
   return (
@@ -29,24 +38,24 @@ export default function Sidebar() {
           {navItems.map((item, index) => (
             <li
               key={index}
-              className="w-full md:w-[240px] h-[40px] md:h-[50px] flex items-center justify-center text-center"
+              className="w-full md:w-[240px] h-[40px] md:h-[50px] flex items-center justify-center"
             >
               {item.href ? (
                 <a
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block w-full h-full flex items-center justify-center hover:bg-[#0033A0] hover:text-white transition-all duration-200"
+                  className="block w-full h-full flex items-center justify-center px-6 hover:bg-[#0033A0] hover:text-white transition-all duration-200"
                 >
-                  <span className="material-icons">{item.icon}</span>
+                  <span className="m-3">{item.icon}</span>
                   {item.title}
                 </a>
               ) : item.to ? (
                 <Link
                   to={item.to}
-                  className="block w-full h-full flex items-center justify-center hover:bg-[#0033A0] hover:text-white transition-all duration-200"
+                  className="block w-full h-full flex items-center justify-center px-6 hover:bg-[#0033A0] hover:text-white transition-all duration-200"
                 >
-                  <span className="material-symbols-outlined">{item.icon}</span>
+                  <span className="m-3">{item.icon}</span>
                   {item.title}
                 </Link>
               ) : null}
