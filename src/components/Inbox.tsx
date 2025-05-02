@@ -2,7 +2,7 @@ export default function Inbox() {
   return (
     <>
       <div className="flex justify-center">
-        <div className="w-3/5 mr-[250px]">
+        <div className="w-6/7">
           <h1 className="text-2xl font-bold mb-8 mt-20 text-center mx-auto w-fit border-b-4 border-[#0033A0] pb-1">
             받은 쪽지
           </h1>
@@ -15,7 +15,7 @@ export default function Inbox() {
               <strong className="pr-10 ml-8 text-[20px]">받은 시간</strong>
               <p className="px-6 pb-6 ">2025-04-30 15:01</p>
             </div>
-            <div className="w-full h-[380px] mt-10 px-6"></div>
+            <div className="w-full h-[380px] mt-10 px-10">메세지</div>
             <div className="flex justify-end mb-6 mr-2 px-3">
               <button className=" justify-end bg-[#0033A0] text-white rounded-[10px] px-7 py-2 text-sm cursor-pointer">
                 답장하기

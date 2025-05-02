@@ -2,7 +2,7 @@ export default function SendMessage() {
   return (
     <>
       <div className="flex justify-center">
-        <div className="w-3/5 mr-[250px]">
+        <div className="w-6/7">
           <h1 className="text-2xl font-bold mb-8 mt-20 text-center mx-auto w-fit border-b-4 border-[#0033A0] pb-1">
             쪽지보내기
           </h1>
