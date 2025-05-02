@@ -1,11 +1,29 @@
-import HeartIcon from "../icons/HeartIcon";
-import CommentIcon from "../icons/CommentIcon";
+import { useState } from "react";
+import { FaRegHeart } from "react-icons/fa6";
+import { FaRegComment } from "react-icons/fa";
 import ProfileBlock from "./ProfileBlock";
 import SimpleProfileCard from "./SimpleProfileCard";
-import { useState } from "react";
 import Comments from "./Comments";
 
-export default function Threads() {
+interface ThreadProps {
+  username: string;
+  title: string;
+  date: string;
+  content: string;
+  images?: string[];
+  likes: number;
+  comments: number;
+}
+
+export default function Threads({
+  username,
+  title,
+  date,
+  content,
+  images = [],
+  likes,
+  comments,
+}: ThreadProps) {
   const [showed, setShowed] = useState(false);
   const [showComments, setShowComments] = useState(false);
 
@@ -21,7 +39,7 @@ export default function Threads() {
           onMouseEnter={() => setShowed(true)}
           onMouseLeave={() => setShowed(false)}
         >
-          <ProfileBlock username="user name" />
+          <ProfileBlock username={username} />
           {showed && (
             <div className="absolute z-50 w-[285px] top-5 left-[90px]">
               <SimpleProfileCard />
@@ -32,21 +50,32 @@ export default function Threads() {
         {/* 본문 내용 */}
         <div className="flex flex-col w-full justify-center">
           <div className="flex items-center gap-2 text-[16px] font-semibold text-[#000] mb-[10px]">
-            <span>제목</span>
-            <span className="text-[14px] text-[#ababab]">25.04.29</span>
+            <span>{title}</span>
+            <span className="text-[14px] text-[#ababab]">{date}</span>
           </div>
-          <div className="text-[16px] text-[#000] mb-[10px]">
-            두산 경기 보러 갈 사람
-          </div>
+          <div className="text-[16px] text-[#000] mb-[10px]">{content}</div>
+          {/* 이미지가 있을 때만 보여주기 */}
+          {images.length > 0 && (
+            <div className="flex gap-2 flex-wrap mb-2">
+              {images.map((src, index) => (
+                <img
+                  key={index}
+                  src={src}
+                  alt={`img-${index}`}
+                  className="w-[70%] rounded-[6px]"
+                />
+              ))}
+            </div>
+          )}
           <div className="flex items-center gap-8 text-[#ababab] text-[16px] mt-auto">
             <button className="flex items-center gap-1">
-              <HeartIcon /> 25
+              <FaRegHeart className="text-[18px]" /> {likes}
             </button>
             <button
               className="flex items-center gap-1"
               onClick={() => setShowComments((prev) => !prev)}
             >
-              <CommentIcon /> 25
+              <FaRegComment className="text-[18px]" /> {comments}
             </button>
           </div>
         </div>
