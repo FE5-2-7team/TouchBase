@@ -1,17 +1,28 @@
 import { CgBell } from "react-icons/cg";
 import { MdDarkMode, MdPerson, MdSearch } from "react-icons/md";
+import logo from "../../assets/images/로고.svg";
+import KT from "../../assets/images/team/kt.svg";
+import LG from "../../assets/images/team/lg.svg";
+import NC from "../../assets/images/team/nc.svg";
+import SSG from "../../assets/images/team/ssg.svg";
+import KIWOOM from "../../assets/images/team/kiwoom.svg";
+import KIA from "../../assets/images/team/kia.svg";
+import LOTTE from "../../assets/images/team/lotte.svg";
+import DOOSAN from "../../assets/images/team/doosan.svg";
+import SAMSUNG from "../../assets/images/team/samsung.svg";
+import HANHWA from "../../assets/images/team/hanwha.svg";
 
 const TeamList = [
-  { name: "KIA", img: "/src/assets/images/team/kia.svg" },
-  { name: "삼성", img: "/src/assets/images/team/samsung.svg" },
-  { name: "LG", img: "/src/assets/images/team/lg.svg" },
-  { name: "두산", img: "/src/assets/images/team/doosan.svg" },
-  { name: "KT", img: "/src/assets/images/team/kt.svg" },
-  { name: "SSG", img: "/src/assets/images/team/ssg.svg" },
-  { name: "롯데", img: "/src/assets/images/team/lotte.svg" },
-  { name: "한화", img: "/src/assets/images/team/hanwha.svg" },
-  { name: "NC", img: "/src/assets/images/team/nc.svg" },
-  { name: "키움", img: "/src/assets/images/team/kiwoom.svg" },
+  { name: "KIA", img: KIA },
+  { name: "삼성", img: SAMSUNG },
+  { name: "LG", img: LG },
+  { name: "두산", img: DOOSAN },
+  { name: "KT", img: KT },
+  { name: "SSG", img: SSG },
+  { name: "롯데", img: LOTTE },
+  { name: "한화", img: HANHWA },
+  { name: "NC", img: NC },
+  { name: "키움", img: KIWOOM },
 ];
 
 const liItemStyle = "flex cursor-pointer";
@@ -24,7 +35,7 @@ export default function Header() {
     <>
       <div className="z-50 fixed bg-[#0033A0] w-full h-[80px]">
         <div className="flex justify-between mx-10">
-          <img src="/src/assets/images/로고.svg" className="h-12 w-72 ml-40 mt-3 cursor-pointer" />
+          <img src={logo} className="h-12 w-72 ml-40 mt-3 cursor-pointer" />
           <div className="flex mr-40 gap-4">
             <div className={iconDiv}>
               <MdSearch className={iconStyle} />
