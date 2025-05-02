@@ -1,9 +1,7 @@
-import MessagePage from "./pages/MessagePage";
-
 export default function App() {
   return (
     <>
-      <MessagePage />
+      <h1>App Component</h1>
     </>
   );
 }
