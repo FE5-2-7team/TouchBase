@@ -1,0 +1,44 @@
+@font-face {
+  font-family: "KBO-Dia-Gothic"; /* 사용할 폰트의 이름을 정의 */
+  src: url("../assets/fonts/KBO-Dia-Gothic_bold.woff") format("woff"),
+    url("../assets/fonts/KBO-Dia-Gothic_medium.woff") format("woff"); /* 폰트 파일의 위치 */
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: "KBO-Dia-Gothic", sans-serif;
+  font-weight: 400;
+}
+
+.marquee-wrapper {
+  overflow: hidden;
+  width: 100vw;
+  position: relative;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+.marquee-track {
+  display: flex;
+  gap: 2rem;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+
+.marquee-wrapper:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track a {
+  width: 175px;
+}
