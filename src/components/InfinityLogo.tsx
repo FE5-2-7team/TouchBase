@@ -67,12 +67,22 @@ export default function InfinityLogo() {
     <div className="marquee-wrapper my-10">
       <div className="marquee-track">
         {logos.map((logo) => (
-          <a href={logo.url} target="_blank" rel="noopener noreferrer">
+          <a
+            href={logo.url}
+            key={logo.name}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img key={logo.name} src={logo.logo} alt={logo.name} />
           </a>
         ))}
         {logos.map((logo) => (
-          <a href={logo.url} target="_blank" rel="noopener noreferrer">
+          <a
+            href={logo.url}
+            key={logo.name}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img key={logo.name} src={logo.logo} alt={logo.name} />
           </a>
         ))}

@@ -13,10 +13,8 @@ body {
 
 .marquee-wrapper {
   overflow: hidden;
-  width: 100vw;
+  width: 99vw;
   position: relative;
-  margin-left: -50vw;
-  margin-right: -50vw;
 }
 
 .marquee-track {
@@ -41,4 +39,9 @@ body {
 
 .marquee-track a {
   width: 175px;
+}
+
+.highlight-wrapper {
+  width: 99vw;
+  background-color: #0033a0;
 }

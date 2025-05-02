@@ -16,7 +16,7 @@ export default function MainPostList({
           {Array(8)
             .fill(0)
             .map((_, index) => (
-              <div className="flex flex-row gap-4">
+              <div className="flex flex-row gap-4" key={index}>
                 <>
                   <div key={index}>
                     <img src={KT} alt="KT" className="w-[30px]" />

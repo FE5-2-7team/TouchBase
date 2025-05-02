@@ -2,6 +2,8 @@ import GameSchedule from "./GameSchedule";
 import Ranking from "./Ranking";
 import MainPostList from "./MainPostList";
 import InfinityLogo from "./InfinityLogo";
+import Highlight from "./Highlight";
+
 export default function MainContent() {
   return (
     <>
@@ -22,7 +24,9 @@ export default function MainContent() {
               <MainPostList title="주요 소식" listId="news" />
             </div>
           </div>
-          <div>하이라이트</div>
+          <div className="w-full flex justify-center items-center highlight-wrapper min-h-[600px]">
+            <Highlight />
+          </div>
           <InfinityLogo />
         </div>
       </main>
