@@ -1,5 +1,5 @@
 import threadsData from "../data/threadsData.json";
-import Threads from "./Threads"; // Threads 컴포넌트
+import Threads from "../components/Threads"; // Threads 컴포넌트
 
 export default function ThreadsList() {
   return (

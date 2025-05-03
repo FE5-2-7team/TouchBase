@@ -11,6 +11,11 @@ body {
   font-weight: 400;
 }
 
+th {
+  font-size: 16px;
+  font-weight: 400;
+}
+
 .marquee-wrapper {
   overflow: hidden;
   width: 99vw;

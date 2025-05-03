@@ -14,16 +14,24 @@ export default function InboxMessage() {
     <>
       <div className="flex justify-center">
         <div className="w-6/7">
-          <h1 className="text-2xl font-bold mb-20 mt-20 text-center">받은쪽지함</h1>
+          <h1 className="text-2xl font-bold mb-20 mt-20 text-center">
+            받은쪽지함
+          </h1>
           <table className="w-full table-fixed">
             <thead className="border-t-1 border-b-1 border-gray-400 h-10">
               <tr className="items-center">
                 <th className="w-10 px-4 text-left">
                   <input type="checkbox" />
                 </th>
-                <th className="w-20 px-4 text-left text-[16px] font-normal">번호</th>
-                <th className="w-[300px] px-4 text-left text-[16px] font-normal">제목</th>
-                <th className="w-32 px-10 text-right text-[16px] font-normal">날짜</th>
+                <th className="w-20 px-4 text-left text-[16px] font-normal">
+                  번호
+                </th>
+                <th className="w-[300px] px-4 text-left text-[16px] font-normal">
+                  제목
+                </th>
+                <th className="w-32 px-10 text-right text-[16px] font-normal">
+                  날짜
+                </th>
               </tr>
             </thead>
             <tbody>

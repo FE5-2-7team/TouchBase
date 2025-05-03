@@ -1,7 +1,2 @@
 @import "./tailwind.css";
 @import "./global.css";
-
-th {
-  font-size: 16px;
-  font-weight: 400;
-}

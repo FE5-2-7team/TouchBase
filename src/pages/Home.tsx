@@ -1,8 +1,8 @@
-import GameSchedule from "./GameSchedule";
-import Ranking from "./Ranking";
-import MainPostList from "./MainPostList";
-import InfinityLogo from "./InfinityLogo";
-import Highlight from "./Highlight";
+import GameSchedule from "../components/GameSchedule";
+import Ranking from "../components/Ranking";
+import MainPostList from "../components/MainPostList";
+import InfinityLogo from "../components/InfinityLogo";
+import Highlight from "../components/Highlight";
 
 export default function MainContent() {
   return (
@@ -13,7 +13,7 @@ export default function MainContent() {
             <GameSchedule />
             <Ranking />
           </div>
-          <div className="w-full grid gap-4 my-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="w-full grid gap-10 md:gap-4 my-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             <div className="col-span-1">
               <MainPostList title="인기글" />
             </div>
