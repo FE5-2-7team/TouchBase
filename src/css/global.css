@@ -50,3 +50,18 @@ th {
   width: 99vw;
   background-color: #0033a0;
 }
+
+@media (max-width: 320px) {
+  .hiddenHeader {
+    display: none;
+  }
+  .m_logo {
+    display: block;
+  }
+}
+
+@media (min-width: 321px) {
+  .m_logo {
+    display: none;
+  }
+}
