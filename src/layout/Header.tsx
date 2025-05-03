@@ -1,16 +1,18 @@
 import { CgBell } from "react-icons/cg";
 import { MdDarkMode, MdPerson, MdSearch } from "react-icons/md";
-import logo from "../../assets/images/로고.svg";
-import KT from "../../assets/images/team/kt.svg";
-import LG from "../../assets/images/team/lg.svg";
-import NC from "../../assets/images/team/nc.svg";
-import SSG from "../../assets/images/team/ssg.svg";
-import KIWOOM from "../../assets/images/team/kiwoom.svg";
-import KIA from "../../assets/images/team/kia.svg";
-import LOTTE from "../../assets/images/team/lotte.svg";
-import DOOSAN from "../../assets/images/team/doosan.svg";
-import SAMSUNG from "../../assets/images/team/samsung.svg";
-import HANHWA from "../../assets/images/team/hanwha.svg";
+import logo from "../assets/images/로고.svg";
+import KT from "../assets/images/team/kt.svg";
+import LG from "../assets/images/team/lg.svg";
+import NC from "../assets/images/team/nc.svg";
+import SSG from "../assets/images/team/ssg.svg";
+import KIWOOM from "../assets/images/team/kiwoom.svg";
+import KIA from "../assets/images/team/kia.svg";
+import LOTTE from "../assets/images/team/lotte.svg";
+import DOOSAN from "../assets/images/team/doosan.svg";
+import SAMSUNG from "../assets/images/team/samsung.svg";
+import HANHWA from "../assets/images/team/hanwha.svg";
+
+import { Link } from "react-router";
 
 const TeamList = [
   { name: "KIA", img: KIA },
@@ -32,10 +34,12 @@ const iconStyle = "w-5 h-5 ml-[5px] mt-1 text-[#002779] cursor-pointer";
 
 export default function Header() {
   return (
-    <>
-      <div className="z-50 fixed bg-[#0033A0] w-full h-[80px]">
+    <header className="">
+      <div className="z-50 bg-[#0033A0] w-full h-[80px]">
         <div className="flex justify-between mx-10">
-          <img src={logo} className="h-12 w-72 ml-40 mt-3 cursor-pointer" />
+          <Link to="/">
+            <img src={logo} className="h-12 w-72 ml-40 mt-3 cursor-pointer" />
+          </Link>
           <div className="flex mr-40 gap-4">
             <div className={iconDiv}>
               <MdSearch className={iconStyle} />
@@ -52,16 +56,18 @@ export default function Header() {
           </div>
         </div>
       </div>
-      <div className="fixed w-full bg-[rgba(0,3,80,0.1)] h-[70px] top-[80px] border-b-1 border-gray-300">
+      <div className="w-full bg-[rgba(0,3,80,0.1)] h-[70px] top-[80px] border-b-1 border-gray-300">
         <ul className="flex gap-12 justify-center px-10 items-center h-full ">
           {TeamList.map((team) => (
             <li key={team.name} className={liItemStyle}>
-              <img src={team.img} className={liImgStyle} alt={team.name} />
-              {team.name}
+              <Link to={`/fanpage/${team.name}`}>
+                <img src={team.img} className={liImgStyle} alt={team.name} />
+                {team.name}
+              </Link>
             </li>
           ))}
         </ul>
       </div>
-    </>
+    </header>
   );
 }

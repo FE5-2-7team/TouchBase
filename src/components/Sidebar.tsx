@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { FaBaseball } from "react-icons/fa6";
 import { FaRegThumbsUp } from "react-icons/fa6";
 import { IoGift } from "react-icons/io5";

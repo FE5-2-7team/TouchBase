@@ -12,7 +12,7 @@ const users = [
   },
 ];
 
-export default function FollowBox({ title }) {
+export default function FollowBox({ title }: { title: string }) {
   return (
     <div className="w-[450px] h-[550px] flex flex-col items-center p-[27px] rounded-[10px] shadow-[0px_0px_4px_4px_rgba(0,0,0,0.25)]">
       <div className="flex items-center self-start text-[20px] font-bold mb-[12px]">
