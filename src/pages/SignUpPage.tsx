@@ -1,5 +1,5 @@
 import Button from "../components/AuthButton";
-import Input from "../components/Input";
+import Input from "../components/AuthInput";
 import InputBoard from "../components/InputBoard";
 
 export default function SignUpPage() {

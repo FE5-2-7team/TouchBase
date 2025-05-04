@@ -1,4 +1,4 @@
-import Input from "../components/Input";
+import Input from "../components/AuthInput";
 import Button from "../components/Button";
 import InputBoard from "../components/InputBoard";
 import { FaUser, FaCamera } from "react-icons/fa";

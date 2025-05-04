@@ -10,7 +10,7 @@ export default function InputBoard({
   return (
     <>
       <section className="w-full flex flex-col items-center pt-[16px]">
-        <div className="">
+        <div>
           <img
             src="https://i.namu.wiki/i/e2Kqg6wAtcjt9_BsX_xsRPv8sPv_7xG2V8e7nrCNAOujtMbPMV4oYX0anTsBQil6smGJHMkHnlIWhqz6rAazZA.svg"
             width="460"

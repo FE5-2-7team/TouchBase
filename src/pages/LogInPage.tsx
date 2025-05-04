@@ -1,6 +1,6 @@
 import InputBoard from "../components/InputBoard";
 import Button from "../components/AuthButton";
-import Input from "../components/Input";
+import Input from "../components/AuthInput";
 
 export default function LoginPage() {
   return (
