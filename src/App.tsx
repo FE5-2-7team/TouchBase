@@ -19,8 +19,8 @@ export default function App() {
             <Route index path="posts" element={<ThreadsList />} />
             <Route path="follower" element={<FollowBox title={"팔로워"} />} />
             <Route path="following" element={<FollowBox title={"팔로잉"} />}></Route>
-            <Route path="message" element={<MessagePage />} />
           </Route>
+          <Route path="message" element={<MessagePage />} />
         </Route>
       </Routes>
     </>

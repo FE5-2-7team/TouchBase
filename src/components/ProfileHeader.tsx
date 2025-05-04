@@ -34,7 +34,7 @@ export default function ProfileHeader() {
                 {FOLLOWINGNUM}
               </button>
             </NavLink>
-            <NavLink to="message" style={({ isActive }) => ({ color: isActive ? "#FF9500" : "#0033A0" })}>
+            <NavLink to="/message" style={({ isActive }) => ({ color: isActive ? "#FF9500" : "#0033A0" })}>
               <button className="flex items-center cursor-pointer">
                 <span className="text-[20px] font-bold mr-[10px]">쪽지함</span>
                 {MESSAGENUM}
