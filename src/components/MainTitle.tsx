@@ -13,9 +13,9 @@ export default function MainTitle({
     <span
       className={twMerge(
         "text-2xl font-bold border-b-4 pb-2",
-        white ? "text-white" : "text-black",
-        `border-[${color}]`
+        white ? "text-white" : "text-black"
       )}
+      style={{ borderColor: color }}
     >
       {title}
     </span>

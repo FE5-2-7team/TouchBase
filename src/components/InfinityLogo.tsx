@@ -64,8 +64,8 @@ const logos = [
 
 export default function InfinityLogo() {
   return (
-    <div className="marquee-wrapper my-10">
-      <div className="marquee-track">
+    <div className="marquee-wrapper my-15">
+      <div className="marquee-track flex flex-row justify-between items-center">
         {logos.map((logo) => (
           <a
             href={logo.url}
@@ -73,7 +73,7 @@ export default function InfinityLogo() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img key={logo.name} src={logo.logo} alt={logo.name} />
+            <img key={logo.name} width={130} src={logo.logo} alt={logo.name} />
           </a>
         ))}
         {logos.map((logo) => (
@@ -83,7 +83,7 @@ export default function InfinityLogo() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img key={logo.name} src={logo.logo} alt={logo.name} />
+            <img key={logo.name} width={130} src={logo.logo} alt={logo.name} />
           </a>
         ))}
       </div>

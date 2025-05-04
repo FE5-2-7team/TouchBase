@@ -61,7 +61,9 @@ export default function Highlight() {
 
   return (
     <div className="w-full py-8 relative px-12">
-      <MainTitle title="하이라이트" color="#FF9500" white />
+      <div className="px-12">
+        <MainTitle title="하이라이트" color="#FF9500" white />
+      </div>
       <div className="relative px-12 group">
         <div
           id="swiper-button-prev"
@@ -102,10 +104,10 @@ export default function Highlight() {
                   <img
                     src={item.snippet.thumbnails.maxres.url}
                     alt={`Slide ${index + 1}`}
-                    className="w-full h-[220px] object-cover"
+                    className="w-full h-[300px] object-cover"
                   />
                   <div className="p-4">
-                    <p className="font-semibold text-xs mb-2">
+                    <p className="font-bold text-xs mb-2">
                       {item.snippet.title}
                     </p>
                   </div>
