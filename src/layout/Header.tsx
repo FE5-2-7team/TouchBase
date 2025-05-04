@@ -71,9 +71,12 @@ export default function Header() {
         <ul className="grid grid-cols-5 md:grid-cols-10 xl:gap-[2%] md:px-[8%] px-[2%] md:mt-5 mt-3 ">
           {TeamList.map((team) => (
             <li key={team.name} className={liItemStyle}>
-              <Link to={`/fanpage/${team.name}`} className="flex items-center">
+              <Link
+                to={`/fanpage/${team.name}`}
+                className="flex items-center justify-center"
+              >
                 <img src={team.img} className={liImgStyle} alt={team.name} />
-                {team.name}
+                <p className="text-lg">{team.name}</p>
               </Link>
             </li>
           ))}
