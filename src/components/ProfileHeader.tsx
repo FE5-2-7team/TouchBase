@@ -10,7 +10,7 @@ const MESSAGENUM = 12;
 export default function ProfileHeader() {
   return (
     <>
-      <div className="border border-[#D6D6D6] rounded-[10px] w-[968px] h-[200px] flex items-center justify-between p-[70px]">
+      <div className="border border-[#D9D9D9] shadow-md rounded-[10px] w-[968px] h-[200px] flex items-center justify-between p-[70px]">
         <img className="w-[123px] h-[123px]" src={profile} alt="my profile" />
         <div className="w-[480px]">
           <div className="text-[24px] font-bold">{USERNAME}</div>

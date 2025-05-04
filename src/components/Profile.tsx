@@ -2,6 +2,7 @@ import { useEffect, useState, useTransition } from "react";
 import ProfileHeader from "./ProfileHeader";
 import { axiosInstance } from "../api/axiosInstance";
 import FollowBox from "./FollowBox";
+import ThreadsList from "../pages/ThreadsList";
 
 const USERID = "6811c3eeba84b946ffd47e45";
 
@@ -28,10 +29,11 @@ export default function Profile() {
   if (isPending) <h1>Loading...</h1>;
 
   return (
-    <div className="flex flex-col gap-[34px] items-center">
+    <div className="flex flex-col gap-[34px] items-center pt-[200px]">
       <ProfileHeader />
-      {/* <FollowBox title={"팔로워"} /> */}
-      <FollowBox title={"팔로잉"} />
+      {/* <ThreadsList /> */}
+      <FollowBox title={"팔로워"} />
+      {/* <FollowBox title={"팔로잉"} /> */}
     </div>
   );
 }
