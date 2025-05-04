@@ -1,9 +1,9 @@
-import EditProfilePage from "./pages/EditProfilePage";
+import LoginPage from "./pages/LogInPage";
 
 export default function App() {
   return (
     <>
-      <EditProfilePage />
+      <LoginPage></LoginPage>
     </>
   );
 }
