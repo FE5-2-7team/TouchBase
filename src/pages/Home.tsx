@@ -7,7 +7,7 @@ import Highlight from "../components/Highlight";
 export default function MainContent() {
   return (
     <>
-      <main className="container px-4 md:px-0 mx-auto">
+      <main className="container px-4 md:px-0 mx-auto pt-[150px]">
         <div className="flex flex-col items-center justify-center">
           <div className="flex flex-col gap-4 my-10 lg:flex-row w-full">
             <GameSchedule />

@@ -13,7 +13,7 @@ export default function MainPostList({
       <MainTitle title={title} color="#FF9500" />
       {listId === "post" && (
         <div className="flex flex-col gap-4 mt-10 w-full">
-          {Array(8)
+          {Array(5)
             .fill(0)
             .map((_, index) => (
               <div className="flex flex-row gap-4 cursor-pointer" key={index}>
@@ -29,12 +29,12 @@ export default function MainPostList({
         </div>
       )}
       {listId === "news" && (
-        <div className="flex flex-col gap-4 mt-10 w-full md:text-[15px] text-[20px]">
-          {Array(6)
+        <div className="flex flex-col gap-1 mt-10 w-full ">
+          {Array(5)
             .fill(0)
             .map((_, index) => (
               <div key={index} className="flex flex-row gap-4 cursor-pointer">
-                <div className="mb-5">
+                <div className="mb-4">
                   레예스 복귀전 승리 &디아즈 멀티 홈런 폭발…삼성, 5연승 질주
                 </div>
               </div>

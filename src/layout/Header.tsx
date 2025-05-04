@@ -45,7 +45,11 @@ export default function Header() {
               alt="PC버전 로고"
               className="md:w-60 md:h-12 md:mt-3 md:ml-[120px] h-9 w-52 ml-6 mt-5 cursor-pointer hiddenHeader"
             />
-            <img src={M_logo} alt="모바일버전 로고" className="mt-[6%] ml-4 h-10 w-fit m_logo" />
+            <img
+              src={M_logo}
+              alt="모바일버전 로고"
+              className="mt-[6%] ml-4 h-10 w-fit m_logo"
+            />
           </Link>
           <div className="flex md:gap-2 gap-3 md:w-72 md:mx-5 mx-3 hiddenHeader">
             <div className={iconDiv}>
@@ -67,9 +71,12 @@ export default function Header() {
         <ul className="grid grid-cols-5 md:grid-cols-10 xl:gap-[2%] md:px-[8%] px-[2%] md:mt-5 mt-3 ">
           {TeamList.map((team) => (
             <li key={team.name} className={liItemStyle}>
-              <Link to={`/fanpage/${team.name}`} className="flex items-center">
+              <Link
+                to={`/fanpage/${team.name}`}
+                className="flex items-center justify-center"
+              >
                 <img src={team.img} className={liImgStyle} alt={team.name} />
-                {team.name}
+                <p className="text-lg">{team.name}</p>
               </Link>
             </li>
           ))}
