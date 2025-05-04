@@ -45,7 +45,11 @@ export default function Header() {
               alt="PC버전 로고"
               className="md:w-60 md:h-12 md:mt-3 md:ml-[120px] h-9 w-52 ml-6 mt-5 cursor-pointer hiddenHeader"
             />
-            <img src={M_logo} alt="모바일버전 로고" className="mt-[6%] ml-4 h-10 w-fit m_logo" />
+            <img
+              src={M_logo}
+              alt="모바일버전 로고"
+              className="mt-[6%] ml-4 h-10 w-fit m_logo"
+            />
           </Link>
           <div className="flex md:gap-2 gap-3 md:w-72 md:mx-5 mx-3 hiddenHeader">
             <div className={iconDiv}>

@@ -102,7 +102,7 @@ export default function Highlight() {
                   <img
                     src={item.snippet.thumbnails.maxres.url}
                     alt={`Slide ${index + 1}`}
-                    className="w-full h-[220px] object-cover"
+                    className="w-full h-[300px] object-cover"
                   />
                   <div className="p-4">
                     <p className="font-semibold text-xs mb-2">
