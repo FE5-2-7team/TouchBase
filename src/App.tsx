@@ -34,15 +34,9 @@ export default function App() {
             <Route index element={<InboxMessage />} />
             <Route path="inbox" element={<InboxMessage />} />
             <Route path="sent" element={<SentList />} />
-            <Route
-              path="sent/:id"
-              element={<MessageContainer mode={"sent"} />}
-            />
-            <Route path="write" element={<MessageContainer mode={"write"} />} />
-            <Route
-              path="view/:id"
-              element={<MessageContainer mode={"received"} />}
-            />
+            <Route path="sent/:id" element={<MessageContainer mode={"sent"} />} />
+            <Route path="write/:id?" element={<MessageContainer mode={"write"} />} />
+            <Route path="view/:id" element={<MessageContainer mode={"received"} />} />
           </Route>
           <Route path="/message" element={<InboxMessage />} />
         </Route>

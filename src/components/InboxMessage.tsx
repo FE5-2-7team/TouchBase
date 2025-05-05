@@ -4,7 +4,15 @@ import EmptyMessage from "./EmptyMessage";
 import { useState } from "react";
 
 export default function InboxMessage() {
-  const [message, setMessage] = useState([]);
+  const [message, setMessage] = useState([
+    {
+      userId: "KIAman",
+      title:
+        "오늘 경기 굿굿! 이겨서 다행이네요 너무 즐거웠습니다~~~다음에 또 같이 가요 최강 기아 기아 짱짱맨 ",
+      date: "25-04-28",
+    },
+    { userId: 2, title: "안녕하세요 ~ 주말 경기 같이 가요~~", date: "25-04-30" },
+  ]);
   return (
     <>
       <div className="flex justify-center">
