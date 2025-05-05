@@ -4,7 +4,7 @@ import { twMerge } from "tailwind-merge";
 export default function FollowCard({ name, isOnline }: { name: string; isOnline: boolean }) {
   return (
     <>
-      <div className="flex items-center border border-[#335CB3] rounded-[10px] w-[411px] h-[63px] justify-between px-[13px] my-[5px]">
+      <div className="flex items-center border border-[#335CB3] rounded-[10px] w-[490px] h-[63px] justify-between px-[13px] my-[5px]">
         <div className="relative w-[34px] h-[34px]">
           <FaUserCircle className="absolute w-full h-full" color="#0033A0" />
           <div
@@ -14,7 +14,7 @@ export default function FollowCard({ name, isOnline }: { name: string; isOnline:
             )}
           />
         </div>
-        <div className="text-[16px] text-[#6D6D6D] w-[100px]">{name}</div>
+        <div className="text-[16px] text-[#6D6D6D] w-[190px]">{name}</div>
         <button className="w-[100px] h-[24px] text-[14px] rounded-[10px] bg-[#0033A0] text-[#ffffff] cursor-pointer">
           쪽지 보내기
         </button>

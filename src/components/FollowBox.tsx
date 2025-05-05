@@ -14,12 +14,12 @@ const users = [
 
 export default function FollowBox({ title }: { title: string }) {
   return (
-    <div className="w-[968px] h-[550px] flex flex-col items-center p-[27px] rounded-[10px] border border-[#d9d9d9] shadow-md">
+    <div className="h-[550px] flex flex-col items-center p-[27px] rounded-[10px] border border-[#d9d9d9] shadow-md w-full max-w-[1200px]">
       <div className="flex items-center self-start text-[20px] font-bold mb-[20px]">
         <LuUserCheck size={26} className="mr-[11px]" />
         모든 {title}
       </div>
-      <div className="grid grid-cols-2 gap-x-[20px] gap-y-[8px]">
+      <div className="grid lg:grid-cols-2 md:grid-cols-1 gap-x-[40px] gap-y-[8px]">
         {users.map((user) => (
           <FollowCard name={user.name} isOnline={user.isOnline} />
         ))}
