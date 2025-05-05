@@ -4,17 +4,17 @@ import { twMerge } from "tailwind-merge";
 export default function FollowCard({ name, isOnline }: { name: string; isOnline: boolean }) {
   return (
     <>
-      <div className="flex items-center border border-[#335CB3] rounded-[10px] w-[490px] h-[63px] justify-between px-[13px] my-[5px]">
+      <div className="flex items-center border border-[#335CB3] dark:border-[#FFFFFF] rounded-[10px] w-[490px] h-[63px] justify-between px-[13px] my-[5px]">
         <div className="relative w-[34px] h-[34px]">
-          <FaUserCircle className="absolute w-full h-full" color="#0033A0" />
+          <FaUserCircle className="absolute w-full h-full fill-[#0033A0] dark:fill-[#FFFFFF]"/>
           <div
             className={twMerge(
-              "absolute w-[8px] h-[8px] right-[1px] rounded-[100px] bg-[#00FF1E]",
+              "absolute w-[8px] h-[8px] right-[1px] rounded-[100px] bg-[#00FF1E] dark:border dark:border-[#0033A0]",
               !isOnline && "hidden"
             )}
           />
         </div>
-        <div className="text-[16px] text-[#6D6D6D] w-[190px]">{name}</div>
+        <div className="text-[16px] text-[#6D6D6D] dark:text-[#FFFFFF] w-[190px]">{name}</div>
         <button className="w-[100px] h-[24px] text-[14px] rounded-[10px] bg-[#0033A0] text-[#ffffff] cursor-pointer">
           쪽지 보내기
         </button>

@@ -20,32 +20,32 @@ export default function ProfileHeader() {
         <div className="">
           <div className="md:text-[24px] font-bold sm:text-[10px]">{USERNAME}</div>
           <div className="flex lg:w-[580px] md:w-[420px] sm:w-[240px] justify-between mt-[7px] md:mb-[14px] sm:mb-[5px]">
-            <NavLink to="posts" style={({ isActive }) => ({ color: isActive ? "#FF9500" : "#0033A0" })}>
+            <NavLink to="posts" className={({ isActive }) => (isActive ? "text-[#FF9500]" : "text-[#0033A0] dark:text-[#FFFFFF]")}>
               <button className="flex items-center cursor-pointer md:text-[16px] sm:text-[9px]">
                 <span className="md:text-[20px] sm:text-[9px] font-bold md:mr-[10px] sm:mr-[6px]">게시물</span>
                 {POSTNUM}
               </button>
             </NavLink>
-            <NavLink to="follower" style={({ isActive }) => ({ color: isActive ? "#FF9500" : "#0033A0" })}>
+            <NavLink to="follower" className={({ isActive }) => (isActive ? "text-[#FF9500]" : "text-[#0033A0] dark:text-[#FFFFFF]")}>
               <button className="flex items-center cursor-pointer md:text-[16px] sm:text-[9px]">
                 <span className="md:text-[20px] sm:text-[9px] font-bold md:mr-[10px] sm:mr-[6px]">팔로워</span>
                 {FOLLOWERNUM}
               </button>
             </NavLink>
-            <NavLink to="following" style={({ isActive }) => ({ color: isActive ? "#FF9500" : "#0033A0" })}>
+            <NavLink to="following" className={({ isActive }) => (isActive ? "text-[#FF9500]" : "text-[#0033A0] dark:text-[#FFFFFF]")}>
               <button className="flex items-center cursor-pointer md:text-[16px] sm:text-[9px]">
                 <span className="md:text-[20px] sm:text-[9px] font-bold md:mr-[10px] sm:mr-[6px]">팔로잉</span>
                 {FOLLOWINGNUM}
               </button>
             </NavLink>
-            <NavLink to="/message" style={({ isActive }) => ({ color: isActive ? "#FF9500" : "#0033A0" })}>
+            <NavLink to="/message" className={({ isActive }) => (isActive ? "text-[#FF9500]" : "text-[#0033A0] dark:text-[#FFFFFF]")}>
               <button className="flex items-center cursor-pointer md:text-[16px] sm:text-[9px]">
                 <span className="md:text-[20px] sm:text-[9px] font-bold md:mr-[10px] sm:mr-[6px]">쪽지함</span>
                 {MESSAGENUM}
               </button>
             </NavLink>
           </div>
-          <button className="border rounded-[10px] py-[2px] px-[5px] md:text-[16px] sm:text-[9px] text-[#6D6D6D] cursor-pointer">
+          <button className="border rounded-[10px] py-[2px] px-[5px] md:text-[16px] sm:text-[9px] text-[#6D6D6D] dark:text-[#FFFFFF] cursor-pointer">
             프로필 수정
           </button>
         </div>
