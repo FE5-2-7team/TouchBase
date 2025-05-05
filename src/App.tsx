@@ -24,28 +24,16 @@ export default function App() {
           <Route path="/profile" element={<ProfileHeader />}>
             <Route index path="posts" element={<ThreadsList />} />
             <Route path="follower" element={<FollowBox title={"팔로워"} />} />
-            <Route
-              path="following"
-              element={<FollowBox title={"팔로잉"} />}
-            ></Route>
+            <Route path="following" element={<FollowBox title={"팔로잉"} />}></Route>
           </Route>
           <Route path="/fanpage/:teamName" element={<FanPage />} />
           <Route path="/message" element={<MessagePage />}>
             <Route index element={<InboxMessage />} />
             <Route path="inbox" element={<InboxMessage />} />
             <Route path="sent" element={<SentList />} />
-            <Route
-              path="sent/:id"
-              element={<MessageContainer mode={"sent"} />}
-            />
-            <Route
-              path="write/:id?"
-              element={<MessageContainer mode={"write"} />}
-            />
-            <Route
-              path="view/:id"
-              element={<MessageContainer mode={"received"} />}
-            />
+            <Route path="sent/:id" element={<MessageContainer mode={"sent"} />} />
+            <Route path="write/:id?" element={<MessageContainer mode={"write"} />} />
+            <Route path="view/:id" element={<MessageContainer mode={"received"} />} />
           </Route>
           <Route path="/message" element={<InboxMessage />} />
         </Route>
