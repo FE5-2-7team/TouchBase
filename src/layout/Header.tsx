@@ -1,5 +1,5 @@
 import { CgBell } from "react-icons/cg";
-import { MdDarkMode, MdPerson, MdSearch } from "react-icons/md";
+import { MdDarkMode, MdPerson, MdSearch, MdLightMode } from "react-icons/md";
 import P_logo from "../assets/images/p_logo.svg";
 import M_logo from "../assets/images/m_logo.png";
 import KT from "../assets/images/team/kt.svg";
@@ -14,7 +14,7 @@ import SAMSUNG from "../assets/images/team/samsung.svg";
 import HANHWA from "../assets/images/team/hanwha.svg";
 
 import { Link } from "react-router";
-import "../css/global.css";
+import { useDarkMode } from "../hooks/useDarkMode";
 
 const TeamList = [
   { name: "KIA", img: KIA },
@@ -35,6 +35,8 @@ const iconDiv = "w-[30px] h-[30px] bg-white rounded-2xl mt-6";
 const iconStyle = "w-5 h-5 ml-[5px] mt-1 text-[#002779] cursor-pointer";
 
 export default function Header() {
+  const { isDark, toggleDarkMode } = useDarkMode();
+
   return (
     <header>
       <div className="z-50 fixed bg-[#0033A0] w-full h-[80px]">
@@ -59,7 +61,11 @@ export default function Header() {
               <CgBell className={iconStyle} />
             </div>
             <div className={iconDiv}>
-              <MdDarkMode className={iconStyle} />
+              {isDark ? (
+                <MdLightMode className={iconStyle} onClick={toggleDarkMode} />
+              ) : (
+                <MdDarkMode className={iconStyle} onClick={toggleDarkMode} />
+              )}
             </div>
             <div className={iconDiv}>
               <MdPerson className={iconStyle} />
