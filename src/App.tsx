@@ -3,6 +3,8 @@ import RootLayout from "./layout/RootLayout";
 import Home from "./pages/Home";
 import ThreadsList from "./pages/ThreadsList";
 import FanPage from "./pages/FanPage";
+import MessageContainer from "./components/MessageContainer";
+import SentList from "./components/SentList";
 import InboxMessage from "./components/InboxMessage";
 import ProfileHeader from "./components/ProfileHeader";
 import FollowBox from "./components/FollowBox";
@@ -27,6 +29,20 @@ export default function App() {
           </Route>
           <Route path="message" element={<MessagePage />} />
           <Route path="/fanpage/:teamName" element={<FanPage />} />
+          <Route path="/message" element={<MessagePage />}>
+            <Route index element={<InboxMessage />} />
+            <Route path="inbox" element={<InboxMessage />} />
+            <Route path="sent" element={<SentList />} />
+            <Route
+              path="sent/:id"
+              element={<MessageContainer mode={"sent"} />}
+            />
+            <Route path="write" element={<MessageContainer mode={"write"} />} />
+            <Route
+              path="view/:id"
+              element={<MessageContainer mode={"received"} />}
+            />
+          </Route>
           <Route path="/message" element={<InboxMessage />} />
         </Route>
       </Routes>
