@@ -1,11 +1,8 @@
 import React, { ReactNode } from "react";
-import { twMerge } from "tailwind-merge";
 export default function InputBoard({
   children,
-  className,
 }: {
   children: ReactNode;
-  className?: string;
 }): React.JSX.Element {
   return (
     <>
@@ -18,14 +15,7 @@ export default function InputBoard({
             className="mb-[30px] cursor-pointer"
           />
         </div>
-        <div
-          className={twMerge(
-            "w-full max-w-[500px] min-w-[288px] rounded-[5px] p-[35px] shadow-[0_0_4px_rgba(0,51,160,0.25)] mb-[100px]",
-            className
-          )}
-        >
-          {children}
-        </div>
+        {children}
       </section>
     </>
   );

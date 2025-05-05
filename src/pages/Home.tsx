@@ -2,7 +2,7 @@ import GameSchedule from "../components/GameSchedule";
 import Ranking from "../components/Ranking";
 import MainPostList from "../components/MainPostList";
 import InfinityLogo from "../components/InfinityLogo";
-import Highlight from "../components/Highlight";
+// import Highlight from "../components/Highlight";
 
 export default function MainContent() {
   return (
@@ -25,7 +25,7 @@ export default function MainContent() {
             </div>
           </div>
           <div className="w-full flex justify-center items-center highlight-wrapper min-h-[600px]">
-            <Highlight />
+            {/* <Highlight /> */}
           </div>
           <InfinityLogo />
         </div>
