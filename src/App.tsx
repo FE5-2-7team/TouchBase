@@ -9,6 +9,8 @@ import InboxMessage from "./components/InboxMessage";
 import ProfileHeader from "./components/ProfileHeader";
 import FollowBox from "./components/FollowBox";
 import MessagePage from "./pages/MessagePage";
+import Login from "./pages/LogInPage";
+import Signup from "./pages/SignUpPage";
 
 export default function App() {
   return (
@@ -27,7 +29,6 @@ export default function App() {
               element={<FollowBox title={"팔로잉"} />}
             ></Route>
           </Route>
-          <Route path="message" element={<MessagePage />} />
           <Route path="/fanpage/:teamName" element={<FanPage />} />
           <Route path="/message" element={<MessagePage />}>
             <Route index element={<InboxMessage />} />
@@ -45,6 +46,8 @@ export default function App() {
           </Route>
           <Route path="/message" element={<InboxMessage />} />
         </Route>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     </>
   );

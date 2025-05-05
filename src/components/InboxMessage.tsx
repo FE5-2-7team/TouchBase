@@ -9,7 +9,9 @@ export default function InboxMessage() {
     <>
       <div className="flex justify-center">
         <div className="md:w-6/7 mb-[125px]">
-          <h1 className="text-2xl font-bold mb-20 mt-20 text-center">받은쪽지함</h1>
+          <h1 className="text-2xl font-bold mb-20 mt-20 text-center">
+            받은쪽지함
+          </h1>
           {message.length === 0 ? (
             <EmptyMessage message="받은쪽지가 없습니다." />
           ) : (
@@ -17,8 +19,12 @@ export default function InboxMessage() {
               <table className="w-full table-fixed">
                 <thead className="border-t-1 border-b-1 border-gray-400 h-10">
                   <tr className="items-center">
-                    <th className="w-20 px-4 text-left text-[16px]">유저 아이디</th>
-                    <th className="w-[300px] px-4 text-center text-[16px]">제목</th>
+                    <th className="w-20 px-4 text-left text-[16px]">
+                      유저 아이디
+                    </th>
+                    <th className="w-[300px] px-4 text-center text-[16px]">
+                      제목
+                    </th>
                     <th className="w-32 px-10 text-right text-[16px]">날짜</th>
                   </tr>
                 </thead>
@@ -27,7 +33,9 @@ export default function InboxMessage() {
                     <tr key={item.userId}>
                       <td className="py-2 px-6">{item.userId}</td>
                       <td className="py-2 px-10 whitespace-nowrap text-ellipsis overflow-hidden cursor-pointer">
-                        <Link to={`/message/view/${item.userId}`}>{item.title}</Link>
+                        <Link to={`/message/view/${item.userId}`}>
+                          {item.title}
+                        </Link>
                       </td>
                       <td className="w-32 py-2 px-4 text-right">{item.date}</td>
                     </tr>
