@@ -19,8 +19,6 @@ export default function App() {
         <Route path="/" element={<RootLayout />}>
           <Route path="/" element={<Home />} />
 
-          <Route path="/fanpage/:teamName" element={<FanPage />} />
-
           <Route path="/profile" element={<ProfileHeader />}>
             <Route index path="posts" element={<ThreadsList />} />
             <Route path="follower" element={<FollowBox title={"팔로워"} />} />
