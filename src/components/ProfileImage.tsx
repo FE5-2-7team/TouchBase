@@ -13,7 +13,7 @@ export default function ProfileImage({
 }: ProfileImageProps) {
   return (
     <div
-      className="rounded-full bg-[#0033A0] flex items-center justify-center overflow-hidden"
+      className="rounded-full bg-[#2F6BEB] flex items-center justify-center overflow-hidden"
       style={{ width: size, height: size }}
     >
       {imageUrl ? (
