@@ -6,7 +6,9 @@ export default function RootLayout() {
   return (
     <>
       <Header />
-      <Outlet />
+      <div className="pt-[180px] dark:bg-gray-900 dark:text-white">
+        <Outlet />
+      </div>
       <Footer />
     </>
   );
