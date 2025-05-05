@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import Button from "./Button";
-import UndoIcon from "../icons/UndoIcon";
-import ImgIcon from "../icons/ImgIcon";
+import { LuImagePlus } from "react-icons/lu";
 import ProfileBlock from "./ProfileBlock";
+import { MdOutlineReplay } from "react-icons/md";
 
 export default function Upload() {
   const [title, setTitle] = useState("");
@@ -48,7 +48,7 @@ export default function Upload() {
   }, []);
   return (
     <>
-      <div className="shadow-md w-full max-w-[1200px] mx-auto rounded-[10px] border border-[#d9d9d9] flex flex-col">
+      <div className="shadow-md w-full max-w-full md:max-w-[1200px] mx-auto rounded-[10px] border border-[#d9d9d9] flex flex-col">
         <div className="p-[24px] flex gap-[25px]">
           {/* 왼쪽 프로필 영역 */}
           <div className="flex-shink-0 self-start">
@@ -64,7 +64,7 @@ export default function Upload() {
               onChange={(e) => setTitle(e.target.value)}
               placeholder="제목을 입력해 주세요."
               className="text-[16px] border border-[#d9d9d9] mb-[10px] 
-          w-full max-w-[950px] h-[35px] rounded-[10px] px-4 py-1 
+          w-full md:max-w-[950px] h-[35px] rounded-[10px] px-4 py-1 
           box-border focus:border-[#0033A0] focus:outline-none"
             />
 
@@ -75,9 +75,9 @@ export default function Upload() {
                 contentEditable
                 onInput={InputHandler}
                 className="text-[16px] border border-[#d9d9d9] mb-[10px] 
-      w-full max-w-[950px] min-h-[90px] rounded-[10px] px-4 py-2 
+      w-full md:max-w-[950px] min-h-[90px] rounded-[10px] px-4 py-2 
       box-border resize-none focus:border-[#0033a0] 
-      focus:outline-none overflow-auto whitespace-pre-wrap"
+      focus:outline-none overflow-auto whitespace-pre-wrap pb-[60px]"
               />
 
               {/* placeholder */}
@@ -87,34 +87,39 @@ export default function Upload() {
                 </div>
               )}
 
-              {/* 아이콘 + Post 버튼 */}
-              <div className="absolute bottom-5 left-4 flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={ImgClickHandler}
-                  title="이미지 삽입"
-                  className="hover:opacity-80"
-                >
-                  <ImgIcon />
-                </button>
-                <input
-                  type="file"
-                  accept="image/*"
-                  ref={ImgInputRef}
-                  onChange={ImgFileChangeHandler}
-                  style={{ display: "none" }}
-                />
-                <button
-                  type="button"
-                  onClick={UndoHandler}
-                  title="되돌리기"
-                  className="hover:opacity-80"
-                >
-                  <UndoIcon />
-                </button>
-              </div>
-              <div className="absolute bottom-5 right-4 flex items-center gap-2">
-                <Button onClick={() => console.log("클릭됨!!!")}>Post</Button>
+              {/* 아이콘 + POST 버튼 */}
+              <div className="absolute md:max-w-[950px] left-0 right-0  bottom-5 gap-4 px-4 md:px-4 flex items-center justify-between">
+                {/* 왼쪽 아이콘들 */}
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={ImgClickHandler}
+                    title="이미지 삽입"
+                    className="hover:opacity-80 transition-transform duration-200 hover:scale-105"
+                  >
+                    <LuImagePlus className="text-[18px] text-[#ababab]" />
+                  </button>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    ref={ImgInputRef}
+                    onChange={ImgFileChangeHandler}
+                    style={{ display: "none" }}
+                  />
+                  <button
+                    type="button"
+                    onClick={UndoHandler}
+                    title="되돌리기"
+                    className="hover:opacity-80 transition-transform duration-200 hover:scale-105"
+                  >
+                    <MdOutlineReplay className="text-[18px] text-[#ababab]" />
+                  </button>
+                </div>
+
+                {/* 오른쪽 POST 버튼 */}
+                <div className="flex items-center gap-2">
+                  <Button onClick={() => console.log("클릭됨!!!")}>POST</Button>
+                </div>
               </div>
             </div>
           </div>
