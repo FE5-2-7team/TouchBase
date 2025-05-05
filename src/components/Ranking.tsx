@@ -1,20 +1,21 @@
 import MainTitle from "./MainTitle";
 import { useState, useEffect, useOptimistic } from "react";
 import { RankingData } from "../types/mainGame";
+import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_TEAM_RANK;
 
 const LoadingSkeleton = () => (
   <div className="grid grid-cols-9 gap-4 py-2.5 text-center items-center">
-    <div className="h-6 bg-gray-200 rounded-full dark:bg-gray-700"></div>
-    <div className="h-6 bg-gray-200 rounded-full dark:bg-gray-700"></div>
-    <div className="h-6 bg-gray-200 rounded-full dark:bg-gray-700"></div>
-    <div className="h-6 bg-gray-200 rounded-full dark:bg-gray-700"></div>
-    <div className="h-6 bg-gray-200 rounded-full dark:bg-gray-700"></div>
-    <div className="h-6 bg-gray-200 rounded-full dark:bg-gray-700"></div>
-    <div className="h-6 bg-gray-200 rounded-full dark:bg-gray-700"></div>
-    <div className="h-6 bg-gray-200 rounded-full dark:bg-gray-700"></div>
-    <div className="h-6 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+    <div className="h-6 bg-gray-200 rounded-full dark:bg-gray-500"></div>
+    <div className="h-6 bg-gray-200 rounded-full dark:bg-gray-500"></div>
+    <div className="h-6 bg-gray-200 rounded-full dark:bg-gray-500"></div>
+    <div className="h-6 bg-gray-200 rounded-full dark:bg-gray-500"></div>
+    <div className="h-6 bg-gray-200 rounded-full dark:bg-gray-500"></div>
+    <div className="h-6 bg-gray-200 rounded-full dark:bg-gray-500"></div>
+    <div className="h-6 bg-gray-200 rounded-full dark:bg-gray-500"></div>
+    <div className="h-6 bg-gray-200 rounded-full dark:bg-gray-500"></div>
+    <div className="h-6 bg-gray-200 rounded-full dark:bg-gray-500"></div>
   </div>
 );
 
@@ -29,14 +30,15 @@ export default function Ranking() {
 
   const fetchRanking = async () => {
     try {
-      const res = await fetch(API_URL);
-      if (!res.ok) {
-        throw new Error("Failed to fetch ranking");
+      const res = await axios.get(API_URL);
+      if (res.status === 200) {
+        const data = res.data;
+        setRanking(data.rows);
+        addOptimisticRanking(data.rows);
+        setUpdateDay(data.title);
+      } else {
+        console.error("Error fetching ranking:", res.status);
       }
-      const data = await res.json();
-      setRanking(data.rows);
-      addOptimisticRanking(data.rows);
-      setUpdateDay(data.title);
     } catch (error) {
       console.error("Error fetching ranking:", error);
     }
@@ -58,8 +60,8 @@ export default function Ranking() {
       <div className="w-full">
         <MainTitle title="경기 순위" color="#0033A0" />
         <div className="mt-10">
-          <div className="border-1 border-[#00000020] w-full py-[10px]">
-            <div className="grid grid-cols-9 gap-4 py-2 border-b border-[#000000] text-center">
+          <div className="border-1 border-[#00000020] dark:border-white w-full py-[10px]">
+            <div className="grid grid-cols-9 gap-4 py-2 border-b border-[#00000020] dark:border-white text-center">
               <span>순위</span>
               <span>팀명</span>
               <span>경기</span>
@@ -79,14 +81,16 @@ export default function Ranking() {
                     className="grid grid-cols-9 gap-4 py-2.5 text-center items-center"
                     key={i}
                   >
-                    {item.row.map((row) => (
-                      <div>{textContent(row.Text)}</div>
+                    {item.row.map((row, index) => (
+                      <div key={index}>{textContent(row.Text)}</div>
                     ))}
                   </div>
                 ))}
           </div>
         </div>
-        <p className="text-sm text-gray-500 text-end">{updateDay}</p>
+        <p className="text-sm text-gray-500 text-end font-bold mt-1 dark:text-white">
+          {updateDay}
+        </p>
       </div>
     </>
   );
