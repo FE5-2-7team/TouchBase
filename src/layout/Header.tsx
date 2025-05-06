@@ -12,7 +12,7 @@ import SAMSUNG from "../assets/images/team/samsung.svg";
 import HANHWA from "../assets/images/team/hanwha.svg";
 
 import { Link } from "react-router";
-import HeaderIcon from "../components/HeaderIcon";
+import HeaderIcon from "../components/header/HeaderIcon";
 
 const TeamList = [
   { name: "KIA", img: KIA },
@@ -27,13 +27,13 @@ const TeamList = [
   { name: "키움", img: KIWOOM },
 ];
 
-const liItemStyle = "justify-center cursor-pointer whitespace-nowrap";
+const liItemStyle = "justify-center cursor-pointer whitespace-nowrap hover:";
 const liImgStyle = "mr-1 h-7 w-7 lg:mr-4";
 
 export default function Header() {
   return (
     <header>
-      <div className="z-30 fixed bg-[#0033A0] w-full h-[80px]">
+      <div className="z-30 fixed bg-[#0033A0] w-full h-[80px] dark:bg-[#16171B]">
         <div className="flex justify-between">
           <Link to="/">
             <img
@@ -46,11 +46,14 @@ export default function Header() {
           <HeaderIcon />
         </div>
       </div>
-      <div className="fixed z-10 w-full bg-[#f5f5f5] h-[80px] md:h-[70px] top-[80px] border-b border-gray-300 hiddenHeader">
+      <div className="fixed z-10 w-full bg-[#f5f5f5] h-[80px] md:h-[70px] top-[80px] border-b border-gray-300 hiddenHeader dark:bg-[#202228] dark:text-white">
         <ul className="grid grid-cols-5 md:grid-cols-10 xl:gap-[2%] md:px-[8%] px-[2%] md:mt-5 mt-3 ">
           {TeamList.map((team) => (
             <li key={team.name} className={liItemStyle}>
-              <Link to={`/fanpage/${team.name}`} className="flex items-center justify-center">
+              <Link
+                to={`/fanpage/${team.name}`}
+                className="flex items-center justify-center hover:font-medium hover:underline hover:text-[#ff9500]"
+              >
                 <img src={team.img} className={liImgStyle} alt={team.name} />
                 <p className="text-lg">{team.name}</p>
               </Link>
