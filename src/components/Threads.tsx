@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { FaRegHeart } from "react-icons/fa6";
 import { FaRegComment } from "react-icons/fa";
+import { LuPencilLine } from "react-icons/lu";
+import { FaRegTrashCan } from "react-icons/fa6";
 import ProfileBlock from "./ProfileBlock";
 import SimpleProfileCard from "./SimpleProfileCard";
 import Comments from "./Comments";
@@ -29,8 +31,8 @@ export default function Threads({
 
   return (
     <div
-      className="w-full max-w-[1200px] relative mx-auto shadow-md rounded-[10px] 
-      border border-[#d9d9d9] bg-white p-[24px] flex flex-col gap-[20px]"
+      className="w-full max-w-full md:max-w-[1200px] relative mx-auto shadow-md rounded-[10px] 
+      border border-[#d9d9d9] p-[24px] flex flex-col gap-[20px]"
     >
       {/* 상단: 프로필 + 본문 */}
       <div className="flex gap-[25px]">
@@ -67,16 +69,30 @@ export default function Threads({
               ))}
             </div>
           )}
-          <div className="flex items-center gap-8 text-[#ababab] text-[16px] mt-auto">
-            <button className="flex items-center gap-1">
-              <FaRegHeart className="text-[18px]" /> {likes}
-            </button>
-            <button
-              className="flex items-center gap-1"
-              onClick={() => setShowComments((prev) => !prev)}
-            >
-              <FaRegComment className="text-[18px]" /> {comments}
-            </button>
+          <div className="flex justify-between items-center text-[#ababab] text-[16px] mt-auto">
+            <div className="flex items-center gap-4">
+              <button className="flex items-center gap-1 hover:cursor-pointer">
+                <FaRegHeart className="text-[18px]" /> {likes}
+              </button>
+              <button
+                className="flex items-center gap-1 hover:cursor-pointer"
+                onClick={() => setShowComments((prev) => !prev)}
+              >
+                <FaRegComment className="text-[18px]" /> {comments}
+              </button>
+            </div>
+
+            {/* 게시물 작성자와 로그인 계정이 일치할 경우 */}
+            {username === "mythread" && (
+              <div className="flex justify-end gap-4">
+                <button className="text-blue-600 gap-1 font-semibold hover:cursor-pointer">
+                  <LuPencilLine className="text-[18px]" />
+                </button>
+                <button className="text-red-600 gap-1 font-semibold hover:cursor-pointer">
+                  <FaRegTrashCan className="text-[18px]" />
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

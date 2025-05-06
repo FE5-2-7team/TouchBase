@@ -1,44 +1,79 @@
-import KT from "../assets/images/team/kt.svg";
 import MainTitle from "./MainTitle";
+import { KBONewsTypes, Post } from "../types/postType";
+import KT from "../assets/images/team/kt.svg";
+import LG from "../assets/images/team/lg.svg";
+import NC from "../assets/images/team/nc.svg";
+import SSG from "../assets/images/team/ssg.svg";
+import KIWOOM from "../assets/images/team/kiwoom.svg";
+import KIA from "../assets/images/team/kia.svg";
+import LOTTE from "../assets/images/team/lotte.svg";
+import DOOSAN from "../assets/images/team/doosan.svg";
+import SAMSUNG from "../assets/images/team/samsung.svg";
+import HANHWA from "../assets/images/team/hanwha.svg";
+
+const TEAM_LIST = {
+  KIA: KIA,
+  삼성: SAMSUNG,
+  LG: LG,
+  두산: DOOSAN,
+  KT: KT,
+  SSG: SSG,
+  롯데: LOTTE,
+  한화: HANHWA,
+  NC: NC,
+  키움: KIWOOM,
+};
 
 export default function MainPostList({
   title,
   listId = "post",
+  list,
 }: {
   title: string;
   listId?: string;
+  list: KBONewsTypes[] | Post[];
 }) {
   return (
     <div className="w-full">
       <MainTitle title={title} color="#FF9500" />
       {listId === "post" && (
         <div className="flex flex-col gap-4 mt-10 w-full">
-          {Array(8)
-            .fill(0)
-            .map((_, index) => (
-              <div className="flex flex-row gap-4 cursor-pointer" key={index}>
-                <>
-                  <div key={index}>
-                    <img src={KT} alt="KT" className="w-[30px]" />
-                  </div>
-                  <div>KT</div>
-                </>
-                <div>구장에서 커플 싸움 직관한 썰 푼다</div>
-              </div>
-            ))}
+          {(list as Post[]).map((item) => (
+            <div className="flex flex-row gap-4 cursor-pointer" key={item._id}>
+              <>
+                <div>
+                  <img
+                    src={TEAM_LIST[item.channel.name as keyof typeof TEAM_LIST]}
+                    alt={item.channel.name}
+                    className="w-[30px]"
+                  />
+                </div>
+                <div>{item.channel.name}</div>
+              </>
+              <div className="hover:underline">{item.title}</div>
+            </div>
+          ))}
         </div>
       )}
       {listId === "news" && (
-        <div className="flex flex-col gap-4 mt-10 w-full md:text-[15px] text-[20px]">
-          {Array(6)
-            .fill(0)
-            .map((_, index) => (
-              <div key={index} className="flex flex-row gap-4 cursor-pointer">
-                <div className="mb-5">
-                  레예스 복귀전 승리 &디아즈 멀티 홈런 폭발…삼성, 5연승 질주
-                </div>
-              </div>
-            ))}
+        <div className="flex flex-col gap-1 mt-10 w-full ">
+          {(list as KBONewsTypes[]).map((item, index) => (
+            <a
+              key={index}
+              href={`https://www.koreabaseball.com/${item.URL_LK}`}
+              target="_blank"
+              className="flex flex-row gap-4 cursor-pointer hover:underline"
+            >
+              <div className="mb-4">{item.BD_TT}</div>
+            </a>
+          ))}
+        </div>
+      )}
+      {list.length === 0 && (
+        <div className="flex flex-col gap-4 mt-10 w-full">
+          <div className="text-center text-gray-500 dark:text-white">
+            게시글이 없습니다.
+          </div>
         </div>
       )}
     </div>

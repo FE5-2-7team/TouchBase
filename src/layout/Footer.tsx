@@ -1,12 +1,18 @@
+import M_logo from "../assets/images/m_logo.png";
+
 export default function Footer() {
   return (
     <>
       <footer className="bg-[#0D1B2A]">
         <div className="container px-4 md:px-0 flex justify-start items-center mx-auto h-[200px] text-white gap-10">
           <div className="hidden md:flex items-center">
-            <span className="text-2xl font-bold">터치베이스</span>
+            <img
+              src={M_logo}
+              alt="모바일버전 로고"
+              className="mt-[6%] ml-4 h-10 w-fit"
+            />
           </div>
-          <div>
+          <div className="flex flex-col gap-4">
             <div className="flex gap-4">
               <div className="cursor-pointer hover:text-[#FF9500]">
                 개인 정보 처리 방침

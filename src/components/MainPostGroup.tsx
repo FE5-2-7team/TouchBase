@@ -1,0 +1,135 @@
+import { useEffect, useState, useOptimistic } from "react";
+import MainPostList from "./MainPostList";
+import axios from "axios";
+import { KBONewsTypes, Post } from "../types/postType";
+import MainTitle from "./MainTitle";
+
+const NEW_POST_API_URL = import.meta.env.VITE_API_NEW_POST;
+const HOT_POST_API_URL = import.meta.env.VITE_API_HOT_POST;
+const KBO_NEWS_API_URL = import.meta.env.VITE_API_NEWS;
+
+const SkeletonPost = () => (
+  <div className="animate-pulse space-y-3 p-4">
+    <div className="h-4 dark:bg-gray-500 bg-gray-200 rounded w-3/4"></div>
+  </div>
+);
+
+const SkeletonList = ({ title }: { title: string }) => (
+  <div className="">
+    <div className="">
+      <MainTitle title={title} color="#FF9500" />
+    </div>
+    {[...Array(5)].map((_, index) => (
+      <SkeletonPost key={index} />
+    ))}
+  </div>
+);
+
+export default function MainPostGroup() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [newPost, setNewPost] = useState<Post[]>([]);
+  const [hotPost, setHotPost] = useState<Post[]>([]);
+  const [kboNews, setKboNews] = useState<KBONewsTypes[]>([]);
+
+  const [optimisticNewPost, updateOptimisticNewPost] = useOptimistic(
+    newPost,
+    (_, newPost: Post[]) => newPost
+  );
+
+  const [optimisticHotPost, updateOptimisticHotPost] = useOptimistic(
+    hotPost,
+    (_, hotPost: Post[]) => hotPost
+  );
+
+  const [optimisticKboNews, updateOptimisticKboNews] = useOptimistic(
+    kboNews,
+    (_, kboNews: KBONewsTypes[]) => kboNews
+  );
+
+  const fetchNewPost = async () => {
+    try {
+      const res = await axios.get(NEW_POST_API_URL);
+      if (res.status === 200) {
+        updateOptimisticNewPost(res.data);
+        setNewPost(res.data);
+      } else {
+        console.error("Error fetching new post:", res.status);
+      }
+    } catch (error) {
+      console.error("Error fetching new post:", error);
+    }
+  };
+
+  const fetchHotPost = async () => {
+    try {
+      const res = await axios.get(HOT_POST_API_URL);
+      if (res.status === 200) {
+        updateOptimisticHotPost(res.data);
+        setHotPost(res.data);
+      } else {
+        console.error("Error fetching hot post:", res.status);
+      }
+    } catch (error) {
+      console.error("Error fetching hot post:", error);
+    }
+  };
+
+  const fetchKboNews = async () => {
+    try {
+      const res = await axios.get(KBO_NEWS_API_URL);
+      if (res.status === 200) {
+        updateOptimisticKboNews(res.data.row);
+        setKboNews(res.data.row);
+      } else {
+        console.error("Error fetching kbo news:", res.status);
+      }
+    } catch (error) {
+      console.error("Error fetching kbo news:", error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      await Promise.all([fetchNewPost(), fetchHotPost(), fetchKboNews()]);
+      setIsLoading(false);
+    };
+    fetchData();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <>
+        <div className="col-span-1">
+          <SkeletonList title="인기글" />
+        </div>
+        <div className="col-span-1">
+          <SkeletonList title="최신글" />
+        </div>
+        <div className="col-span-1 sm:col-span-2 lg:col-span-1">
+          <SkeletonList title="주요 소식" />
+        </div>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <div className="col-span-1">
+        <MainPostList title="인기글" list={optimisticHotPost} />
+      </div>
+      <div className="col-span-1">
+        <MainPostList title="최신글" list={optimisticNewPost} />
+      </div>
+      <div className="col-span-1 sm:col-span-2 lg:col-span-1">
+        {optimisticKboNews.length !== 0 && (
+          <MainPostList
+            title="주요 소식"
+            listId="news"
+            list={optimisticKboNews}
+          />
+        )}
+      </div>
+    </>
+  );
+}
