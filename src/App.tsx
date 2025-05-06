@@ -4,9 +4,9 @@ import Home from "./pages/Home";
 import ThreadsList from "./pages/ThreadsList";
 import Profile from "./components/Profile";
 import InboxMessage from "./components/InboxMessage";
-import SignUpPage from "./pages/SignUpPage";
-import LoginPage from "./pages/LogInPage";
-import EditProfilePage from "./pages/EditProfilePage";
+import SignUp from "./pages/SignUp";
+import Login from "./pages/LogIn";
+import EditProfile from "./pages/EditProfile";
 
 export default function App() {
   return (
@@ -18,9 +18,9 @@ export default function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/message" element={<InboxMessage />} />
         </Route>
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/edit" element={<EditProfilePage />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/edit" element={<EditProfile />} />
       </Routes>
     </>
   );
