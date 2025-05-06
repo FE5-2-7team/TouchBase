@@ -1,13 +1,13 @@
-import KT from "../assets/images/team/kt.svg";
-import LG from "../assets/images/team/lg.svg";
-import NC from "../assets/images/team/nc.svg";
-import SSG from "../assets/images/team/ssg.svg";
-import KIWOOM from "../assets/images/team/kiwoom.svg";
-import KIA from "../assets/images/team/kia.svg";
-import LOTTE from "../assets/images/team/lotte.svg";
-import DOOSAN from "../assets/images/team/doosan.svg";
-import SAMSUNG from "../assets/images/team/samsung.svg";
-import HANHWA from "../assets/images/team/hanwha.svg";
+import KT from "../../assets/images/team/kt.svg";
+import LG from "../../assets/images/team/lg.svg";
+import NC from "../../assets/images/team/nc.svg";
+import SSG from "../../assets/images/team/ssg.svg";
+import KIWOOM from "../../assets/images/team/kiwoom.svg";
+import KIA from "../../assets/images/team/kia.svg";
+import LOTTE from "../../assets/images/team/lotte.svg";
+import DOOSAN from "../../assets/images/team/doosan.svg";
+import SAMSUNG from "../../assets/images/team/samsung.svg";
+import HANHWA from "../../assets/images/team/hanwha.svg";
 
 const logos = [
   {
