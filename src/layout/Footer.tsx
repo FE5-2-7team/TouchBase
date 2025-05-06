@@ -3,7 +3,7 @@ import M_logo from "../assets/images/m_logo.png";
 export default function Footer() {
   return (
     <>
-      <footer className="bg-[#0D1B2A]">
+      <footer className="bg-[#0D1B2A] dark:bg-[#16171B]">
         <div className="container px-4 md:px-0 flex justify-start items-center mx-auto h-[200px] text-white gap-10">
           <div className="hidden md:flex items-center">
             <img

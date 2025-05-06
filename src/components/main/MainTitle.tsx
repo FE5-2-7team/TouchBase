@@ -1,5 +1,4 @@
 import { twMerge } from "tailwind-merge";
-// import { useDarkMode } from "../hooks/useDarkMode";
 export default function MainTitle({
   title,
   color,
@@ -9,17 +8,13 @@ export default function MainTitle({
   color: string;
   white?: boolean;
 }) {
-  // const { isDark } = useDarkMode();
-
-  const textColor = color;
-
   return (
     <span
       className={twMerge(
-        "text-2xl font-bold border-b-4 pb-2 dark:text-white",
+        "text-2xl font-bold border-b-4 pb-2 dark:text-white kbo-font-medium",
         white ? "text-white" : "text-black"
       )}
-      style={{ borderColor: textColor }}
+      style={{ borderColor: color }}
     >
       {title}
     </span>
