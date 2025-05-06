@@ -51,11 +51,11 @@ export default function Threads({
 
         {/* 본문 내용 */}
         <div className="flex flex-col w-full justify-center">
-          <div className="flex items-center gap-2 text-[16px] font-semibold text-[#000] mb-[10px]">
+          <div className="flex items-center gap-2 text-[16px] font-semibold mb-[10px]">
             <span>{title}</span>
             <span className="text-[14px] text-[#ababab]">{date}</span>
           </div>
-          <div className="text-[16px] text-[#000] mb-[10px]">{content}</div>
+          <div className="text-[16px] mb-[10px]">{content}</div>
           {/* 이미지가 있을 때만 보여주기 */}
           {images.length > 0 && (
             <div className="flex gap-2 flex-wrap mb-2">

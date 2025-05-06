@@ -68,7 +68,7 @@ export default function Comments() {
 
               {/* 댓글 본문 + 날짜를 좌우로 정렬 */}
               <div className="flex justify-between items-center w-full">
-                <span className="text-sm text-[#333]">{comment.text}</span>
+                <span className="text-sm">{comment.text}</span>
                 <span className="pb-[20px] pr-[5px] text-[12px] text-[#999]">
                   {comment.date}
                 </span>
