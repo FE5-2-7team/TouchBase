@@ -5,6 +5,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import axios from "axios";
 import MainTitle from "./MainTitle";
+
 const YOUTUBE_PLAYLIST_ID = "PLuY-NTS_5IpxSLENcrLkC1_E7RuWldqXR";
 const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY;
 
@@ -61,8 +62,10 @@ export default function Highlight() {
 
   return (
     <div className="w-full py-8 relative px-12">
-      <MainTitle title="하이라이트" color="#FF9500" white />
-      <div className="relative px-12 group">
+      <div className="md:px-12">
+        <MainTitle title="하이라이트" color="#FF9500" white />
+      </div>
+      <div className="relative md:px-12 group">
         <div
           id="swiper-button-prev"
           className="absolute left-0 top-1/2 z-10 transform -translate-y-1/2 cursor-pointer text-white text-3xl opacity-0 group-hover:opacity-100 transition swiper-button-disabled:opacity-30 swiper-button-disabled:cursor-not-allowed"
@@ -94,7 +97,7 @@ export default function Highlight() {
         >
           {videos.map((item, index) => (
             <SwiperSlide key={index}>
-              <div className="bg-white rounded-md overflow-hidden shadow mt-10">
+              <div className="bg-white rounded-md overflow-hidden shadow mt-10 dark:bg-gray-900">
                 <a
                   href={`https://www.youtube.com/watch?v=${item.snippet.resourceId.videoId}`}
                   target="_blank"
@@ -102,10 +105,10 @@ export default function Highlight() {
                   <img
                     src={item.snippet.thumbnails.maxres.url}
                     alt={`Slide ${index + 1}`}
-                    className="w-full h-[220px] object-cover"
+                    className="w-full min-h-[300px] object-cover"
                   />
                   <div className="p-4">
-                    <p className="font-semibold text-xs mb-2">
+                    <p className="font-bold text-lg mb-2">
                       {item.snippet.title}
                     </p>
                   </div>
