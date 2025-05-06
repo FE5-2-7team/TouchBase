@@ -4,13 +4,13 @@ export default function SimpleProfileCard() {
   const [activeTab, setActiveTab] = useState("posts");
 
   const stats = [
-    { id: "posts", label: "게시물", count: 10, defaultColor: "#0033A0" },
-    { id: "followers", label: "팔로워", count: 10, defaultColor: "#0033A0" },
-    { id: "following", label: "팔로잉", count: 10, defaultColor: "#0033A0" },
+    { id: "posts", label: "게시물", count: 10 },
+    { id: "followers", label: "팔로워", count: 10 },
+    { id: "following", label: "팔로잉", count: 10 },
   ];
 
   return (
-    <div className="w-full max-w-[285px] bg-[#F5F5F5] mx-auto shadow-md rounded-[10px] border-2 border-[#d9d9d9] p-4 flex items-center gap-6">
+    <div className="w-full max-w-[285px] bg-[#F5F5F5] dark:bg-gray-900 mx-auto shadow-md rounded-[10px] border-2 border-[#d9d9d9] p-4 flex items-center gap-6">
       {/* 프로필 이미지 */}
       <div className="flex flex-col items-center gap-1">
         <div className="w-[60px] border border-[#d9d9d9] h-[60px] rounded-full bg-[#0033A0] flex items-center justify-center overflow-hidden">
@@ -27,12 +27,14 @@ export default function SimpleProfileCard() {
       <div className="flex flex-col flex-grow gap-2">
         {/* 통계 정보 */}
         <div className="flex gap-3 text-[10px] cursor-pointer">
-          {stats.map(({ id, label, count, defaultColor }) => (
+          {stats.map(({ id, label, count }) => (
             <span
               key={id}
               onClick={() => setActiveTab(id)}
               className={`font-semibold ${
-                activeTab === id ? "text-[#FF8A00]" : `text-[${defaultColor}]`
+                activeTab === id
+                  ? "text-[#FF8A00]"
+                  : `text-[#0033a0] dark:text-white`
               }`}
             >
               {label} {count}

@@ -24,8 +24,8 @@ export default function Sidebar() {
   return (
     <>
       <div
-        className="md:sticky fixed top-[150px] left-0 z-40 w-full md:w-[240px] md:h-screen md:left-0
-    border-b md:border-r md:border-b-0 border-[#d9d9d9] bg-white"
+        className="md:sticky fixed top-[160px] left-0 z-5 w-full md:w-[240px] md:h-screen md:left-0
+    border-b md:border-r md:border-b-0 border-[#d9d9d9] dark:bg-gray-900"
       >
         {/* PC에서만 로고 보이게 */}
         <div className="hidden md:block md:mt-[50px] md:mb-[40px]">

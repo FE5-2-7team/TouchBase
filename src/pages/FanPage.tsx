@@ -7,7 +7,7 @@ export default function FanPage() {
     <>
       <div className="flex flex-col md:flex-row w-full max-w-[1500px] mx-auto">
         <Sidebar />
-        <div className="flex-1 px-2 mt-[60px] md:ml-[50px] md:mr-10">
+        <div className="flex-1 px-2 mt-[100px] md:ml-[50px] md:mr-10">
           <Upload />
           <div className="my-[50px] border-t border-[#d9d9d9] w-full"></div>
           <ThreadsList />
