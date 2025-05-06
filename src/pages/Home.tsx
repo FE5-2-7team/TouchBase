@@ -28,9 +28,9 @@ export default function MainContent() {
                 <img src={KBO} alt="KBO" className="w-full h-full" />
               </span>
             </div>
-          </div>
-          <div className="w-full flex justify-center items-center highlight-wrapper min-h-[600px]">
-            <Highlight />
+            <div className="w-full flex justify-center items-center highlight-wrapper min-h-[600px]">
+              <Highlight />
+            </div>
           </div>
           <InfinityLogo />
         </div>
