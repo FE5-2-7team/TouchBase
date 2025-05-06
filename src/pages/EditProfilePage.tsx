@@ -1,6 +1,6 @@
 import Input from "../components/AuthInput";
 import Button from "../components/Button";
-import InputBoard from "../components/InputBoard";
+import InputBoard from "../components/AuthBoard";
 import { FaUser, FaCamera } from "react-icons/fa";
 
 export default function EditProfilePage() {
