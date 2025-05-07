@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import Upload from "../components/Fan_Page/Upload";
-import Sidebar from "../components/Fan_Page/Sidebar";
-import ThreadsList from "./../components/Fan_Page/ThreadsList";
+import Upload from "../components/FanPage/Upload";
+import Sidebar from "../components/FanPage/Sidebar";
+import ThreadsList from "./../components/FanPage/ThreadsList";
 import { useParams } from "react-router";
 
 export default function FanPage() {

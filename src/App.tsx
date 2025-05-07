@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router";
 import RootLayout from "./layout/RootLayout";
 import Home from "./pages/Home";
-import ThreadsList from "./components/Fan_Page/ThreadsList";
+import ThreadsList from "./components/FanPage/ThreadsList";
 import FanPage from "./pages/FanPage";
 import MessageContainer from "./components/message/MessageContainer";
 import ProfileHeader from "./components/ProfileHeader";
