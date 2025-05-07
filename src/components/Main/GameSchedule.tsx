@@ -1,38 +1,17 @@
 import { useState, useEffect, useOptimistic } from "react";
 import { BaseballGameData } from "../../types/mainGame";
-import KT from "../../assets/images/team/kt.svg";
-import LG from "../../assets/images/team/lg.svg";
-import NC from "../../assets/images/team/nc.svg";
-import SSG from "../../assets/images/team/ssg.svg";
-import KIWOOM from "../../assets/images/team/kiwoom.svg";
-import KIA from "../../assets/images/team/kia.svg";
-import LOTTE from "../../assets/images/team/lotte.svg";
-import DOOSAN from "../../assets/images/team/doosan.svg";
-import SAMSUNG from "../../assets/images/team/samsung.svg";
-import HANHWA from "../../assets/images/team/hanwha.svg";
-import MainTitle from "./MainTitle";
+import { team_list } from "../../utils/getLogoImages";
 import axios from "axios";
+import MainTitle from "./MainTitle";
 
 const API_URL = import.meta.env.VITE_API_NEXT_MATCH;
-const TEAM_LIST = {
-  KIA: KIA,
-  삼성: SAMSUNG,
-  LG: LG,
-  두산: DOOSAN,
-  KT: KT,
-  SSG: SSG,
-  롯데: LOTTE,
-  한화: HANHWA,
-  NC: NC,
-  키움: KIWOOM,
-};
 
 const GameTable = ({ team, pitcher }: { team: string; pitcher: string }) => (
   <div className="flex items-center justify-around">
     <div className="flex items-center gap-2">
       <div className="w-[40px]">
         <img
-          src={TEAM_LIST[team as keyof typeof TEAM_LIST]}
+          src={team_list[team as keyof typeof team_list]}
           alt={team}
           className="w-[30px]"
         />
@@ -46,7 +25,7 @@ const GameTable = ({ team, pitcher }: { team: string; pitcher: string }) => (
 );
 
 const LoadingSkeleton = () => (
-  <div className="w-auto border border-[#00000020] dark:border-b-[#35363C] last:border-b-0 dark:last:border-b-0">
+  <div className="w-auto border border-[#00000020] dark:border-b-[#35363C] dark:last:border-b-0">
     <div className="flex flex-row justify-between py-4">
       <div className="flex flex-col gap-4 px-4 w-full">
         <div className="flex items-center">
