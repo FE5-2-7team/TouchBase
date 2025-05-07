@@ -1,5 +1,5 @@
 import Input from "../components/AuthInput";
-import Button from "../components/Button";
+import Button from "../components/Fan_Page/Button";
 import InputBoard from "../components/AuthBoard";
 import { FaUser, FaCamera } from "react-icons/fa";
 
