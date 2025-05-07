@@ -1,4 +1,4 @@
-import threadsData from "../data/threadsData.json";
+import threadsData from "../../data/threadsData.json";
 import Threads from "./Threads";
 
 export default function ThreadsList() {

@@ -1,4 +1,4 @@
-import ProfileIcon from "../icons/ProfileIcon";
+import ProfileIcon from "../../icons/ProfileIcon";
 
 interface ProfileImageProps {
   size?: number;
