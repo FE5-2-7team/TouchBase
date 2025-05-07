@@ -3,14 +3,14 @@ import RootLayout from "./layout/RootLayout";
 import Home from "./pages/Home";
 import ThreadsList from "./components/ThreadsList";
 import FanPage from "./pages/FanPage";
-import MessageContainer from "./components/MessageContainer";
-import SentList from "./components/SentList";
-import InboxMessage from "./components/InboxMessage";
+import MessageContainer from "./components/message/MessageContainer";
 import ProfileHeader from "./components/ProfileHeader";
 import FollowBox from "./components/FollowBox";
 import MessagePage from "./pages/MessagePage";
 import Login from "./pages/LogInPage";
 import Signup from "./pages/SignUpPage";
+import InboxMessage from "./components/message/InboxMessage";
+import SentList from "./components/message/SentList";
 
 export default function App() {
   return (

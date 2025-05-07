@@ -1,12 +1,12 @@
-import MessageSidebar from "../components/MessageSidebar";
 import { Outlet } from "react-router";
+import MessageSidebar from "../components/message/MessageSidebar";
 
 export default function MessagePage() {
   return (
     <>
-      <div className="flex justify-center">
-        <div className="flex md:w-[85%] mt-[150px] ">
-          <div className="w-[259px] border-r border-r-gray-200">
+      <div className="flex justify-center dark:bg-[#191A1E]">
+        <div className="flex md:w-[85%]">
+          <div className="w-[259px] border-r border-r-gray-200 dark:border-r-gray-700">
             <MessageSidebar />
           </div>
 
