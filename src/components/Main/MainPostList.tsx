@@ -1,28 +1,6 @@
 import MainTitle from "./MainTitle";
 import { KBONewsTypes, Post } from "../../types/postType";
-import KT from "../../assets/images/team/kt.svg";
-import LG from "../../assets/images/team/lg.svg";
-import NC from "../../assets/images/team/nc.svg";
-import SSG from "../../assets/images/team/ssg.svg";
-import KIWOOM from "../../assets/images/team/kiwoom.svg";
-import KIA from "../../assets/images/team/kia.svg";
-import LOTTE from "../../assets/images/team/lotte.svg";
-import DOOSAN from "../../assets/images/team/doosan.svg";
-import SAMSUNG from "../../assets/images/team/samsung.svg";
-import HANHWA from "../../assets/images/team/hanwha.svg";
-
-const TEAM_LIST = {
-  KIA: KIA,
-  삼성: SAMSUNG,
-  LG: LG,
-  두산: DOOSAN,
-  KT: KT,
-  SSG: SSG,
-  롯데: LOTTE,
-  한화: HANHWA,
-  NC: NC,
-  키움: KIWOOM,
-};
+import { team_list } from "../../utils/getLogoImages";
 
 export default function MainPostList({
   title,
@@ -46,7 +24,7 @@ export default function MainPostList({
               <>
                 <div>
                   <img
-                    src={TEAM_LIST[item.channel.name as keyof typeof TEAM_LIST]}
+                    src={team_list[item.channel.name as keyof typeof team_list]}
                     alt={item.channel.name}
                     className="w-[30px]"
                   />

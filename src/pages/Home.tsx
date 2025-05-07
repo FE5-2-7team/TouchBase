@@ -1,8 +1,8 @@
-import GameSchedule from "../components/main/GameSchedule";
-import Ranking from "../components/main/Ranking";
-import InfinityLogo from "../components/main/InfinityLogo";
-import Highlight from "../components/main/Highlight";
-import MainPostGroup from "../components/main/MainPostGroup";
+import GameSchedule from "../components/Main/GameSchedule";
+import Ranking from "../components/Main/Ranking";
+import InfinityLogo from "../components/Main/InfinityLogo";
+import Highlight from "../components/Main/Highlight";
+import MainPostGroup from "../components/Main/MainPostGroup";
 import KBO from "../assets/images/m_logo.png";
 
 export default function MainContent() {
