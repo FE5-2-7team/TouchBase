@@ -8,19 +8,6 @@ import HeaderIcon from "../components/Header/HeaderIcon";
 const liItemStyle = "justify-center cursor-pointer whitespace-nowrap ";
 const liImgStyle = "mr-1 h-7 w-7 lg:mr-2";
 
-const teamNameMap: Record<string, string> = {
-  KIA: "기아",
-  SAMSUNG: "삼성",
-  LG: "LG",
-  DOOSAN: "두산",
-  KT: "KT",
-  SSG: "SSG",
-  LOTTE: "롯데",
-  HANHWA: "한화",
-  NC: "NC",
-  KIWOOM: "키움",
-};
-
 export default function Header() {
   return (
     <header>
@@ -32,7 +19,11 @@ export default function Header() {
               alt="PC버전 로고"
               className="md:w-60 md:h-12 md:mt-3 md:ml-[120px] h-9 w-52 ml-6 mt-5 cursor-pointer hiddenHeader"
             />
-            <img src={M_logo} alt="모바일버전 로고" className="mt-[6%] ml-4 h-10 w-fit m_logo" />
+            <img
+              src={M_logo}
+              alt="모바일버전 로고"
+              className="mt-[6%] ml-4 h-10 w-fit m_logo"
+            />
           </Link>
           <HeaderIcon />
         </div>
@@ -46,7 +37,7 @@ export default function Header() {
                 className="flex items-center justify-center hover:text-[#ff9500] hover:underline hover:underline-offset-6 hover:decoration-2"
               >
                 <img src={team.logo} className={liImgStyle} alt={team.name} />
-                <p className="text-lg ">{teamNameMap[team.name]}</p>
+                <p className="text-lg ">{team.name}</p>
               </Link>
             </li>
           ))}
