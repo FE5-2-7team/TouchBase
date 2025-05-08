@@ -5,6 +5,7 @@ import { ExtendedUser } from "../../types/postType";
 import Swal from "sweetalert2";
 import "animate.css";
 import { FaUser } from "react-icons/fa";
+import SearchThreads from "./SearchThreads";
 
 export default function SearchBox({ onClose }: { onClose: () => void }) {
   const [keyword, setKeyword] = useState("");
@@ -43,7 +44,7 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
       return;
     }
     try {
-      const res = await axiosInstance.get("/users/get-users");
+      const res = await axiosInstance.get(`/search/all/${encodeURIComponent(keyword)}`);
       const data = res.data;
 
       const result = data.filter((user: any) => {
@@ -52,6 +53,7 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
 
         return username.includes(trimkeyword) || fullName.includes(trimkeyword);
       });
+      console.log(result);
       setHasResult(result.length > 0);
       setUsers(result);
       setHasResult(true);
@@ -116,30 +118,37 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
           </button>
         </div>
         {hasResult && (
-          <div
-            className={`dark:text-white block p-1 ${
-              users.length > 0 ? "border-b border-b-gray-300" : ""
-            } `}
-          >
-            {users.length > 0 ? (
-              users.map((user: ExtendedUser) => (
-                <div key={user._id} className="user-card flex my-2">
-                  {user.image ? (
-                    <img src={user.image} alt={user.fullName} className="w-10 h-10 rounded-3xl" />
-                  ) : (
-                    <div className="w-10 h-10 bg-gray-100 dark:white rounded-3xl">
-                      <FaUser className="w-6 h-6 m-2 dark:text-gray-600 text-[#2F6BEB]" />
-                    </div>
-                  )}
-                  <p className="mt-1.5 ml-4">{user.fullName}</p>
+          <>
+            <div
+              className={`dark:text-white block p-1 pb-4 ${
+                users.length > 0 ? "border-b border-b-gray-400" : ""
+              } `}
+            >
+              {users.length > 0 ? (
+                users.map((user) => (
+                  <div key={user._id} className="user-card flex my-4">
+                    {user.image ? (
+                      <img src={user.image} alt={user.username} className="w-10 h-10 rounded-3xl" />
+                    ) : (
+                      <div className="w-10 h-10 bg-gray-100 dark:white rounded-3xl">
+                        <FaUser className="w-6 h-6 m-2 dark:text-gray-600 text-[#2F6BEB]" />
+                      </div>
+                    )}
+                    <p className="mt-1.5 ml-4">{user.username}</p>
+                  </div>
+                ))
+              ) : (
+                <div className="text-center text-gray-400 dark:text-gray-500 mt-10 border-b border-b-gray-400 pb-20">
+                  일치하는 내용이 없습니다.
                 </div>
-              ))
-            ) : (
-              <div className="text-center text-gray-400 dark:text-gray-500 mt-10 ">
-                일치하는 내용이 없습니다.
+              )}
+            </div>
+            <div>
+              <div>
+                <SearchThreads keyword={keyword} />
               </div>
-            )}
-          </div>
+            </div>
+          </>
         )}
       </div>
     </div>
