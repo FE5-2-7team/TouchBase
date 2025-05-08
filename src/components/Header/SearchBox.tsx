@@ -1,18 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { axiosInstance } from "../../api/axiosInstance";
 import { MdSearch, MdClose } from "react-icons/md";
+import { ExtendedUser } from "../../types/postType";
 import Swal from "sweetalert2";
 import "animate.css";
+import { FaUser } from "react-icons/fa";
 
 export default function SearchBox({ onClose }: { onClose: () => void }) {
   const [keyword, setKeyword] = useState("");
   const [hasResult, setHasResult] = useState(false);
+  const [users, setUsers] = useState<ExtendedUser[]>([]);
   const modalHandler = (e: React.MouseEvent) => {
     e.stopPropagation();
   };
 
-  const searchHandler = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const trimkeyword = keyword?.trim();
+  const searchHandler = async () => {
+    const trimkeyword = keyword?.toLowerCase().trim();
 
     if (!trimkeyword) {
       Swal.fire({
@@ -40,8 +43,8 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
       return;
     }
     try {
-      const res = await fetch("http://13.125.208.179:5011/users/get-users");
-      const data = await res.json();
+      const res = await axiosInstance.get("/users/get-users");
+      const data = res.data;
 
       const result = data.filter((user: any) => {
         const username = (user.username ?? "").toLowerCase().trim() || "";
@@ -50,11 +53,32 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
         return username.includes(trimkeyword) || fullName.includes(trimkeyword);
       });
       setHasResult(result.length > 0);
-      console.log(result);
+      setUsers(result);
+      setHasResult(true);
     } catch (err) {
       console.error("검색에 실패했습니다.", err);
     }
   };
+
+  useEffect(() => {
+    const userData = async () => {
+      try {
+        const res = await axiosInstance.get("/users/get-users");
+        setUsers(res.data);
+      } catch (err) {
+        console.log("정보 불러오기 실패", err);
+      }
+    };
+
+    userData();
+  }, []);
+
+  useEffect(() => {
+    if (!keyword) {
+      setHasResult(false);
+      setUsers([]);
+    }
+  }, [keyword]);
 
   return (
     <div
@@ -62,7 +86,7 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
       onClick={onClose}
     >
       <div
-        className={`bg-white w-[700px] p-6 rounded-xl bottom-55 relative dark:bg-[#35363C] ${
+        className={`bg-white w-[700px] p-6 rounded-xl bottom-52.5 relative dark:bg-[#35363C] ${
           hasResult ? "h-[600px] top-8" : "h-auto"
         }`}
         onClick={modalHandler}
@@ -73,18 +97,50 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
             onClick={onClose}
           />
         </button>
-        <form className="flex ml-2 my-3" onSubmit={searchHandler}>
+        <div className="flex ml-2 my-2 ">
           <input
             type="text"
             placeholder="아이디 또는 게시글을 입력하세요"
             onChange={(e) => setKeyword(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                searchHandler();
+              }
+            }}
             value={keyword}
             className="searchInput w-[95%] p-3 pl-6 border border-gray-300 rounded placeholder: focus:outline-0 dark:border-gray-600 dark:text-gray-100"
           />
-          <button type="submit" className="cursor-pointer">
+          <button type="button" className="cursor-pointer" onClick={searchHandler}>
             <MdSearch className=" mx-2 w-9 h-9 text-gray-400 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-100" />
           </button>
-        </form>
+        </div>
+        {hasResult && (
+          <div
+            className={`dark:text-white block p-1 ${
+              users.length > 0 ? "border-b border-b-gray-300" : ""
+            } `}
+          >
+            {users.length > 0 ? (
+              users.map((user: ExtendedUser) => (
+                <div key={user._id} className="user-card flex my-2">
+                  {user.image ? (
+                    <img src={user.image} alt={user.fullName} className="w-10 h-10 rounded-3xl" />
+                  ) : (
+                    <div className="w-10 h-10 bg-gray-100 dark:white rounded-3xl">
+                      <FaUser className="w-6 h-6 m-2 dark:text-gray-600 text-[#2F6BEB]" />
+                    </div>
+                  )}
+                  <p className="mt-1.5 ml-4">{user.fullName}</p>
+                </div>
+              ))
+            ) : (
+              <div className="text-center text-gray-400 dark:text-gray-500 mt-10 ">
+                일치하는 내용이 없습니다.
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

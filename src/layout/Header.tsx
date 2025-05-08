@@ -3,7 +3,7 @@ import M_logo from "../assets/images/m_logo.png";
 
 import { logos } from "../utils/getLogoImages";
 import { Link } from "react-router";
-import HeaderIcon from "../components/Header_page/HeaderIcon";
+import HeaderIcon from "../components/Header/HeaderIcon";
 
 const liItemStyle = "justify-center cursor-pointer whitespace-nowrap ";
 const liImgStyle = "mr-1 h-7 w-7 lg:mr-2";
