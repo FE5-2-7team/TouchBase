@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
-import { axiosInstance } from "../../api/axiosInstance";
 import { MdSearch, MdClose } from "react-icons/md";
-import { ExtendedUser } from "../../types/postType";
+import { axiosInstance } from "../../api/axiosInstance";
 import Swal from "sweetalert2";
 import "animate.css";
-import { FaUser } from "react-icons/fa";
 import SearchThreads from "./SearchThreads";
+import SearchUser from "./SearchUser";
+import UserRecommend from "./UserRecommend";
 
 export default function SearchBox({ onClose }: { onClose: () => void }) {
   const [keyword, setKeyword] = useState("");
-  const [hasResult, setHasResult] = useState(false);
-  const [users, setUsers] = useState<ExtendedUser[]>([]);
+  const [searchResults, setSearchResults] = useState<any[]>([]);
   const modalHandler = (e: React.MouseEvent) => {
     e.stopPropagation();
   };
@@ -44,41 +43,17 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
       return;
     }
     try {
-      const res = await axiosInstance.get(`/search/all/${encodeURIComponent(keyword)}`);
-      const data = res.data;
-
-      const result = data.filter((user: any) => {
-        const username = (user.username ?? "").toLowerCase().trim() || "";
-        const fullName = (user.fullName ?? "").toLowerCase().trim() || "";
-
-        return username.includes(trimkeyword) || fullName.includes(trimkeyword);
-      });
-      console.log(result);
-      setHasResult(result.length > 0);
-      setUsers(result);
-      setHasResult(true);
+      const res = await axiosInstance.get(`/search/all/${encodeURIComponent(trimkeyword)}`);
+      setSearchResults(res.data);
     } catch (err) {
-      console.error("검색에 실패했습니다.", err);
+      console.error("검색에 실패했습니다:", err);
+      setSearchResults([]);
     }
   };
 
   useEffect(() => {
-    const userData = async () => {
-      try {
-        const res = await axiosInstance.get("/users/get-users");
-        setUsers(res.data);
-      } catch (err) {
-        console.log("정보 불러오기 실패", err);
-      }
-    };
-
-    userData();
-  }, []);
-
-  useEffect(() => {
     if (!keyword) {
-      setHasResult(false);
-      setUsers([]);
+      setSearchResults([]);
     }
   }, [keyword]);
 
@@ -89,7 +64,7 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
     >
       <div
         className={`bg-white w-[700px] p-6 rounded-xl bottom-52.5 relative dark:bg-[#35363C] ${
-          hasResult ? "h-[600px] top-8" : "h-auto"
+          searchResults ? "h-[600px] top-8" : "h-auto"
         }`}
         onClick={modalHandler}
       >
@@ -117,36 +92,15 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
             <MdSearch className=" mx-2 w-9 h-9 text-gray-400 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-100" />
           </button>
         </div>
-        {hasResult && (
+        {keyword.trim() === "" && searchResults.length === 0 && <UserRecommend />}
+
+        {searchResults && (
           <>
-            <div
-              className={`dark:text-white block p-1 pb-4 ${
-                users.length > 0 ? "border-b border-b-gray-400" : ""
-              } `}
-            >
-              {users.length > 0 ? (
-                users.map((user) => (
-                  <div key={user._id} className="user-card flex my-4">
-                    {user.image ? (
-                      <img src={user.image} alt={user.username} className="w-10 h-10 rounded-3xl" />
-                    ) : (
-                      <div className="w-10 h-10 bg-gray-100 dark:white rounded-3xl">
-                        <FaUser className="w-6 h-6 m-2 dark:text-gray-600 text-[#2F6BEB]" />
-                      </div>
-                    )}
-                    <p className="mt-1.5 ml-4">{user.username}</p>
-                  </div>
-                ))
-              ) : (
-                <div className="text-center text-gray-400 dark:text-gray-500 mt-10 border-b border-b-gray-400 pb-20">
-                  일치하는 내용이 없습니다.
-                </div>
-              )}
+            <div>
+              <SearchUser keyword={keyword} results={searchResults} />
             </div>
             <div>
-              <div>
-                <SearchThreads keyword={keyword} />
-              </div>
+              <SearchThreads keyword={keyword} results={searchResults} />
             </div>
           </>
         )}

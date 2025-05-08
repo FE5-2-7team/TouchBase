@@ -1,54 +1,49 @@
 import { useEffect, useState } from "react";
-import { axiosInstance } from "../../api/axiosInstance";
-
 interface Props {
   keyword: string;
+  results: any[];
 }
-export default function SearchThreads({ keyword }: Props) {
-  const [results, setResults] = useState<{ postTitle: string; postContent: string }[]>([]);
+export default function SearchThreads({ keyword, results }: Props) {
+  const [searchThreads, setSearchThreads] = useState<{ postTitle: string; postContent: string }[]>(
+    []
+  );
 
   useEffect(() => {
-    const searchThreadList = async () => {
-      if (!keyword) return;
+    const allParsed: any[] = [];
 
+    for (const post of results) {
       try {
-        const res = await axiosInstance.get(`/search/all/${encodeURIComponent(keyword)}`);
-        const data = res.data;
-        const allParsed: any[] = [];
-
-        for (const post of data) {
-          try {
-            const parsed = JSON.parse(post.title);
+        if (typeof post.title === "string") {
+          const parsed = JSON.parse(post.title); // 배열로 파싱됨
+          if (Array.isArray(parsed)) {
             allParsed.push(...parsed);
-          } catch (err) {
-            console.error("파싱 실패", post.title);
-            setResults([]);
-            return;
           }
         }
-        setResults(allParsed);
-        console.log("API 응답:", allParsed);
       } catch (err) {
-        console.error("검색에 실패했습니다.", err);
+        console.error("파싱 실패:", post.title);
       }
-    };
-    searchThreadList();
-  }, [keyword]);
+    }
+
+    setSearchThreads(allParsed);
+  }, [results]);
 
   return (
     <>
       <div className="mt-6">
         <div>
-          {results && results.length > 0 ? (
-            results.map((post: any, idx: number) => (
-              <div key={post.idx} className="flex mx-4">
-                <p className="mr-2">{post.postTitle}</p>
-                <p className="">{post.postContent}</p>
-              </div>
-            ))
-          ) : (
-            <p className="text-center text-gray-400">검색결과가 없습니다.</p>
-          )}
+          {keyword ? (
+            searchThreads && searchThreads.length > 0 ? (
+              searchThreads.map((post, idx) => (
+                <div key={idx} className="flex mx-4 ">
+                  <p className="mr-2 cursor-pointer hover:underline hover:underline-offset-2">
+                    {post.postTitle} {post.postContent}
+                  </p>
+                </div>
+              ))
+            ) : (
+              <p className="text-center text-gray-400 mt-30">검색결과가 없습니다.</p>
+            )
+          ) : null}
         </div>
       </div>
     </>
