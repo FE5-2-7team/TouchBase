@@ -7,8 +7,8 @@ import MessageContainer from "./components/message/MessageContainer";
 import ProfileLayout from "./layout/ProfileLayout";
 import FollowBox from "./components/Profile/FollowBox";
 import MessagePage from "./pages/MessagePage";
-import Login from "./pages/LogInPage";
-import Signup from "./pages/SignUpPage";
+import Login from "./pages/LogIn";
+import Signup from "./pages/SignUp";
 import InboxMessage from "./components/message/InboxMessage";
 import SentList from "./components/message/SentList";
 
