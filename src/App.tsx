@@ -4,13 +4,14 @@ import Home from "./pages/Home";
 import ThreadsList from "./components/FanPage/ThreadsList";
 import FanPage from "./pages/FanPage";
 import MessageContainer from "./components/message/MessageContainer";
-import ProfileHeader from "./components/ProfileHeader";
-import FollowBox from "./components/FollowBox";
+import ProfileLayout from "./layout/ProfileLayout";
+import FollowBox from "./components/Profile/FollowBox";
 import MessagePage from "./pages/MessagePage";
 import LogIn from "./pages/LogIn";
 import SignUp from "./pages/SignUp";
 import InboxMessage from "./components/message/InboxMessage";
 import SentList from "./components/message/SentList";
+import EditProfile from "./components/EditProfile";
 
 export default function App() {
   return (
@@ -19,13 +20,14 @@ export default function App() {
         <Route path="/" element={<RootLayout />}>
           <Route path="/" element={<Home />} />
 
-          <Route path="/profile" element={<ProfileHeader />}>
+          <Route path="/profile:id" element={<ProfileLayout />}>
             <Route index path="posts" element={<ThreadsList />} />
             <Route path="follower" element={<FollowBox title={"팔로워"} />} />
             <Route
               path="following"
               element={<FollowBox title={"팔로잉"} />}
             ></Route>
+            <Route path="modify" element={<EditProfile/>}></Route>
           </Route>
           <Route path="/fanpage/:teamName" element={<FanPage />} />
           <Route path="/message" element={<MessagePage />}>
