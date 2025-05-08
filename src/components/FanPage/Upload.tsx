@@ -4,8 +4,16 @@ import { LuImagePlus } from "react-icons/lu";
 import ProfileBlock from "./ProfileBlock";
 import { MdOutlineReplay } from "react-icons/md";
 
-export default function Upload() {
-  const [title, setTitle] = useState("");
+interface UploadProps {
+  titleValue?: string;
+  contentValue?: string;
+  imageList?: string[];
+  editFinishHandler?: () => void;
+}
+
+export default function Upload({ titleValue, contentValue, imageList, editFinishHandler }: UploadProps) {
+  const [title, setTitle] = useState(titleValue || "");
+  const [images, setImages] = useState<string[]>(imageList || []);
   const contentRef = useRef<HTMLDivElement | null>(null);
   const ImgInputRef = useRef<HTMLInputElement | null>(null);
   const [isEmpty, setIsEmpty] = useState(true);
@@ -17,6 +25,7 @@ export default function Upload() {
   const UndoHandler = () => {
     setTitle("");
     setIsEmpty(true);
+    setImages([]);
     if (contentRef.current) {
       contentRef.current.innerHTML = "";
     }
@@ -28,10 +37,12 @@ export default function Upload() {
       const reader = new FileReader();
       reader.onload = function (e) {
         const img = document.createElement("img");
-        img.src = e.target?.result as string;
+        const result = e.target?.result as string
+        img.src = result;
         img.style.maxWidth = "100%";
         img.style.marginTop = "10px";
         contentRef.current?.appendChild(img);
+        setImages((prev) => [...prev, result]);
         setIsEmpty(false);
       };
       reader.readAsDataURL(file);
@@ -43,9 +54,31 @@ export default function Upload() {
     setIsEmpty(text === "");
   };
 
+  const postHandler = () => {
+    editFinishHandler?.();
+  }
+
   useEffect(() => {
+    const contentHTML = contentValue || "";
+  
+    const imageHTML =
+      imageList && imageList.length > 0
+        ? imageList
+            .map(
+              (src) =>
+                `<img src="${src}" style="max-width:100%; margin-top:10px;" />`
+            )
+            .join("")
+        : "";
+  
+    if (contentRef.current) {
+      contentRef.current.innerHTML = contentHTML + imageHTML;
+    }
+  
+    setImages(imageList || []);
     InputHandler();
-  }, []);
+  }, [contentValue, imageList]);
+
   return (
     <>
       <div className="shadow-md w-full max-w-full md:max-w-[1200px] mx-auto rounded-[10px] border border-[#d9d9d9] flex flex-col">
@@ -118,7 +151,7 @@ export default function Upload() {
 
                 {/* 오른쪽 POST 버튼 */}
                 <div className="flex items-center gap-2">
-                  <Button onClick={() => console.log("클릭됨!!!")}>POST</Button>
+                  <Button onClick={postHandler}>POST</Button>
                 </div>
               </div>
             </div>
