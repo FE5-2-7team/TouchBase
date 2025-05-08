@@ -3,18 +3,14 @@ import Button from "../components/Button";
 import AuthBoard from "../components/AuthBoard";
 import { FaCamera } from "react-icons/fa";
 import BlueBoard from "../components/BlueBoard";
-import Logo from "../components/Logo";
 import ProfileIcon from "../icons/ProfileIcon";
 
 export default function EditProfilePage() {
   return (
     <>
       <AuthBoard className="h-auto my-[50px]">
-        <header>
-          <Logo className="w-[282px] mb-[31px]" />
-        </header>
         <main className="w-full flex justify-center">
-          <BlueBoard className="px-[94px] py-[67px] flex justify-between max-w-[916px]">
+          <BlueBoard className="px-[94px] py-[67px] flex justify-between max-w-[958px]">
             <div className="flex flex-col items-center font-sans">
               <div className="relative w-[179px] h-[179px]">
                 <div className="bg-[#2F6BEB] w- h-full rounded-full flex items-center justify-center">
