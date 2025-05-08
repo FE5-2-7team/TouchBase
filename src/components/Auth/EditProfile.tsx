@@ -1,9 +1,9 @@
 import Input from "../components/AuthInput";
-import Button from "../components/FanPage/Button";
+import Button from "../FanPage/Button";
 import AuthBoard from "../components/AuthBoard";
 import { FaCamera } from "react-icons/fa";
 import BlueBoard from "../components/BlueBoard";
-import ProfileIcon from "../icons/ProfileIcon";
+import ProfileIcon from "../../icons/ProfileIcon";
 
 export default function EditProfilePage() {
   return (
