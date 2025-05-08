@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import { twMerge } from "tailwind-merge";
-import logo from "../assets/images/logo.png";
+import logo from "../../assets/images/logo.png";
 
 export default function Logo({ className }: { className?: string }) {
   return (
