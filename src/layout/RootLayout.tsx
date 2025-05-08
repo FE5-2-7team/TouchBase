@@ -9,7 +9,7 @@ export default function RootLayout() {
   return (
     <>
       <Header />
-      <div className="pt-[150px] dark:bg-gray-900 dark:text-white">
+      <div className="pt-[150px] dark:bg-[#191A1E] dark:text-white">
         <Outlet />
       </div>
       {!teamName && <Footer />}

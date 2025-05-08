@@ -1,38 +1,17 @@
 import { useState, useEffect, useOptimistic } from "react";
-import { BaseballGameData } from "../types/mainGame";
-import KT from "../assets/images/team/kt.svg";
-import LG from "../assets/images/team/lg.svg";
-import NC from "../assets/images/team/nc.svg";
-import SSG from "../assets/images/team/ssg.svg";
-import KIWOOM from "../assets/images/team/kiwoom.svg";
-import KIA from "../assets/images/team/kia.svg";
-import LOTTE from "../assets/images/team/lotte.svg";
-import DOOSAN from "../assets/images/team/doosan.svg";
-import SAMSUNG from "../assets/images/team/samsung.svg";
-import HANHWA from "../assets/images/team/hanwha.svg";
-import MainTitle from "./MainTitle";
+import { BaseballGameData } from "../../types/mainGame";
+import { team_list } from "../../utils/getLogoImages";
 import axios from "axios";
+import MainTitle from "./MainTitle";
 
 const API_URL = import.meta.env.VITE_API_NEXT_MATCH;
-const TEAM_LIST = {
-  KIA: KIA,
-  삼성: SAMSUNG,
-  LG: LG,
-  두산: DOOSAN,
-  KT: KT,
-  SSG: SSG,
-  롯데: LOTTE,
-  한화: HANHWA,
-  NC: NC,
-  키움: KIWOOM,
-};
 
 const GameTable = ({ team, pitcher }: { team: string; pitcher: string }) => (
   <div className="flex items-center justify-around">
     <div className="flex items-center gap-2">
       <div className="w-[40px]">
         <img
-          src={TEAM_LIST[team as keyof typeof TEAM_LIST]}
+          src={team_list[team as keyof typeof team_list]}
           alt={team}
           className="w-[30px]"
         />
@@ -46,7 +25,7 @@ const GameTable = ({ team, pitcher }: { team: string; pitcher: string }) => (
 );
 
 const LoadingSkeleton = () => (
-  <div className="w-auto border border-[#00000020] dark:border-white">
+  <div className="w-auto border border-[#00000020] dark:border-b-[#35363C] dark:last:border-b-0">
     <div className="flex flex-row justify-between py-4">
       <div className="flex flex-col gap-4 px-4 w-full">
         <div className="flex items-center">
@@ -63,10 +42,13 @@ const LoadingSkeleton = () => (
         </div>
       </div>
       <div className="flex">
-        <div className="flex items-center px-8 border-l border-[#00000020] dark:border-white">
+        <div className="flex items-center px-8 border-l border-[#00000020] dark:border-[#35363C]">
           <div className="h-5 bg-gray-200 rounded-full dark:bg-gray-500 w-20"></div>
         </div>
-        <div className="flex items-center px-8 border-l border-[#00000020] dark:border-white">
+        <div className="flex items-center px-8 border-l border-[#00000020] dark:border-[#35363C]">
+          <div className="h-5 bg-gray-200 rounded-full dark:bg-gray-500 w-20"></div>
+        </div>
+        <div className="flex items-center px-8 border-l border-[#00000020] dark:border-[#35363C]">
           <div className="h-5 bg-gray-200 rounded-full dark:bg-gray-500 w-20"></div>
         </div>
       </div>
@@ -79,8 +61,8 @@ const now = new Date();
 const newDate = now;
 
 const year = newDate.getFullYear();
-const month = String(newDate.getMonth() + 1).padStart(2, "0");
-const day = String(newDate.getDate()).padStart(2, "0");
+const month = String(newDate.getMonth() + 1);
+const day = String(newDate.getDate());
 
 export default function GameSchedule() {
   const [gameSchedule, setGameSchedule] = useState<BaseballGameData[]>([]);
@@ -109,9 +91,15 @@ export default function GameSchedule() {
     if (team1 === team2) {
       color = "text-[#222] dark:text-white";
     } else if (team === "1") {
-      color = team1 > team2 ? "text-[#FF0000]" : "text-[#222] dark:text-white";
+      color =
+        team1 > team2
+          ? "text-[#FF0000] dark:text-[#DB4343]"
+          : "text-[#222] dark:text-white";
     } else {
-      color = team1 < team2 ? "text-[#FF0000]" : "text-[#222] dark:text-white";
+      color =
+        team1 < team2
+          ? "text-[#FF0000] dark:text-[#DB4343]"
+          : "text-[#222] dark:text-white";
     }
 
     return color;
@@ -124,14 +112,14 @@ export default function GameSchedule() {
   return (
     <div className="w-full">
       <MainTitle title="경기 일정" color="#0033A0" />
-      <div className="mt-10">
+      <div className="mt-10 dark:bg-[#232429]">
         {optimisticSchedule.length === 0
           ? Array(5)
               .fill(0)
               .map((_, index) => <LoadingSkeleton key={index} />)
           : optimisticSchedule.map((game) => (
               <div
-                className="w-auto border border-[#00000020] dark:border-white"
+                className="w-auto border border-[#00000020] dark:border-b-[#35363C] dark:last:border-b-0"
                 key={game.AWAY_NM}
               >
                 <div className="flex flex-row justify-between py-4">
@@ -140,7 +128,7 @@ export default function GameSchedule() {
                     <GameTable team={game.HOME_NM} pitcher={game.B_PIT_P_NM} />
                   </div>
                   <div className="flex">
-                    <div className="flex items-center justify-center px-8 border-l border-[#00000020] dark:border-white">
+                    <div className="flex items-center justify-center px-8 border-l border-[#00000020] dark:border-[#35363C]">
                       <div className="md:w-[100px]">
                         {game.GAME_INN_NO} {game.GAME_TB_SC_NM}
                       </div>
@@ -165,10 +153,10 @@ export default function GameSchedule() {
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center justify-center px-8 border-l border-[#00000020] dark:border-white md:w-[170px]">
+                    <div className="flex items-center justify-center px-8 border-l border-[#00000020] dark:border-[#35363C] md:w-[170px]">
                       <span>{game.S_NM} 야구장</span>
                     </div>
-                    <div className="flex items-center px-8 border-l border-[#00000020] dark:border-white">
+                    <div className="flex items-center px-8 border-l border-[#00000020] dark:border-[#35363C]">
                       <span>{game.G_TM}</span>
                     </div>
                   </div>

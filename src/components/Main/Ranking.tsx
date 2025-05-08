@@ -1,12 +1,12 @@
 import MainTitle from "./MainTitle";
 import { useState, useEffect, useOptimistic } from "react";
-import { RankingData } from "../types/mainGame";
+import { RankingData } from "../../types/mainGame";
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_TEAM_RANK;
 
 const LoadingSkeleton = () => (
-  <div className="grid grid-cols-9 gap-4 py-2.5 text-center items-center">
+  <div className="grid grid-cols-9 gap-4 py-2.5">
     <div className="h-6 bg-gray-200 rounded-full dark:bg-gray-500"></div>
     <div className="h-6 bg-gray-200 rounded-full dark:bg-gray-500"></div>
     <div className="h-6 bg-gray-200 rounded-full dark:bg-gray-500"></div>
@@ -60,8 +60,8 @@ export default function Ranking() {
       <div className="w-full">
         <MainTitle title="경기 순위" color="#0033A0" />
         <div className="mt-10">
-          <div className="border-1 border-[#00000020] dark:border-white w-full py-[10px]">
-            <div className="grid grid-cols-9 gap-4 py-2 border-b border-[#00000020] dark:border-white text-center">
+          <div className="border-1 border-[#00000020] dark:border-[#35363C] w-full py-[10px]">
+            <div className="grid grid-cols-9 gap-4 py-2 border-b border-[#00000020] dark:border-[#35363C] text-center">
               <span>순위</span>
               <span>팀명</span>
               <span>경기</span>

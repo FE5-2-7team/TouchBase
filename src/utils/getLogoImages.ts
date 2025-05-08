@@ -9,7 +9,20 @@ import DOOSAN from "../assets/images/team/doosan.svg";
 import SAMSUNG from "../assets/images/team/samsung.svg";
 import HANHWA from "../assets/images/team/hanwha.svg";
 
-const logos = [
+export const team_list = {
+  KIA: KIA,
+  삼성: SAMSUNG,
+  LG: LG,
+  두산: DOOSAN,
+  KT: KT,
+  SSG: SSG,
+  롯데: LOTTE,
+  한화: HANHWA,
+  NC: NC,
+  키움: KIWOOM,
+};
+
+export const logos = [
   {
     name: "KT",
     url: "https://www.ktwiz.co.kr/",
@@ -61,32 +74,3 @@ const logos = [
     logo: HANHWA,
   },
 ];
-
-export default function InfinityLogo() {
-  return (
-    <div className="marquee-wrapper my-15">
-      <div className="marquee-track flex flex-row justify-between items-center">
-        {logos.map((logo) => (
-          <a
-            href={logo.url}
-            key={logo.name}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img key={logo.name} width={130} src={logo.logo} alt={logo.name} />
-          </a>
-        ))}
-        {logos.map((logo) => (
-          <a
-            href={logo.url}
-            key={logo.name}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img key={logo.name} width={130} src={logo.logo} alt={logo.name} />
-          </a>
-        ))}
-      </div>
-    </div>
-  );
-}

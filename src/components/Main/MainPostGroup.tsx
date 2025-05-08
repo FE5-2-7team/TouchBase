@@ -1,7 +1,7 @@
 import { useEffect, useState, useOptimistic } from "react";
 import MainPostList from "./MainPostList";
 import axios from "axios";
-import { KBONewsTypes, Post } from "../types/postType";
+import { KBONewsTypes, Post } from "../../types/postType";
 import MainTitle from "./MainTitle";
 
 const NEW_POST_API_URL = import.meta.env.VITE_API_NEW_POST;
@@ -14,10 +14,16 @@ const SkeletonPost = () => (
   </div>
 );
 
-const SkeletonList = ({ title }: { title: string }) => (
+const SkeletonList = ({
+  title,
+  color = "#FF9500",
+}: {
+  title: string;
+  color?: string;
+}) => (
   <div className="">
     <div className="">
-      <MainTitle title={title} color="#FF9500" />
+      <MainTitle title={title} color={color} />
     </div>
     {[...Array(5)].map((_, index) => (
       <SkeletonPost key={index} />
@@ -107,7 +113,7 @@ export default function MainPostGroup() {
           <SkeletonList title="최신글" />
         </div>
         <div className="col-span-1 sm:col-span-2 lg:col-span-1">
-          <SkeletonList title="주요 소식" />
+          <SkeletonList title="주요 소식" color="#0033A0" />
         </div>
       </>
     );
