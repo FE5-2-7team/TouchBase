@@ -8,7 +8,8 @@ export default function NoticeBox({ onClose }: { onClose: () => void }) {
         <button>
           <MdClose onClick={onClose} className="absolute w-5 h-5 right-2 top-2 cursor-pointer" />
         </button>
-        <div className="mx-4 my-2">
+        <div className="mx-4 my-2 ">
+          {/* <p>{}hover:underline hover:underline-offset-3</p> */}
           <p className={alertList}>홍길동님이 좋아요를 눌렀습니다.</p>
           <p className={alertList}>KIAman님이 댓글을 달았습니다.</p>
           <p className={alertList}>KIAman님이 댓글을 달았습니다.</p>
