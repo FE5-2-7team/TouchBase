@@ -12,7 +12,7 @@ export default function BlueBoard({
     <>
       <div
         className={twMerge(
-          "w-full max-w-[500px] min-w-[288px] rounded-[5px] p-[35px] shadow-[0_0_4px_rgba(0,51,160,0.25)]",
+          "w-full max-w-[500px] min-w-[500px] rounded-[5px] px-[34px] py-[29px] shadow-[0_0_4px_rgba(0,51,160,0.25)]",
           className
         )}
       >
