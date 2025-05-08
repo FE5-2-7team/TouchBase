@@ -108,7 +108,7 @@ export default function Highlight() {
                     className="w-full min-h-[300px] object-cover"
                   />
                   <div className="p-4">
-                    <p className="font-bold text-lg mb-2">
+                    <p className="font-bold kbo-font-medium text-lg mb-2">
                       {item.snippet.title}
                     </p>
                   </div>

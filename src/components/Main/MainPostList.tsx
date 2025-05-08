@@ -31,7 +31,9 @@ export default function MainPostList({
                 </div>
                 <div>{item.channel.name}</div>
               </>
-              <div className="hover:underline">{item.title}</div>
+              <div className="hover:underline">
+                {JSON.parse(item.title)[0].postTitle}
+              </div>
             </div>
           ))}
         </div>
