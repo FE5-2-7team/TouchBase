@@ -23,11 +23,14 @@ export default function App() {
           <Route path="/profile:id" element={<ProfileLayout />}>
             <Route index path="posts" element={<ThreadsList />} />
             <Route path="follower" element={<FollowBox title={"팔로워"} />} />
-
+            <Route
+              path="following"
+              element={<FollowBox title={"팔로잉"} />}
+            ></Route>
             <Route path="following" element={<FollowBox title={"팔로잉"} />}></Route>
             <Route path="modify" element={<EditProfile />}></Route>
           </Route>
-          <Route path="/fanpage/:teamName" element={<FanPage />} />
+          <Route path="/fanpage/:teamName/:channelId" element={<FanPage />} />
           <Route path="/message" element={<MessagePage />}>
             <Route index element={<InboxMessage />} />
             <Route path="inbox" element={<InboxMessage />} />
