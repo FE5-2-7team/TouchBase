@@ -9,8 +9,9 @@ import Upload from "./Upload";
 interface ThreadProps {
   username: string;
   title: string;
-  date: string;
   content: string;
+  date: string;
+  channel: string;
   images?: string[];
   likes: number;
   comments: number;
@@ -19,8 +20,9 @@ interface ThreadProps {
 export default function Threads({
   username,
   title,
-  date,
   content,
+  date,
+  // channel,
   images = [],
   likes,
   comments,

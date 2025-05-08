@@ -1,12 +1,71 @@
-import threadsData from "../../data/threadsData.json";
+// import threadsData from "../../data/threadsData.json";
 import Threads from "./Threads";
+import axios from "axios";
+import { Post, Channel } from "../../types/postType";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 
 export default function ThreadsList() {
+  const { teamName } = useParams();
+  const [posts, setPosts] = useState<Post[]>([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const channelsRes = await axios.get(
+          `http://13.125.208.179:5011/channels`
+        );
+        const channels = channelsRes.data;
+        console.log(channels);
+
+        const matchChannel = channels.find(
+          (channel: Channel) => channel.name === teamName
+        );
+        const channelId = matchChannel._id;
+
+        const postRes = await axios.get(
+          `http://13.125.208.179:5011/posts/channel/${channelId}`
+        );
+        setPosts(postRes.data);
+      } catch (error) {
+        console.log("로드실패", error);
+      }
+    };
+    fetchPosts();
+  }, [teamName]);
+
+  const filterPosts = posts.filter((post) => post.channel.name === teamName);
+
   return (
     <div className="flex flex-col gap-6">
-      {threadsData.map((thread, index) => (
-        <Threads key={index} {...thread} />
-      ))}
+      {/* 피드들 */}
+
+      {filterPosts.map((post) => {
+        let postTitle = "";
+        let postContent = "";
+
+        try {
+          const parsedTitle = JSON.parse(post.title);
+          postTitle = parsedTitle[0].postTitle;
+          postContent = parsedTitle[0].postContent;
+        } catch (e) {
+          console.error("파싱실패", e);
+        }
+
+        return (
+          <Threads
+            key={post._id}
+            username={post.author?.username ?? "Can not find user"}
+            title={postTitle}
+            content={postContent}
+            date={new Date(post.createdAt).toLocaleDateString()}
+            channel={post.channel.name}
+            images={post.image ? [post.image] : []}
+            likes={post.likes.length}
+            comments={post.comments.length}
+          />
+        );
+      })}
     </div>
   );
 }
