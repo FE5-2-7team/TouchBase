@@ -2,22 +2,34 @@ import { twMerge } from "tailwind-merge";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { useState } from "react";
 
+type InputTypes = {
+  placeholder: string;
+  className?: string;
+  type: string;
+  value: string;
+  setFc: React.Dispatch<React.SetStateAction<boolean>>;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
+};
+
 export default function Input({
   placeholder,
   className,
   type,
+  value,
   onChange,
   onFocus,
-  onBlur,
-}: {
-  placeholder: string;
-  className?: string;
-  type?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
-  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
-}) {
-  const [passwordShow, setPasswordShow] = useState(false);
+  setFc,
+}: InputTypes) {
+  const [passwordShow, setPasswordShow] = useState(true);
+
+  function focusOut(
+    e: React.FocusEvent<HTMLInputElement>,
+    setFc: React.Dispatch<React.SetStateAction<boolean>>
+  ) {
+    if (e.target.value === "") setFc(true);
+  }
+
   return (
     <>
       {type !== "password" ? (
@@ -29,6 +41,7 @@ export default function Input({
           onChange={onChange}
           placeholder={placeholder}
           type={type}
+          value={value}
         ></input>
       ) : (
         <div className={twMerge("w-full mb-[30px] relative", className)}>
@@ -36,9 +49,10 @@ export default function Input({
             className="w-full h-[40px] text-[#696969] px-[4px] border-b border-[#0033A0] font-semibold"
             placeholder={placeholder}
             type={passwordShow ? "password" : "text"}
+            value={value}
             onChange={onChange}
             onFocus={onFocus}
-            onBlur={onBlur}
+            onBlur={(e) => focusOut(e, setFc!)}
           ></input>
           <button
             onClick={() => {
