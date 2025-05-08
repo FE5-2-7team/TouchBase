@@ -44,7 +44,7 @@ export const logos = [
     logo: SSG,
   },
   {
-    name: "KIWOOM",
+    name: "키움",
     url: "https://heroesbaseball.co.kr/index.do",
     logo: KIWOOM,
   },
@@ -54,22 +54,22 @@ export const logos = [
     logo: KIA,
   },
   {
-    name: "LOTTE",
+    name: "롯데",
     url: "https://www.giantsclub.com/html/",
     logo: LOTTE,
   },
   {
-    name: "DOOSAN",
+    name: "두산",
     url: "https://www.doosanbears.com/",
     logo: DOOSAN,
   },
   {
-    name: "SAMSUNG",
+    name: "삼성",
     url: "https://www.samsunglions.com/index.asp",
     logo: SAMSUNG,
   },
   {
-    name: "HANHWA",
+    name: "한화",
     url: "https://www.hanwhaeagles.co.kr/index.do",
     logo: HANHWA,
   },
