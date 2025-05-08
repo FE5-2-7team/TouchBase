@@ -5,6 +5,7 @@ import "animate.css";
 
 export default function SearchBox({ onClose }: { onClose: () => void }) {
   const [keyword, setKeyword] = useState("");
+  const [hasResult, setHasResult] = useState(false);
   const modalHandler = (e: React.MouseEvent) => {
     e.stopPropagation();
   };
@@ -48,6 +49,7 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
 
         return username.includes(trimkeyword) || fullName.includes(trimkeyword);
       });
+      setHasResult(result.length > 0);
       console.log(result);
     } catch (err) {
       console.error("검색에 실패했습니다.", err);
@@ -60,7 +62,9 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
       onClick={onClose}
     >
       <div
-        className="bg-white w-[700px] h-auto p-6 rounded-xl bottom-55 relative dark:bg-[#35363C]"
+        className={`bg-white w-[700px] p-6 rounded-xl bottom-55 relative dark:bg-[#35363C] ${
+          hasResult ? "h-[600px] top-8" : "h-auto"
+        }`}
         onClick={modalHandler}
       >
         <button className="absolute top-2 right-2 cursor-pointer">
