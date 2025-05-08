@@ -7,8 +7,8 @@ import MessageContainer from "./components/message/MessageContainer";
 import ProfileLayout from "./layout/ProfileLayout";
 import FollowBox from "./components/Profile/FollowBox";
 import MessagePage from "./pages/MessagePage";
-import Login from "./pages/LogIn";
-import Signup from "./pages/SignUp";
+import LogIn from "./pages/LogIn";
+import SignUp from "./pages/SignUp";
 import InboxMessage from "./components/message/InboxMessage";
 import SentList from "./components/message/SentList";
 
@@ -47,8 +47,8 @@ export default function App() {
           </Route>
           <Route path="/message" element={<InboxMessage />} />
         </Route>
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<LogIn />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
     </>
   );
