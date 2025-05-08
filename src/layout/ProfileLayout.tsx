@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from "react-router";
+import { NavLink, Outlet, useParams } from "react-router";
 import profile from "../assets/images/bears.png";
 import mascot from "../assets/images/doosan_mascot.png";
 
@@ -8,7 +8,9 @@ const FOLLOWERNUM = 200;
 const FOLLOWINGNUM = 100;
 const MESSAGENUM = 12;
 
-export default function ProfileHeader() {
+export default function ProfileLayout() {
+  const params = useParams()
+  
   return (
     <div className="flex flex-col gap-[34px] w-full max-w-[1200px] mx-auto mt-[40px]">
       <div className="border border-[#D9D9D9] shadow-md rounded-[10px] lg:h-[200px] md:h-[154px] sm:h-[120px] flex items-center gap-[50px] justify-between lg:px-[110px] px-[80px]">

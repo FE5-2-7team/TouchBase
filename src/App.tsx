@@ -19,7 +19,7 @@ export default function App() {
         <Route path="/" element={<RootLayout />}>
           <Route path="/" element={<Home />} />
 
-          <Route path="/profile" element={<ProfileLayout />}>
+          <Route path="/profile:id" element={<ProfileLayout />}>
             <Route index path="posts" element={<ThreadsList />} />
             <Route path="follower" element={<FollowBox title={"팔로워"} />} />
             <Route
