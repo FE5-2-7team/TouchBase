@@ -8,6 +8,7 @@ import MyThreads from "./MyThreads";
 interface ThreadProps {
   username: string;
   title: string;
+  content: string;
   date: string;
   channel: string;
   images?: string[];
@@ -18,8 +19,9 @@ interface ThreadProps {
 export default function Threads({
   username,
   title,
+  content,
   date,
-  channel,
+  // channel,
   images = [],
   likes,
   comments,
@@ -69,7 +71,7 @@ export default function Threads({
             <span>{title}</span>
             <span className="text-[14px] text-[#ababab]">{date}</span>
           </div>
-          <div className="text-[16px] mb-[10px]">{channel}</div>
+          <div className="text-[16px] mb-[10px]">{content}</div>
           {/* 이미지가 있을 때만 보여주기 */}
           {images.length > 0 && (
             <div className="flex gap-2 flex-wrap mb-2">
