@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { FaRegHeart } from "react-icons/fa6";
+import { FaRegHeart, FaHeart } from "react-icons/fa6";
 import { FaRegComment } from "react-icons/fa";
-import { LuPencilLine } from "react-icons/lu";
-import { FaRegTrashCan } from "react-icons/fa6";
 import ProfileBlock from "./ProfileBlock";
 import SimpleProfileCard from "./SimpleProfileCard";
 import Comments from "./Comments";
-
+import MyThreads from "./MyThreads";
 interface ThreadProps {
   username: string;
   title: string;
@@ -28,6 +26,22 @@ export default function Threads({
 }: ThreadProps) {
   const [showed, setShowed] = useState(false);
   const [showComments, setShowComments] = useState(false);
+  const [heartCount, setHeartCount] = useState(likes);
+  const [heart, setHeart] = useState(false);
+
+  // 수정, 삭제
+  const editHandler = () => {
+    console.log("수정");
+  };
+  const deleteHandler = () => {
+    console.log("삭제");
+  };
+
+  // 좋아요
+  const toggleHeart = () => {
+    setHeart((prev) => !prev);
+    setHeartCount((prev) => (heart ? prev - 1 : prev + 1));
+  };
 
   return (
     <div
@@ -71,8 +85,16 @@ export default function Threads({
           )}
           <div className="flex justify-between items-center text-[#ababab] text-[16px] mt-auto">
             <div className="flex items-center gap-4">
-              <button className="flex items-center gap-1 hover:cursor-pointer">
-                <FaRegHeart className="text-[18px]" /> {likes}
+              <button
+                className="flex items-center gap-1 hover:cursor-pointer"
+                onClick={toggleHeart}
+              >
+                {heart ? (
+                  <FaHeart className="text-[18px] text-red-500" />
+                ) : (
+                  <FaRegHeart className="text-[18px]" />
+                )}
+                {heartCount}
               </button>
               <button
                 className="flex items-center gap-1 hover:cursor-pointer"
@@ -82,16 +104,9 @@ export default function Threads({
               </button>
             </div>
 
-            {/* 게시물 작성자와 로그인 계정이 일치할 경우 */}
+            {/* 게시물 작성자와 로그인 계정이 일치할 경우 (임시로 username === "mythread") */}
             {username === "mythread" && (
-              <div className="flex justify-end gap-4">
-                <button className="text-blue-600 gap-1 font-semibold hover:cursor-pointer">
-                  <LuPencilLine className="text-[18px]" />
-                </button>
-                <button className="text-red-600 gap-1 font-semibold hover:cursor-pointer">
-                  <FaRegTrashCan className="text-[18px]" />
-                </button>
-              </div>
+              <MyThreads onEdit={editHandler} onDelete={deleteHandler} />
             )}
           </div>
         </div>

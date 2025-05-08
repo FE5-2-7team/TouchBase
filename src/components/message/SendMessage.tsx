@@ -7,7 +7,7 @@ export default function SendMessage() {
             쪽지보내기
           </h1>
           <div className="w-full border border-gray-300 rounded-[px]">
-            <div className="flex mt-2 border-b border-b-gray-300">
+            <div className="flex mt-2 border-b border-b-gray-500 dark:border-b-gray-600">
               <strong className="pr-10 ml-8 mt-4 text-[20px]">받으실 분</strong>
               <div className="px-6 pb-6 mt-2 ">
                 <input
@@ -18,7 +18,7 @@ export default function SendMessage() {
             </div>
             <textarea className="w-full h-[380px] resize-none mt-10 px-6 outline-none focus:ring-0"></textarea>
             <div className="flex justify-end mb-6 mr-2 px-3">
-              <button className=" justify-end bg-[#0033A0] text-white rounded-[10px] px-7 py-2 text-sm cursor-pointer">
+              <button className=" justify-end bg-[#0033A0] text-white rounded-[10px] px-7 py-2 text-sm cursor-pointer dark:hover:bg-[#1449BB]">
                 POST
               </button>
             </div>

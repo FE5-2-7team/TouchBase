@@ -3,36 +3,45 @@ import { FaRegThumbsUp } from "react-icons/fa6";
 import { IoGift } from "react-icons/io5";
 import { FaYoutube } from "react-icons/fa";
 import { TbHandMove } from "react-icons/tb";
+import { teamInfo } from "../../data/teamInfo";
+interface SidebarProps {
+  teamName: string;
+}
+export default function Sidebar({ teamName }: SidebarProps) {
+  const teams = teamInfo.find((team) => team.name === teamName)!;
 
-export default function Sidebar() {
   const navItems = [
-    { icon: <FaBaseball />, title: "경기일정", href: "#" },
+    {
+      icon: <FaBaseball />,
+      title: "경기일정",
+      href: "https://www.koreabaseball.com/",
+    },
     { icon: <FaRegThumbsUp />, title: "인기글", href: "/popular" },
-    { icon: <IoGift />, title: "구단 굿즈", href: "#" },
+    { icon: <IoGift />, title: "구단 굿즈", href: "https://kbomarket.com/" },
     {
       icon: <FaYoutube />,
       title: "유튜브",
-      href: "https://www.youtube.com/channel/UCsebzRfMhwYfjeBIxNX1brg",
+      href: teams.youtube,
     },
     {
       icon: <TbHandMove />,
       title: "홈페이지",
-      href: "https://www.doosanbears.com",
+      href: teams.homepage,
     },
   ];
 
   return (
     <>
       <div
-        className="md:sticky fixed top-[160px] left-0 z-5 w-full md:w-[240px] md:h-screen md:left-0
-    border-b md:border-r md:border-b-0 border-[#d9d9d9] dark:bg-gray-900"
+        className="md:sticky fixed md:top-[150px] top-[160px] left-0 z-5 w-full md:w-[240px] md:h-screen md:left-0
+    border-b md:border-r md:border-b-0 border-[#d9d9d9] bg-[#fff] dark:bg-gray-900"
       >
         {/* PC에서만 로고 보이게 */}
-        <div className="hidden md:block md:mt-[50px] md:mb-[40px]">
+        <div className="md:flex hidden md:mt-[50px] md:mb-[40px] items-center justify-center">
           <img
-            src="https://www.doosanbears.com/_next/image?url=%2Fimages%2Fimg_logo_2025_1.jpg&w=384&q=75"
-            alt="두산 베어스 로고"
-            className="w-[235px] h-[145px] object-cover"
+            src={teams.logo}
+            alt={`${teams.name}로고`}
+            className="w-[70%] object-cover"
           />
         </div>
 
@@ -41,7 +50,7 @@ export default function Sidebar() {
             {navItems.map((item, index) => (
               <li
                 key={index}
-                className="w-full md:w-[240px] h-[40px] md:h-[50px] flex justify-center"
+                className="w-full md:w-[235px] h-[40px] md:h-[50px] flex justify-center"
               >
                 <a
                   href={item.href}
