@@ -1,4 +1,4 @@
-import { useState, useEffect, useOptimistic } from "react";
+import { useState, useEffect, useOptimistic, startTransition } from "react";
 import { BaseballGameData } from "../../types/mainGame";
 import { team_list } from "../../utils/getLogoImages";
 import axios from "axios";
@@ -84,7 +84,9 @@ export default function GameSchedule() {
       const res = await axios.get(API_URL);
       if (res.status === 200) {
         const data = res.data;
-        addOptimisticSchedule(data.game);
+        startTransition(() => {
+          addOptimisticSchedule(data.game);
+        });
         setGameSchedule(data.game);
       } else {
         console.error("Error fetching game schedule:", res.status);

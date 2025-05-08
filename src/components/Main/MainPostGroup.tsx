@@ -1,4 +1,4 @@
-import { useEffect, useState, useOptimistic } from "react";
+import { useEffect, useState, useOptimistic, startTransition } from "react";
 import MainPostList from "./MainPostList";
 import axios from "axios";
 import { KBONewsTypes, Post } from "../../types/postType";
@@ -25,9 +25,11 @@ const SkeletonList = ({
     <div className="">
       <MainTitle title={title} color={color} />
     </div>
-    {[...Array(5)].map((_, index) => (
-      <SkeletonPost key={index} />
-    ))}
+    <div className="mt-10">
+      {[...Array(5)].map((_, index) => (
+        <SkeletonPost key={index} />
+      ))}
+    </div>
   </div>
 );
 
@@ -56,7 +58,9 @@ export default function MainPostGroup() {
     try {
       const res = await axios.get(NEW_POST_API_URL);
       if (res.status === 200) {
-        updateOptimisticNewPost(res.data);
+        startTransition(() => {
+          updateOptimisticNewPost(res.data);
+        });
         setNewPost(res.data);
       } else {
         console.error("Error fetching new post:", res.status);
@@ -70,7 +74,9 @@ export default function MainPostGroup() {
     try {
       const res = await axios.get(HOT_POST_API_URL);
       if (res.status === 200) {
-        updateOptimisticHotPost(res.data);
+        startTransition(() => {
+          updateOptimisticHotPost(res.data);
+        });
         setHotPost(res.data);
       } else {
         console.error("Error fetching hot post:", res.status);
@@ -84,7 +90,9 @@ export default function MainPostGroup() {
     try {
       const res = await axios.get(KBO_NEWS_API_URL);
       if (res.status === 200) {
-        updateOptimisticKboNews(res.data.row);
+        startTransition(() => {
+          updateOptimisticKboNews(res.data.row);
+        });
         setKboNews(res.data.row);
       } else {
         console.error("Error fetching kbo news:", res.status);
