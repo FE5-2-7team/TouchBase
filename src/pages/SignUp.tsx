@@ -1,5 +1,5 @@
 import AuthButton from "../components/AuthButton";
-import Button from "../components/Button";
+import Button from "../components/FanPage/Button";
 import Input from "../components/AuthInput";
 import BlueBoard from "../components/BlueBoard";
 import AuthBoard from "../components/AuthBoard";
