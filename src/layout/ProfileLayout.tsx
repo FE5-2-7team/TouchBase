@@ -10,7 +10,7 @@ const MESSAGENUM = 12;
 
 export default function ProfileHeader() {
   return (
-    <div className="flex flex-col gap-[34px] w-full max-w-[1200px] mx-auto">
+    <div className="flex flex-col gap-[34px] w-full max-w-[1200px] mx-auto mt-[40px]">
       <div className="border border-[#D9D9D9] shadow-md rounded-[10px] lg:h-[200px] md:h-[154px] sm:h-[120px] flex items-center gap-[50px] justify-between lg:px-[110px] px-[80px]">
         <img
           className="lg:w-[123px] lg:h-[123px] md:w-[100px] md:h-[100px] sm:w-[60px] sm:h-[60px]"
@@ -45,7 +45,7 @@ export default function ProfileHeader() {
               </button>
             </NavLink>
           </div>
-          <button className="border rounded-[10px] py-[2px] px-[5px] md:text-[16px] sm:text-[9px] text-[#6D6D6D] dark:text-[#FFFFFF] cursor-pointer">
+          <button className="border rounded-[10px] py-[3px] px-[10px] md:text-[16px] sm:text-[9px] text-[#6D6D6D] dark:text-[#FFFFFF] cursor-pointer">
             프로필 수정
           </button>
         </div>

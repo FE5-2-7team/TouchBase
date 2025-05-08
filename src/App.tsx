@@ -4,8 +4,8 @@ import Home from "./pages/Home";
 import ThreadsList from "./components/FanPage/ThreadsList";
 import FanPage from "./pages/FanPage";
 import MessageContainer from "./components/message/MessageContainer";
-import ProfileHeader from "./components/ProfileHeader";
-import FollowBox from "./components/FollowBox";
+import ProfileLayout from "./layout/ProfileLayout";
+import FollowBox from "./components/Profile/FollowBox";
 import MessagePage from "./pages/MessagePage";
 import Login from "./pages/LogInPage";
 import Signup from "./pages/SignUpPage";
@@ -19,7 +19,7 @@ export default function App() {
         <Route path="/" element={<RootLayout />}>
           <Route path="/" element={<Home />} />
 
-          <Route path="/profile" element={<ProfileHeader />}>
+          <Route path="/profile" element={<ProfileLayout />}>
             <Route index path="posts" element={<ThreadsList />} />
             <Route path="follower" element={<FollowBox title={"팔로워"} />} />
             <Route
