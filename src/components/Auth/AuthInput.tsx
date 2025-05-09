@@ -7,9 +7,11 @@ type InputTypes = {
   className?: string;
   type: string;
   value: string;
-  setFc: React.Dispatch<React.SetStateAction<boolean>>;
+  name?: string;
+  setFc?: React.Dispatch<React.SetStateAction<boolean>>;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 };
 
 export default function Input({
@@ -17,9 +19,11 @@ export default function Input({
   className,
   type,
   value,
+  name,
   onChange,
   onFocus,
   setFc,
+  onKeyDown,
 }: InputTypes) {
   const [passwordShow, setPasswordShow] = useState(true);
 
@@ -35,24 +39,27 @@ export default function Input({
       {type !== "password" ? (
         <input
           className={twMerge(
-            "mb-[30px] w-full h-[40px] text-[#696969] px-[4px] border-b border-[#0033A0] font-semibold",
+            "mb-[30px] w-full h-[40px] text-[#696969] px-[4px] border-b border-[#0033A0] font-semibold dark:text-white dark:placeholder:text-white",
             className
           )}
           onChange={onChange}
           placeholder={placeholder}
           type={type}
           value={value}
+          name={name}
         ></input>
       ) : (
         <div className={twMerge("w-full mb-[30px] relative", className)}>
           <input
-            className="w-full h-[40px] text-[#696969] px-[4px] border-b border-[#0033A0] font-semibold"
+            className="w-full h-[40px] text-[#696969] px-[4px] border-b border-[#0033A0] font-semibold dark:text-white dark:placeholder:text-white"
             placeholder={placeholder}
             type={passwordShow ? "password" : "text"}
             value={value}
             onChange={onChange}
             onFocus={onFocus}
             onBlur={(e) => focusOut(e, setFc!)}
+            name={name}
+            onKeyDown={onKeyDown}
           ></input>
           <button
             onClick={() => {
