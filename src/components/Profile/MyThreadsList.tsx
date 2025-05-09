@@ -27,7 +27,7 @@ export default function MyThreadsList() {
   if (isPending) <h1>Loading...</h1>;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 mb-[40px]">
       {/* 피드들 */}
       {myPosts?.map((post) => {
         let postTitle = "";
