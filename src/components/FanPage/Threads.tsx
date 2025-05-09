@@ -9,6 +9,7 @@ import Upload from "./Upload";
 import { AxiosError } from "axios";
 import { axiosInstance } from "../../api/axiosInstance";
 import { Like, Comment } from "../../types/postType";
+import { userStore } from "../../stores/userStore";
 interface ThreadProps {
   postId: string;
   username: string;
@@ -34,15 +35,15 @@ export default function Threads({
   likes,
   comments,
   likeChecked,
-  isMyThread = false,
-}: ThreadProps) {
+}: // isMyThread = false,
+ThreadProps) {
   const [showed, setShowed] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [commentList, setCommentList] = useState<Comment[]>(comments);
   const [heartCount, setHeartCount] = useState(likes.length);
   const [heart, setHeart] = useState(likeChecked);
 
-  const userId = localStorage.getItem("userId") ?? "680df1256046c57a57d72140";
+  const userId = userStore((state) => state.getUser()?._id);
 
   // 포스트 수정
   const [isEdit, setIsEdit] = useState(false);
@@ -65,19 +66,9 @@ export default function Threads({
   const toggleHeart = async () => {
     try {
       if (!heart) {
-        await axiosInstance.post(
-          "/likes/create",
-          {
-            postId: postId,
-          },
-          {
-            headers: {
-              Authorization:
-                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY4MGRmMTI1NjA0NmM1N2E1N2Q3MjE0MCIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20ifSwiaWF0IjoxNzQ1NzQ1MDU0fQ.OFaaM-peU3XGKl_GwCWt7JOfuFXcm9FzImVVMj6Xd88",
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        await axiosInstance.post("/likes/create", {
+          postId: postId,
+        });
       } else {
         const likedUser = likes.find((like) => like.user === userId);
         const likedId = likedUser?._id;
@@ -85,11 +76,6 @@ export default function Threads({
         await axiosInstance.delete("/likes/delete", {
           data: {
             id: likedId,
-          },
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY4MGRmMTI1NjA0NmM1N2E1N2Q3MjE0MCIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20ifSwiaWF0IjoxNzQ1NzQ1MDU0fQ.OFaaM-peU3XGKl_GwCWt7JOfuFXcm9FzImVVMj6Xd88",
-            "Content-Type": "application/json",
           },
         });
       }
@@ -108,7 +94,12 @@ export default function Threads({
 
   if (isEdit) {
     return (
-      <Upload titleValue={title} contentValue={content} imageList={images} editFinishHandler={editFinishHandler} />
+      <Upload
+        titleValue={title}
+        contentValue={content}
+        imageList={images}
+        editFinishHandler={editFinishHandler}
+      />
     );
   }
 
@@ -119,21 +110,18 @@ export default function Threads({
     >
       {/* 상단: 프로필 + 본문 */}
       <div className="flex gap-[25px]">
-        {isMyThread ? (
-          <div>
-            <ProfileBlock username={username} />
-          </div>
-        ) : (
-          <div onMouseEnter={() => setShowed(true)} onMouseLeave={() => setShowed(false)}>
-            <ProfileBlock username={username} />
-            {showed && (
-              <div className="absolute z-50 w-[285px] top-5 left-[90px]">
-                <SimpleProfileCard />
-              </div>
-            )}
-          </div>
-        )}
         {/* 왼쪽 고정 프로필 */}
+        <div
+          onMouseEnter={() => setShowed(true)}
+          onMouseLeave={() => setShowed(false)}
+        >
+          <ProfileBlock username={username} />
+          {showed && (
+            <div className="absolute z-50 w-[285px] top-5 left-[90px]">
+              <SimpleProfileCard />
+            </div>
+          )}
+        </div>
 
         {/* 본문 내용 */}
         <div className="flex flex-col w-full justify-center">
@@ -146,14 +134,26 @@ export default function Threads({
           {images.length > 0 && (
             <div className="flex gap-2 flex-wrap mb-2">
               {images.map((src, index) => (
-                <img key={index} src={src} alt={`img-${index}`} className="w-[70%] rounded-[6px]" />
+                <img
+                  key={index}
+                  src={src}
+                  alt={`img-${index}`}
+                  className="w-[70%] rounded-[6px]"
+                />
               ))}
             </div>
           )}
           <div className="flex justify-between items-center text-[#ababab] text-[16px] mt-auto">
             <div className="flex items-center gap-4">
-              <button className="flex items-center gap-1 hover:cursor-pointer" onClick={toggleHeart}>
-                {heart ? <FaHeart className="text-[18px] text-red-500" /> : <FaRegHeart className="text-[18px]" />}
+              <button
+                className="flex items-center gap-1 hover:cursor-pointer"
+                onClick={toggleHeart}
+              >
+                {heart ? (
+                  <FaHeart className="text-[18px] text-red-500" />
+                ) : (
+                  <FaRegHeart className="text-[18px]" />
+                )}
                 {heartCount}
               </button>
               <button
@@ -165,7 +165,9 @@ export default function Threads({
             </div>
 
             {/* 게시물 작성자와 로그인 계정이 일치할 경우 (임시로 username === "mythread") */}
-            {username === "mythread" && <MyThreads onEdit={editHandler} onDelete={deleteHandler} />}
+            {username === "mythread" && (
+              <MyThreads onEdit={editHandler} onDelete={deleteHandler} />
+            )}
           </div>
         </div>
       </div>
