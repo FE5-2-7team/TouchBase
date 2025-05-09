@@ -3,7 +3,7 @@ import Button from "./AuthButton";
 import Input from "./AuthInput";
 import BlueBoard from "./BlueBoard";
 import { useEffect, useState } from "react";
-import { login } from "../../api/login";
+import { login } from "../../api/auth";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 
