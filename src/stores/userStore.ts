@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { UserStore } from "../types/userTypes";
 import { BaseUser } from "../types/postType";
 
-export const useUserStore = create<UserStore>((set, get) => ({
+export const userStore = create<UserStore>((set, get) => ({
   user: null,
   token: localStorage.getItem("token") || "",
   setUser: (user: BaseUser) => {

@@ -3,17 +3,21 @@ import ProfileImage from "./ProfileImage";
 import Button from "./Button";
 import { Comment } from "../../types/postType";
 import { axiosInstance } from "../../api/axiosInstance";
+import { FaRegTrashCan } from "react-icons/fa6";
+import { userStore } from "../../stores/userStore";
 interface CommentsProps {
   postId: string;
   commentList: Comment[];
   setCommentList: React.Dispatch<React.SetStateAction<Comment[]>>;
 }
+
 export default function Comments({
   postId,
   commentList,
   setCommentList,
 }: CommentsProps) {
   const [input, setInput] = useState("");
+  const userId = userStore((state) => state.getUser()?._id);
 
   const fetchComments = useCallback(async () => {
     try {
@@ -35,7 +39,7 @@ export default function Comments({
         postId: postId,
       });
       const createdComment = res.data;
-      setCommentList((prev) => [createdComment, ...prev]);
+      setCommentList((prev) => [...prev, createdComment]);
       setInput("");
     } catch (error) {
       console.log("댓글 작성 실패", error);
@@ -45,6 +49,21 @@ export default function Comments({
   useEffect(() => {
     fetchComments();
   }, [fetchComments]);
+
+  const DeleteComments = async (commentId: string) => {
+    try {
+      await axiosInstance.delete("/comments/delete", {
+        data: {
+          id: commentId,
+        },
+      });
+      setCommentList((prev) =>
+        prev.filter((comment) => comment._id !== commentId)
+      );
+    } catch (error) {
+      console.log("댓글 작성 실패", error);
+    }
+  };
 
   const formateDate = (newDate: string) => {
     const date = new Date(newDate);
@@ -90,12 +109,23 @@ export default function Comments({
                   {comment.author?.fullName || "익명"}
                 </span>
 
-                {/* 댓글 본문 + 날짜를 좌우로 정렬 */}
+                {/* 댓글 본문 + 날짜 + 삭제 */}
                 <div className="flex justify-between items-center w-full">
                   <span className="text-sm">{comment.comment}</span>
-                  <span className="pb-[20px] pr-[5px] text-[12px] text-[#999]">
-                    {formateDate(comment.createdAt)}
-                  </span>
+
+                  <div className="flex items-center gap-2">
+                    <span className="pb-[20px] pr-[5px] text-[12px] text-[#999]">
+                      {formateDate(comment.createdAt)}
+                    </span>
+                    {comment.author?._id === userId && (
+                      <button
+                        className="text-[#ababab] gap-1 pb-[20px] font-semibold hover:cursor-pointer"
+                        onClick={() => DeleteComments(comment._id)}
+                      >
+                        <FaRegTrashCan className="text-[18px]" />
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
