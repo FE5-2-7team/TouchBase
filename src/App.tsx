@@ -24,7 +24,7 @@ export default function App() {
         <Route path="/" element={<RootLayout />}>
           <Route path="/" element={<Home />} />
 
-          <Route path="/profile:id" element={<ProfileLayout />}>
+          <Route path="/profile/:id" element={<ProfileLayout />}>
             <Route index path="posts" element={<MyThreadsList />} />
             <Route path="follower" element={<FollowBox title={"팔로워"} />} />
             <Route path="following" element={<FollowBox title={"팔로잉"} />} />
@@ -35,18 +35,9 @@ export default function App() {
             <Route index element={<InboxMessage />} />
             <Route path="inbox" element={<InboxMessage />} />
             <Route path="sent" element={<SentList />} />
-            <Route
-              path="sent/:id"
-              element={<MessageContainer mode={"sent"} />}
-            />
-            <Route
-              path="write/:id?"
-              element={<MessageContainer mode={"write"} />}
-            />
-            <Route
-              path="view/:id"
-              element={<MessageContainer mode={"received"} />}
-            />
+            <Route path="sent/:id" element={<MessageContainer mode={"sent"} />} />
+            <Route path="write/:id?" element={<MessageContainer mode={"write"} />} />
+            <Route path="view/:id" element={<MessageContainer mode={"received"} />} />
           </Route>
           <Route path="/message" element={<InboxMessage />} />
         </Route>
