@@ -1,5 +1,5 @@
 import { axiosInstance } from "./axiosInstance";
-import { useUserStore } from "../stores/useUserStore";
+import { useUserStore } from "../stores/userStore";
 
 export const login = async ({
   email,

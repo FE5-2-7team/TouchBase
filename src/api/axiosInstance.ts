@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useUserStore } from "../stores/useUserStore";
+import { useUserStore } from "../stores/userStore";
 
 export const axiosInstance = axios.create({
   baseURL: "http://13.125.208.179:5011/",

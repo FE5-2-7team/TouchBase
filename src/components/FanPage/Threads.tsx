@@ -9,7 +9,7 @@ import Upload from "./Upload";
 import { AxiosError } from "axios";
 import { axiosInstance } from "../../api/axiosInstance";
 import { Like, Comment } from "../../types/postType";
-import { useUserStore } from "../../stores/useUserStore";
+import { userStore } from "../../stores/userStore";
 interface ThreadProps {
   postId: string;
   username: string;
@@ -43,7 +43,7 @@ ThreadProps) {
   const [heartCount, setHeartCount] = useState(likes.length);
   const [heart, setHeart] = useState(likeChecked);
 
-  const userId = useUserStore((state) => state.getUser()?._id);
+  const userId = userStore((state) => state.getUser()?._id);
 
   // 포스트 수정
   const [isEdit, setIsEdit] = useState(false);
