@@ -4,11 +4,12 @@ import axios from "axios";
 import { Post, Channel } from "../../types/postType";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-
+import { useUserStore } from "../../stores/useUserStore";
 export default function ThreadsList() {
   const { teamName } = useParams();
   const [posts, setPosts] = useState<Post[]>([]);
-  const userId = localStorage.getItem("userId") ?? "680df1256046c57a57d72140";
+
+  const userId = useUserStore.getState().getUser()?._id;
 
   useEffect(() => {
     const fetchPosts = async () => {
