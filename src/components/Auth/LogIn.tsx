@@ -23,6 +23,9 @@ export default function LogIn() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (idSave) localStorage.setItem("saveId", loginForm.email);
+    else localStorage.removeItem("saveId");
+
     const res = await login(loginForm);
     console.log(res);
 

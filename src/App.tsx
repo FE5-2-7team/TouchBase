@@ -12,8 +12,11 @@ import InboxMessage from "./components/message/InboxMessage";
 import SentList from "./components/message/SentList";
 import EditProfile from "./components/Auth/EditProfile";
 import MyThreadsList from "./components/Profile/MyThreadsList";
+import { useDarkMode } from "./hooks/useDarkMode";
 
 export default function App() {
+  useDarkMode();
+
   return (
     <>
       <Routes>
@@ -51,7 +54,6 @@ export default function App() {
               element={<MessageContainer mode={"received"} />}
             />
           </Route>
-          <Route path="/message" element={<InboxMessage />} />
         </Route>
         <Route path="/login" element={<LogIn />} />
         <Route path="/signup" element={<SignUp />} />
