@@ -10,6 +10,7 @@ import LogIn from "./pages/LogInPage";
 import SignUp from "./pages/SignUp";
 import InboxMessage from "./components/message/InboxMessage";
 import SentList from "./components/message/SentList";
+import NotFoundPage from "./pages/NotFoundPage";
 import EditProfile from "./components/Auth/EditProfile";
 import MyThreadsList from "./components/Profile/MyThreadsList";
 import { useDarkMode } from "./hooks/useDarkMode";
@@ -54,6 +55,8 @@ export default function App() {
               element={<MessageContainer mode={"received"} />}
             />
           </Route>
+          <Route path="/message" element={<InboxMessage />} />
+          <Route path="/error404" element={<NotFoundPage />} />
         </Route>
         <Route path="/login" element={<LogIn />} />
         <Route path="/signup" element={<SignUp />} />
