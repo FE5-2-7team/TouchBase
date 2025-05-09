@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 interface Props {
   keyword: string;
   results: any[];
@@ -7,6 +8,7 @@ export default function SearchThreads({ keyword, results }: Props) {
   const [searchThreads, setSearchThreads] = useState<{ postTitle: string; postContent: string }[]>(
     []
   );
+  const navigate = useNavigate();
 
   useEffect(() => {
     const allParsed: any[] = [];
@@ -29,15 +31,20 @@ export default function SearchThreads({ keyword, results }: Props) {
 
   return (
     <>
-      <div className="mt-6">
-        <div>
+      <div className="mt-4">
+        <div className="grid grid-cols-1 gap-3 p-4 max-h-[400px] overflow-scroll">
           {keyword ? (
             searchThreads && searchThreads.length > 0 ? (
               searchThreads.map((post, idx) => (
-                <div key={idx} className="flex mx-4 ">
-                  <p className="mr-2 cursor-pointer hover:underline hover:underline-offset-2">
-                    {post.postTitle} {post.postContent}
-                  </p>
+                <div
+                  key={idx}
+                  className="p-2 bg-white rounded-lg border border-gray-300 hover:shadow-sm hover:bg-gray-100 dark:bg-[#191A1E] dark:border-gray-700 dark:hover:bg-gray-600"
+                  onClick={() => {
+                    console.log(post.postTitle);
+                    navigate(`/post/${post.postTitle}`);
+                  }}
+                >
+                  <h4 className="ml-2 text-sm dark:text-white cursor-pointer">{post.postTitle}</h4>
                 </div>
               ))
             ) : (

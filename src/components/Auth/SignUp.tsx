@@ -13,76 +13,90 @@ export default function SignUp() {
   const baseUrl = import.meta.env.VITE_API_URL;
 
   const navigate = useNavigate();
-  const [nickName, setNickName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [checkPassword, setCheckPassword] = useState("");
 
-  const [nickNameValid, setNickNameValid] = useState(true);
-  const [nickNameChangeValid, setNickNameChangeValid] = useState(true);
-  const [emailVaild, setEmailVaild] = useState(true);
-  const [passwordVaild, setPasswordVaild] = useState(true);
-  const [passwordCheck, setPasswordCheck] = useState(true);
+  const [value, setValue] = useState({
+    nickName: "",
+    email: "",
+    password: "",
+    checkPassword: "",
+  });
+
+  const [valid, setValid] = useState({
+    nickName: false,
+    email: false,
+    password: false,
+    checkPassword: false,
+  });
+
+  const [nickNameValid, setNickNameValid] = useState(false);
 
   const submitValid = [
-    nickName,
-    email,
-    password,
-    checkPassword,
-    nickNameChangeValid,
-    emailVaild,
-    passwordVaild,
-    passwordCheck,
+    ...Object.values(value),
+    ...Object.values(valid),
+    nickNameValid,
   ];
 
-  //닉네임 유효성 검사
-  function nickNameValidCheck(e: React.ChangeEvent<HTMLInputElement>) {
-    const isValid = /^[a-z0-9가-힣]+$/.test(e.target.value);
-    setNickNameValid(true);
-    setNickName(e.target.value);
-    setNickNameChangeValid(isValid);
-  }
+  //input type에 유효성 검사
+  function validChecked(e: React.ChangeEvent<HTMLInputElement>, type: string) {
+    let isValid: boolean = false;
 
-  //이메일 유효성 검사
-  function emailValidCheck(e: React.ChangeEvent<HTMLInputElement>) {
-    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-    const isValid = emailRegex.test(e.target.value);
-    setEmail(e.target.value);
-    setEmailVaild(isValid);
-  }
+    switch (type) {
+      case "nickName":
+        isValid = /^[a-z0-9가-힣ㄱ-ㅎㅏ-ㅣ]+$/.test(e.target.value);
+        setNickNameValid(false);
+        break;
+      case "email":
+        isValid = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(
+          e.target.value
+        );
+        break;
+      case "password":
+        isValid = /^(?=.*[a-z])(?=.*\d)[a-z\d]{8,16}$/.test(e.target.value);
+        if (e.target.value === value.checkPassword) {
+          setValid((valid) => {
+            return { ...valid, checkPassword: true };
+          });
+        }
+        break;
+      case "checkPassword":
+        isValid = e.target.value === value.password;
+        break;
+    }
 
-  //비밀번호 유효성 검사
-  function passwordValidCheck(e: React.ChangeEvent<HTMLInputElement>) {
-    const passwordRegex = /^(?=.*[a-z])(?=.*\d)[a-z\d]{8,16}$/;
-    const isValid = passwordRegex.test(e.target.value);
-    setPassword(e.target.value);
-    setPasswordVaild(isValid);
-  }
-
-  //비밀번호 비교 검사
-  function passwordChecking(e: React.ChangeEvent<HTMLInputElement>) {
-    setCheckPassword(e.target.value);
-    setPasswordCheck(e.target.value === password);
+    setValue((value) => {
+      return { ...value, [type]: e.target.value };
+    });
+    setValid((valid) => {
+      return { ...valid, [type]: isValid };
+    });
+    console.log(valid, value);
   }
 
   //비밀번호 체크 인풋에 포커스 들어갈 때
   function retestFocusIn() {
-    if (checkPassword === password) {
-      setPasswordCheck(true);
+    if (value.checkPassword === value.password) {
+      setValid((valid) => {
+        return { ...valid, checkPassword: false };
+      });
       return;
     }
-    setPasswordCheck(false);
+    setValid((valid) => {
+      return { ...valid, checkPassword: true };
+    });
   }
 
   //닉네임 유효성 검사
   async function validNickName() {
-    if (nickName === "" || !nickNameChangeValid) return;
+    if (value.nickName === "" || !valid.nickName) return;
 
     try {
       const response = await fetch(`${baseUrl}users/get-users`);
       const json = await response.json();
-      const result = json.some((el: BaseUser) => el.fullName === nickName);
-      if (result) {
+      const result = json.some(
+        (el: BaseUser) => el.fullName === value.nickName
+      );
+      console.log(json, result);
+      if (!result) {
         setNickNameValid(true);
       } else {
         setNickNameValid(false);
@@ -92,7 +106,9 @@ export default function SignUp() {
     }
   }
 
+  //회원가입 data submit
   async function submitSignUpData() {
+    console.log(submitValid);
     if (submitValid.some((vaild) => vaild == false)) {
       Swal.fire({
         icon: "error",
@@ -107,19 +123,18 @@ export default function SignUp() {
 
     try {
       response = await axiosInstance.post(`/signup`, {
-        email: email.toLocaleLowerCase().trim(),
-        fullName: nickName.toLocaleLowerCase().trim(),
-        password: password.toLocaleLowerCase().trim(),
+        email: value.email.toLocaleLowerCase().trim(),
+        fullName: value.nickName.toLocaleLowerCase().trim(),
+        password: value.password.toLocaleLowerCase().trim(),
       });
       console.log(response.data);
     } catch (error) {
       console.log(error);
     } finally {
       setNickNameValid(true);
-      setNickName("");
-      setEmail("");
-      setPassword("");
-      setCheckPassword("");
+      setValue((value) => {
+        return { ...value };
+      });
       navigate("/");
     }
   }
@@ -134,9 +149,8 @@ export default function SignUp() {
                 placeholder={"닉네임"}
                 type="text"
                 className="w-full mb-[0]"
-                setFc={setNickNameValid}
-                onChange={(e) => nickNameValidCheck(e)}
-                value={nickName}
+                onChange={(e) => validChecked(e, "nickName")}
+                value={value.nickName}
               />
               <Button
                 onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
@@ -147,10 +161,10 @@ export default function SignUp() {
               >
                 중복 확인
               </Button>
-              {!nickNameChangeValid && (
+              {value.nickName && !valid.nickName && (
                 <Message>공백 혹은 특수 문자는 넣으실 수 없습니다</Message>
               )}
-              {!nickNameValid && (
+              {nickNameValid && (
                 <Message className="text-green-500">
                   사용 가능한 닉네임 입니다
                 </Message>
@@ -161,13 +175,12 @@ export default function SignUp() {
                 placeholder={"이메일"}
                 type="email"
                 className="w-full mb-[0]"
-                value={email}
-                setFc={setEmailVaild}
+                value={value.email}
                 onChange={(e) => {
-                  emailValidCheck(e);
+                  validChecked(e, "email");
                 }}
               />
-              {!emailVaild && (
+              {value.email && !valid.email && (
                 <Message>이메일 형식이 올바르지 않습니다</Message>
               )}
             </div>
@@ -176,25 +189,23 @@ export default function SignUp() {
                 placeholder={"비밀번호"}
                 type="password"
                 className="mb-[0]"
-                value={password}
-                setFc={setPasswordVaild}
-                onChange={passwordValidCheck}
+                value={value.password}
+                onChange={(e) => validChecked(e, "password")}
               />
-              {!passwordVaild && (
+              {value.password && !valid.password && (
                 <Message>8~16자, 영문, 숫자 조합 입니다</Message>
               )}
             </div>
             <div className="relative mb-[35px]">
               <Input
                 onFocus={retestFocusIn}
-                onChange={passwordChecking}
-                setFc={setPasswordCheck}
-                value={checkPassword}
+                onChange={(e) => validChecked(e, "checkPassword")}
+                value={value.checkPassword}
                 placeholder={"비밀번호 확인"}
                 type="password"
                 className="mb-[35px]"
               />
-              {!passwordCheck && (
+              {value.checkPassword && !valid.checkPassword && (
                 <Message>비밀번호가 일치하지 않습니다</Message>
               )}
             </div>
