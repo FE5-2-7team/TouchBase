@@ -1,29 +1,33 @@
 import { Link } from "react-router";
 import Pagination from "./Pagination";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EmptyMessage from "./EmptyMessage";
 import { LuArrowDownWideNarrow } from "react-icons/lu";
-
-export type MessageType = {
-  userId: string;
-  title: string;
-  date: string;
-};
+import { MessageType } from "../../types/messageType";
+import { axiosInstance } from "../../api/axiosInstance";
 
 export default function InboxMessage() {
-  const [message, setMessage] = useState<MessageType[]>([
-    {
-      userId: "KIAman",
-      title:
-        "오늘 경기 굿굿! 이겨서 다행이네요 너무 즐거웠습니다~~~다음에 또 같이 가요 최강 기아 기아 짱짱맨 ",
-      date: "25-04-28",
-    },
-    { userId: 2, title: "안녕하세요 ~ 주말 경기 같이 가요~~", date: "25-04-30" },
-  ]);
+  const [message, setMessage] = useState<MessageType[]>([]);
 
   const sortHandler = () => {
     const sorted = [...message].sort((a, b) => {});
   };
+
+  useEffect(() => {
+    const fetchMessage = async () => {
+      try {
+        const res = await axiosInstance.get("/messages/conversations");
+        const data = res.data;
+        setMessage(data);
+        console.log(data);
+      } catch (err) {
+        console.error("메세지 불러오기 실패", err);
+      }
+    };
+
+    fetchMessage();
+  }, []);
+
   return (
     <>
       <div className="flex justify-center">
