@@ -8,7 +8,7 @@ export default function FanPage() {
   const { teamName } = useParams<{ teamName: string }>();
   const typeTeamName = teamName as string;
 
-  // 버튼을 보이게 할지 결정하는 상태
+  // top 버튼 보일지 말지
   const [isVisible, setIsVisible] = useState(false);
 
   // 스크롤 이벤트
@@ -28,7 +28,7 @@ export default function FanPage() {
     };
   }, []);
 
-  // 최상단으로 스크롤 이동하는 함수
+  // 최상단으로 스크롤 이동
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -45,7 +45,7 @@ export default function FanPage() {
         </div>
       </div>
 
-      {/* 최상단으로 올라가는 버튼 */}
+      {/* top버튼 */}
       {isVisible && (
         <button
           onClick={scrollToTop}

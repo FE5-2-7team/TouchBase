@@ -1,11 +1,11 @@
-import Input from "../components/AuthInput";
+import Input from "./AuthInput";
 import Button from "../FanPage/Button";
-import AuthBoard from "../components/AuthBoard";
+import AuthBoard from "./AuthBoard";
 import { FaCamera } from "react-icons/fa";
-import BlueBoard from "../components/BlueBoard";
+import BlueBoard from "./BlueBoard";
 import ProfileIcon from "../../icons/ProfileIcon";
 
-export default function EditProfilePage() {
+export default function EditProfile() {
   return (
     <>
       <AuthBoard className="h-auto my-[50px]">

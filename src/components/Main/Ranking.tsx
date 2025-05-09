@@ -1,5 +1,5 @@
 import MainTitle from "./MainTitle";
-import { useState, useEffect, useOptimistic } from "react";
+import { useState, useEffect, useOptimistic, startTransition } from "react";
 import { RankingData } from "../../types/mainGame";
 import axios from "axios";
 
@@ -33,8 +33,10 @@ export default function Ranking() {
       const res = await axios.get(API_URL);
       if (res.status === 200) {
         const data = res.data;
+        startTransition(() => {
+          addOptimisticRanking(data.rows);
+        });
         setRanking(data.rows);
-        addOptimisticRanking(data.rows);
         setUpdateDay(data.title);
       } else {
         console.error("Error fetching ranking:", res.status);

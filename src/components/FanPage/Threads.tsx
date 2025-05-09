@@ -5,11 +5,13 @@ import ProfileBlock from "./ProfileBlock";
 import SimpleProfileCard from "./SimpleProfileCard";
 import Comments from "./Comments";
 import MyThreads from "./MyThreads";
+import Upload from "./Upload";
 interface ThreadProps {
   username: string;
   title: string;
-  date: string;
   content: string;
+  date: string;
+  channel: string;
   images?: string[];
   likes: number;
   comments: number;
@@ -18,8 +20,9 @@ interface ThreadProps {
 export default function Threads({
   username,
   title,
-  date,
   content,
+  date,
+  // channel,
   images = [],
   likes,
   comments,
@@ -29,10 +32,19 @@ export default function Threads({
   const [heartCount, setHeartCount] = useState(likes);
   const [heart, setHeart] = useState(false);
 
+  // 포스트 수정
+  const [isEdit, setIsEdit] = useState(false);
+
   // 수정, 삭제
   const editHandler = () => {
+    setIsEdit(true);
     console.log("수정");
   };
+
+  const editFinishHandler = () => {
+    setIsEdit(false);
+  }
+
   const deleteHandler = () => {
     console.log("삭제");
   };
@@ -42,6 +54,12 @@ export default function Threads({
     setHeart((prev) => !prev);
     setHeartCount((prev) => (heart ? prev - 1 : prev + 1));
   };
+
+  if(isEdit) {
+    return (
+      <Upload titleValue={title} contentValue={content} imageList={images} editFinishHandler={editFinishHandler}/>
+    );
+  }
 
   return (
     <div

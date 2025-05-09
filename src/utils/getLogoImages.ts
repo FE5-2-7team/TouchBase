@@ -44,7 +44,7 @@ export const logos = [
     logo: SSG,
   },
   {
-    name: "KIWOOM",
+    name: "키움",
     url: "https://heroesbaseball.co.kr/index.do",
     logo: KIWOOM,
   },
@@ -54,23 +54,87 @@ export const logos = [
     logo: KIA,
   },
   {
-    name: "LOTTE",
+    name: "롯데",
     url: "https://www.giantsclub.com/html/",
     logo: LOTTE,
   },
   {
-    name: "DOOSAN",
+    name: "두산",
     url: "https://www.doosanbears.com/",
     logo: DOOSAN,
   },
   {
-    name: "SAMSUNG",
+    name: "삼성",
     url: "https://www.samsunglions.com/index.asp",
     logo: SAMSUNG,
   },
   {
-    name: "HANHWA",
+    name: "한화",
     url: "https://www.hanwhaeagles.co.kr/index.do",
     logo: HANHWA,
+  },
+];
+
+export const teamInfo = [
+  {
+    name: "KIA",
+    logo: KIA,
+    youtube: "https://www.youtube.com/@kiatigerstv",
+    homepage: "https://tigers.co.kr/",
+  },
+  {
+    name: "삼성",
+    logo: SAMSUNG,
+    youtube: "https://www.youtube.com/@lionstv1982",
+    homepage: "https://www.samsunglions.com/index.asp",
+  },
+  {
+    name: "LG",
+    logo: LG,
+    youtube: "https://www.youtube.com/@LGTwinsTV",
+    homepage:
+      "https://www.lgtwins.com/service/html.ncd?view=/pc_twins/twins_main/twins_main",
+  },
+  {
+    name: "두산",
+    logo: DOOSAN,
+    youtube: "https://www.youtube.com/@bearstv1982",
+    homepage: "https://www.doosanbears.com",
+  },
+  {
+    name: "KT",
+    logo: KT,
+    youtube: "https://www.youtube.com/@ktwiztv",
+    homepage: "https://www.ktwiz.co.kr/",
+  },
+  {
+    name: "SSG",
+    logo: SSG,
+    youtube: "https://www.youtube.com/@SSGLANDERS",
+    homepage: "https://www.ssglanders.com/main",
+  },
+  {
+    name: "롯데",
+    logo: LOTTE,
+    youtube: "https://www.youtube.com/@giantstv",
+    homepage: "https://www.giantsclub.com/html/index.asp?",
+  },
+  {
+    name: "한화",
+    logo: HANHWA,
+    youtube: "https://www.youtube.com/@HanwhaEagles_official",
+    homepage: "https://www.hanwhaeagles.co.kr/index.do",
+  },
+  {
+    name: "NC",
+    logo: NC,
+    youtube: "https://www.youtube.com/@ncdinos",
+    homepage: "https://www.ncdinos.com/",
+  },
+  {
+    name: "키움",
+    logo: KIWOOM,
+    youtube: "https://www.youtube.com/@heroesbaseballclub",
+    homepage: "https://heroesbaseball.co.kr/index.do",
   },
 ];

@@ -1,4 +1,4 @@
-import M_logo from "../assets/images/m_logo.png";
+import logo from "../assets/images/logo.png";
 
 export default function Footer() {
   return (
@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="container px-4 md:px-0 flex justify-start items-center mx-auto h-[200px] text-white gap-10">
           <div className="hidden md:flex items-center">
             <img
-              src={M_logo}
+              src={logo}
               alt="모바일버전 로고"
               className="mt-[6%] ml-4 h-10 w-fit"
             />

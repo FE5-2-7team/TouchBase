@@ -3,7 +3,7 @@ import Ranking from "../components/Main/Ranking";
 import InfinityLogo from "../components/Main/InfinityLogo";
 import Highlight from "../components/Main/Highlight";
 import MainPostGroup from "../components/Main/MainPostGroup";
-import KBO from "../assets/images/m_logo.png";
+import KBO from "../assets/images/watermark.png";
 
 export default function MainContent() {
   return (
@@ -20,12 +20,12 @@ export default function MainContent() {
           <div className="w-full flex justify-center items-center highlight-wrapper min-h-[680px] relative bg-[#0033a0] dark:bg-[#131417]">
             <div className="absolute bottom-0 left-0 z-0 pointer-events-none w-2/3">
               <span className="opacity-10 select-none w-full h-full">
-                <img src={KBO} alt="KBO" className="w-full h-full" />
+                <img src={KBO} alt="KBO" className="md:w-1/2" />
               </span>
             </div>
             <div className="absolute top-0 right-0 z-0 pointer-events-none transform rotate-180 w-2/3">
               <span className="opacity-10 select-none w-full h-full">
-                <img src={KBO} alt="KBO" className="w-full h-full" />
+                <img src={KBO} alt="KBO" className="md:w-1/2" />
               </span>
             </div>
             <Highlight />
