@@ -1,11 +1,11 @@
 import { Link, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
-import { useUserStore } from "../../stores/useUserStore";
+import { userStore } from "../../stores/userStore";
 
 export default function UserMenu() {
-  const token = useUserStore((state) => state.token);
-  const logout = useUserStore((state) => state.logout);
-  const getUser = useUserStore((state) => state.getUser);
+  const token = userStore((state) => state.token);
+  const logout = userStore((state) => state.logout);
+  const getUser = userStore((state) => state.getUser);
   const navigate = useNavigate();
   const [isLoggedin, setIsLoggedin] = useState(false);
   const [userId, setuserId] = useState("");

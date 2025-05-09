@@ -3,7 +3,7 @@ import { UserStore } from "../types/userTypes";
 import { BaseUser } from "../types/postType";
 import { persist, createJSONStorage } from "zustand/middleware";
 
-export const useUserStore = create<UserStore>()(
+export const userStore = create<UserStore>()(
   persist(
     (set, get) => ({
       user: null,
