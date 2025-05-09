@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import { ExtendedUser } from "../../types/postType";
 import { axiosInstance } from "../../api/axiosInstance";
 import { FaUser } from "react-icons/fa";
-
-export default function UserRecommend() {
+import { Link } from "react-router";
+interface Props {
+  onClose: () => void;
+}
+export default function UserRecommend({ onClose }: Props) {
   const [allUsers, setAllUsers] = useState<ExtendedUser[]>([]);
   const [recommneds, setRecommends] = useState<ExtendedUser[]>([]);
 
@@ -14,7 +17,7 @@ export default function UserRecommend() {
         setAllUsers(res.data);
 
         const randomUser = [...res.data].sort(() => 0.5 - Math.random());
-        setRecommends(randomUser.slice(0, 5));
+        setRecommends(randomUser.slice(0, 10));
         console.log(UserRecommend);
       } catch (err) {
         console.error("추천 유저 불러오기 실패", err);
@@ -26,28 +29,30 @@ export default function UserRecommend() {
 
   return (
     <>
-      <h3 className="ml-4 text-lg text-[#2F6BEB]">추천 유저</h3>
+      <h3 className="ml-5 text-sm text-[#2F6BEB] dark:text-gray-400">추천 유저</h3>
       {recommneds.map((user) => (
-        <div key={user._id} className="user-card flex my-4 ml-4">
+        <div
+          key={user._id}
+          className="user-card flex my-2 mx-6"
+          onClick={() => {
+            onClose();
+          }}
+        >
           {user.image ? (
-            <img
-              src={user.image}
-              alt={user.username}
-              className="w-10 h-10 rounded-3xl border-1 border-gray-500"
-            />
+            <img src={user.image} alt={user.username} className="w-8 h-8 mr-3 mt-2 rounded-3xl" />
           ) : (
-            <div className="w-10 h-10 bg-gray-100 dark:white rounded-3xl border-1 border-gray-500">
-              <FaUser className="w-6 h-6 m-1.5 dark:text-gray-600 text-[#2F6BEB]" />
+            <div className="w-8 h-8 mt-1 mr-3 bg-gray-200 dark:white rounded-3xl ">
+              <FaUser className="w-4 h-4 ml-2 items-center justify-center mt-2 dark:text-gray-600 text-[#2F6BEB]" />
             </div>
           )}
-          <p className="mt-1.5 ml-4 cursor-pointer">
+          <Link
+            to={`/profile/${user._id}`}
+            className="mt-2.5 text-sm cursor-pointer whitespace-nowrap dark:text-gray-200"
+          >
             {user.username ? user.username : user.fullName}
-          </p>
+          </Link>
         </div>
       ))}
-      <p className="flex items-center justify-center mt-10 text-gray-400 dark:text-gray-500">
-        검색어를 입력하세요.
-      </p>
     </>
   );
 }

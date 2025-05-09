@@ -5,9 +5,9 @@ export default function SearchUser({ keyword, results }: { keyword: string; resu
     const trimkeyword = keyword?.toLowerCase().trim();
 
     const username = (user.username ?? "").toLowerCase().trim() || "";
-    // const fullName = (user.fullName ?? "").toLowerCase().trim() || "";
+    const fullName = (user.fullName ?? "").toLowerCase().trim() || "";
 
-    return username.includes(trimkeyword);
+    return username.includes(trimkeyword) || fullName.includes(trimkeyword);
   });
   console.log(filterUsers);
 
