@@ -1,14 +1,10 @@
 import { NavLink, Outlet, useParams } from "react-router";
-import profile from "../assets/images/bears.png";
 import mascot from "../assets/images/doosan_mascot.png";
 import useGetUser from "../components/Profile/useGetUser";
 
-const USERID = "681c62cf1fef464281ee7341"; // params.id
-
 export default function ProfileLayout() {
   const params = useParams();
-
-  const user = useGetUser(USERID);
+  const user = useGetUser(params.id!);
 
   return (
     <div className="flex flex-col gap-[34px] w-full max-w-[1200px] mx-auto mt-[40px]">

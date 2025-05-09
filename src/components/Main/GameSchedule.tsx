@@ -88,6 +88,7 @@ export default function GameSchedule() {
           addOptimisticSchedule(data.game);
         });
         setGameSchedule(data.game);
+        setIsLoading(false);
       } else {
         console.error("Error fetching game schedule:", res.status);
       }
@@ -118,7 +119,6 @@ export default function GameSchedule() {
   useEffect(() => {
     setIsLoading(true);
     getGameSchedule();
-    setIsLoading(false);
   }, []);
 
   return (
