@@ -8,7 +8,7 @@ type InputTypes = {
   type: string;
   value: string;
   name?: string;
-  setFc?: React.Dispatch<React.SetStateAction<boolean>>;
+  // setFc?: React.Dispatch<React.SetStateAction<boolean>>;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
@@ -22,17 +22,21 @@ export default function Input({
   name,
   onChange,
   onFocus,
-  setFc,
+  // setFc,
   onKeyDown,
 }: InputTypes) {
   const [passwordShow, setPasswordShow] = useState(true);
 
-  function focusOut(
-    e: React.FocusEvent<HTMLInputElement>,
-    setFc: React.Dispatch<React.SetStateAction<boolean>>
-  ) {
-    if (e.target.value === "") setFc(true);
-  }
+  // function focusOut(
+  //   e: React.FocusEvent<HTMLInputElement>,
+  //   setFc: React.Dispatch<
+  //     React.SetStateAction<{
+  //       ["string"]: boolean;
+  //     }>
+  //   >
+  // ) {
+  //   if (e.target.value === "") setFc(valid);
+  // }
 
   return (
     <>
@@ -57,7 +61,7 @@ export default function Input({
             value={value}
             onChange={onChange}
             onFocus={onFocus}
-            onBlur={(e) => focusOut(e, setFc!)}
+            // onBlur={(e) => focusOut(e, setFc!)}
             name={name}
             onKeyDown={onKeyDown}
           ></input>
