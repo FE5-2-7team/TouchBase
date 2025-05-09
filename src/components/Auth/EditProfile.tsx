@@ -3,7 +3,7 @@ import Button from "../FanPage/Button";
 import AuthBoard from "./AuthBoard";
 import { FaCamera } from "react-icons/fa";
 import BlueBoard from "./BlueBoard";
-import ProfileIcon from "../../icons/ProfileIcon";
+import ProfileIcon from "../Icons/ProfileIcon";
 
 export default function EditProfile() {
   return (

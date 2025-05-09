@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router";
 import RootLayout from "./layout/RootLayout";
-import Home from "./pages/Home";
+import Home from "./pages/HomePage";
 import FanPage from "./pages/FanPage";
 import MessageContainer from "./components/message/MessageContainer";
 import ProfileLayout from "./layout/ProfileLayout";
@@ -14,6 +14,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import EditProfile from "./components/Auth/EditProfile";
 import MyThreadsList from "./components/Profile/MyThreadsList";
 import { useDarkMode } from "./hooks/useDarkMode";
+import AuthLayout from "./layout/AuthLayout";
 
 export default function App() {
   useDarkMode();
@@ -41,8 +42,10 @@ export default function App() {
           </Route>
           <Route path="/message" element={<InboxMessage />} />
         </Route>
-        <Route path="/login" element={<LogIn />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route element={<AuthLayout />}>
+          <Route path="/login" element={<LogIn />} />
+          <Route path="/signup" element={<SignUp />} />
+        </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
