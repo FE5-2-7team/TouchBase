@@ -19,8 +19,7 @@ export default function MainPostList({
       } else {
         return "제목이 없는 게시물 입니다.";
       }
-    } catch (error) {
-      console.log(error);
+    } catch {
       return value;
     }
   };

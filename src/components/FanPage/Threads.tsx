@@ -6,19 +6,26 @@ import SimpleProfileCard from "./SimpleProfileCard";
 import Comments from "./Comments";
 import MyThreads from "./MyThreads";
 import Upload from "./Upload";
+import { AxiosError } from "axios";
+import { axiosInstance } from "../../api/axiosInstance";
+import { Like, Comment } from "../../types/postType";
+import { userStore } from "../../stores/userStore";
 interface ThreadProps {
+  postId: string;
   username: string;
   title: string;
   content: string;
   date: string;
   channel: string;
   images?: string[];
-  likes: number;
-  comments: number;
+  likes: Like[];
+  comments: Comment[];
+  likeChecked: boolean;
   isMyThread?: boolean;
 }
 
 export default function Threads({
+  postId,
   username,
   title,
   content,
@@ -27,12 +34,16 @@ export default function Threads({
   images = [],
   likes,
   comments,
-  isMyThread = false,
-}: ThreadProps) {
+  likeChecked,
+}: // isMyThread = false,
+ThreadProps) {
   const [showed, setShowed] = useState(false);
   const [showComments, setShowComments] = useState(false);
-  const [heartCount, setHeartCount] = useState(likes);
-  const [heart, setHeart] = useState(false);
+  const [commentList, setCommentList] = useState<Comment[]>(comments);
+  const [heartCount, setHeartCount] = useState(likes.length);
+  const [heart, setHeart] = useState(likeChecked);
+
+  const userId = userStore((state) => state.getUser()?._id);
 
   // 포스트 수정
   const [isEdit, setIsEdit] = useState(false);
@@ -51,15 +62,44 @@ export default function Threads({
     console.log("삭제");
   };
 
-  // 좋아요
-  const toggleHeart = () => {
-    setHeart((prev) => !prev);
-    setHeartCount((prev) => (heart ? prev - 1 : prev + 1));
+  // 좋아요 on & off
+  const toggleHeart = async () => {
+    try {
+      if (!heart) {
+        await axiosInstance.post("/likes/create", {
+          postId: postId,
+        });
+      } else {
+        const likedUser = likes.find((like) => like.user === userId);
+        const likedId = likedUser?._id;
+
+        await axiosInstance.delete("/likes/delete", {
+          data: {
+            id: likedId,
+          },
+        });
+      }
+      setHeart((prev) => !prev);
+      setHeartCount((prev) => (heart ? prev - 1 : prev + 1));
+    } catch (error) {
+      const err = error as AxiosError;
+      console.error(err.response?.data || err.message);
+    }
+  };
+
+  // 댓글 on & off
+  const toggleShowComments = () => {
+    setShowComments((prev) => !prev);
   };
 
   if (isEdit) {
     return (
-      <Upload titleValue={title} contentValue={content} imageList={images} editFinishHandler={editFinishHandler} />
+      <Upload
+        titleValue={title}
+        contentValue={content}
+        imageList={images}
+        editFinishHandler={editFinishHandler}
+      />
     );
   }
 
@@ -70,21 +110,18 @@ export default function Threads({
     >
       {/* 상단: 프로필 + 본문 */}
       <div className="flex gap-[25px]">
-        {isMyThread ? (
-          <div>
-            <ProfileBlock username={username} />
-          </div>
-        ) : (
-          <div onMouseEnter={() => setShowed(true)} onMouseLeave={() => setShowed(false)}>
-            <ProfileBlock username={username} />
-            {showed && (
-              <div className="absolute z-50 w-[285px] top-5 left-[90px]">
-                <SimpleProfileCard />
-              </div>
-            )}
-          </div>
-        )}
         {/* 왼쪽 고정 프로필 */}
+        <div
+          onMouseEnter={() => setShowed(true)}
+          onMouseLeave={() => setShowed(false)}
+        >
+          <ProfileBlock username={username} />
+          {showed && (
+            <div className="absolute z-50 w-[285px] top-5 left-[90px]">
+              <SimpleProfileCard />
+            </div>
+          )}
+        </div>
 
         {/* 본문 내용 */}
         <div className="flex flex-col w-full justify-center">
@@ -97,33 +134,51 @@ export default function Threads({
           {images.length > 0 && (
             <div className="flex gap-2 flex-wrap mb-2">
               {images.map((src, index) => (
-                <img key={index} src={src} alt={`img-${index}`} className="w-[70%] rounded-[6px]" />
+                <img
+                  key={index}
+                  src={src}
+                  alt={`img-${index}`}
+                  className="w-[70%] rounded-[6px]"
+                />
               ))}
             </div>
           )}
           <div className="flex justify-between items-center text-[#ababab] text-[16px] mt-auto">
             <div className="flex items-center gap-4">
-              <button className="flex items-center gap-1 hover:cursor-pointer" onClick={toggleHeart}>
-                {heart ? <FaHeart className="text-[18px] text-red-500" /> : <FaRegHeart className="text-[18px]" />}
+              <button
+                className="flex items-center gap-1 hover:cursor-pointer"
+                onClick={toggleHeart}
+              >
+                {heart ? (
+                  <FaHeart className="text-[18px] text-red-500" />
+                ) : (
+                  <FaRegHeart className="text-[18px]" />
+                )}
                 {heartCount}
               </button>
               <button
                 className="flex items-center gap-1 hover:cursor-pointer"
-                onClick={() => setShowComments((prev) => !prev)}
+                onClick={toggleShowComments}
               >
-                <FaRegComment className="text-[18px]" /> {comments}
+                <FaRegComment className="text-[18px]" /> {commentList.length}
               </button>
             </div>
 
             {/* 게시물 작성자와 로그인 계정이 일치할 경우 (임시로 username === "mythread") */}
-            {username === "mythread" && <MyThreads onEdit={editHandler} onDelete={deleteHandler} />}
+            {username === "mythread" && (
+              <MyThreads onEdit={editHandler} onDelete={deleteHandler} />
+            )}
           </div>
         </div>
       </div>
 
       {showComments && (
         <div className="w-full overflow-hidden transition-all ease-in-out">
-          <Comments />
+          <Comments
+            postId={postId}
+            commentList={commentList}
+            setCommentList={setCommentList}
+          />
         </div>
       )}
     </div>

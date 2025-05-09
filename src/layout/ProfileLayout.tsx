@@ -1,37 +1,14 @@
 import { NavLink, Outlet, useParams } from "react-router";
 import profile from "../assets/images/bears.png";
 import mascot from "../assets/images/doosan_mascot.png";
-import { axiosInstance } from "../api/axiosInstance";
-import { useEffect, useState, useTransition } from "react";
-import { ExtendedUser } from "../types/postType";
+import useGetUser from "../components/Profile/useGetUser";
 
-const USERNAME = "User name";
-const POSTNUM = 10;
-const FOLLOWERNUM = 200;
-const FOLLOWINGNUM = 100;
-const MESSAGENUM = 12;
 const USERID = "681c62cf1fef464281ee7341"; // params.id
 
 export default function ProfileLayout() {
-  const [user, setUser] = useState<ExtendedUser>();
-  const [isPending, startTransition] = useTransition();
   const params = useParams();
 
-  const getHandler = async () => {
-    try {
-      const { data } = await axiosInstance.get(`/users/${USERID}`);
-      console.log(data);
-      setUser(data);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  useEffect(() => {
-    startTransition(async () => {
-      await getHandler();
-    });
-  }, []);
+  const user = useGetUser(USERID);
 
   return (
     <div className="flex flex-col gap-[34px] w-full max-w-[1200px] mx-auto mt-[40px]">

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useUserStore } from "../stores/useUserStore";
+import { userStore } from "../stores/userStore";
 
 export const axiosInstance = axios.create({
   baseURL: "http://13.125.208.179:5011/",
@@ -9,7 +9,7 @@ export const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use((config) => {
-  const token = useUserStore.getState().getToken();
+  const token = userStore.getState().getToken();
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });

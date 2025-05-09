@@ -6,10 +6,13 @@ import "animate.css";
 import SearchThreads from "./SearchThreads";
 import SearchUser from "./SearchUser";
 import UserRecommend from "./UserRecommend";
+import ThreadRecommends from "./ThreadRecommends";
 
 export default function SearchBox({ onClose }: { onClose: () => void }) {
   const [keyword, setKeyword] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [activeTab, setActiveTab] = useState<"user" | "thread">("user");
+
   const modalHandler = (e: React.MouseEvent) => {
     e.stopPropagation();
   };
@@ -64,7 +67,7 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
     >
       <div
         className={`bg-white w-[700px] p-6 rounded-xl bottom-52.5 relative dark:bg-[#35363C] ${
-          searchResults ? "h-[600px] top-8" : "h-auto"
+          searchResults ? "h-[620px] top-8" : "h-auto"
         }`}
         onClick={modalHandler}
       >
@@ -86,22 +89,54 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
               }
             }}
             value={keyword}
-            className="searchInput w-[95%] p-3 pl-6 border border-gray-300 rounded placeholder: focus:outline-0 dark:border-gray-600 dark:text-gray-100"
+            className="searchInput w-[95%] p-3 pl-6 border border-gray-300 rounded-3xl placeholder: focus:outline-0 dark:border-gray-600 dark:text-gray-100"
           />
           <button type="button" className="cursor-pointer" onClick={searchHandler}>
             <MdSearch className=" mx-2 w-9 h-9 text-gray-400 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-100" />
           </button>
         </div>
-        {keyword.trim() === "" && searchResults.length === 0 && <UserRecommend />}
+        <div className="flex justify-center mt-4 gap-3">
+          <button
+            className={`px-4 py-1.5 w-40 rounded-2xl text-sm ${
+              activeTab === "user"
+                ? "bg-[#0033A0] text-white dark:bg-[#235BD2] dark:text-gray-200"
+                : "bg-gray-100 text-gray-500"
+            }`}
+            onClick={() => setActiveTab("user")}
+          >
+            유저
+          </button>
+          <button
+            className={`px-4 py-1.5 w-40 rounded-2xl text-sm ${
+              activeTab === "thread"
+                ? "bg-[#0033A0] text-white dark:bg-[#235BD2] dark:text-gray-200"
+                : "bg-gray-100 text-gray-500"
+            }`}
+            onClick={() => setActiveTab("thread")}
+          >
+            게시글
+          </button>
+        </div>
+
+        {keyword.trim() === "" &&
+          searchResults.length === 0 &&
+          (activeTab === "user" ? (
+            <UserRecommend onClose={onClose} />
+          ) : (
+            <ThreadRecommends onClose={onClose} />
+          ))}
 
         {searchResults && (
           <>
-            <div>
-              <SearchUser keyword={keyword} results={searchResults} />
-            </div>
-            <div>
-              <SearchThreads keyword={keyword} results={searchResults} />
-            </div>
+            {activeTab === "user" ? (
+              <div>
+                <SearchUser keyword={keyword} results={searchResults} />
+              </div>
+            ) : (
+              <div>
+                <SearchThreads keyword={keyword} results={searchResults} />
+              </div>
+            )}
           </>
         )}
       </div>

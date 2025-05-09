@@ -1,20 +1,20 @@
 // import threadsData from "../../data/threadsData.json";
 import Threads from "./Threads";
-import axios from "axios";
+import { axiosInstance } from "../../api/axiosInstance";
 import { Post, Channel } from "../../types/postType";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-
+import { userStore } from "../../stores/userStore";
 export default function ThreadsList() {
   const { teamName } = useParams();
   const [posts, setPosts] = useState<Post[]>([]);
 
+  const userId = userStore.getState().getUser()?._id;
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const channelsRes = await axios.get(
-          `http://13.125.208.179:5011/channels`
-        );
+        const channelsRes = await axiosInstance.get(`/channels`);
         const channels = channelsRes.data;
         console.log(channels);
 
@@ -23,9 +23,7 @@ export default function ThreadsList() {
         );
         const channelId = matchChannel._id;
 
-        const postRes = await axios.get(
-          `http://13.125.208.179:5011/posts/channel/${channelId}`
-        );
+        const postRes = await axiosInstance.get(`/posts/channel/${channelId}`);
         setPosts(postRes.data);
       } catch (error) {
         console.log("로드실패", error);
@@ -52,17 +50,21 @@ export default function ThreadsList() {
           console.error("파싱실패", e);
         }
 
+        const likeChecked = post.likes.some((like) => like.user === userId);
+
         return (
           <Threads
             key={post._id}
+            postId={post._id}
             username={post.author?.username ?? "Can not find user"}
             title={postTitle}
             content={postContent}
             date={new Date(post.createdAt).toLocaleDateString()}
             channel={post.channel.name}
             images={post.image ? [post.image] : []}
-            likes={post.likes.length}
-            comments={post.comments.length}
+            likes={post.likes}
+            comments={post.comments}
+            likeChecked={likeChecked}
           />
         );
       })}

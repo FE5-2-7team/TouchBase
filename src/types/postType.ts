@@ -18,8 +18,8 @@ export interface BaseUser {
   posts: string[];
   likes: string[];
   comments: string[];
-  followers: string[];
-  following: string[];
+  followers: Follow[];
+  following: Follow[];
   notifications: string[];
   messages: string[];
   createdAt: string;
@@ -33,6 +33,15 @@ export interface ExtendedUser extends BaseUser {
   coverImagePublicId?: string;
   image?: string;
   imagePublicId?: string;
+}
+
+export interface Follow {
+  _id: string;
+  user: string;
+  follower: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 }
 
 export interface Comment {
