@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router";
 import RootLayout from "./layout/RootLayout";
 import Home from "./pages/Home";
-import ThreadsList from "./components/FanPage/ThreadsList";
 import FanPage from "./pages/FanPage";
 import MessageContainer from "./components/message/MessageContainer";
 import ProfileLayout from "./layout/ProfileLayout";
@@ -11,8 +10,8 @@ import LogIn from "./pages/LogInPage";
 import SignUp from "./pages/SignUp";
 import InboxMessage from "./components/message/InboxMessage";
 import SentList from "./components/message/SentList";
-import EditProfile from "./components/EditProfile";
 import EditProfile from "./components/Auth/EditProfile";
+import MyThreadsList from "./components/Profile/MyThreadsList";
 
 export default function App() {
   return (
