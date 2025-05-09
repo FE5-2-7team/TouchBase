@@ -10,7 +10,7 @@ const POSTNUM = 10;
 const FOLLOWERNUM = 200;
 const FOLLOWINGNUM = 100;
 const MESSAGENUM = 12;
-const USERID = "6811c3eeba84b946ffd47e45"; // params.id
+const USERID = "681c62cf1fef464281ee7341"; // params.id
 
 export default function ProfileLayout() {
   const [user, setUser] = useState<ExtendedUser>();
@@ -27,8 +27,6 @@ export default function ProfileLayout() {
     }
   };
 
-  console.log(user);
-
   useEffect(() => {
     startTransition(async () => {
       await getHandler();
@@ -44,7 +42,9 @@ export default function ProfileLayout() {
           alt="my profile"
         />
         <div className="">
-          <div className="md:text-[24px] font-bold sm:text-[10px]">{user?.fullName}</div>
+          <div className="md:text-[24px] font-bold sm:text-[10px]">
+            {user?.username ? user?.username : user?.fullName}
+          </div>
           <div className="flex lg:w-[580px] md:w-[420px] sm:w-[240px] justify-between mt-[7px] md:mb-[14px] sm:mb-[5px]">
             <NavLink
               to="posts"
