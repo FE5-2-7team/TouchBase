@@ -7,12 +7,12 @@ import MessageContainer from "./components/message/MessageContainer";
 import ProfileLayout from "./layout/ProfileLayout";
 import FollowBox from "./components/Profile/FollowBox";
 import MessagePage from "./pages/MessagePage";
-import LogIn from "./pages/LogIn";
+import LogIn from "./pages/LogInPage";
 import SignUp from "./pages/SignUp";
 import InboxMessage from "./components/message/InboxMessage";
 import SentList from "./components/message/SentList";
 import EditProfile from "./components/EditProfile";
-import MyThreadsList from "./components/Profile/MyThreadsList";
+import EditProfile from "./components/Auth/EditProfile";
 
 export default function App() {
   return (
@@ -28,7 +28,10 @@ export default function App() {
               path="following"
               element={<FollowBox title={"팔로잉"} />}
             ></Route>
-            <Route path="following" element={<FollowBox title={"팔로잉"} />}></Route>
+            <Route
+              path="following"
+              element={<FollowBox title={"팔로잉"} />}
+            ></Route>
             <Route path="modify" element={<EditProfile />}></Route>
           </Route>
           <Route path="/fanpage/:teamName/:channelId" element={<FanPage />} />
@@ -36,9 +39,18 @@ export default function App() {
             <Route index element={<InboxMessage />} />
             <Route path="inbox" element={<InboxMessage />} />
             <Route path="sent" element={<SentList />} />
-            <Route path="sent/:id" element={<MessageContainer mode={"sent"} />} />
-            <Route path="write/:id?" element={<MessageContainer mode={"write"} />} />
-            <Route path="view/:id" element={<MessageContainer mode={"received"} />} />
+            <Route
+              path="sent/:id"
+              element={<MessageContainer mode={"sent"} />}
+            />
+            <Route
+              path="write/:id?"
+              element={<MessageContainer mode={"write"} />}
+            />
+            <Route
+              path="view/:id"
+              element={<MessageContainer mode={"received"} />}
+            />
           </Route>
           <Route path="/message" element={<InboxMessage />} />
         </Route>

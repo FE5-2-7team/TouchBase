@@ -75,3 +75,9 @@ export interface KBONewsTypes {
   BD_TT: string;
   URL_LK: string;
 }
+
+export interface SignupData {
+  email: string;
+  fullName: string;
+  password: string;
+}

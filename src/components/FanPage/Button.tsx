@@ -2,7 +2,7 @@ import { twMerge } from "tailwind-merge";
 
 interface ButtonProps {
   children: React.ReactNode;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   className?: string;
 }
 export default function Button({ children, onClick, className }: ButtonProps) {
