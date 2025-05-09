@@ -47,7 +47,7 @@ export default function UserRecommend({ onClose }: Props) {
           )}
           <Link
             to={`/profile/${user._id}`}
-            className="mt-2.5 text-sm cursor-pointer whitespace-nowrap dark:text-gray-200"
+            className="mt-2.5 text-sm cursor-pointer whitespace-nowrap dark:text-white"
           >
             {user.username ? user.username : user.fullName}
           </Link>

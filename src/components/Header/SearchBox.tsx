@@ -95,7 +95,7 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
             <MdSearch className=" mx-2 w-9 h-9 text-gray-400 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-100" />
           </button>
         </div>
-        <div className="flex justify-center mt-3 gap-3">
+        <div className="flex justify-center mt-4 gap-3">
           <button
             className={`px-4 py-1.5 w-40 rounded-2xl text-sm ${
               activeTab === "user"
@@ -128,12 +128,15 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
 
         {searchResults && (
           <>
-            <div>
-              <SearchUser keyword={keyword} results={searchResults} />
-            </div>
-            <div>
-              <SearchThreads keyword={keyword} results={searchResults} />
-            </div>
+            {activeTab === "user" ? (
+              <div>
+                <SearchUser keyword={keyword} results={searchResults} />
+              </div>
+            ) : (
+              <div>
+                <SearchThreads keyword={keyword} results={searchResults} />
+              </div>
+            )}
           </>
         )}
       </div>
