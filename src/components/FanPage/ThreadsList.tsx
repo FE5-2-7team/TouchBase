@@ -8,6 +8,7 @@ import { useParams } from "react-router";
 export default function ThreadsList() {
   const { teamName } = useParams();
   const [posts, setPosts] = useState<Post[]>([]);
+  const userId = localStorage.getItem("userId") ?? "680df1256046c57a57d72140";
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -52,17 +53,21 @@ export default function ThreadsList() {
           console.error("파싱실패", e);
         }
 
+        const likeChecked = post.likes.some((like) => like.user === userId);
+
         return (
           <Threads
             key={post._id}
+            postId={post._id}
             username={post.author?.username ?? "Can not find user"}
             title={postTitle}
             content={postContent}
             date={new Date(post.createdAt).toLocaleDateString()}
             channel={post.channel.name}
             images={post.image ? [post.image] : []}
-            likes={post.likes.length}
-            comments={post.comments.length}
+            likes={post.likes}
+            comments={post.comments}
+            likeChecked={likeChecked}
           />
         );
       })}
