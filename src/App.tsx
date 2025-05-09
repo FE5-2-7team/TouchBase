@@ -11,6 +11,7 @@ import Login from "./pages/LogInPage";
 import Signup from "./pages/SignUpPage";
 import InboxMessage from "./components/message/InboxMessage";
 import SentList from "./components/message/SentList";
+import NotFoundPage from "./pages/NotFoundPage";
 
 export default function App() {
   return (
@@ -46,6 +47,7 @@ export default function App() {
             />
           </Route>
           <Route path="/message" element={<InboxMessage />} />
+          <Route path="/error404" element={<NotFoundPage />} />
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />

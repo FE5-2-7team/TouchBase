@@ -11,7 +11,7 @@ export default function ErrorMessage({
     <>
       <p
         className={twMerge(
-          "absolute text-[13px] text-[#CC0000] top-[43px] left-[5px] cursor-default",
+          "absolute text-[13px] text-[#CC0000] top-[43px] left-[5px] cursor-default font-sans",
           className
         )}
       >

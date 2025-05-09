@@ -7,6 +7,7 @@ import { BaseUser } from "../../types/postType.ts";
 import { axiosInstance } from "../../api/axiosInstance.ts";
 import { useNavigate } from "react-router";
 import Message from "./Message.tsx";
+import Swal from "sweetalert2";
 
 export default function SignUp() {
   const baseUrl = import.meta.env.VITE_API_URL;
@@ -93,7 +94,12 @@ export default function SignUp() {
 
   async function submitSignUpData() {
     if (submitValid.some((vaild) => vaild == false)) {
-      alert("닉네임 혹은 이메일, 비밀번호가 유효하지 않습니다");
+      Swal.fire({
+        icon: "error",
+        title: "회원가입 실패",
+        text: "유효하지 않은 아이디 혹은 이메일, 비밀번호 입니다 ",
+        confirmButtonText: "다시 시도",
+      });
       return;
     }
 
@@ -101,9 +107,9 @@ export default function SignUp() {
 
     try {
       response = await axiosInstance.post(`/signup`, {
-        email: email.toLocaleLowerCase(),
-        fullName: nickName.toLocaleLowerCase(),
-        password: password.toLocaleLowerCase(),
+        email: email.toLocaleLowerCase().trim(),
+        fullName: nickName.toLocaleLowerCase().trim(),
+        password: password.toLocaleLowerCase().trim(),
       });
       console.log(response.data);
     } catch (error) {
@@ -142,7 +148,7 @@ export default function SignUp() {
                 중복 확인
               </Button>
               {!nickNameChangeValid && (
-                <Message>사용 할 수 없는 닉네임 입니다</Message>
+                <Message>공백 혹은 특수 문자는 넣으실 수 없습니다</Message>
               )}
               {!nickNameValid && (
                 <Message className="text-green-500">
