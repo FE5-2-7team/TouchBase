@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import ProfileImage from "./ProfileImage";
 import Button from "./Button";
 import { Comment } from "../../types/postType";
-import axios from "axios";
+import { axiosInstance } from "../../api/axiosInstance";
 interface CommentsProps {
   postId: string;
   commentList: Comment[];
@@ -17,7 +17,7 @@ export default function Comments({
 
   const fetchComments = useCallback(async () => {
     try {
-      const res = await axios.get(`http://13.125.208.179:5011/posts/${postId}`);
+      const res = await axiosInstance.get(`posts/${postId}`);
 
       setCommentList(res.data.comments);
       console.log(res.data.comments);
@@ -30,20 +30,10 @@ export default function Comments({
     if (input.trim() === "") return;
 
     try {
-      const res = await axios.post<Comment>(
-        "http://13.125.208.179:5011/comments/create",
-        {
-          comment: input,
-          postId: postId,
-        },
-        {
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY4MGRmMTI1NjA0NmM1N2E1N2Q3MjE0MCIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20ifSwiaWF0IjoxNzQ1NzQ1MDU0fQ.OFaaM-peU3XGKl_GwCWt7JOfuFXcm9FzImVVMj6Xd88",
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const res = await axiosInstance.post<Comment>("comments/create", {
+        comment: input,
+        postId: postId,
+      });
       const createdComment = res.data;
       setCommentList((prev) => [createdComment, ...prev]);
       setInput("");
