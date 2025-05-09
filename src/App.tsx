@@ -11,6 +11,7 @@ import LogIn from "./pages/LogInPage";
 import SignUp from "./pages/SignUp";
 import InboxMessage from "./components/message/InboxMessage";
 import SentList from "./components/message/SentList";
+import EditProfile from "./components/EditProfile";
 import EditProfile from "./components/Auth/EditProfile";
 
 export default function App() {
@@ -21,7 +22,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
 
           <Route path="/profile:id" element={<ProfileLayout />}>
-            <Route index path="posts" element={<ThreadsList />} />
+            <Route index path="posts" element={<MyThreadsList />} />
             <Route path="follower" element={<FollowBox title={"팔로워"} />} />
             <Route
               path="following"
