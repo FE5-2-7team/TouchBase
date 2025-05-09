@@ -1,4 +1,4 @@
-import { useState, useEffect, useOptimistic } from "react";
+import { useState, useEffect, useOptimistic, startTransition } from "react";
 import { BaseballGameData } from "../../types/mainGame";
 import { team_list } from "../../utils/getLogoImages";
 import axios from "axios";
@@ -56,8 +56,15 @@ const LoadingSkeleton = () => (
   </div>
 );
 
+const NotGameSchedule = () => (
+  <div className="w-auto border border-[#00000020] h-[500px] flex items-center justify-center">
+    <div className="text-center text-gray-500 text-xl dark:text-white font-bold">
+      경기 일정이 없습니다.
+    </div>
+  </div>
+);
+
 const now = new Date();
-// const today = new Date(now.getTime() + 9 * 60 * 60 * 1000); // KST 기준
 const newDate = now;
 
 const year = newDate.getFullYear();
@@ -65,6 +72,7 @@ const month = String(newDate.getMonth() + 1);
 const day = String(newDate.getDate());
 
 export default function GameSchedule() {
+  const [isLoading, setIsLoading] = useState(true);
   const [gameSchedule, setGameSchedule] = useState<BaseballGameData[]>([]);
   const [optimisticSchedule, addOptimisticSchedule] = useOptimistic(
     gameSchedule,
@@ -76,7 +84,9 @@ export default function GameSchedule() {
       const res = await axios.get(API_URL);
       if (res.status === 200) {
         const data = res.data;
-        addOptimisticSchedule(data.game);
+        startTransition(() => {
+          addOptimisticSchedule(data.game);
+        });
         setGameSchedule(data.game);
       } else {
         console.error("Error fetching game schedule:", res.status);
@@ -106,63 +116,69 @@ export default function GameSchedule() {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     getGameSchedule();
+    setIsLoading(false);
   }, []);
 
   return (
     <div className="w-full">
       <MainTitle title="경기 일정" color="#0033A0" />
       <div className="mt-10 dark:bg-[#232429]">
-        {optimisticSchedule.length === 0
-          ? Array(5)
-              .fill(0)
-              .map((_, index) => <LoadingSkeleton key={index} />)
-          : optimisticSchedule.map((game) => (
-              <div
-                className="w-auto border border-[#00000020] dark:border-b-[#35363C] dark:last:border-b-0"
-                key={game.AWAY_NM}
-              >
-                <div className="flex flex-row justify-between py-4">
-                  <div className="flex flex-col gap-4 px-4 w-1/2">
-                    <GameTable team={game.AWAY_NM} pitcher={game.T_PIT_P_NM} />
-                    <GameTable team={game.HOME_NM} pitcher={game.B_PIT_P_NM} />
+        {isLoading ? (
+          Array(5)
+            .fill(0)
+            .map((_, index) => <LoadingSkeleton key={index} />)
+        ) : optimisticSchedule.length === 0 ? (
+          <NotGameSchedule />
+        ) : (
+          optimisticSchedule.map((game) => (
+            <div
+              className="w-auto border border-[#6b4a4a20] dark:border-b-[#35363C] dark:last:border-b-0"
+              key={game.AWAY_NM}
+            >
+              <div className="flex flex-row justify-between py-4">
+                <div className="flex flex-col gap-4 px-4 w-1/2">
+                  <GameTable team={game.AWAY_NM} pitcher={game.T_PIT_P_NM} />
+                  <GameTable team={game.HOME_NM} pitcher={game.B_PIT_P_NM} />
+                </div>
+                <div className="flex">
+                  <div className="flex items-center justify-center px-8 border-l border-[#00000020] dark:border-[#35363C]">
+                    <div className="md:w-[100px]">
+                      {game.GAME_INN_NO} {game.GAME_TB_SC_NM}
+                    </div>
+                    <div className="flex flex-col gap-2 justify-center items-center">
+                      <p
+                        className={`text-md font-bold w-[10px] ${getGameScore(
+                          game.T_SCORE_CN,
+                          game.B_SCORE_CN,
+                          "1"
+                        )}`}
+                      >
+                        {game.T_SCORE_CN}
+                      </p>
+                      <p
+                        className={`text-md font-bold w-[10px] ${getGameScore(
+                          game.T_SCORE_CN,
+                          game.B_SCORE_CN,
+                          "2"
+                        )}`}
+                      >
+                        {game.B_SCORE_CN}
+                      </p>
+                    </div>
                   </div>
-                  <div className="flex">
-                    <div className="flex items-center justify-center px-8 border-l border-[#00000020] dark:border-[#35363C]">
-                      <div className="md:w-[100px]">
-                        {game.GAME_INN_NO} {game.GAME_TB_SC_NM}
-                      </div>
-                      <div className="flex flex-col gap-2 justify-center items-center">
-                        <p
-                          className={`text-md font-bold w-[10px] ${getGameScore(
-                            game.T_SCORE_CN,
-                            game.B_SCORE_CN,
-                            "1"
-                          )}`}
-                        >
-                          {game.T_SCORE_CN}
-                        </p>
-                        <p
-                          className={`text-md font-bold w-[10px] ${getGameScore(
-                            game.T_SCORE_CN,
-                            game.B_SCORE_CN,
-                            "2"
-                          )}`}
-                        >
-                          {game.B_SCORE_CN}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-center px-8 border-l border-[#00000020] dark:border-[#35363C] md:w-[170px]">
-                      <span>{game.S_NM} 야구장</span>
-                    </div>
-                    <div className="flex items-center px-8 border-l border-[#00000020] dark:border-[#35363C]">
-                      <span>{game.G_TM}</span>
-                    </div>
+                  <div className="flex items-center justify-center px-8 border-l border-[#00000020] dark:border-[#35363C] md:w-[170px]">
+                    <span>{game.S_NM} 야구장</span>
+                  </div>
+                  <div className="flex items-center px-8 border-l border-[#00000020] dark:border-[#35363C]">
+                    <span>{game.G_TM}</span>
                   </div>
                 </div>
               </div>
-            ))}
+            </div>
+          ))
+        )}
       </div>
       <p className="text-sm text-gray-500 text-end font-bold mt-1 dark:text-white">
         {year}년 {month}월 {day}일 기준

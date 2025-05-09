@@ -1,34 +1,43 @@
 import { Routes, Route } from "react-router";
 import RootLayout from "./layout/RootLayout";
 import Home from "./pages/Home";
-import ThreadsList from "./components/FanPage/ThreadsList";
 import FanPage from "./pages/FanPage";
 import MessageContainer from "./components/message/MessageContainer";
-import ProfileHeader from "./components/ProfileHeader";
-import FollowBox from "./components/FollowBox";
+import ProfileLayout from "./layout/ProfileLayout";
+import FollowBox from "./components/Profile/FollowBox";
 import MessagePage from "./pages/MessagePage";
-import Login from "./pages/LogInPage";
-import Signup from "./pages/SignUpPage";
+import LogIn from "./pages/LogInPage";
+import SignUp from "./pages/SignUp";
 import InboxMessage from "./components/message/InboxMessage";
 import SentList from "./components/message/SentList";
 import NotFoundPage from "./pages/NotFoundPage";
+import EditProfile from "./components/Auth/EditProfile";
+import MyThreadsList from "./components/Profile/MyThreadsList";
+import { useDarkMode } from "./hooks/useDarkMode";
 
 export default function App() {
+  useDarkMode();
+
   return (
     <>
       <Routes>
         <Route path="/" element={<RootLayout />}>
           <Route path="/" element={<Home />} />
 
-          <Route path="/profile" element={<ProfileHeader />}>
-            <Route index path="posts" element={<ThreadsList />} />
+          <Route path="/profile:id" element={<ProfileLayout />}>
+            <Route index path="posts" element={<MyThreadsList />} />
             <Route path="follower" element={<FollowBox title={"팔로워"} />} />
             <Route
               path="following"
               element={<FollowBox title={"팔로잉"} />}
             ></Route>
+            <Route
+              path="following"
+              element={<FollowBox title={"팔로잉"} />}
+            ></Route>
+            <Route path="modify" element={<EditProfile />}></Route>
           </Route>
-          <Route path="/fanpage/:teamName" element={<FanPage />} />
+          <Route path="/fanpage/:teamName/:channelId" element={<FanPage />} />
           <Route path="/message" element={<MessagePage />}>
             <Route index element={<InboxMessage />} />
             <Route path="inbox" element={<InboxMessage />} />
@@ -49,8 +58,8 @@ export default function App() {
           <Route path="/message" element={<InboxMessage />} />
           <Route path="/error404" element={<NotFoundPage />} />
         </Route>
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<LogIn />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
     </>
   );

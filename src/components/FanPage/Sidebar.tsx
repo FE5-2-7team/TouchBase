@@ -3,7 +3,7 @@ import { FaRegThumbsUp } from "react-icons/fa6";
 import { IoGift } from "react-icons/io5";
 import { FaYoutube } from "react-icons/fa";
 import { TbHandMove } from "react-icons/tb";
-import { teamInfo } from "../../data/teamInfo";
+import { teamInfo } from "../../utils/getLogoImages";
 interface SidebarProps {
   teamName: string;
 }
