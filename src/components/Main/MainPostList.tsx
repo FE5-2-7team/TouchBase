@@ -11,6 +11,19 @@ export default function MainPostList({
   listId?: string;
   list: KBONewsTypes[] | Post[];
 }) {
+  const parseIfJson = (value: string) => {
+    try {
+      const parsed = JSON.parse(value);
+      if (parsed[0].postTitle) {
+        return parsed[0].postTitle;
+      } else {
+        return "제목이 없는 게시물 입니다.";
+      }
+    } catch {
+      return value;
+    }
+  };
+
   return (
     <div className="w-full">
       <MainTitle
@@ -31,7 +44,7 @@ export default function MainPostList({
                 </div>
                 <div>{item.channel.name}</div>
               </>
-              <div className="hover:underline">{item.title}</div>
+              <div className="hover:underline">{parseIfJson(item.title)}</div>
             </div>
           ))}
         </div>
