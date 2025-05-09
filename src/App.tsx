@@ -56,10 +56,10 @@ export default function App() {
             />
           </Route>
           <Route path="/message" element={<InboxMessage />} />
-          <Route path="/error404" element={<NotFoundPage />} />
         </Route>
         <Route path="/login" element={<LogIn />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
   );
