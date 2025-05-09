@@ -2,16 +2,16 @@ import { useEffect, useState, useTransition } from "react";
 import { axiosInstance } from "../../api/axiosInstance";
 import { Post } from "../../types/postType";
 import Threads from "../FanPage/Threads";
-
-const USERID = "681c62cf1fef464281ee7341";
+import { useParams } from "react-router";
 
 export default function MyThreadsList() {
   const [myPosts, setMyPosts] = useState<Post[]>([]);
   const [isPending, startTransition] = useTransition();
+  const params = useParams();
 
   const getHandler = async () => {
     try {
-      const { data } = await axiosInstance.get(`/posts/author/${USERID}`);
+      const { data } = await axiosInstance.get(`/posts/author/${params.id}`);
       setMyPosts(data);
     } catch (e) {
       console.log(e);
@@ -41,7 +41,7 @@ export default function MyThreadsList() {
           console.error("파싱실패", e);
         }
 
-        const likeChecked = post.likes.some((like) => like.user === USERID);
+        const likeChecked = post.likes.some((like) => like.user === params.id);
 
         return (
           <Threads
