@@ -41,9 +41,12 @@ export default function MyThreadsList() {
           console.error("파싱실패", e);
         }
 
+        const likeChecked = post.likes.some((like) => like.user === USERID);
+
         return (
           <Threads
             key={post._id}
+            postId={post._id}
             // username={post.author?.username ?? "Can not find user"}
             username={"mythread"} // 우선 edit 버튼 보이게 하기 위한 mythread로 전달
             title={postTitle}
@@ -51,8 +54,9 @@ export default function MyThreadsList() {
             date={new Date(post.createdAt).toLocaleDateString()}
             channel={post.channel.name}
             images={post.image ? [post.image] : []}
-            likes={post.likes.length}
-            comments={post.comments.length}
+            likes={post.likes}
+            comments={post.comments}
+            likeChecked={likeChecked}
             isMyThread={true}
           />
         );
