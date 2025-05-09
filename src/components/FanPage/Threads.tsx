@@ -6,19 +6,25 @@ import SimpleProfileCard from "./SimpleProfileCard";
 import Comments from "./Comments";
 import MyThreads from "./MyThreads";
 import Upload from "./Upload";
+import { AxiosError } from "axios";
+import { axiosInstance } from "../../api/axiosInstance";
+import { Like, Comment } from "../../types/postType";
 interface ThreadProps {
+  postId: string;
   username: string;
   title: string;
   content: string;
   date: string;
   channel: string;
   images?: string[];
-  likes: number;
-  comments: number;
+  likes: Like[];
+  comments: Comment[];
+  likeChecked: boolean;
   isMyThread?: boolean;
 }
 
 export default function Threads({
+  postId,
   username,
   title,
   content,
@@ -27,12 +33,16 @@ export default function Threads({
   images = [],
   likes,
   comments,
+  likeChecked,
   isMyThread = false,
 }: ThreadProps) {
   const [showed, setShowed] = useState(false);
   const [showComments, setShowComments] = useState(false);
-  const [heartCount, setHeartCount] = useState(likes);
-  const [heart, setHeart] = useState(false);
+  const [commentList, setCommentList] = useState<Comment[]>(comments);
+  const [heartCount, setHeartCount] = useState(likes.length);
+  const [heart, setHeart] = useState(likeChecked);
+
+  const userId = localStorage.getItem("userId") ?? "680df1256046c57a57d72140";
 
   // 포스트 수정
   const [isEdit, setIsEdit] = useState(false);
@@ -51,10 +61,49 @@ export default function Threads({
     console.log("삭제");
   };
 
-  // 좋아요
-  const toggleHeart = () => {
-    setHeart((prev) => !prev);
-    setHeartCount((prev) => (heart ? prev - 1 : prev + 1));
+  // 좋아요 on & off
+  const toggleHeart = async () => {
+    try {
+      if (!heart) {
+        await axiosInstance.post(
+          "/likes/create",
+          {
+            postId: postId,
+          },
+          {
+            headers: {
+              Authorization:
+                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY4MGRmMTI1NjA0NmM1N2E1N2Q3MjE0MCIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20ifSwiaWF0IjoxNzQ1NzQ1MDU0fQ.OFaaM-peU3XGKl_GwCWt7JOfuFXcm9FzImVVMj6Xd88",
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      } else {
+        const likedUser = likes.find((like) => like.user === userId);
+        const likedId = likedUser?._id;
+
+        await axiosInstance.delete("/likes/delete", {
+          data: {
+            id: likedId,
+          },
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY4MGRmMTI1NjA0NmM1N2E1N2Q3MjE0MCIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20ifSwiaWF0IjoxNzQ1NzQ1MDU0fQ.OFaaM-peU3XGKl_GwCWt7JOfuFXcm9FzImVVMj6Xd88",
+            "Content-Type": "application/json",
+          },
+        });
+      }
+      setHeart((prev) => !prev);
+      setHeartCount((prev) => (heart ? prev - 1 : prev + 1));
+    } catch (error) {
+      const err = error as AxiosError;
+      console.error(err.response?.data || err.message);
+    }
+  };
+
+  // 댓글 on & off
+  const toggleShowComments = () => {
+    setShowComments((prev) => !prev);
   };
 
   if (isEdit) {
@@ -109,9 +158,9 @@ export default function Threads({
               </button>
               <button
                 className="flex items-center gap-1 hover:cursor-pointer"
-                onClick={() => setShowComments((prev) => !prev)}
+                onClick={toggleShowComments}
               >
-                <FaRegComment className="text-[18px]" /> {comments}
+                <FaRegComment className="text-[18px]" /> {commentList.length}
               </button>
             </div>
 
@@ -123,7 +172,11 @@ export default function Threads({
 
       {showComments && (
         <div className="w-full overflow-hidden transition-all ease-in-out">
-          <Comments />
+          <Comments
+            postId={postId}
+            commentList={commentList}
+            setCommentList={setCommentList}
+          />
         </div>
       )}
     </div>
