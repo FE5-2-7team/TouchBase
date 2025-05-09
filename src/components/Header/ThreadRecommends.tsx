@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
-import { logos } from "../../utils/getLogoImages";
 
 export default function ThreadRecommends({ onClose }: { onClose: () => void }) {
   const [recommends, setRecommends] = useState<any[]>([]);
@@ -40,12 +39,12 @@ export default function ThreadRecommends({ onClose }: { onClose: () => void }) {
   return (
     <>
       <h3 className="ml-5 text-sm text-[#2F6BEB] dark:text-gray-400">추천 게시글</h3>
-      <div className="grid grid-cols-1 gap-4 p-4 max-h-[600px] overflow-y-auto">
+      <div className="grid grid-cols-1 gap-3 p-4 max-h-[600px] overflow-y-auto">
         {recommends.map((post, idx) => {
           return (
             <div
               key={idx}
-              className="p-2 bg-white rounded-lg border border-gray-300 hover:shadow-sm hover:bg-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700"
+              className="p-2 bg-white rounded-lg border border-gray-300 hover:shadow-sm hover:bg-gray-100 dark:bg-[#191A1E] dark:border-gray-800 dark:hover:bg-gray-800"
               onClick={() => {
                 navigate(`/channel/${post._id}`);
                 onClose();
