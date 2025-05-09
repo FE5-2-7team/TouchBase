@@ -16,7 +16,6 @@ export default function ThreadsList() {
       try {
         const channelsRes = await axiosInstance.get(`/channels`);
         const channels = channelsRes.data;
-        console.log(channels);
 
         const matchChannel = channels.find(
           (channel: Channel) => channel.name === teamName

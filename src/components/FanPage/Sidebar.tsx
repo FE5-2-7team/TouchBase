@@ -34,7 +34,7 @@ export default function Sidebar({ teamName }: SidebarProps) {
     <>
       <div
         className="md:sticky fixed md:top-[150px] top-[160px] left-0 z-5 w-full md:w-[240px] md:h-screen md:left-0
-    border-b md:border-r md:border-b-0 border-[#d9d9d9] bg-[#fff] dark:bg-gray-900"
+    border-b md:border-r md:border-b-0 border-[#d9d9d9] bg-[#fff] dark:bg-[#191A1E] "
       >
         {/* PC에서만 로고 보이게 */}
         <div className="md:flex hidden md:mt-[50px] md:mb-[40px] items-center justify-center">
@@ -46,7 +46,7 @@ export default function Sidebar({ teamName }: SidebarProps) {
         </div>
 
         <nav className="w-full md:mt-0">
-          <ul className="flex md:flex-col flex-row justify-around gap-2 md:gap-8 md:text-[20px] font-bold py-4">
+          <ul className="flex md:flex-col flex-row justify-around gap-2 md:gap-8 md:text-[20px] font-bold py-4 text-[#343434] dark:text-[#fff]">
             {navItems.map((item, index) => (
               <li
                 key={index}

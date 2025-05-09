@@ -24,7 +24,6 @@ export default function Comments({
       const res = await axiosInstance.get(`posts/${postId}`);
 
       setCommentList(res.data.comments);
-      console.log(res.data.comments);
     } catch (error) {
       console.log("댓글 불러오기 실패", error);
     }
