@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
-import { useUserStore } from "../../stores/useUserStore";
+import { useUserStore } from "../../stores/userStore";
 
 export default function UserMenu() {
   const token = useUserStore((state) => state.token);
