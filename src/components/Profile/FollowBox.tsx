@@ -4,15 +4,14 @@ import FollowCard from "./FollowCard";
 import { LuUserCheck } from "react-icons/lu";
 import { ExtendedUser, Follow } from "../../types/postType";
 import useGetUser from "./useGetUser";
-
-const USERID = "681c62cf1fef464281ee7341";
+import { useParams } from "react-router";
 
 export default function FollowBox({ title }: { title: string }) {
   const [followUsers, setFollowUsers] = useState<ExtendedUser[]>();
   const followingIds = useRef<string[]>(null);
   const [isPending, startTransition] = useTransition();
-
-  const user = useGetUser(USERID);
+  const params = useParams();
+  const user = useGetUser(params.id!);
 
   useEffect(() => {
     if (!user) return;

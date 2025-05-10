@@ -2,8 +2,10 @@ import { useState } from "react";
 import Pagination from "./Pagination";
 import { Link } from "react-router";
 import EmptyMessage from "./EmptyMessage";
+import { MessageType } from "../../types/messageType";
 
-export default function SentList() {
+//보낸메세지, 받은메세지함
+export default function SentList({ userId, title, date }: MessageType) {
   const [message, setMessage] = useState([]);
   return (
     <>

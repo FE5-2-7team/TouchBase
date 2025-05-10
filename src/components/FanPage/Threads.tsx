@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import { FaRegHeart, FaHeart } from "react-icons/fa6";
 import { FaRegComment } from "react-icons/fa";
 import ProfileBlock from "./ProfileBlock";
@@ -10,6 +11,7 @@ import { AxiosError } from "axios";
 import { axiosInstance } from "../../api/axiosInstance";
 import { Like, Comment } from "../../types/postType";
 import { userStore } from "../../stores/userStore";
+import { useNavigate } from "react-router";
 interface ThreadProps {
   postId: string;
   username: string;
@@ -37,13 +39,24 @@ export default function Threads({
   likeChecked,
 }: // isMyThread = false,
 ThreadProps) {
+  const userId = userStore((state) => state.getUser()?._id);
+
   const [showed, setShowed] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [commentList, setCommentList] = useState<Comment[]>(comments);
   const [heartCount, setHeartCount] = useState(likes.length);
   const [heart, setHeart] = useState(likeChecked);
+  const [myLikeId, setMyLikeId] = useState<string | null>(() => {
+    const like = likes.find((like) => like.user === userId);
+    return like ? like._id : null;
+  });
+  const [isHeartSending, setIsHeartSending] = useState(false);
 
-  const userId = userStore((state) => state.getUser()?._id);
+  const nav = useNavigate();
+
+  useEffect(() => {
+    setCommentList(comments);
+  }, [comments]);
 
   // 포스트 수정
   const [isEdit, setIsEdit] = useState(false);
@@ -64,31 +77,72 @@ ThreadProps) {
 
   // 좋아요 on & off
   const toggleHeart = async () => {
+    if (!userId) {
+      Swal.fire({
+        icon: "error",
+        title: "로그인 후 이용 가능합니다. 🙏",
+        text: "로그인 하시겠습니까?",
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonText: "예",
+        cancelButtonText: "아니요",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          nav("/login");
+        }
+      });
+      return;
+    }
+
+    if (isHeartSending) return;
+    setIsHeartSending(true);
+
     try {
       if (!heart) {
-        await axiosInstance.post("/likes/create", {
+        const res = await axiosInstance.post("/likes/create", {
           postId: postId,
         });
+        const newLikeId = res.data._id;
+        setMyLikeId(newLikeId);
       } else {
-        const likedUser = likes.find((like) => like.user === userId);
-        const likedId = likedUser?._id;
+        // const likedUser = likes.find((like) => like.user === userId);
+        // const likedId = likedUser?._id;
 
         await axiosInstance.delete("/likes/delete", {
           data: {
-            id: likedId,
+            id: myLikeId,
           },
         });
+        setMyLikeId(null);
       }
       setHeart((prev) => !prev);
       setHeartCount((prev) => (heart ? prev - 1 : prev + 1));
     } catch (error) {
       const err = error as AxiosError;
       console.error(err.response?.data || err.message);
+    } finally {
+      setIsHeartSending(false);
     }
   };
 
   // 댓글 on & off
   const toggleShowComments = () => {
+    if (!userId) {
+      Swal.fire({
+        icon: "error",
+        title: "로그인 후 이용 가능합니다. 🙏",
+        text: "로그인 하시겠습니까?",
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonText: "예",
+        cancelButtonText: "아니요",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          nav("/login");
+        }
+      });
+      return;
+    }
     setShowComments((prev) => !prev);
   };
 

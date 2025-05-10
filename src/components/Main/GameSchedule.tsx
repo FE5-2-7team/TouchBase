@@ -64,6 +64,62 @@ const NotGameSchedule = () => (
   </div>
 );
 
+const GameScore = ({ game }: { game: BaseballGameData }) => {
+  const getGameScore = (team1: string, team2: string, team: string) => {
+    let color;
+    if (team1 === team2) {
+      color = "text-[#222] dark:text-white";
+    } else if (team === "1") {
+      color =
+        team1 > team2
+          ? "text-[#FF0000] dark:text-[#DB4343]"
+          : "text-[#222] dark:text-white";
+    } else {
+      color =
+        team1 < team2
+          ? "text-[#FF0000] dark:text-[#DB4343]"
+          : "text-[#222] dark:text-white";
+    }
+
+    return color;
+  };
+
+  if (game.CANCEL_SC_NM === "정상경기") {
+    return (
+      <>
+        <div className="md:w-[100px]">
+          {game.GAME_INN_NO} {game.GAME_TB_SC_NM}
+        </div>
+        <div className="flex flex-col gap-2 justify-center items-center">
+          <p
+            className={`text-md font-bold w-[10px] ${getGameScore(
+              game.T_SCORE_CN,
+              game.B_SCORE_CN,
+              "1"
+            )}`}
+          >
+            {game.T_SCORE_CN}
+          </p>
+          <p
+            className={`text-md font-bold w-[10px] ${getGameScore(
+              game.T_SCORE_CN,
+              game.B_SCORE_CN,
+              "2"
+            )}`}
+          >
+            {game.B_SCORE_CN}
+          </p>
+        </div>
+      </>
+    );
+  } else
+    return (
+      <>
+        <div className="md:w-[110px] text-center">{game.CANCEL_SC_NM}</div>
+      </>
+    );
+};
+
 const now = new Date();
 const newDate = now;
 
@@ -97,25 +153,6 @@ export default function GameSchedule() {
     }
   };
 
-  const getGameScore = (team1: string, team2: string, team: string) => {
-    let color;
-    if (team1 === team2) {
-      color = "text-[#222] dark:text-white";
-    } else if (team === "1") {
-      color =
-        team1 > team2
-          ? "text-[#FF0000] dark:text-[#DB4343]"
-          : "text-[#222] dark:text-white";
-    } else {
-      color =
-        team1 < team2
-          ? "text-[#FF0000] dark:text-[#DB4343]"
-          : "text-[#222] dark:text-white";
-    }
-
-    return color;
-  };
-
   useEffect(() => {
     setIsLoading(true);
     getGameSchedule();
@@ -144,29 +181,7 @@ export default function GameSchedule() {
                 </div>
                 <div className="flex">
                   <div className="flex items-center justify-center px-8 border-l border-[#00000020] dark:border-[#35363C]">
-                    <div className="md:w-[100px]">
-                      {game.GAME_INN_NO} {game.GAME_TB_SC_NM}
-                    </div>
-                    <div className="flex flex-col gap-2 justify-center items-center">
-                      <p
-                        className={`text-md font-bold w-[10px] ${getGameScore(
-                          game.T_SCORE_CN,
-                          game.B_SCORE_CN,
-                          "1"
-                        )}`}
-                      >
-                        {game.T_SCORE_CN}
-                      </p>
-                      <p
-                        className={`text-md font-bold w-[10px] ${getGameScore(
-                          game.T_SCORE_CN,
-                          game.B_SCORE_CN,
-                          "2"
-                        )}`}
-                      >
-                        {game.B_SCORE_CN}
-                      </p>
-                    </div>
+                    <GameScore game={game} />
                   </div>
                   <div className="flex items-center justify-center px-8 border-l border-[#00000020] dark:border-[#35363C] md:w-[170px]">
                     <span>{game.S_NM} 야구장</span>
