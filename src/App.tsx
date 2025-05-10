@@ -6,7 +6,7 @@ import ProfileLayout from "./layout/ProfileLayout";
 import FollowBox from "./components/Profile/FollowBox";
 import MessagePage from "./pages/MessagePage";
 import LogIn from "./pages/LogInPage";
-import SignUp from "./pages/SignUp";
+import SignUp from "./pages/SignUpPage";
 import InboxMessage from "./components/Message/InboxMessage";
 import NotFoundPage from "./pages/NotFoundPage";
 import EditProfile from "./components/Auth/EditProfile";
@@ -35,10 +35,15 @@ export default function App() {
             <Route index element={<InboxMessage />} />
             <Route path="inbox" element={<InboxMessage />} />
             <Route path="write/" element={<MessageEditor mode={"write"} />} />
-            <Route path="write/:id?" element={<MessageEditor mode={"reply"} />} />
-            <Route path="view/:id" element={<MessageEditor mode={"received"} />} />
+            <Route
+              path="write/:id?"
+              element={<MessageEditor mode={"reply"} />}
+            />
+            <Route
+              path="view/:id"
+              element={<MessageEditor mode={"received"} />}
+            />
           </Route>
-          <Route path="/message" element={<InboxMessage />} />
         </Route>
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<LogIn />} />
