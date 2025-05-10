@@ -1,4 +1,3 @@
-// import threadsData from "../../data/threadsData.json";
 import Threads from "./Threads";
 import { axiosInstance } from "../../api/axiosInstance";
 import { Post, Channel } from "../../types/postType";
@@ -55,7 +54,7 @@ export default function ThreadsList() {
           <Threads
             key={post._id}
             postId={post._id}
-            username={post.author?.username ?? "Can not find user"}
+            username={post.author?.username ?? post.author?.fullName}
             title={postTitle}
             content={postContent}
             date={new Date(post.createdAt).toLocaleDateString()}
