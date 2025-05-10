@@ -20,7 +20,7 @@ interface YoutubeVideoType {
     liveBroadcastContent: string;
     publishedAt: string;
     thumbnails: {
-      maxres: {
+      high: {
         height: number;
         url: string;
         width: number;
@@ -51,7 +51,8 @@ export default function Highlight() {
             },
           }
         );
-        setVideos(res.data.items.slice(0, 5));
+        setVideos(res.data.items.splice(0, 5));
+        console.log(res.data.items.splice(0, 5));
       } catch (err) {
         console.error("YouTube API 호출 실패:", err);
       }
@@ -59,6 +60,18 @@ export default function Highlight() {
 
     fetchPlaylist();
   }, []);
+
+  if (videos.length === 0) {
+    return (
+      <div className="w-full py-8 relative px-12">
+        <div className="md:px-12">
+          <MainTitle title="하이라이트" color="#FF9500" white />
+        </div>
+      </div>
+    );
+  }
+
+  console.log(videos);
 
   return (
     <div className="w-full py-8 relative px-12">
@@ -103,9 +116,9 @@ export default function Highlight() {
                   target="_blank"
                 >
                   <img
-                    src={item.snippet.thumbnails.maxres.url}
+                    src={item.snippet.thumbnails.high.url}
                     alt={`Slide ${index + 1}`}
-                    className="w-full min-h-[300px] object-cover"
+                    className="w-full min-h-[200px] object-cover max-h-[300px]"
                   />
                   <div className="p-4">
                     <p className="font-bold kbo-font-medium text-lg mb-2">
