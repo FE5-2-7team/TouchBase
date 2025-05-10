@@ -1,93 +1,46 @@
-// 받은 쪽지, 보낸쪽지, 쪽지보내기
-import Swal from "sweetalert2";
-import "animate.css";
+// // 받은 쪽지, 보낸쪽지, 쪽지보내기
+
 import { useNavigate } from "react-router";
 import { useState } from "react";
+import {
+  Sender,
+  MessageMode,
+  MessageProps,
+  MessageType,
+} from "../../types/messageType";
 
-export interface Sender {
-  _id: string;
-  fullName: string;
-}
-
-export type MessageMode = "write" | "received" | "sent" | "reply";
-
-export interface MessageProps {
-  mode: MessageMode;
-  sender?: Sender;
-  receiver?: string;
-  seen?: false;
-  createdAt?: string;
-  content?: string;
-  message?: string;
-}
-
-export default function MessageContainer({ mode, sender, createdAt, content }: MessageProps) {
-  const sendButtonHandler = (content: string) => {
-    if (!content) {
-      Swal.fire({
-        title: "내용을 입력해주세요",
-        icon: "warning",
-        toast: true,
-        position: "bottom",
-        timer: 1500,
-        showConfirmButton: false,
-        showClass: {
-          popup: `
-            animate__animated
-            animate__fadeInUp
-            animate__faster
-          `,
-        },
-        hideClass: {
-          popup: `
-            animate__animated
-            animate__fadeOutDown
-            animate__faster
-          `,
-        },
-      });
-    } else {
-      Swal.fire({
-        title: "쪽지가 전송되었습니다!",
-        icon: "none",
-        toast: true,
-        position: "bottom",
-        timer: 1500,
-        showConfirmButton: false,
-        showClass: {
-          popup: `
-          animate__animated
-          animate__fadeInUp
-          animate__faster
-        `,
-        },
-        hideClass: {
-          popup: `
-          animate__animated
-          animate__fadeOutDown
-          animate__faster
-        `,
-        },
-      });
-    }
-  };
+type MixType = MessageMode & MessageProps & MessageType & Sender;
+export default function MessageContainer({
+  mode,
+  sender,
+  createdAt,
+  content,
+  userId,
+  title,
+  date,
+}: MixType) {
   const navigate = useNavigate();
 
   const [text, setText] = useState("");
-  console.log(sender);
   return (
     <>
       <div className="flex justify-center">
         <div className="md:w-6/7 mb-[125px]">
           <h1 className="text-2xl font-bold mb-8 mt-20 text-center mx-auto w-fit border-b-4 border-[#0033A0] dark:border-b-[#235BD2] whitespace-nowrap">
-            {mode === "write" ? "쪽지보내기" : mode === "received" ? "받은 쪽지" : "보낸 쪽지"}
+            {mode === "write"
+              ? "쪽지보내기"
+              : mode === "received"
+              ? "받은 쪽지"
+              : "보낸 쪽지"}
           </h1>
           <div className="w-full border border-gray-300 dark:border-gray-700">
             <div className="flex mt-3">
               <>
                 {mode === "write" || mode === "reply" ? (
                   <>
-                    <strong className="ml-10 mr-6 mt-3 text-[20px]">받으실 분</strong>
+                    <strong className="ml-10 mr-6 mt-3 text-[20px]">
+                      받으실 분
+                    </strong>
                     <div className="mt-1">
                       <input
                         type="text"
@@ -113,7 +66,9 @@ export default function MessageContainer({ mode, sender, createdAt, content }: M
               <strong className="mx-10 mb-4 text-xl dark:text-white">
                 {mode === "write" ? "" : "받은 시간"}
               </strong>
-              <p className="text-[18px] dark:text-white">{mode === "write" ? "" : createdAt}</p>
+              <p className="text-[18px] dark:text-white">
+                {mode === "write" ? "" : createdAt}
+              </p>
             </div>
             <div className="w-full h-[380px] mt-10 px-10">
               {mode === "write" || mode === "reply" ? (
