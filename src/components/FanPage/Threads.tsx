@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Swal from "sweetalert2";
 import { FaRegHeart, FaHeart } from "react-icons/fa6";
 import { FaRegComment } from "react-icons/fa";
 import ProfileBlock from "./ProfileBlock";
@@ -37,13 +38,17 @@ export default function Threads({
   likeChecked,
 }: // isMyThread = false,
 ThreadProps) {
+  const userId = userStore((state) => state.getUser()?._id);
+
   const [showed, setShowed] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [commentList, setCommentList] = useState<Comment[]>(comments);
   const [heartCount, setHeartCount] = useState(likes.length);
   const [heart, setHeart] = useState(likeChecked);
-
-  const userId = userStore((state) => state.getUser()?._id);
+  const [myLikeId, setMyLikeId] = useState<string | null>(() => {
+    const like = likes.find((like) => like.user === userId);
+    return like ? like._id : null;
+  });
 
   // 포스트 수정
   const [isEdit, setIsEdit] = useState(false);
@@ -64,20 +69,31 @@ ThreadProps) {
 
   // 좋아요 on & off
   const toggleHeart = async () => {
+    if (!userId) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "로그인 후 이용 가능합니다. 🙏",
+      });
+      return;
+    }
     try {
       if (!heart) {
-        await axiosInstance.post("/likes/create", {
+        const res = await axiosInstance.post("/likes/create", {
           postId: postId,
         });
+        const newLikeId = res.data._id;
+        setMyLikeId(newLikeId);
       } else {
-        const likedUser = likes.find((like) => like.user === userId);
-        const likedId = likedUser?._id;
+        // const likedUser = likes.find((like) => like.user === userId);
+        // const likedId = likedUser?._id;
 
         await axiosInstance.delete("/likes/delete", {
           data: {
-            id: likedId,
+            id: myLikeId,
           },
         });
+        setMyLikeId(null);
       }
       setHeart((prev) => !prev);
       setHeartCount((prev) => (heart ? prev - 1 : prev + 1));
