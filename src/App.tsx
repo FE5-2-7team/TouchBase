@@ -2,19 +2,18 @@ import { Routes, Route } from "react-router";
 import RootLayout from "./layout/RootLayout";
 import Home from "./pages/HomePage";
 import FanPage from "./pages/FanPage";
-import MessageContainer from "./components/message/MessageContainer";
 import ProfileLayout from "./layout/ProfileLayout";
 import FollowBox from "./components/Profile/FollowBox";
 import MessagePage from "./pages/MessagePage";
 import LogIn from "./pages/LogInPage";
 import SignUp from "./pages/SignUp";
-import InboxMessage from "./components/message/InboxMessage";
-import SentList from "./components/message/SentList";
+import InboxMessage from "./components/Message/InboxMessage";
 import NotFoundPage from "./pages/NotFoundPage";
 import EditProfile from "./components/Auth/EditProfile";
 import MyThreadsList from "./components/Profile/MyThreadsList";
 import { useDarkMode } from "./hooks/useDarkMode";
 import AuthLayout from "./layout/AuthLayout";
+import MessageEditor from "./components/Message/MessageEditor";
 
 export default function App() {
   useDarkMode();
@@ -35,10 +34,9 @@ export default function App() {
           <Route path="/message" element={<MessagePage />}>
             <Route index element={<InboxMessage />} />
             <Route path="inbox" element={<InboxMessage />} />
-            <Route path="sent" element={<SentList />} />
-            <Route path="sent/:id" element={<MessageContainer mode={"sent"} />} />
-            <Route path="write/:id?" element={<MessageContainer mode={"write"} />} />
-            <Route path="view/:id" element={<MessageContainer mode={"received"} />} />
+            <Route path="write/" element={<MessageEditor mode={"write"} />} />
+            <Route path="write/:id?" element={<MessageEditor mode={"reply"} />} />
+            <Route path="view/:id" element={<MessageEditor mode={"received"} />} />
           </Route>
           <Route path="/message" element={<InboxMessage />} />
         </Route>
