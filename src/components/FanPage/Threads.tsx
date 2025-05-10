@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { FaRegHeart, FaHeart } from "react-icons/fa6";
 import { FaRegComment } from "react-icons/fa";
@@ -11,6 +11,7 @@ import { AxiosError } from "axios";
 import { axiosInstance } from "../../api/axiosInstance";
 import { Like, Comment } from "../../types/postType";
 import { userStore } from "../../stores/userStore";
+import { useNavigate } from "react-router";
 interface ThreadProps {
   postId: string;
   username: string;
@@ -49,6 +50,13 @@ ThreadProps) {
     const like = likes.find((like) => like.user === userId);
     return like ? like._id : null;
   });
+  const [isHeartSending, setIsHeartSending] = useState(false);
+
+  const nav = useNavigate();
+
+  useEffect(() => {
+    setCommentList(comments);
+  }, [comments]);
 
   // 포스트 수정
   const [isEdit, setIsEdit] = useState(false);
@@ -72,11 +80,23 @@ ThreadProps) {
     if (!userId) {
       Swal.fire({
         icon: "error",
-        title: "Oops...",
-        text: "로그인 후 이용 가능합니다. 🙏",
+        title: "로그인 후 이용 가능합니다. 🙏",
+        text: "로그인 하시겠습니까?",
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonText: "예",
+        cancelButtonText: "아니요",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          nav("/login");
+        }
       });
       return;
     }
+
+    if (isHeartSending) return;
+    setIsHeartSending(true);
+
     try {
       if (!heart) {
         const res = await axiosInstance.post("/likes/create", {
@@ -100,11 +120,29 @@ ThreadProps) {
     } catch (error) {
       const err = error as AxiosError;
       console.error(err.response?.data || err.message);
+    } finally {
+      setIsHeartSending(false);
     }
   };
 
   // 댓글 on & off
   const toggleShowComments = () => {
+    if (!userId) {
+      Swal.fire({
+        icon: "error",
+        title: "로그인 후 이용 가능합니다. 🙏",
+        text: "로그인 하시겠습니까?",
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonText: "예",
+        cancelButtonText: "아니요",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          nav("/login");
+        }
+      });
+      return;
+    }
     setShowComments((prev) => !prev);
   };
 
