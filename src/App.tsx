@@ -15,6 +15,7 @@ import EditProfile from "./components/Auth/EditProfile";
 import MyThreadsList from "./components/Profile/MyThreadsList";
 import { useDarkMode } from "./hooks/useDarkMode";
 import AuthLayout from "./layout/AuthLayout";
+import EditProfilePage from "./pages/EditProfilePage";
 
 export default function App() {
   useDarkMode();
@@ -36,15 +37,25 @@ export default function App() {
             <Route index element={<InboxMessage />} />
             <Route path="inbox" element={<InboxMessage />} />
             <Route path="sent" element={<SentList />} />
-            <Route path="sent/:id" element={<MessageContainer mode={"sent"} />} />
-            <Route path="write/:id?" element={<MessageContainer mode={"write"} />} />
-            <Route path="view/:id" element={<MessageContainer mode={"received"} />} />
+            <Route
+              path="sent/:id"
+              element={<MessageContainer mode={"sent"} />}
+            />
+            <Route
+              path="write/:id?"
+              element={<MessageContainer mode={"write"} />}
+            />
+            <Route
+              path="view/:id"
+              element={<MessageContainer mode={"received"} />}
+            />
           </Route>
           <Route path="/message" element={<InboxMessage />} />
         </Route>
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<LogIn />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/edit" element={<EditProfilePage />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
