@@ -19,7 +19,11 @@ const GameTable = ({ team, pitcher }: { team: string; pitcher: string }) => (
       <p className="w-[60px] font-bold">{team}</p>
     </div>
     <p className="w-20">
-      <span className="text-[#00aeef] font-bold">선</span> {pitcher}
+      {pitcher && (
+        <>
+          <span className="text-[#00aeef] font-bold">선</span> {pitcher}
+        </>
+      )}
     </p>
   </div>
 );
