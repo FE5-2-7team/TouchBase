@@ -11,7 +11,7 @@ export interface Sender {
 
 export type MessageMode = "write" | "received" | "sent" | "reply";
 
-export interface MessageProps {
+export interface MessageProps extends Sender {
   mode: MessageMode;
   sender?: Sender;
   receiver?: string;

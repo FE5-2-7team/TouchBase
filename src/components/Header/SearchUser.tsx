@@ -25,7 +25,7 @@ export default function SearchUser({ keyword, results }: { keyword: string; resu
                     className="w-10 h-10 mr-3 rounded-3xl border-1"
                   />
                 ) : (
-                  <div className="w-10 h-10 mr-3 bg-gray-200 dark:white rounded-3xl">
+                  <div className="w-10 h-10 mr-3 bg-gray-200 dark:white rounded-2xl ">
                     <FaUser className="w-6 h-6 ml-2 items-center justify-center mt-2 dark:text-gray-700 text-[#2F6BEB] " />
                   </div>
                 )}

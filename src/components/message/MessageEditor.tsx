@@ -1,11 +1,17 @@
 import { useState } from "react";
-import { MessageProps } from "../../types/messageType";
+import { Sender } from "../../types/messageType";
 import SendButton from "./SendButton";
 import { sendButtonHandler } from "./Toast";
 import { axiosInstance } from "../../api/axiosInstance";
+import UserSearchInput from "./UserSearchInput";
 
+type MessageEditorProps = {
+  mode: "write" | "reply" | "received";
+  sender?: Sender;
+  createdAt?: string;
+};
 // 쪽지 보내기, 답장하기
-export default function MessageEditor({ mode, sender, createdAt }: MessageProps) {
+export default function MessageEditor({ mode, sender, createdAt }: MessageEditorProps) {
   // 받는 사람
   const [receiver, setReceiver] = useState("");
   // 쪽지내용
@@ -22,7 +28,7 @@ export default function MessageEditor({ mode, sender, createdAt }: MessageProps)
     try {
       const res = await axiosInstance.post("/messages/create", {
         message: messageText,
-        receiverId: receiver,
+        receiver: receiverId,
       });
       sendButtonHandler(messageText);
 
@@ -44,21 +50,11 @@ export default function MessageEditor({ mode, sender, createdAt }: MessageProps)
           <div className="w-full border border-gray-300 dark:border-gray-700">
             <div className="flex mt-3">
               <>
+                <strong className="ml-10 mr-6 mt-3 text-[20px]">받으실 분</strong>
                 {mode === "write" || mode === "reply" ? (
-                  <>
-                    <strong className="ml-10 mr-6 mt-3 text-[20px]">받으실 분</strong>
-                    <div className="mt-1">
-                      <input
-                        type="text"
-                        className={`border border-gray-400 p-1 m-1.5 focus:ring-0 outline-none dark:border-gray-700 ${
-                          mode === "reply" ? "bg-gray-100 text-gray-600 " : ""
-                        }`}
-                        value={mode === "reply" ? sender?._id ?? "" : receiver}
-                        readOnly={mode === "reply"}
-                        onChange={(e) => setReceiver(e.target.value)}
-                      />
-                    </div>
-                  </>
+                  <div className="mt-1">
+                    <UserSearchInput onSelect={(user) => setReceiver(user._id)} />
+                  </div>
                 ) : (
                   <>
                     <strong className="mx-10 mt-2 mb-4 text-[20px]">
