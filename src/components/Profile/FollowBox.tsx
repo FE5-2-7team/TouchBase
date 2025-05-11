@@ -6,7 +6,7 @@ import { ExtendedUser, Follow } from "../../types/postType";
 import useGetUser from "./useGetUser";
 import { useParams } from "react-router";
 
-export default function FollowBox({ title }: { title: string }) {
+export default function FollowBox({ isFollower }: { isFollower: boolean }) {
   const [followUsers, setFollowUsers] = useState<ExtendedUser[]>();
   const followingIds = useRef<string[]>(null);
   const [isPending, startTransition] = useTransition();
@@ -17,7 +17,7 @@ export default function FollowBox({ title }: { title: string }) {
     if (!user) return;
 
     const ids: string[] =
-      title === "팔로워" ? user.followers.map((f: Follow) => f.follower) : user.following.map((f: Follow) => f.user);
+    isFollower ? user.followers.map((f: Follow) => f.follower) : user.following.map((f: Follow) => f.user);
 
     followingIds.current = user.following.map((f: Follow) => f.user);
 
@@ -34,7 +34,7 @@ export default function FollowBox({ title }: { title: string }) {
     startTransition(async () => {
       await getUsers();
     });
-  }, [user, title]);
+  }, [user, isFollower]);
 
   if (isPending) <h1>Loading...</h1>;
 
@@ -42,10 +42,10 @@ export default function FollowBox({ title }: { title: string }) {
     <div className="h-[550px] flex flex-col items-center p-[27px] rounded-[10px] border border-[#d9d9d9] shadow-md w-full max-w-[1200px] lg:px-[7%] md:px-[27%]">
       <div className="flex items-center self-start text-[20px] font-bold mb-[20px]">
         <LuUserCheck size={26} className="mr-[11px]" />
-        모든 {title}
+        {isFollower ? "모든 팔로워" : "모든 팔로잉"}
       </div>
       <div className="grid lg:grid-cols-2 md:grid-cols-1 lg:gap-x-[100px] gap-y-[8px]">
-        {title === "팔로워"
+        {isFollower
           ? followUsers?.map((follow) => (
               <FollowCard
                 name={follow.username ? follow.username : follow.fullName}
