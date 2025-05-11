@@ -8,7 +8,7 @@ import { axiosInstance } from "../../api/axiosInstance.ts";
 import { useNavigate } from "react-router";
 import Message from "./Message.tsx";
 import Swal from "sweetalert2";
-import inputValidation from "./inputValidation.ts";
+import { inputValidation } from "./inputValidation.ts";
 import { SignUpValue } from "../../types/userTypes.ts";
 import { login } from "../../api/auth";
 
@@ -32,14 +32,16 @@ export default function SignUp() {
   });
 
   const [nickNameValid, setNickNameValid] = useState(false);
+  const [nickNameApiValid, setNickNameApiValid] = useState(false);
 
   const submitValid = [
     ...Object.values(value),
     ...Object.values(valid),
     nickNameValid,
+    !nickNameApiValid,
   ];
 
-  //input 유효성 검사
+  //input onChnage 유효성 검사
   function handleInputValidation(
     e: React.ChangeEvent<HTMLInputElement>,
     type: string,
@@ -49,6 +51,7 @@ export default function SignUp() {
 
     if (type === "nickName") {
       setNickNameValid(false);
+      setNickNameApiValid(false);
     } else if (type === "password") {
       if (e.target.value === value.checkPassword) {
         setValid((valid) => {
@@ -80,6 +83,7 @@ export default function SignUp() {
 
   //닉네임 유효성 검사
   async function handleNickNameCheck() {
+    console.log(value, valid);
     if (value.nickName === "" || !valid.nickName) return;
 
     try {
@@ -89,10 +93,12 @@ export default function SignUp() {
         (el: BaseUser) => el.fullName === value.nickName
       );
       console.log(json, result);
-      if (!result) {
-        setNickNameValid(true);
-      } else {
+      if (result) {
         setNickNameValid(false);
+        setNickNameApiValid(true);
+      } else {
+        setNickNameValid(true);
+        setNickNameApiValid(false);
       }
     } catch (error) {
       console.log(error);
@@ -104,14 +110,16 @@ export default function SignUp() {
       icon: "error",
       title: "회원가입 실패",
       text: "유효하지 않은 아이디 혹은 이메일, 비밀번호 입니다 ",
-      confirmButtonText: "다시 시도",
+      confirmButtonText: "닫기",
     });
   };
 
   //회원가입
   async function handleSignUpSubmit() {
     //input 유효성 체크
-    if (!submitValid.every((vaild) => !!vaild)) {
+    if (!submitValid.every((vaild) => vaild)) {
+      console.log(submitValid);
+      console.log("실패");
       showValidationErrorAlert();
       return;
     }
@@ -172,6 +180,7 @@ export default function SignUp() {
                   사용 가능한 닉네임 입니다
                 </Message>
               )}
+              {nickNameApiValid && <Message>중복 된 닉네임 입니다</Message>}
             </div>
             <div className="w-full flex gap-[20px] mb-[35px] items-center relative">
               <Input
