@@ -1,12 +1,20 @@
+import Empty_img from "../../assets/images/Empty_img.png";
+
 export interface EmptyMessageProps {
   message?: string;
 }
 
-export default function EmptyMessage({ message = "쪽지가 없습니다." }: EmptyMessageProps) {
+const textStyle = "flex items-center justify-center whitespace-pre-line text-center";
+export default function EmptyMessage({
+  message = "야구팬들과 쪽지를 주고받으며 \n경기의 재미를 나눠보세요",
+}: EmptyMessageProps) {
   return (
     <>
-      <div className="flex justify-center items-center h-[300px] text-lg text-gray-400">
-        {message}
+      <div className="block justify-center h-[700px] text-lg mt-40 text-gray-400">
+        <div className="flex items-center justify-center">
+          <img src={Empty_img} className="mb-6" />
+        </div>
+        <p className={textStyle}>{message}</p>
       </div>
     </>
   );
