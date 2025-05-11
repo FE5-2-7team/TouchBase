@@ -28,8 +28,8 @@ export default function App() {
 
           <Route path="/profile/:id" element={<ProfileLayout />}>
             <Route index path="posts" element={<MyThreadsList />} />
-            <Route path="follower" element={<FollowBox title={"팔로워"} />} />
-            <Route path="following" element={<FollowBox title={"팔로잉"} />} />
+            <Route path="follower" element={<FollowBox isFollower={true} />} />
+            <Route path="following" element={<FollowBox isFollower={false} />} />
             <Route path="modify" element={<EditProfile />}></Route>
           </Route>
           <Route path="/fanpage/:teamName/:channelId" element={<FanPage />} />
