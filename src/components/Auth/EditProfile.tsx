@@ -3,17 +3,108 @@ import ProfileImage from "./ProfileImage";
 import AuthInput from "./AuthInput";
 import advertisement from "../../assets/images/advertisement.svg";
 import footerLogo from "../../assets/images/smallLogo.png";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import BlueBoard from "./BlueBoard";
 import Button from "../FanPage/Button";
+import { useState, useLayoutEffect } from "react";
+import { editValidation } from "./inputValidation.ts";
+import { SignUpValue1 } from "../../types/userTypes.ts";
+import Message from "./Message.tsx";
+import { BaseUser } from "../../types/postType.ts";
 
 export default function EditProfile() {
+  const baseUrl = import.meta.env.VITE_API_URL;
+  // const redirectHome = useNavigate();
+  //state 하나로 줄여보기
+  const [value, setValue] = useState({
+    name: {
+      valid: false,
+      content: "",
+    },
+    password: {
+      valid: false,
+      content: "",
+    },
+    checkPassword: {
+      valid: false,
+      content: "",
+    },
+  });
+  let response: BaseUser;
+
+  const { name, password, checkPassword } = value;
+
+  //세션스토리지에 유저 정보가 없을 경우 홈으로 리디렉션
+  useLayoutEffect(() => {
+    const sessionData = sessionStorage.getItem("user");
+
+    if (sessionData) {
+      try {
+        const parsed = JSON.parse(sessionData) as {
+          state: {
+            user: { _id: string }; // 필요한 필드만 명시
+          };
+        };
+        const {
+          state: {
+            user: { _id },
+          },
+        } = parsed;
+
+        console.log(_id);
+        response = await fetch(`${baseUrl}users/${_id}`);
+        // console.log(user, token);
+        // if (user === "" || token === "") {
+        //   redirectHome("/");
+        // }
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      console.log("user 정보 없음");
+    }
+  }, []);
+
+  //input onChnage 유효성 검사 - 재사용 모듈화 하기 -
+  function handleInputValidation(
+    e: React.ChangeEvent<HTMLInputElement>,
+    type: string,
+    value: SignUpValue1
+  ) {
+    const isValid = editValidation(e, type, value);
+    // type이 부분 나중에 value key 값으로 대처하기
+    if (type === "password") {
+      if (e.target.value === checkPassword.content) {
+        setValue((value) => {
+          return {
+            ...value,
+            checkPassword: {
+              valid: true,
+              content: "",
+            },
+          };
+        });
+      }
+    }
+
+    setValue((value) => {
+      return {
+        ...value,
+        [type]: {
+          valid: isValid,
+          content: e.target.value,
+        },
+      };
+    });
+  }
+
   const userInfo = [
     { title: "내 프로필" },
     { title: "내 팔로워", content: "357" },
     { title: "내 팔로잉", content: "281" },
-    { title: "응원 구단", content: "기아 타이거즈" },
+    // { title: "응원 구단", content: "기아 타이거즈" },
   ];
+
   return (
     <>
       <div className="flex h-fit">
@@ -78,15 +169,20 @@ export default function EditProfile() {
               닉네임는 공백을 제외 한 소문자 영문, 한글, 숫자만 사용할 수
               있습니다
             </p>
-            <div className="flex gap-[44px] justify-between">
+            <div className="flex gap-[44px] justify-between relative">
               <AuthInput
                 placeholder="새 닉네임"
                 type="text"
+                value={name.content}
+                onChange={(e) => handleInputValidation(e, "name", value)}
                 className="h-[40px] mb-[0] max-w-[475px]"
               />
               <Button className="w-[80px] h-[40px] text-[14px] rounded-[5px]">
                 변경하기
               </Button>
+              {name.content && !name.valid && (
+                <Message>공백 혹은 특수 문자는 넣으실 수 없습니다</Message>
+              )}
             </div>
           </BlueBoard>
           <BlueBoard className="py-[25px] px-[23px] w-full max-w-[650px] bg-white mt-[20px]">
@@ -97,20 +193,34 @@ export default function EditProfile() {
               영어(소문자 또는 대문자)와 숫자를 조합해 8자 이상 16자 이하로
               입력해 주세요
             </p>
-            <AuthInput
-              placeholder="새 비밀번호"
-              type="password"
-              className="h-[40px] mb-[0] w-[475px]"
-            />
-            <div className="flex gap-[44px] justify-between">
+            <div className="relative mb-[35px]">
+              <AuthInput
+                placeholder={"새 비밀번호"}
+                type="password"
+                value={password.content}
+                onChange={(e) => handleInputValidation(e, "password", value)}
+                className="h-[40px] mb-[0] max-w-[475px]"
+              />
+              {password.content && !password.valid && (
+                <Message>8~16자, 영문, 숫자 조합 입니다</Message>
+              )}
+            </div>
+            <div className="flex gap-[44px] justify-between relative">
               <AuthInput
                 placeholder="새 비밀번호 확인"
                 type="password"
+                value={checkPassword.content}
+                onChange={(e) =>
+                  handleInputValidation(e, "checkPassword", value)
+                }
                 className="h-[40px] mb-[0] max-w-[475px]"
               />
               <Button className="w-[80px] h-[40px] text-[14px] rounded-[5px]">
                 변경하기
               </Button>
+              {checkPassword.content && !checkPassword.valid && (
+                <Message>비밀번호가 일치하지 않습니다</Message>
+              )}
             </div>
           </BlueBoard>
           <BlueBoard className="py-[25px] px-[23px] w-full max-w-[650px] bg-white mt-[20px]">
