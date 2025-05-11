@@ -1,15 +1,20 @@
 import { FaUserCircle } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
+import useGetUser from "./useGetUser";
+import { ExtendedUser } from "../../types/postType";
 
 export default function FollowCard({
-  name,
-  isOnline,
-  isFollowing,
+  followId,
+  profileId,
 }: {
-  name: string;
-  isOnline: boolean;
-  isFollowing: boolean;
+  followId: string;
+  profileId: string;
 }) {
+  const userDetails: ExtendedUser | undefined = useGetUser(followId);
+  console.log(userDetails);
+
+  const isFollowing = userDetails?.followers.some(follow => follow.follower === profileId)
+
   return (
     <>
       <div className="flex items-center border border-[#335CB3] dark:border-[#FFFFFF] rounded-[10px] w-[470px] h-[63px] justify-between px-[13px] my-[5px]">
@@ -18,11 +23,11 @@ export default function FollowCard({
           <div
             className={twMerge(
               "absolute w-[8px] h-[8px] right-[1px] rounded-[100px] bg-[#00FF1E] dark:border dark:border-[#0033A0]",
-              !isOnline && "hidden"
+              userDetails?.isOnline && "hidden"
             )}
           />
         </div>
-        <div className="text-[16px] text-[#6D6D6D] dark:text-[#FFFFFF] w-[170px]">{name}</div>
+        <div className="text-[16px] text-[#6D6D6D] dark:text-[#FFFFFF] w-[170px]">{userDetails?.username ? userDetails?.username : userDetails?.fullName}</div>
         <button className="w-[100px] h-[24px] text-[14px] rounded-[10px] bg-[#0033A0] text-[#ffffff] cursor-pointer">
           쪽지 보내기
         </button>
