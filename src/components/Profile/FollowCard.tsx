@@ -1,19 +1,36 @@
 import { FaUserCircle } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
 import useGetUser from "./useGetUser";
-import { ExtendedUser } from "../../types/postType";
+import { ExtendedUser, Follow } from "../../types/postType";
+import { axiosInstance } from "../../api/axiosInstance";
 
-export default function FollowCard({
-  followId,
-  profileId,
-}: {
-  followId: string;
-  profileId: string;
-}) {
+export default function FollowCard({ followId, profileId }: { followId: string; profileId: string }) {
   const userDetails: ExtendedUser | undefined = useGetUser(followId);
-  console.log(userDetails);
 
-  const isFollowing = userDetails?.followers.some(follow => follow.follower === profileId)
+  const following = userDetails?.followers.find((follow) => follow.follower === profileId);
+  console.log(followId);
+
+  const unfollowHandler = async () => {
+    try {
+      const { data } = await axiosInstance.delete<Follow>("follow/delete", {
+        data: { id: following?._id },
+      });
+      console.log(data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const followHandler = async () => {
+    try {
+      const { data } = await axiosInstance.post<Follow>("follow/create", {
+        userId: followId,
+      });
+      console.log(data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   return (
     <>
@@ -27,16 +44,24 @@ export default function FollowCard({
             )}
           />
         </div>
-        <div className="text-[16px] text-[#6D6D6D] dark:text-[#FFFFFF] w-[170px]">{userDetails?.username ? userDetails?.username : userDetails?.fullName}</div>
+        <div className="text-[16px] text-[#6D6D6D] dark:text-[#FFFFFF] w-[170px]">
+          {userDetails?.username ? userDetails?.username : userDetails?.fullName}
+        </div>
         <button className="w-[100px] h-[24px] text-[14px] rounded-[10px] bg-[#0033A0] text-[#ffffff] cursor-pointer">
           쪽지 보내기
         </button>
-        {isFollowing ? (
-          <button className="w-[100px] h-[24px] text-[14px] rounded-[10px] bg-[#C5585F] text-[#ffffff] cursor-pointer">
+        {following ? (
+          <button
+            className="w-[100px] h-[24px] text-[14px] rounded-[10px] bg-[#C5585F] text-[#ffffff] cursor-pointer"
+            onClick={unfollowHandler}
+          >
             팔로우 취소
           </button>
         ) : (
-          <button className="w-[100px] h-[24px] text-[14px] rounded-[10px] bg-[#C5585F] text-[#ffffff] cursor-pointer">
+          <button
+            className="w-[100px] h-[24px] text-[14px] rounded-[10px] bg-[#C5585F] text-[#ffffff] cursor-pointer"
+            onClick={followHandler}
+          >
             팔로우
           </button>
         )}
