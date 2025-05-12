@@ -1,8 +1,8 @@
 import FollowCard from "./FollowCard";
 import { LuUserCheck } from "react-icons/lu";
-import { BaseUser } from "../../types/postType";
 import useGetUser from "./useGetUser";
 import { useParams } from "react-router";
+import { BaseUser } from "../../types/postType";
 
 export default function FollowBox({ isFollower }: { isFollower: boolean }) {
   const params = useParams();
@@ -16,13 +16,12 @@ export default function FollowBox({ isFollower }: { isFollower: boolean }) {
       </div>
       <div className="grid lg:grid-cols-2 md:grid-cols-1 lg:gap-x-[100px] gap-y-[8px]">
         {isFollower
-          ? 
-          user?.followers.map((follow) => (
-           <FollowCard key={follow._id} followId={follow.follower} profileId={follow.user} />
-          ))
+          ? user?.followers.map((follow) => (
+              <FollowCard key={follow._id} followId={follow.follower} profileId={follow.user} />
+            ))
           : user?.following.map((follow) => (
-            <FollowCard key={follow._id} followId={follow.user} profileId={follow.follower} />
-          ))}
+              <FollowCard key={follow._id} followId={follow.user} profileId={follow.follower} />
+            ))}
       </div>
     </div>
   );
