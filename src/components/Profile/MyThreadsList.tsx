@@ -3,11 +3,13 @@ import { axiosInstance } from "../../api/axiosInstance";
 import { Post } from "../../types/postType";
 import Threads from "../FanPage/Threads";
 import { useParams } from "react-router";
+import { refreshStore } from "../../stores/refreshStore";
 
 export default function MyThreadsList() {
   const [myPosts, setMyPosts] = useState<Post[]>([]);
   const [isPending, startTransition] = useTransition();
   const params = useParams();
+  const refresh = refreshStore((state) => state.refresh);
 
   const getHandler = async () => {
     try {
@@ -22,7 +24,7 @@ export default function MyThreadsList() {
     startTransition(async () => {
       await getHandler();
     });
-  }, []);
+  }, [refresh]);
 
   if (isPending) <h1>Loading...</h1>;
 
@@ -47,8 +49,8 @@ export default function MyThreadsList() {
           <Threads
             key={post._id}
             postId={post._id}
-            // username={post.author?.username ?? "Can not find user"}
-            username={"mythread"} // 우선 edit 버튼 보이게 하기 위한 mythread로 전달
+            username={post.author?.username ?? post.author?.fullName}
+            postUserId={post.author._id}
             title={postTitle}
             content={postContent}
             date={new Date(post.createdAt).toLocaleDateString()}
@@ -57,7 +59,6 @@ export default function MyThreadsList() {
             likes={post.likes}
             comments={post.comments}
             likeChecked={likeChecked}
-            isMyThread={true}
           />
         );
       })}

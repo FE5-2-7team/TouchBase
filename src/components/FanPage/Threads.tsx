@@ -12,6 +12,7 @@ import { axiosInstance } from "../../api/axiosInstance";
 import { Like, Comment } from "../../types/postType";
 import { userStore } from "../../stores/userStore";
 import { useNavigate } from "react-router";
+import { refreshStore } from "../../stores/refreshStore";
 interface ThreadProps {
   postId: string;
   username: string;
@@ -55,6 +56,7 @@ ThreadProps) {
     return like ? like._id : null;
   });
   const [isHeartSending, setIsHeartSending] = useState(false);
+  const refetch = refreshStore((state) => state.refetch);
 
   const nav = useNavigate();
 
@@ -75,8 +77,15 @@ ThreadProps) {
     setIsEdit(false);
   };
 
-  const deleteHandler = () => {
-    console.log("삭제");
+  const deleteHandler = async () => {
+    try {
+      const { data } = await axiosInstance.delete("posts/delete", {
+        data: { id: postId },
+      });
+      refetch();
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   // 좋아요 on & off
