@@ -50,19 +50,41 @@ export default function Upload({
     if (file) {
       const reader = new FileReader();
       reader.onload = function (e) {
-        const img = document.createElement("img");
         const result = e.target?.result as string;
-        img.src = result;
-        img.style.maxWidth = "100%";
-        img.style.marginTop = "10px";
-        contentRef.current?.appendChild(img);
+
+        if (result && contentRef.current) {
+          contentRef.current.focus();
+
+          // 이미지
+          const img = document.createElement("img");
+          img.src = result;
+          img.style.maxWidth = "100%";
+          img.style.marginTop = "10px";
+
+          // 커서 위치 삽입
+          const selection = window.getSelection();
+          if (selection && selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0);
+            range.collapse(false);
+            range.insertNode(img);
+
+            // 커서 이미지 뒤로 이동
+            range.setStartAfter(img);
+            range.collapse(true);
+            selection.removeAllRanges();
+            selection.addRange(range);
+          } else {
+            // 커서가 없으면 그냥 마지막에 추가
+            contentRef.current.appendChild(img);
+          }
+        }
+
         setImages((prev) => [...prev, result]);
         setIsEmpty(false);
       };
       reader.readAsDataURL(file);
     }
   };
-
   const InputHandler = () => {
     const text = contentRef.current?.innerText.trim() || "";
     setIsEmpty(text === "");
