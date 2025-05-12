@@ -4,16 +4,18 @@ import Home from "./pages/HomePage";
 import FanPage from "./pages/FanPage";
 import ProfileLayout from "./layout/ProfileLayout";
 import FollowBox from "./components/Profile/FollowBox";
-import MessagePage from "./pages/MessagePage";
 import LogIn from "./pages/LogInPage";
 import SignUp from "./pages/SignUpPage";
-import InboxMessage from "./components/Message/InboxMessage";
 import NotFoundPage from "./pages/NotFoundPage";
 import EditProfile from "./components/Auth/EditProfile";
 import MyThreadsList from "./components/Profile/MyThreadsList";
 import { useDarkMode } from "./hooks/useDarkMode";
 import AuthLayout from "./layout/AuthLayout";
-import MessageEditor from "./components/Message/MessageEditor";
+import NewMessage from "./components/Message/NewMessage";
+import MessagePage from "./pages/MessagePage";
+import MessageContainer from "./components/Message/MessageContainer";
+import EmptyMessage from "./components/Message/EmptyMessage";
+import MessageChatView from "./components/Message/MessageChatView";
 
 export default function App() {
   useDarkMode();
@@ -26,30 +28,28 @@ export default function App() {
 
           <Route path="/profile/:id" element={<ProfileLayout />}>
             <Route index path="posts" element={<MyThreadsList />} />
-            <Route path="follower" element={<FollowBox title={"팔로워"} />} />
-            <Route path="following" element={<FollowBox title={"팔로잉"} />} />
+            <Route path="follower" element={<FollowBox isFollower={true} />} />
+            <Route path="following" element={<FollowBox isFollower={false} />} />
             <Route path="modify" element={<EditProfile />}></Route>
           </Route>
           <Route path="/fanpage/:teamName/:channelId" element={<FanPage />} />
           <Route path="/message" element={<MessagePage />}>
-            <Route index element={<InboxMessage />} />
-            <Route path="inbox" element={<InboxMessage />} />
+            <Route index element={<EmptyMessage />} />
+            <Route path="new" element={<NewMessage />} />
+            <Route path="/message/:id" element={<MessageContainer />} />
+            {/* <Route path="messgae/:id" element={<MessageContainer />} /> */}
+            {/* <Route path="inbox" element={<InboxMessage mode={"received"} />} />
+            <Route path="sent" element={<InboxMessage mode={"sent"} />} />
             <Route path="write/" element={<MessageEditor mode={"write"} />} />
-            <Route
-              path="write/:id?"
-              element={<MessageEditor mode={"reply"} />}
-            />
-            <Route
-              path="view/:id"
-              element={<MessageEditor mode={"received"} />}
-            />
+            <Route path="reply/:id?" element={<MessageEditor mode={"reply"} />} />
+            <Route path="view/:id" element={<MessageEditor mode={"received"} />} /> */}
           </Route>
         </Route>
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<LogIn />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/edit" element={<EditProfile />} />
         </Route>
+        <Route path="/edit" element={<EditProfile />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>

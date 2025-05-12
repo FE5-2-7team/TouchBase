@@ -1,5 +1,5 @@
-import { Outlet } from "react-router";
 import MessageSidebar from "../components/Message/MessageSidebar";
+import { Outlet } from "react-router";
 
 export default function MessagePage() {
   return (
