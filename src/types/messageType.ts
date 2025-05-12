@@ -1,6 +1,6 @@
 export interface MessageType {
   userId: string;
-  title: string;
+  message: string;
   date: string;
 }
 

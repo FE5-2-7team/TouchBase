@@ -15,6 +15,12 @@ type Channel = {
   name: string;
 };
 
+type TeamLogos = {
+  name: string;
+  url: string;
+  logo: string;
+};
+
 export default function Header() {
   const [channels, setChannels] = useState<Channel[]>([]);
 
@@ -48,20 +54,17 @@ export default function Header() {
       </div>
       <div className="fixed z-10 w-full bg-[#f5f5f5] h-[80px] md:h-[70px] top-[80px] border-b border-gray-300 hiddenHeader dark:bg-[#202228] dark:text-white">
         <ul className="grid grid-cols-5 md:grid-cols-10 xl:gap-[1%] md:px-[8%] px-[2%] md:mt-5 mt-3 ">
-          {channels.map((channel) => {
-            const logoList = logos.find((logo) => logo.name === channel.name);
-            return (
-              <li key={channel._id} className={liItemStyle}>
-                <Link
-                  to={`/fanpage/${channel.name}/${channel._id}`}
-                  className="flex items-center justify-center hover:text-[#ff9500] hover:underline hover:underline-offset-6 hover:decoration-2"
-                >
-                  {logoList && <img src={logoList.logo} className={liImgStyle} alt={channel._id} />}
-                  <p className="text-lg ">{channel.name}</p>
-                </Link>
-              </li>
-            );
-          })}
+          {logos.map((team: TeamLogos) => (
+            <li key={team.name} className={liItemStyle}>
+              <Link
+                to={`/fanpage/${team.name}`}
+                className="flex items-center justify-center hover:text-[#ff9500] hover:underline hover:underline-offset-6 hover:decoration-2"
+              >
+                <img src={team.logo} className={liImgStyle} alt={team.name} />
+                <p className="text-lg ">{team.name}</p>
+              </Link>
+            </li>
+          ))}
         </ul>
       </div>
     </header>
