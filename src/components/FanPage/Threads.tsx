@@ -19,6 +19,7 @@ interface ThreadProps {
   postUserId: string;
   postUserImage?: string;
   postUserIsOnline: boolean;
+  postUserPostsNum: number;
   postUserFollowersNum: number;
   postUserFollowingNum: number;
   title: string;
@@ -37,6 +38,7 @@ export default function Threads({
   username,
   postUserImage,
   postUserIsOnline,
+  postUserPostsNum,
   postUserFollowersNum,
   postUserFollowingNum,
   title,
@@ -208,7 +210,7 @@ ThreadProps) {
           <ProfileBlock username={username} />
           {showed && (
             <div className="absolute z-50 w-[285px] top-5 left-[90px]">
-              <SimpleProfileCard userId={postUserId} username={username} profileImage={postUserImage} isOnline={postUserIsOnline} followerNum={postUserFollowersNum} followingNum={postUserFollowingNum} />
+              <SimpleProfileCard userId={postUserId} username={username} profileImage={postUserImage} isOnline={postUserIsOnline} postsNum={postUserPostsNum} followerNum={postUserFollowersNum} followingNum={postUserFollowingNum} />
             </div>
           )}
         </div>

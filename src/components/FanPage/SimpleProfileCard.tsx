@@ -8,6 +8,7 @@ interface ProfileCardProps {
   username: string;
   profileImage?: string;
   isOnline: boolean;
+  postsNum: number;
   followerNum: number;
   followingNum: number;
 }
@@ -17,15 +18,16 @@ export default function SimpleProfileCard({
   username,
   profileImage,
   isOnline,
+  postsNum,
   followerNum,
   followingNum,
 }: ProfileCardProps) {
   const [activeTab, setActiveTab] = useState("posts");
 
   const stats = [
-    { id: "posts", label: "게시물", count: 10 },
-    { id: "followers", label: "팔로워", count: 10 },
-    { id: "following", label: "팔로잉", count: 10 },
+    { id: "posts", label: "게시물", count: postsNum },
+    { id: "followers", label: "팔로워", count: followerNum },
+    { id: "following", label: "팔로잉", count: followingNum },
   ];
 
   console.log(isOnline);
@@ -67,8 +69,9 @@ export default function SimpleProfileCard({
           {stats.map(({ id, label, count }) => (
             <span
               key={id}
-              onClick={() => setActiveTab(id)}
-              className={`font-semibold ${activeTab === id ? "text-[#FF8A00]" : `text-[#0033a0] dark:text-white`}`}
+              className="dark:text-white text-[10px]"
+              // onClick={() => setActiveTab(id)}
+              // className={`font-semibold ${activeTab === id ? "text-[#FF8A00]" : `text-[#0033a0] dark:text-white`}`}
             >
               {label} {count}
             </span>

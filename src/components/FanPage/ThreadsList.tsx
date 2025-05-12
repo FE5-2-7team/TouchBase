@@ -52,6 +52,7 @@ export default function ThreadsList() {
             postUserId={post.author._id}
             postUserImage={post.author.image}
             postUserIsOnline={post.author.isOnline}
+            postUserPostsNum={post.author.posts.length}
             postUserFollowersNum={post.author.followers.length}
             postUserFollowingNum={post.author.following.length}
             title={postTitle}
