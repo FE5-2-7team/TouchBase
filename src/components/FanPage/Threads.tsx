@@ -64,6 +64,22 @@ export default function Threads({
     setCommentList(comments);
   }, [comments]);
 
+  const showLoginModal = () => {
+    Swal.fire({
+      icon: "error",
+      title: "로그인 후 이용 가능합니다. 🙏",
+      text: "로그인 하시겠습니까?",
+      showConfirmButton: true,
+      showCancelButton: true,
+      confirmButtonText: "예",
+      cancelButtonText: "아니요",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        nav("/login", { state: { from: location } });
+      }
+    });
+  };
+
   // 포스트 수정
   const [isEdit, setIsEdit] = useState(false);
 
@@ -107,19 +123,7 @@ export default function Threads({
   // 좋아요 on & off
   const toggleHeart = async () => {
     if (!userId) {
-      Swal.fire({
-        icon: "error",
-        title: "로그인 후 이용 가능합니다. 🙏",
-        text: "로그인 하시겠습니까?",
-        showConfirmButton: true,
-        showCancelButton: true,
-        confirmButtonText: "예",
-        cancelButtonText: "아니요",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          nav("/login");
-        }
-      });
+      showLoginModal();
       return;
     }
 
@@ -157,19 +161,7 @@ export default function Threads({
   // 댓글 on & off
   const toggleShowComments = () => {
     if (!userId) {
-      Swal.fire({
-        icon: "error",
-        title: "로그인 후 이용 가능합니다. 🙏",
-        text: "로그인 하시겠습니까?",
-        showConfirmButton: true,
-        showCancelButton: true,
-        confirmButtonText: "예",
-        cancelButtonText: "아니요",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          nav("/login", { state: { from: location } });
-        }
-      });
+      showLoginModal();
       return;
     }
     setShowComments((prev) => !prev);
