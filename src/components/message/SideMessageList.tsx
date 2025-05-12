@@ -55,7 +55,7 @@ export default function SideMessageList() {
           return (
             <li
               key={list._id}
-              className="h-18 px-3 pb-2 pt-1 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:bg-opacity-70"
+              className="h-18 px-3 pb-2 pt-1 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:bg-opacity-70 cursor-pointer"
               onClick={() => {
                 clickMessage(selectedUser, fetchMessageList, navigate);
               }}
@@ -71,15 +71,13 @@ export default function SideMessageList() {
                 </div>
               </div>
 
-              <div
-                className={`text-md line-clamp-1 mt-2
-                    ${
-                      list.seen
-                        ? "text-gray-400 dark:text-gray-600"
-                        : "dark:text-gray-400 text-black"
-                    } `}
-              >
-                {list.message}
+              <div className="flex items-center gap-2 mt-2 justify-between">
+                <span className="text-md line-clamp-1 dark:text-white text-black">
+                  {list.message}
+                </span>
+                {list.receiver?._id === myId && !list.seen && (
+                  <span className="text-red-600 text-[9px]">●</span>
+                )}
               </div>
             </li>
           );
