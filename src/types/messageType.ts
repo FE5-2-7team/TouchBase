@@ -14,8 +14,8 @@ export type MessageMode = "write" | "received" | "sent" | "reply";
 export interface MessageProps extends Sender {
   mode: MessageMode;
   sender?: Sender;
-  receiver?: string;
-  seen?: false;
+  receiver?: Sender;
+  seen?: boolean;
   createdAt?: string;
   content?: string;
   message?: string;

@@ -26,15 +26,15 @@ export default function MessageChatView({ messages, myId }: Props) {
             className={`mb-5 flex ${msg.sender?._id === myId ? "justify-end " : "justify-start"}`}
           >
             <div
-              className={`px-4 py-3 rounded-xl w-fit h-[104px] max-w-[70%]"  
+              className={`px-4 py-3 rounded-xl w-fit max-w-[70%]"  
                 ${
                   msg.sender?._id === myId
                     ? "bg-[#305AB3] text-white ml-20 break-words"
-                    : "bg-gray-100 text-gray-800 mr-20 break-words"
+                    : "bg-gray-100 text-gray-800 mr-20 break-words dark:bg-[#2D3037] dark:text-white"
                 }`}
             >
               <p className="text-lg">{msg.message}</p>
-              <p className="text-sm text-right mt-8 whitespace-normal opacity-50 ">
+              <p className="text-sm text-right mt-8 whitespace-normal opacity-50 dark:opacity-30">
                 {msg.createdAt
                   ? new Date(msg.createdAt).toLocaleString("ko-KR", {
                       month: "long",
