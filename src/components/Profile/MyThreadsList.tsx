@@ -62,6 +62,7 @@ export default function MyThreadsList() {
               likes={post.likes}
               comments={post.comments}
               likeChecked={likeChecked}
+              isMyThread={true}
             />
           );
         })
