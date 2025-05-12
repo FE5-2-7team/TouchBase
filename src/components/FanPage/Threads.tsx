@@ -9,7 +9,7 @@ import MyThreads from "./MyThreads";
 import Upload from "./Upload";
 import { AxiosError } from "axios";
 import { axiosInstance } from "../../api/axiosInstance";
-import { Like, Comment } from "../../types/postType";
+import { Like, Comment, Follow, ExtendedUser } from "../../types/postType";
 import { userStore } from "../../stores/userStore";
 import { useNavigate } from "react-router";
 import { refreshStore } from "../../stores/refreshStore";
@@ -17,11 +17,7 @@ interface ThreadProps {
   postId: string;
   username: string;
   postUserId: string;
-  postUserImage?: string;
-  postUserIsOnline: boolean;
-  postUserPostsNum: number;
-  postUserFollowersNum: number;
-  postUserFollowingNum: number;
+  author: ExtendedUser;
   title: string;
   content: string;
   date: string;
@@ -36,11 +32,7 @@ export default function Threads({
   postId,
   postUserId,
   username,
-  postUserImage,
-  postUserIsOnline,
-  postUserPostsNum,
-  postUserFollowersNum,
-  postUserFollowingNum,
+  author,
   title,
   content,
   date,
@@ -186,12 +178,7 @@ ThreadProps) {
 
   if (isEdit) {
     return (
-      <Upload
-        titleValue={title}
-        contentValue={content}
-        imageList={images}
-        editFinishHandler={editFinishHandler}
-      />
+      <Upload titleValue={title} contentValue={content} imageList={images} editFinishHandler={editFinishHandler} />
     );
   }
 
@@ -203,14 +190,11 @@ ThreadProps) {
       {/* 상단: 프로필 + 본문 */}
       <div className="flex gap-[25px]">
         {/* 왼쪽 고정 프로필 */}
-        <div
-          onMouseEnter={() => setShowed(true)}
-          onMouseLeave={() => setShowed(false)}
-        >
+        <div onMouseEnter={() => setShowed(true)} onMouseLeave={() => setShowed(false)}>
           <ProfileBlock username={username} />
           {showed && (
             <div className="absolute z-50 w-[285px] top-5 left-[90px]">
-              <SimpleProfileCard userId={postUserId} username={username} profileImage={postUserImage} isOnline={postUserIsOnline} postsNum={postUserPostsNum} followerNum={postUserFollowersNum} followingNum={postUserFollowingNum} />
+              <SimpleProfileCard loginUserId={userId} author={author} />
             </div>
           )}
         </div>
@@ -226,32 +210,17 @@ ThreadProps) {
           {images.length > 0 && (
             <div className="flex gap-2 flex-wrap mb-2">
               {images.map((src, index) => (
-                <img
-                  key={index}
-                  src={src}
-                  alt={`img-${index}`}
-                  className="w-[70%] rounded-[6px]"
-                />
+                <img key={index} src={src} alt={`img-${index}`} className="w-[70%] rounded-[6px]" />
               ))}
             </div>
           )}
           <div className="flex justify-between items-center text-[#ababab] text-[16px] mt-auto">
             <div className="flex items-center gap-4">
-              <button
-                className="flex items-center gap-1 hover:cursor-pointer"
-                onClick={toggleHeart}
-              >
-                {heart ? (
-                  <FaHeart className="text-[18px] text-red-500" />
-                ) : (
-                  <FaRegHeart className="text-[18px]" />
-                )}
+              <button className="flex items-center gap-1 hover:cursor-pointer" onClick={toggleHeart}>
+                {heart ? <FaHeart className="text-[18px] text-red-500" /> : <FaRegHeart className="text-[18px]" />}
                 {heartCount}
               </button>
-              <button
-                className="flex items-center gap-1 hover:cursor-pointer"
-                onClick={toggleShowComments}
-              >
+              <button className="flex items-center gap-1 hover:cursor-pointer" onClick={toggleShowComments}>
                 <FaRegComment className="text-[18px]" /> {commentList.length}
               </button>
             </div>
@@ -264,11 +233,7 @@ ThreadProps) {
 
       {showComments && (
         <div className="w-full overflow-hidden transition-all ease-in-out">
-          <Comments
-            postId={postId}
-            commentList={commentList}
-            setCommentList={setCommentList}
-          />
+          <Comments postId={postId} commentList={commentList} setCommentList={setCommentList} />
         </div>
       )}
     </div>
