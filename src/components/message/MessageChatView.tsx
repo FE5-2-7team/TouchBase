@@ -27,7 +27,7 @@ export default function MessageChatView({ messages, myId }: Props) {
             <div key={idx} className={`mb-5 flex ${isMine ? "justify-end " : "justify-start"}`}>
               <div className="flex flex-col mr-2 items-end">
                 <div
-                  className={`px-4 py-3 rounded-xl max-w-[70%] w-auto"  
+                  className={`px-4 py-3 rounded-xl max-w-[80%] w-auto"  
                 ${
                   msg.sender?._id === myId
                     ? "bg-[#305AB3] text-white ml-20 break-words self-end"
