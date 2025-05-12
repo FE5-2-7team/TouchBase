@@ -1,23 +1,50 @@
 import { NavLink, Outlet, useParams } from "react-router";
-import profile from "../assets/images/bears.png";
 import mascot from "../assets/images/doosan_mascot.png";
 import useGetUser from "../components/Profile/useGetUser";
-
-const USERID = "681c62cf1fef464281ee7341"; // params.id
+import ProfileImage from "../components/FanPage/ProfileImage";
+import { useEffect, useState } from "react";
 
 export default function ProfileLayout() {
   const params = useParams();
+  const user = useGetUser(params.id!);
 
-  const user = useGetUser(USERID);
+  const [isVisible, setIsVisible] = useState(false);
+
+  // 스크롤 이벤트
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  // 최상단으로 스크롤 이동
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <div className="flex flex-col gap-[34px] w-full max-w-[1200px] mx-auto mt-[40px]">
       <div className="border border-[#D9D9D9] shadow-md rounded-[10px] lg:h-[200px] md:h-[154px] sm:h-[120px] flex items-center gap-[50px] justify-between lg:px-[110px] px-[80px]">
-        <img
-          className="lg:w-[123px] lg:h-[123px] md:w-[100px] md:h-[100px] sm:w-[60px] sm:h-[60px]"
-          src={user?.image}
-          alt="my profile"
-        />
+        {user?.image ? (
+          <img
+            className="lg:w-[123px] lg:h-[123px] md:w-[100px] md:h-[100px] sm:w-[60px] sm:h-[60px]"
+            src={user?.image}
+            alt="my profile"
+          />
+        ) : (
+          <ProfileImage size={90} />
+        )}
+
         <div className="">
           <div className="md:text-[24px] font-bold sm:text-[10px]">
             {user?.username ? user?.username : user?.fullName}
@@ -74,6 +101,14 @@ export default function ProfileLayout() {
         />
       </div>
       <Outlet></Outlet>
+      {isVisible && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-6 right-6 md:bottom-10 md:right-20 p-3 bg-blue-600 text-white rounded-[10px] shadow-lg hover:bg-blue-700 transition-all"
+        >
+          TOP
+        </button>
+      )}
     </div>
   );
 }

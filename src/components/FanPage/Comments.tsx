@@ -17,6 +17,9 @@ export default function Comments({
   setCommentList,
 }: CommentsProps) {
   const [input, setInput] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+
   const userId = userStore((state) => state.getUser()?._id);
 
   const fetchComments = useCallback(async () => {
@@ -24,33 +27,39 @@ export default function Comments({
       const res = await axiosInstance.get(`posts/${postId}`);
 
       setCommentList(res.data.comments);
-      console.log(res.data.comments);
     } catch (error) {
       console.log("댓글 불러오기 실패", error);
     }
   }, [postId, setCommentList]);
 
   const handleSubmit = async () => {
-    if (input.trim() === "") return;
+    if (input.trim() === "" || isSubmitting) return;
+
+    setIsSubmitting(true);
 
     try {
       const res = await axiosInstance.post<Comment>("comments/create", {
         comment: input,
         postId: postId,
       });
-      const createdComment = res.data;
-      setCommentList((prev) => [...prev, createdComment]);
+
+      console.log(res.data);
+      setCommentList((prev) => [...prev, res.data]);
       setInput("");
     } catch (error) {
       console.log("댓글 작성 실패", error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   useEffect(() => {
     fetchComments();
-  }, [fetchComments]);
+  }, []);
 
   const DeleteComments = async (commentId: string) => {
+    if (isDeleting) return;
+    setIsDeleting(true);
     try {
       await axiosInstance.delete("/comments/delete", {
         data: {
@@ -62,6 +71,8 @@ export default function Comments({
       );
     } catch (error) {
       console.log("댓글 작성 실패", error);
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -88,14 +99,19 @@ export default function Comments({
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
+            if (e.key === "Enter") {
               e.preventDefault();
               handleSubmit();
             }
           }}
           className="flex-grow h-[36px] px-3 text-sm border border-[#d9d9d9] rounded-[10px] focus:outline-none"
         />
-        <Button onClick={handleSubmit}>POST</Button>
+        <Button
+          onClick={handleSubmit}
+          disabled={isSubmitting || input.trim() === ""}
+        >
+          POST
+        </Button>
       </div>
 
       {/* 댓글 목록 */}

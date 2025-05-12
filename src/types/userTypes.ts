@@ -9,3 +9,29 @@ export interface UserStore {
   getUser: () => BaseUser | null;
   logout: () => void;
 }
+
+export type SignUpValue = {
+  nickName?: string;
+  email?: string;
+  password?: string;
+  checkPassword?: string;
+};
+
+export type SignUpValue1 = {
+  name?: {
+    valid: boolean;
+    content: string;
+  };
+  email?: {
+    valid: boolean;
+    content: string;
+  };
+  password?: {
+    valid: boolean;
+    content: string;
+  };
+  checkPassword?: {
+    valid: boolean;
+    content: string;
+  };
+};

@@ -4,12 +4,10 @@ import { Post } from "../../types/postType";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { userStore } from "../../stores/userStore";
-import { refreshStore } from "../../stores/refreshStore";
-export default function ThreadsList() {
-  const { teamName, channelId } = useParams();
-  const [posts, setPosts] = useState<Post[]>([]);
-  const refresh = refreshStore((state) => state.refresh);
 
+export default function ThreadDetail() {
+  const { postId, channelId } = useParams();
+  const [posts, setPosts] = useState<Post[]>([]);
   const userId = userStore.getState().getUser()?._id;
 
   useEffect(() => {
@@ -22,15 +20,15 @@ export default function ThreadsList() {
       }
     };
     fetchPosts();
-  }, [channelId, refresh]);
+  }, [channelId]);
 
-  const filterPosts = posts.filter((post) => post.channel.name === teamName);
+  const filterDetail = posts.filter((post) => post._id === postId);
 
   return (
     <div className="flex flex-col gap-6">
       {/* 피드들 */}
 
-      {filterPosts.map((post) => {
+      {filterDetail.map((post) => {
         let postTitle = "";
         let postContent = "";
 
@@ -49,8 +47,6 @@ export default function ThreadsList() {
             key={post._id}
             postId={post._id}
             username={post.author?.username ?? post.author?.fullName}
-            postUserId={post.author._id}
-            author={post.author}
             title={postTitle}
             content={postContent}
             date={new Date(post.createdAt).toLocaleDateString()}

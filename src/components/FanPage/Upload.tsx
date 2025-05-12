@@ -3,6 +3,10 @@ import Button from "./Button";
 import { LuImagePlus } from "react-icons/lu";
 import ProfileBlock from "./ProfileBlock";
 import { MdOutlineReplay } from "react-icons/md";
+import { userStore } from "../../stores/userStore";
+import { axiosInstance } from "../../api/axiosInstance";
+import { useParams } from "react-router";
+import { AxiosError } from "axios";
 
 interface UploadProps {
   titleValue?: string;
@@ -11,7 +15,16 @@ interface UploadProps {
   editFinishHandler?: () => void;
 }
 
-export default function Upload({ titleValue, contentValue, imageList, editFinishHandler }: UploadProps) {
+export default function Upload({
+  titleValue,
+  contentValue,
+  imageList,
+  editFinishHandler,
+}: UploadProps) {
+  const { channelId } = useParams();
+  const userName = userStore.getState().getUser()?.fullName;
+  // console.log(userName);
+
   const [title, setTitle] = useState(titleValue || "");
   const [images, setImages] = useState<string[]>(imageList || []);
   const contentRef = useRef<HTMLDivElement | null>(null);
@@ -37,7 +50,7 @@ export default function Upload({ titleValue, contentValue, imageList, editFinish
       const reader = new FileReader();
       reader.onload = function (e) {
         const img = document.createElement("img");
-        const result = e.target?.result as string
+        const result = e.target?.result as string;
         img.src = result;
         img.style.maxWidth = "100%";
         img.style.marginTop = "10px";
@@ -54,13 +67,15 @@ export default function Upload({ titleValue, contentValue, imageList, editFinish
     setIsEmpty(text === "");
   };
 
-  const postHandler = () => {
+  const postHandler = async () => {
+    console.log(channelId);
+    await uploadThread();
     editFinishHandler?.();
-  }
+  };
 
   useEffect(() => {
     const contentHTML = contentValue || "";
-  
+
     const imageHTML =
       imageList && imageList.length > 0
         ? imageList
@@ -70,14 +85,30 @@ export default function Upload({ titleValue, contentValue, imageList, editFinish
             )
             .join("")
         : "";
-  
+
     if (contentRef.current) {
       contentRef.current.innerHTML = contentHTML + imageHTML;
     }
-  
+
     setImages(imageList || []);
     InputHandler();
   }, [contentValue, imageList]);
+
+  // 포스트 업데이트 api 호출
+  const uploadThread = async () => {
+    try {
+      const contentHTML = contentRef.current?.innerHTML || "";
+      const res = await axiosInstance.post(`/posts/create`, {
+        title: JSON.stringify([{ postTitle: title, postContent: contentHTML }]),
+        image: images,
+        channelId: channelId,
+      });
+      console.log(res.data.title);
+    } catch (error) {
+      const err = error as AxiosError;
+      console.error("생성 불가!!!", err.message);
+    }
+  };
 
   return (
     <>
@@ -85,7 +116,7 @@ export default function Upload({ titleValue, contentValue, imageList, editFinish
         <div className="p-[24px] flex gap-[25px]">
           {/* 왼쪽 프로필 영역 */}
           <div className="flex-shink-0 self-start">
-            <ProfileBlock username="user name" />
+            <ProfileBlock username={userName} />
           </div>
 
           {/* 오른쪽 입력 영역 */}

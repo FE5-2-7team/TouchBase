@@ -2,20 +2,21 @@ import { Routes, Route } from "react-router";
 import RootLayout from "./layout/RootLayout";
 import Home from "./pages/HomePage";
 import FanPage from "./pages/FanPage";
-import MessageContainer from "./components/message/MessageContainer";
 import ProfileLayout from "./layout/ProfileLayout";
 import FollowBox from "./components/Profile/FollowBox";
-import MessagePage from "./pages/MessagePage";
 import LogIn from "./pages/LogInPage";
-import SignUp from "./pages/SignUp";
-import InboxMessage from "./components/message/InboxMessage";
-import SentList from "./components/message/SentList";
+import SignUp from "./pages/SignUpPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import EditProfile from "./components/Auth/EditProfile";
 import MyThreadsList from "./components/Profile/MyThreadsList";
 import { useDarkMode } from "./hooks/useDarkMode";
-import AuthLayout from "./layout/AuthLayout";
-
+import AuthLayout from "./layout/RejectIfAuth";
+import RequireAuth from "./layout/RequireAuth";
+import NewMessage from "./components/Message/NewMessage";
+import MessagePage from "./pages/MessagePage";
+import MessageContainer from "./components/Message/MessageContainer";
+import EmptyMessage from "./components/Message/EmptyMessage";
+import DetailFanPage from "./pages/DetailFanPage";
 export default function App() {
   useDarkMode();
 
@@ -27,20 +28,26 @@ export default function App() {
 
           <Route path="/profile/:id" element={<ProfileLayout />}>
             <Route index path="posts" element={<MyThreadsList />} />
-            <Route path="follower" element={<FollowBox title={"팔로워"} />} />
-            <Route path="following" element={<FollowBox title={"팔로잉"} />} />
+            <Route path="follower" element={<FollowBox isFollower={true} />} />
+            <Route
+              path="following"
+              element={<FollowBox isFollower={false} />}
+            />
             <Route path="modify" element={<EditProfile />}></Route>
           </Route>
           <Route path="/fanpage/:teamName/:channelId" element={<FanPage />} />
-          <Route path="/message" element={<MessagePage />}>
-            <Route index element={<InboxMessage />} />
-            <Route path="inbox" element={<InboxMessage />} />
-            <Route path="sent" element={<SentList />} />
-            <Route path="sent/:id" element={<MessageContainer mode={"sent"} />} />
-            <Route path="write/:id?" element={<MessageContainer mode={"write"} />} />
-            <Route path="view/:id" element={<MessageContainer mode={"received"} />} />
+          <Route
+            path="/fanpage/:teamName/:channelId/:postId"
+            element={<DetailFanPage />}
+          />
+          <Route element={<RequireAuth />}>
+            <Route path="/message" element={<MessagePage />}>
+              <Route index element={<EmptyMessage />} />
+              <Route path="new" element={<NewMessage />} />
+              <Route path="/message/:id" element={<MessageContainer />} />
+            </Route>
+            <Route path="profile/edit" element={<EditProfile />} />
           </Route>
-          <Route path="/message" element={<InboxMessage />} />
         </Route>
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<LogIn />} />

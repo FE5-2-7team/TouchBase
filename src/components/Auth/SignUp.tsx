@@ -8,6 +8,9 @@ import { axiosInstance } from "../../api/axiosInstance.ts";
 import { useNavigate } from "react-router";
 import Message from "./Message.tsx";
 import Swal from "sweetalert2";
+import { inputValidation } from "./inputValidation.ts";
+import { SignUpValue } from "../../types/userTypes.ts";
+import { login } from "../../api/auth";
 
 export default function SignUp() {
   const baseUrl = import.meta.env.VITE_API_URL;
@@ -29,38 +32,32 @@ export default function SignUp() {
   });
 
   const [nickNameValid, setNickNameValid] = useState(false);
+  const [nickNameApiValid, setNickNameApiValid] = useState(false);
 
   const submitValid = [
     ...Object.values(value),
     ...Object.values(valid),
     nickNameValid,
+    !nickNameApiValid,
   ];
 
-  //input type에 유효성 검사
-  function validChecked(e: React.ChangeEvent<HTMLInputElement>, type: string) {
-    let isValid: boolean = false;
+  //input onChnage 유효성 검사
+  function handleInputValidation(
+    e: React.ChangeEvent<HTMLInputElement>,
+    type: string,
+    value: SignUpValue
+  ) {
+    const isValid = inputValidation(e, type, value);
 
-    switch (type) {
-      case "nickName":
-        isValid = /^[a-z0-9가-힣ㄱ-ㅎㅏ-ㅣ]+$/.test(e.target.value);
-        setNickNameValid(false);
-        break;
-      case "email":
-        isValid = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(
-          e.target.value
-        );
-        break;
-      case "password":
-        isValid = /^(?=.*[a-z])(?=.*\d)[a-z\d]{8,16}$/.test(e.target.value);
-        if (e.target.value === value.checkPassword) {
-          setValid((valid) => {
-            return { ...valid, checkPassword: true };
-          });
-        }
-        break;
-      case "checkPassword":
-        isValid = e.target.value === value.password;
-        break;
+    if (type === "nickName") {
+      setNickNameValid(false);
+      setNickNameApiValid(false);
+    } else if (type === "password") {
+      if (e.target.value === value.checkPassword) {
+        setValid((valid) => {
+          return { ...valid, checkPassword: true };
+        });
+      }
     }
 
     setValue((value) => {
@@ -69,11 +66,10 @@ export default function SignUp() {
     setValid((valid) => {
       return { ...valid, [type]: isValid };
     });
-    console.log(valid, value);
   }
 
-  //비밀번호 체크 인풋에 포커스 들어갈 때
-  function retestFocusIn() {
+  //비밀번호 체크 인풋에 포커스 들어갈 때 유효성 검사
+  function handleCheckPasswordFocus() {
     if (value.checkPassword === value.password) {
       setValid((valid) => {
         return { ...valid, checkPassword: false };
@@ -86,7 +82,8 @@ export default function SignUp() {
   }
 
   //닉네임 유효성 검사
-  async function validNickName() {
+  async function handleNickNameCheck() {
+    console.log(value, valid);
     if (value.nickName === "" || !valid.nickName) return;
 
     try {
@@ -96,46 +93,60 @@ export default function SignUp() {
         (el: BaseUser) => el.fullName === value.nickName
       );
       console.log(json, result);
-      if (!result) {
-        setNickNameValid(true);
-      } else {
+      if (result) {
         setNickNameValid(false);
+        setNickNameApiValid(true);
+      } else {
+        setNickNameValid(true);
+        setNickNameApiValid(false);
       }
     } catch (error) {
       console.log(error);
     }
   }
 
-  //회원가입 data submit
-  async function submitSignUpData() {
-    console.log(submitValid);
-    if (submitValid.some((vaild) => vaild == false)) {
-      Swal.fire({
-        icon: "error",
-        title: "회원가입 실패",
-        text: "유효하지 않은 아이디 혹은 이메일, 비밀번호 입니다 ",
-        confirmButtonText: "다시 시도",
-      });
+  const showValidationErrorAlert = () => {
+    Swal.fire({
+      icon: "error",
+      title: "회원가입 실패",
+      text: "유효하지 않은 아이디 혹은 이메일, 비밀번호 입니다 ",
+      confirmButtonText: "닫기",
+    });
+  };
+
+  //회원가입
+  async function handleSignUpSubmit() {
+    //input 유효성 체크
+    if (!submitValid.every((vaild) => vaild)) {
+      console.log(submitValid);
+      console.log("실패");
+      showValidationErrorAlert();
       return;
     }
 
-    let response;
-
     try {
-      response = await axiosInstance.post(`/signup`, {
+      //회원가입 데이터 post
+      const response = await axiosInstance.post(`/signup`, {
         email: value.email.toLocaleLowerCase().trim(),
         fullName: value.nickName.toLocaleLowerCase().trim(),
         password: value.password.toLocaleLowerCase().trim(),
       });
-      console.log(response.data);
+
+      //로그인 기능
+      if (response.status === 200) {
+        await login({
+          email: value.email,
+          password: value.password,
+        });
+        localStorage.setItem("saveId", value.email);
+        navigate("/");
+      } else {
+        showValidationErrorAlert();
+      }
     } catch (error) {
       console.log(error);
     } finally {
-      setNickNameValid(true);
-      setValue((value) => {
-        return { ...value };
-      });
-      navigate("/");
+      console.log(localStorage.getItem("saveId"));
     }
   }
 
@@ -149,13 +160,13 @@ export default function SignUp() {
                 placeholder={"닉네임"}
                 type="text"
                 className="w-full mb-[0]"
-                onChange={(e) => validChecked(e, "nickName")}
+                onChange={(e) => handleInputValidation(e, "nickName", value)}
                 value={value.nickName}
               />
               <Button
                 onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                   e.preventDefault();
-                  validNickName();
+                  handleNickNameCheck();
                 }}
                 className="bg-[rgba(0,51,160,0.4)] rounded-[5px] text-[16px] hover:bg-[rgba(0,51,160,1)] hover:text-[#fff] transition"
               >
@@ -169,6 +180,7 @@ export default function SignUp() {
                   사용 가능한 닉네임 입니다
                 </Message>
               )}
+              {nickNameApiValid && <Message>중복 된 닉네임 입니다</Message>}
             </div>
             <div className="w-full flex gap-[20px] mb-[35px] items-center relative">
               <Input
@@ -177,7 +189,7 @@ export default function SignUp() {
                 className="w-full mb-[0]"
                 value={value.email}
                 onChange={(e) => {
-                  validChecked(e, "email");
+                  handleInputValidation(e, "email", value);
                 }}
               />
               {value.email && !valid.email && (
@@ -190,7 +202,7 @@ export default function SignUp() {
                 type="password"
                 className="mb-[0]"
                 value={value.password}
-                onChange={(e) => validChecked(e, "password")}
+                onChange={(e) => handleInputValidation(e, "password", value)}
               />
               {value.password && !valid.password && (
                 <Message>8~16자, 영문, 숫자 조합 입니다</Message>
@@ -198,8 +210,10 @@ export default function SignUp() {
             </div>
             <div className="relative mb-[35px]">
               <Input
-                onFocus={retestFocusIn}
-                onChange={(e) => validChecked(e, "checkPassword")}
+                onFocus={handleCheckPasswordFocus}
+                onChange={(e) =>
+                  handleInputValidation(e, "checkPassword", value)
+                }
                 value={value.checkPassword}
                 placeholder={"비밀번호 확인"}
                 type="password"
@@ -212,7 +226,7 @@ export default function SignUp() {
             <AuthButton
               onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                 e.preventDefault();
-                submitSignUpData();
+                handleSignUpSubmit();
               }}
               className="text-black bg-[rgba(255,149,0,0.8)]"
             >
