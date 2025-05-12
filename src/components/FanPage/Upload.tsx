@@ -7,6 +7,7 @@ import { userStore } from "../../stores/userStore";
 import { axiosInstance } from "../../api/axiosInstance";
 import { useParams } from "react-router";
 import { AxiosError } from "axios";
+import { refreshStore } from "../../stores/refreshStore";
 
 interface UploadProps {
   titleValue?: string;
@@ -70,7 +71,9 @@ export default function Upload({
   const postHandler = async () => {
     console.log(channelId);
     await uploadThread();
+    refreshStore.getState().refetch();
     editFinishHandler?.();
+    UndoHandler();
   };
 
   useEffect(() => {

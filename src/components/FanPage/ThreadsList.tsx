@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { userStore } from "../../stores/userStore";
 import { refreshStore } from "../../stores/refreshStore";
+
 export default function ThreadsList() {
   const { teamName, channelId } = useParams();
   const [posts, setPosts] = useState<Post[]>([]);
