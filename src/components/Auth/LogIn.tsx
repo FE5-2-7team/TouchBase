@@ -4,11 +4,13 @@ import Input from "./AuthInput";
 import BlueBoard from "./BlueBoard";
 import { useEffect, useState } from "react";
 import { login } from "../../api/auth";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import Swal from "sweetalert2";
 
 export default function LogIn() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   const [loginForm, setLoginForm] = useState({
     email: "",
@@ -27,10 +29,9 @@ export default function LogIn() {
     else localStorage.removeItem("saveId");
 
     const res = await login(loginForm);
-    console.log(res);
 
     if (res) {
-      navigate("/");
+      navigate(from, { replace: true });
     } else {
       Swal.fire({
         icon: "error",
