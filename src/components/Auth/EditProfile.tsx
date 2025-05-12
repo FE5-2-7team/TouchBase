@@ -3,18 +3,19 @@ import ProfileImage from "./ProfileImage";
 import AuthInput from "./AuthInput";
 import advertisement from "../../assets/images/advertisement.svg";
 import footerLogo from "../../assets/images/smallLogo.png";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import BlueBoard from "./BlueBoard";
 import Button from "../FanPage/Button";
 import { useState, useLayoutEffect } from "react";
 import { editValidation } from "./inputValidation.ts";
 import { SignUpValue1 } from "../../types/userTypes.ts";
 import Message from "./Message.tsx";
-import { BaseUser } from "../../types/postType.ts";
+// import { BaseUser } from "../../types/postType.ts";
 
 export default function EditProfile() {
   const baseUrl = import.meta.env.VITE_API_URL;
-  // const redirectHome = useNavigate();
+  const { id } = useParams();
+  const redirectHome = useNavigate();
   //state 하나로 줄여보기
   const [value, setValue] = useState({
     name: {
@@ -30,19 +31,18 @@ export default function EditProfile() {
       content: "",
     },
   });
-  let response: BaseUser;
 
   const { name, password, checkPassword } = value;
 
   //세션스토리지에 유저 정보가 없을 경우 홈으로 리디렉션
-  useLayoutEffect(() => {
+  async function getUserData(id: string) {
     const sessionData = sessionStorage.getItem("user");
 
     if (sessionData) {
       try {
         const parsed = JSON.parse(sessionData) as {
           state: {
-            user: { _id: string }; // 필요한 필드만 명시
+            user: { _id: string };
           };
         };
         const {
@@ -52,18 +52,18 @@ export default function EditProfile() {
         } = parsed;
 
         console.log(_id);
-        response = await fetch(`${baseUrl}users/${_id}`);
-        // console.log(user, token);
-        // if (user === "" || token === "") {
-        //   redirectHome("/");
-        // }
+        await fetch(`${baseUrl}users/${id}`);
       } catch (error) {
         console.error(error);
       }
     } else {
-      console.log("user 정보 없음");
+      redirectHome("/");
     }
-  }, []);
+  }
+
+  useLayoutEffect(() => {
+    getUserData(id);
+  });
 
   //input onChnage 유효성 검사 - 재사용 모듈화 하기 -
   function handleInputValidation(
