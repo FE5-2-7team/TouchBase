@@ -1,21 +1,30 @@
 import Sidebar from "../components/FanPage/Sidebar";
 // import ThreadDetail from "../components/FanPage/ThreadDetail";
 import { useParams } from "react-router";
-// import { axiosInstance } from "../api/axiosInstance";
+import { axiosInstance } from "../api/axiosInstance";
+import { useEffect } from "react";
 
 export default function DetailFanPage() {
-  const { teamName } = useParams<{ teamName: string }>();
+  const { teamName, channelId, postId } = useParams<{
+    teamName: string;
+    channelId: string;
+    postId: string;
+  }>();
   const typeTeamName = teamName as string;
+  //   const typePostId = postId as string;
 
-  //   const postApi = async() => {
-  //     try {
-
-  //         await axiosInstance.get('post/{postId}', {
-
-  //         })
-
-  //     }
-  //   }
+  //   console.log(channelId);
+  useEffect(() => {
+    const postApi = async () => {
+      try {
+        const res = await axiosInstance.get(`posts/${channelId}/${postId}`);
+        console.log(res.data);
+      } catch (error) {
+        console.log("상세페이지 못가져옴!", error);
+      }
+    };
+    postApi();
+  }, [channelId, postId]);
 
   return (
     <>
