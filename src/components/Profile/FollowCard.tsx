@@ -60,7 +60,7 @@ export default function FollowCard({ followId }: { followId: string }) {
 
       <button
         className={twMerge(
-          "w-[100px] h-[24px] text-[14px] rounded-[10px] bg-[#0033A0] text-[#ffffff] cursor-pointer",
+          "w-[100px] h-[24px] text-[14px] rounded-[10px] bg-[#0033A0] dark:bg-[#2F6BEB] text-[#ffffff] cursor-pointer",
           followId === loginUserId && "hidden"
         )}
       >
