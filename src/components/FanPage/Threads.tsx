@@ -26,6 +26,7 @@ interface ThreadProps {
   likes: Like[];
   comments: Comment[];
   likeChecked: boolean;
+  isMyThread?: boolean;
 }
 
 export default function Threads({
@@ -40,8 +41,8 @@ export default function Threads({
   likes,
   comments,
   likeChecked,
-}: // isMyThread = false,
-ThreadProps) {
+  isMyThread = false,
+}: ThreadProps) {
   const userId = userStore((state) => state.getUser()?._id);
 
   const [showed, setShowed] = useState(false);
@@ -189,7 +190,7 @@ ThreadProps) {
         {/* 왼쪽 고정 프로필 */}
         <div onMouseEnter={() => setShowed(true)} onMouseLeave={() => setShowed(false)}>
           <ProfileBlock username={username} />
-          {showed && (
+          {!isMyThread && showed && (
             <div className="absolute z-50 w-[285px] top-5 left-[90px]">
               <SimpleProfileCard loginUserId={userId} author={author} />
             </div>
