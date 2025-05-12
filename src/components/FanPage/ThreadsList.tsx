@@ -51,6 +51,7 @@ export default function ThreadsList() {
             postId={post._id}
             username={post.author?.username ?? post.author?.fullName}
             postUserId={post.author._id}
+            author={post.author}
             title={postTitle}
             content={postContent}
             date={new Date(post.createdAt).toLocaleDateString()}

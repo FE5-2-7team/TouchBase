@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { MessageProps, Sender } from "../../types/messageType";
 import { axiosInstance } from "../../api/axiosInstance";
 import { userStore } from "../../stores/userStore";
-import { Link } from "react-router";
+import { useNavigate } from "react-router";
 
 export default function SideMessageList() {
   const [lists, setLists] = useState<MessageProps[]>([]);
   const myId = userStore.getState().getUser()?._id;
+  const navigate = useNavigate();
 
   const fetchMessageList = async () => {
     try {
@@ -22,32 +23,64 @@ export default function SideMessageList() {
     }
   };
 
+  const clickMessage = async (
+    selectedUser: Sender,
+    fetchMessageList: () => void,
+    navigate: ReturnType<typeof useNavigate>
+  ) => {
+    try {
+      await axiosInstance.put("/messages/update-seen", {
+        sender: selectedUser._id,
+      });
+
+      await fetchMessageList();
+    } catch (err) {
+      console.log("읽음 처리 실패", err);
+    }
+
+    navigate(`/message/${selectedUser._id}`, {
+      state: { selectedUser },
+    });
+  };
+
   useEffect(() => {
     fetchMessageList();
   }, []);
 
   return (
     <>
-      <ul className="mt-10 w-[258px] overflow-scroll">
+      <ul className="mt-10 w-[258px] overflow-y-auto">
         {lists.map((list) => {
           const selectedUser = (list.sender?._id === myId ? list.receiver : list.sender) as Sender;
-
           return (
-            <li key={list._id} className="h-18 px-3 pb-2 pt-1 hover:bg-gray-200">
-              <Link to={`/message/${selectedUser._id}`} state={{ selectedUser: selectedUser }}>
-                <div className="flex justify-between mt-1">
-                  <div className="text-md">{selectedUser.fullName}</div>
-                  <div className="text-xs text-right text-gray-500">
-                    {list.createdAt &&
-                      new Date(list.createdAt).toLocaleString("ko-KR", {
-                        month: "long",
-                        day: "numeric",
-                      })}
-                  </div>
+            <li
+              key={list._id}
+              className="h-18 px-3 pb-2 pt-1 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:bg-opacity-70"
+              onClick={() => {
+                clickMessage(selectedUser, fetchMessageList, navigate);
+              }}
+            >
+              <div className="flex justify-between mt-1">
+                <div className="text-md dark:text-white">{selectedUser.fullName}</div>
+                <div className="text-xs text-right text-gray-500 dark:text-gray-400">
+                  {list.createdAt &&
+                    new Date(list.createdAt).toLocaleString("ko-KR", {
+                      month: "long",
+                      day: "numeric",
+                    })}
                 </div>
+              </div>
 
-                <div className="text-md line-clamp-1 text-gray-400 mt-2">{list.message}</div>
-              </Link>
+              <div
+                className={`text-md line-clamp-1 mt-2
+                    ${
+                      list.seen
+                        ? "text-gray-400 dark:text-gray-600"
+                        : "dark:text-gray-400 text-black"
+                    } `}
+              >
+                {list.message}
+              </div>
             </li>
           );
         })}
