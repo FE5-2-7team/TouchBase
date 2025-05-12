@@ -6,17 +6,18 @@ import footerLogo from "../../assets/images/smallLogo.png";
 import { Link, useNavigate, useParams } from "react-router";
 import BlueBoard from "./BlueBoard";
 import Button from "../FanPage/Button";
-import { useState, useLayoutEffect } from "react";
+import { useState, useEffect } from "react";
 import { editValidation } from "./inputValidation.ts";
 import { SignUpValue1 } from "../../types/userTypes.ts";
 import Message from "./Message.tsx";
-// import { BaseUser } from "../../types/postType.ts";
+import { logout } from "../../api/auth";
+import { axiosInstance } from "../../api/axiosInstance.ts";
 
 export default function EditProfile() {
-  const baseUrl = import.meta.env.VITE_API_URL;
+  //url로 넘어온 id
   const { id } = useParams();
-  const redirectHome = useNavigate();
-  //state 하나로 줄여보기
+  const navigate = useNavigate();
+
   const [value, setValue] = useState({
     name: {
       valid: false,
@@ -32,43 +33,127 @@ export default function EditProfile() {
     },
   });
 
+  const [render, setRender] = useState(true);
+
   const { name, password, checkPassword } = value;
 
-  //세션스토리지에 유저 정보가 없을 경우 홈으로 리디렉션
-  async function getUserData(id: string) {
+  //ui userInfo에 들어갈 정보
+  const [info, setInfo] = useState({
+    id: "",
+    fullName: "",
+    email: "",
+    followers: [] as string[],
+    following: [] as string[],
+  });
+
+  //마운트 될 때 user정보 갱신
+  async function urlValidation(id: string) {
+    //sessionId는 로그인 한 유저의 정보
+    let logInId;
     const sessionData = sessionStorage.getItem("user");
-
     if (sessionData) {
-      try {
-        const parsed = JSON.parse(sessionData) as {
-          state: {
-            user: { _id: string };
-          };
-        };
-        const {
-          state: {
-            user: { _id },
-          },
-        } = parsed;
-
-        console.log(_id);
-        await fetch(`${baseUrl}users/${id}`);
-      } catch (error) {
-        console.error(error);
-      }
+      //한번 로그인을 해서 sesstionstorage는 있지만 로그인한 유저인지 확인
+      const parsed = JSON.parse(sessionData);
+      if (!parsed.state.user) navigate("/login", { replace: true });
+      logInId = parsed.state.user._id;
     } else {
-      redirectHome("/");
+      //getitem이 null이면 로그인 하지 않은 유저
+      navigate("/login", { replace: true });
+    }
+
+    //url로 넘어온 id 검사
+    let response;
+
+    try {
+      response = await axiosInstance(`users/${id}`);
+      console.log(response);
+    } catch (err) {
+      navigate("*", { replace: true });
+      console.log(err);
+      return;
+    }
+
+    //url 파라미터로 받아온 user 정보 구조 분해
+    const { _id, followers, following, fullName, email } = response.data;
+
+    //파라미터로 넘어온 id 값이랑 로그인 된 유저 정보rk 담긴 세션 id 값이랑 비교(url)
+    if (logInId === _id) {
+      setInfo((info) => {
+        return {
+          ...info,
+          id: _id,
+          fullName: fullName,
+          email: email,
+          followers: followers,
+          following: following,
+        };
+      });
+      console.log(info);
+    } else {
+      navigate("*", { replace: true });
     }
   }
+  type FieldType = "name" | "checkPassword";
 
-  useLayoutEffect(() => {
-    getUserData(id);
-  });
+  const handleUpdateUser = async (
+    data: { valid: boolean; content: string },
+    type: FieldType
+  ) => {
+    //input 상태 검사
+    for (const keys in data) {
+      if (data[keys as keyof typeof data] == false) return;
+    }
+
+    const response =
+      type === "name"
+        ? await axiosInstance.put("settings/update-user", {
+            fullName: data.content,
+            username: "",
+          })
+        : await axiosInstance.put("settings/update-password", {
+            password: data.content,
+          });
+
+    if (response.status !== 200) return;
+
+    if (type === "checkPassword") {
+      navigate("/login");
+      return;
+    }
+
+    setValue((value) => {
+      return {
+        ...value,
+        name: {
+          valid: false,
+          content: "",
+        },
+        password: {
+          valid: false,
+          content: "",
+        },
+        checkPassword: {
+          valid: false,
+          content: "",
+        },
+      };
+    });
+
+    setRender((render) => !render);
+  };
+
+  useEffect(() => {
+    if (id) {
+      urlValidation(id);
+    } else {
+      navigate("*", { replace: true });
+    }
+  }, [id, render]);
 
   //input onChnage 유효성 검사 - 재사용 모듈화 하기 -
   function handleInputValidation(
     e: React.ChangeEvent<HTMLInputElement>,
-    type: string,
+    type: "name" | "email" | "password" | "checkPassword",
     value: SignUpValue1
   ) {
     const isValid = editValidation(e, type, value);
@@ -80,7 +165,7 @@ export default function EditProfile() {
             ...value,
             checkPassword: {
               valid: true,
-              content: "",
+              content: checkPassword.content,
             },
           };
         });
@@ -100,9 +185,8 @@ export default function EditProfile() {
 
   const userInfo = [
     { title: "내 프로필" },
-    { title: "내 팔로워", content: "357" },
-    { title: "내 팔로잉", content: "281" },
-    // { title: "응원 구단", content: "기아 타이거즈" },
+    { title: "내 팔로워", content: `${info.followers.length}` },
+    { title: "내 팔로잉", content: `${info.following.length}` },
   ];
 
   return (
@@ -112,19 +196,36 @@ export default function EditProfile() {
           <aside className="h-full w-[420px] border-x border-x-[#E4E4E4] px-[63px] py-[30px] flex flex-col items-center">
             <Logo className="w-[156px] mb-[30px]" />
             <ProfileImage className="mb-[12px]" />
-            <p className="text-[24px] font-bold cursor-default">사용자</p>
+            <p className="text-[24px] font-bold cursor-default">
+              {info.fullName}
+            </p>
             <p className="text-[14px] text-[#7C7B7B] font-regular mb-[42px] cursor-default">
-              email@google.com
+              {info.email}
             </p>
             <div className="w-full py-[50px] border-y border-[#E4E4E4] flex flex-col gap-[35px] font-sans">
-              {userInfo.map((info, idx) => {
+              {userInfo.map((user, idx) => {
+                if (idx === 0) {
+                  return (
+                    <div className="w-full flex justify-between" key={idx}>
+                      <div
+                        onClick={() => {
+                          console.log(info.id);
+                          navigate(`/profile/${info.id}/posts`);
+                        }}
+                        className="w-content-fit h-[32px] text-[20px] text-[#5A5A5A] cursor-pointer hover:text-[#FF9500] hover:border-b"
+                      >
+                        {user.title}
+                      </div>
+                    </div>
+                  );
+                }
                 return (
                   <div className="w-full flex justify-between" key={idx}>
                     <div className="w-content-fit h-[32px] text-[20px] text-[#5A5A5A] cursor-pointer hover:text-[#FF9500] hover:border-b">
-                      {info.title}
+                      {user.title}
                     </div>
                     <div className="w-[50%] text-[20px] text-[#5A5A5A]">
-                      {info.content}
+                      {user.content}
                     </div>
                   </div>
                 );
@@ -132,9 +233,15 @@ export default function EditProfile() {
             </div>
             <div className="py-[30px] w-full">
               <p className="text-[#646464] text-[16px] cursor-pointer mb-[14px] hover:text-[#FF9500]">
-                <Link to={"/message"}>내 쪽지함</Link>
+                <Link to={`/message`}>내 쪽지함</Link>
               </p>
-              <p className="text-[#646464] text-[16px] cursor-pointer hover:text-[#FF9500]">
+              <p
+                onClick={() => {
+                  logout();
+                  navigate("/");
+                }}
+                className="text-[#646464] text-[16px] cursor-pointer hover:text-[#FF9500]"
+              >
                 로그 아웃
               </p>
             </div>
@@ -177,7 +284,7 @@ export default function EditProfile() {
                 onChange={(e) => handleInputValidation(e, "name", value)}
                 className="h-[40px] mb-[0] max-w-[475px]"
               />
-              <Button className="w-[80px] h-[40px] text-[14px] rounded-[5px]">
+              <Button onClick={() => handleUpdateUser(name, "name")}>
                 변경하기
               </Button>
               {name.content && !name.valid && (
@@ -215,7 +322,10 @@ export default function EditProfile() {
                 }
                 className="h-[40px] mb-[0] max-w-[475px]"
               />
-              <Button className="w-[80px] h-[40px] text-[14px] rounded-[5px]">
+              <Button
+                onClick={() => handleUpdateUser(checkPassword, "checkPassword")}
+                className="w-[80px] h-[40px] text-[14px] rounded-[5px]"
+              >
                 변경하기
               </Button>
               {checkPassword.content && !checkPassword.valid && (

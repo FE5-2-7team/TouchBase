@@ -29,10 +29,11 @@ export function inputValidation(
 
 export function editValidation(
   e: React.ChangeEvent<HTMLInputElement>,
-  type: string,
+  type: "name" | "email" | "password" | "checkPassword",
   value: SignUpValue1
 ) {
   let isValid: boolean = false;
+  if (value[type]!.content === "") return;
 
   switch (type) {
     case "name":
