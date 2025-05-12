@@ -1,11 +1,11 @@
 import Threads from "./Threads";
 import { axiosInstance } from "../../api/axiosInstance";
-import { Post, Channel } from "../../types/postType";
+import { Post } from "../../types/postType";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { userStore } from "../../stores/userStore";
 export default function ThreadsList() {
-  const { teamName } = useParams();
+  const { teamName, channelId } = useParams();
   const [posts, setPosts] = useState<Post[]>([]);
 
   const userId = userStore.getState().getUser()?._id;
@@ -13,14 +13,6 @@ export default function ThreadsList() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const channelsRes = await axiosInstance.get(`/channels`);
-        const channels = channelsRes.data;
-
-        const matchChannel = channels.find(
-          (channel: Channel) => channel.name === teamName
-        );
-        const channelId = matchChannel._id;
-
         const postRes = await axiosInstance.get(`/posts/channel/${channelId}`);
         setPosts(postRes.data);
       } catch (error) {
@@ -28,7 +20,7 @@ export default function ThreadsList() {
       }
     };
     fetchPosts();
-  }, [teamName]);
+  }, [channelId]);
 
   const filterPosts = posts.filter((post) => post.channel.name === teamName);
 
@@ -55,6 +47,7 @@ export default function ThreadsList() {
             key={post._id}
             postId={post._id}
             username={post.author?.username ?? post.author?.fullName}
+            postUserId={post.author._id}
             title={postTitle}
             content={postContent}
             date={new Date(post.createdAt).toLocaleDateString()}
