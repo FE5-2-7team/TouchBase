@@ -25,7 +25,7 @@ export default function MyThreadsList() {
     startTransition(async () => {
       await getHandler();
     });
-  }, [refresh]);
+  }, [refresh, params.id]);
 
   if (isPending) <h1>Loading...</h1>;
 

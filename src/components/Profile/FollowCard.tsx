@@ -36,7 +36,7 @@ export default function FollowCard({ followId, profileId }: { followId: string; 
 
   return (
     <div className="flex items-center border border-[#335CB3] dark:border-[#FFFFFF] rounded-[10px] w-[470px] h-[63px] justify-between px-[13px] my-[5px]">
-      <Link to={`/profile/${userDetails?._id}/posts`} reloadDocument className="flex items-center">
+      <Link to={`/profile/${userDetails?._id}/posts`} className="flex items-center">
         <div className="relative w-[34px] h-[34px]">
           {userDetails?.image ? (
             <img src={userDetails?.image} alt="profile image" className="absolute w-full h-full rounded-full" />
