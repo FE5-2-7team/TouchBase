@@ -41,7 +41,7 @@ export default function FollowCard({ followId, profileId }: { followId: string; 
           <div
             className={twMerge(
               "absolute w-[8px] h-[8px] right-[1px] rounded-[100px] bg-[#00FF1E] dark:border dark:border-[#0033A0]",
-              userDetails?.isOnline && "hidden"
+              !userDetails?.isOnline && "hidden"
             )}
           />
         </div>
