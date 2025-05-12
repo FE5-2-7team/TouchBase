@@ -26,9 +26,9 @@ export default function SendMessageForm({
   };
   return (
     <>
-      <div className="flex w-[62%] border-1 border-gray-200 rounded-2xl absolute items-baseline bottom-0">
+      <div className="flex w-[75%] mt-20 border-1 border-gray-200 rounded-2xl absolute">
         <textarea
-          className="p-4 h-32 w-[60%] border-gray-300 resize-none focus:outline-none"
+          className="p-4 h-32 w-[80%] my-2 border-gray-300 resize-none focus:outline-none"
           placeholder="내용을 입력하세요."
           value={content}
           onChange={(e) => setContent(e.target.value)}
