@@ -11,7 +11,7 @@ import { AxiosError } from "axios";
 import { axiosInstance } from "../../api/axiosInstance";
 import { Like, Comment, Follow, ExtendedUser } from "../../types/postType";
 import { userStore } from "../../stores/userStore";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import { refreshStore } from "../../stores/refreshStore";
 interface ThreadProps {
   postId: string;
@@ -58,10 +58,27 @@ export default function Threads({
   const refetch = refreshStore((state) => state.refetch);
 
   const nav = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     setCommentList(comments);
   }, [comments]);
+
+  const showLoginModal = () => {
+    Swal.fire({
+      icon: "error",
+      title: "로그인 후 이용 가능합니다. 🙏",
+      text: "로그인 하시겠습니까?",
+      showConfirmButton: true,
+      showCancelButton: true,
+      confirmButtonText: "예",
+      cancelButtonText: "아니요",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        nav("/login", { state: { from: location } });
+      }
+    });
+  };
 
   // 포스트 수정
   const [isEdit, setIsEdit] = useState(false);
@@ -106,19 +123,7 @@ export default function Threads({
   // 좋아요 on & off
   const toggleHeart = async () => {
     if (!userId) {
-      Swal.fire({
-        icon: "error",
-        title: "로그인 후 이용 가능합니다. 🙏",
-        text: "로그인 하시겠습니까?",
-        showConfirmButton: true,
-        showCancelButton: true,
-        confirmButtonText: "예",
-        cancelButtonText: "아니요",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          nav("/login");
-        }
-      });
+      showLoginModal();
       return;
     }
 
@@ -156,19 +161,7 @@ export default function Threads({
   // 댓글 on & off
   const toggleShowComments = () => {
     if (!userId) {
-      Swal.fire({
-        icon: "error",
-        title: "로그인 후 이용 가능합니다. 🙏",
-        text: "로그인 하시겠습니까?",
-        showConfirmButton: true,
-        showCancelButton: true,
-        confirmButtonText: "예",
-        cancelButtonText: "아니요",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          nav("/login");
-        }
-      });
+      showLoginModal();
       return;
     }
     setShowComments((prev) => !prev);
@@ -176,7 +169,12 @@ export default function Threads({
 
   if (isEdit) {
     return (
-      <Upload titleValue={title} contentValue={content} imageList={images} editFinishHandler={editFinishHandler} />
+      <Upload
+        titleValue={title}
+        contentValue={content}
+        imageList={images}
+        editFinishHandler={editFinishHandler}
+      />
     );
   }
 
@@ -188,7 +186,10 @@ export default function Threads({
       {/* 상단: 프로필 + 본문 */}
       <div className="flex gap-[25px]">
         {/* 왼쪽 고정 프로필 */}
-        <div onMouseEnter={() => setShowed(true)} onMouseLeave={() => setShowed(false)}>
+        <div
+          onMouseEnter={() => setShowed(true)}
+          onMouseLeave={() => setShowed(false)}
+        >
           <ProfileBlock username={username} />
           {!isMyThread && showed && (
             <div className="absolute z-50 w-[285px] top-5 left-[90px]">
@@ -208,30 +209,51 @@ export default function Threads({
           {images.length > 0 && (
             <div className="flex gap-2 flex-wrap mb-2">
               {images.map((src, index) => (
-                <img key={index} src={src} alt={`img-${index}`} className="w-[70%] rounded-[6px]" />
+                <img
+                  key={index}
+                  src={src}
+                  alt={`img-${index}`}
+                  className="w-[70%] rounded-[6px]"
+                />
               ))}
             </div>
           )}
           <div className="flex justify-between items-center text-[#ababab] text-[16px] mt-auto">
             <div className="flex items-center gap-4">
-              <button className="flex items-center gap-1 hover:cursor-pointer" onClick={toggleHeart}>
-                {heart ? <FaHeart className="text-[18px] text-red-500" /> : <FaRegHeart className="text-[18px]" />}
+              <button
+                className="flex items-center gap-1 hover:cursor-pointer"
+                onClick={toggleHeart}
+              >
+                {heart ? (
+                  <FaHeart className="text-[18px] text-red-500" />
+                ) : (
+                  <FaRegHeart className="text-[18px]" />
+                )}
                 {heartCount}
               </button>
-              <button className="flex items-center gap-1 hover:cursor-pointer" onClick={toggleShowComments}>
+              <button
+                className="flex items-center gap-1 hover:cursor-pointer"
+                onClick={toggleShowComments}
+              >
                 <FaRegComment className="text-[18px]" /> {commentList.length}
               </button>
             </div>
 
             {/* 게시물 작성자와 로그인 계정이 일치할 경우 (임시로 username === "mythread") */}
-            {postUserId === userId && <MyThreads onEdit={editHandler} onDelete={postDelete} />}
+            {postUserId === userId && (
+              <MyThreads onEdit={editHandler} onDelete={postDelete} />
+            )}
           </div>
         </div>
       </div>
 
       {showComments && (
         <div className="w-full overflow-hidden transition-all ease-in-out">
-          <Comments postId={postId} commentList={commentList} setCommentList={setCommentList} />
+          <Comments
+            postId={postId}
+            commentList={commentList}
+            setCommentList={setCommentList}
+          />
         </div>
       )}
     </div>
