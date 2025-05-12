@@ -15,9 +15,7 @@ import NewMessage from "./components/Message/NewMessage";
 import MessagePage from "./pages/MessagePage";
 import MessageContainer from "./components/Message/MessageContainer";
 import EmptyMessage from "./components/Message/EmptyMessage";
-import MessageChatView from "./components/Message/MessageChatView";
 import DetailFanPage from "./pages/DetailFanPage";
-
 export default function App() {
   useDarkMode();
 
@@ -30,17 +28,11 @@ export default function App() {
           <Route path="/profile/:id" element={<ProfileLayout />}>
             <Route index path="posts" element={<MyThreadsList />} />
             <Route path="follower" element={<FollowBox isFollower={true} />} />
-            <Route
-              path="following"
-              element={<FollowBox isFollower={false} />}
-            />
+            <Route path="following" element={<FollowBox isFollower={false} />} />
             <Route path="modify" element={<EditProfile />}></Route>
           </Route>
           <Route path="/fanpage/:teamName/:channelId" element={<FanPage />} />
-          <Route
-            path="/fanpage/:teamName/:channelId/:postId"
-            element={<DetailFanPage />}
-          />
+          <Route path="/fanpage/:teamName/:channelId/:postId" element={<DetailFanPage />} />
           <Route path="/message" element={<MessagePage />}>
             <Route index element={<EmptyMessage />} />
             <Route path="new" element={<NewMessage />} />

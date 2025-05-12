@@ -10,7 +10,7 @@ export default function EmptyMessage({
 }: EmptyMessageProps) {
   return (
     <>
-      <div className="block justify-center h-[700px] text-lg mt-40 text-gray-400">
+      <div className="block justify-center h-[400px] text-lg mt-40 text-gray-400">
         <div className="flex items-center justify-center">
           <img src={Empty_img} className="mb-6" />
         </div>

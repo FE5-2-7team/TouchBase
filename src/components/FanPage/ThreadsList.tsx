@@ -4,9 +4,11 @@ import { Post } from "../../types/postType";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { userStore } from "../../stores/userStore";
+import { refreshStore } from "../../stores/refreshStore";
 export default function ThreadsList() {
   const { teamName, channelId } = useParams();
   const [posts, setPosts] = useState<Post[]>([]);
+  const refresh = refreshStore((state) => state.refresh);
 
   const userId = userStore.getState().getUser()?._id;
 
@@ -20,7 +22,7 @@ export default function ThreadsList() {
       }
     };
     fetchPosts();
-  }, [channelId]);
+  }, [channelId, refresh]);
 
   const filterPosts = posts.filter((post) => post.channel.name === teamName);
 

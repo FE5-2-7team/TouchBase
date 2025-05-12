@@ -7,7 +7,7 @@ export default function SendButton({ onClick }: SendButtonProps) {
 
   return (
     <>
-      <div className="absolute right-10 mt-10">
+      <div className="absolute right-10 mt-14">
         <button className={buttonStyle} onClick={onClick}>
           보내기
         </button>
