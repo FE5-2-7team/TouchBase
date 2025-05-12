@@ -26,7 +26,7 @@ export default function SendMessageForm({
   };
   return (
     <>
-      <div className="flex w-[75%] mt-20 border-1 border-gray-200 rounded-2xl absolute">
+      <div className="flex w-[75%] mt-20 border-1 border-gray-200 rounded-2xl absolute dark:border-gray-600">
         <textarea
           className="p-4 h-32 w-[80%] my-2 border-gray-300 resize-none focus:outline-none"
           placeholder="내용을 입력하세요."

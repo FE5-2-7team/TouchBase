@@ -19,7 +19,11 @@ export default function MessageContainer() {
     try {
       const res = await axiosInstance.get(`/messages?userId=${selectedUserId}`);
 
-      setMessages(res.data);
+      const sorted = res.data.sort(
+        (a: MessageProps, b: MessageProps) =>
+          new Date(a.createdAt ?? "").getTime() - new Date(b.createdAt ?? "").getTime()
+      );
+      setMessages(sorted);
     } catch (err) {
       console.error("메세지 불러오기 실패", err);
     }
@@ -28,6 +32,7 @@ export default function MessageContainer() {
   useEffect(() => {
     fetchMessages();
   }, [selectedUserId]);
+
   return (
     <>
       <div className="w-[100%] h-[820px] mb-[125px] items-center mt-12 relative ">
