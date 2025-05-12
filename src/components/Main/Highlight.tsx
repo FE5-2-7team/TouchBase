@@ -52,7 +52,6 @@ export default function Highlight() {
           }
         );
         setVideos(res.data.items.splice(0, 5));
-        console.log(res.data.items.splice(0, 5));
       } catch (err) {
         console.error("YouTube API 호출 실패:", err);
       }
@@ -70,8 +69,6 @@ export default function Highlight() {
       </div>
     );
   }
-
-  console.log(videos);
 
   return (
     <div className="w-full py-8 relative px-12">

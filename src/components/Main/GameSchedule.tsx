@@ -75,12 +75,12 @@ const GameScore = ({ game }: { game: BaseballGameData }) => {
       color = "text-[#222] dark:text-white";
     } else if (team === "1") {
       color =
-        team1 > team2
+        +team1 > +team2
           ? "text-[#FF0000] dark:text-[#DB4343]"
           : "text-[#222] dark:text-white";
     } else {
       color =
-        team1 < team2
+        +team1 < +team2
           ? "text-[#FF0000] dark:text-[#DB4343]"
           : "text-[#222] dark:text-white";
     }
