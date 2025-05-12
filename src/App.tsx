@@ -49,7 +49,7 @@ export default function App() {
           <Route path="/login" element={<LogIn />} />
           <Route path="/signup" element={<SignUp />} />
         </Route>
-        <Route path="/edit" element={<EditProfile />} />
+        <Route path="/profile/:id/edit" element={<EditProfile />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
