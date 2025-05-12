@@ -1,6 +1,7 @@
 import MainTitle from "./MainTitle";
 import { KBONewsTypes, Post } from "../../types/postType";
 import { team_list } from "../../utils/getLogoImages";
+import { Link } from "react-router";
 
 export default function MainPostList({
   title,
@@ -33,19 +34,26 @@ export default function MainPostList({
       {listId === "post" && (
         <div className="flex flex-col gap-4 mt-10 w-full">
           {(list as Post[]).map((item) => (
-            <div className="flex flex-row gap-4 cursor-pointer" key={item._id}>
-              <>
-                <div>
-                  <img
-                    src={team_list[item.channel.name as keyof typeof team_list]}
-                    alt={item.channel.name}
-                    className="w-[30px]"
-                  />
-                </div>
-                <div>{item.channel.name}</div>
-              </>
-              <div className="hover:underline">{parseIfJson(item.title)}</div>
-            </div>
+            <Link
+              to={`/fanpage/${item.channel.name}/${item.channel._id}/${item._id}`}
+              key={item._id}
+            >
+              <div className="flex flex-row gap-4 cursor-pointer">
+                <>
+                  <div>
+                    <img
+                      src={
+                        team_list[item.channel.name as keyof typeof team_list]
+                      }
+                      alt={item.channel.name}
+                      className="w-[30px]"
+                    />
+                  </div>
+                  <div>{item.channel.name}</div>
+                </>
+                <div className="hover:underline">{parseIfJson(item.title)}</div>
+              </div>
+            </Link>
           ))}
         </div>
       )}
