@@ -1,12 +1,7 @@
 import MessageSidebar from "../components/Message/MessageSidebar";
-import { Navigate, Outlet } from "react-router";
-import { userStore } from "../stores/userStore";
+import { Outlet } from "react-router";
 
 export default function MessagePage() {
-  const user = userStore.getState().getUser();
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
   return (
     <>
       <div className="flex justify-center dark:bg-[#191A1E]">

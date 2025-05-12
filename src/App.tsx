@@ -10,7 +10,8 @@ import NotFoundPage from "./pages/NotFoundPage";
 import EditProfile from "./components/Auth/EditProfile";
 import MyThreadsList from "./components/Profile/MyThreadsList";
 import { useDarkMode } from "./hooks/useDarkMode";
-import AuthLayout from "./layout/AuthLayout";
+import AuthLayout from "./layout/RejectIfAuth";
+import RequireAuth from "./layout/RequireAuth";
 import NewMessage from "./components/Message/NewMessage";
 import MessagePage from "./pages/MessagePage";
 import MessageContainer from "./components/Message/MessageContainer";
@@ -28,28 +29,30 @@ export default function App() {
           <Route path="/profile/:id" element={<ProfileLayout />}>
             <Route index path="posts" element={<MyThreadsList />} />
             <Route path="follower" element={<FollowBox isFollower={true} />} />
-            <Route path="following" element={<FollowBox isFollower={false} />} />
+            <Route
+              path="following"
+              element={<FollowBox isFollower={false} />}
+            />
             <Route path="modify" element={<EditProfile />}></Route>
           </Route>
           <Route path="/fanpage/:teamName/:channelId" element={<FanPage />} />
-          <Route path="/fanpage/:teamName/:channelId/:postId" element={<DetailFanPage />} />
-          <Route path="/message" element={<MessagePage />}>
-            <Route index element={<EmptyMessage />} />
-            <Route path="new" element={<NewMessage />} />
-            <Route path="/message/:id" element={<MessageContainer />} />
-            {/* <Route path="messgae/:id" element={<MessageContainer />} /> */}
-            {/* <Route path="inbox" element={<InboxMessage mode={"received"} />} />
-            <Route path="sent" element={<InboxMessage mode={"sent"} />} />
-            <Route path="write/" element={<MessageEditor mode={"write"} />} />
-            <Route path="reply/:id?" element={<MessageEditor mode={"reply"} />} />
-            <Route path="view/:id" element={<MessageEditor mode={"received"} />} /> */}
+          <Route
+            path="/fanpage/:teamName/:channelId/:postId"
+            element={<DetailFanPage />}
+          />
+          <Route element={<RequireAuth />}>
+            <Route path="/message" element={<MessagePage />}>
+              <Route index element={<EmptyMessage />} />
+              <Route path="new" element={<NewMessage />} />
+              <Route path="/message/:id" element={<MessageContainer />} />
+            </Route>
+            <Route path="profile/edit" element={<EditProfile />} />
           </Route>
         </Route>
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<LogIn />} />
           <Route path="/signup" element={<SignUp />} />
         </Route>
-        <Route path="profile/:id/edit" element={<EditProfile />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
