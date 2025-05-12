@@ -3,19 +3,20 @@ import { twMerge } from "tailwind-merge";
 import useGetUser from "./useGetUser";
 import { ExtendedUser, Follow } from "../../types/postType";
 import { axiosInstance } from "../../api/axiosInstance";
+import { refreshStore } from "../../stores/refreshStore";
 
 export default function FollowCard({ followId, profileId }: { followId: string; profileId: string }) {
   const userDetails: ExtendedUser | undefined = useGetUser(followId);
+  const refetch = refreshStore((state) => state.refetch);
 
   const following = userDetails?.followers.find((follow) => follow.follower === profileId);
-  console.log(followId);
 
   const unfollowHandler = async () => {
     try {
       const { data } = await axiosInstance.delete<Follow>("follow/delete", {
         data: { id: following?._id },
       });
-      console.log(data);
+      refetch();
     } catch (e) {
       console.error(e);
     }
@@ -26,7 +27,7 @@ export default function FollowCard({ followId, profileId }: { followId: string; 
       const { data } = await axiosInstance.post<Follow>("follow/create", {
         userId: followId,
       });
-      console.log(data);
+      refetch();
     } catch (e) {
       console.error(e);
     }
@@ -65,8 +66,6 @@ export default function FollowCard({ followId, profileId }: { followId: string; 
             팔로우
           </button>
         )}
-
-        <div></div>
       </div>
     </>
   );

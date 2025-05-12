@@ -1,8 +1,8 @@
 import FollowCard from "./FollowCard";
 import { LuUserCheck } from "react-icons/lu";
-import { BaseUser } from "../../types/postType";
 import useGetUser from "./useGetUser";
 import { useParams } from "react-router";
+import { BaseUser } from "../../types/postType";
 
 export default function FollowBox({ isFollower }: { isFollower: boolean }) {
   const params = useParams();
