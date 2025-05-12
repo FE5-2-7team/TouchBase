@@ -123,9 +123,7 @@ export default function EditProfile() {
                     <div className="w-content-fit h-[32px] text-[20px] text-[#5A5A5A] cursor-pointer hover:text-[#FF9500] hover:border-b">
                       {info.title}
                     </div>
-                    <div className="w-[50%] text-[20px] text-[#5A5A5A]">
-                      {info.content}
-                    </div>
+                    <div className="w-[50%] text-[20px] text-[#5A5A5A]">{info.content}</div>
                   </div>
                 );
               })}
@@ -144,30 +142,21 @@ export default function EditProfile() {
               alt="2025 kbo 시즌 이미지"
             />
             <Link to={"/"}>
-              <img
-                className="w-[100px]"
-                src={footerLogo}
-                alt="푸터 로고 이미지"
-              ></img>
+              <img className="w-[100px]" src={footerLogo} alt="푸터 로고 이미지"></img>
             </Link>
           </aside>
         </div>
         <div className="bg-[rgba(0,51,160,0.1)] w-[61%] min-w-[650px] px-[105px] font-sans">
           <BlueBoard className="py-[25px] px-[23px] w-full max-w-[650px] bg-white mt-[20px]">
             <div className="flex justify-between items-center">
-              <h2 className="text-[16px] text-[#464646] mb-[7px]">
-                프로필 이미지 변경
-              </h2>
-              <Button className="w-[80px] h-[40px] text-[14px] rounded-[5px]">
-                변경하기
-              </Button>
+              <h2 className="text-[16px] text-[#464646] mb-[7px]">프로필 이미지 변경</h2>
+              <Button className="w-[80px] h-[40px] text-[14px] rounded-[5px]">변경하기</Button>
             </div>
           </BlueBoard>
           <BlueBoard className="py-[25px] px-[23px] w-full max-w-[650px] bg-white mt-[20px]">
             <h2 className="text-[16px] text-[#464646] mb-[7px]">닉네임 변경</h2>
             <p className="text-[14px] text-[#6D6D6D] mb-[48px] font-medium">
-              닉네임는 공백을 제외 한 소문자 영문, 한글, 숫자만 사용할 수
-              있습니다
+              닉네임는 공백을 제외 한 소문자 영문, 한글, 숫자만 사용할 수 있습니다
             </p>
             <div className="flex gap-[44px] justify-between relative">
               <AuthInput
@@ -177,21 +166,16 @@ export default function EditProfile() {
                 onChange={(e) => handleInputValidation(e, "name", value)}
                 className="h-[40px] mb-[0] max-w-[475px]"
               />
-              <Button className="w-[80px] h-[40px] text-[14px] rounded-[5px]">
-                변경하기
-              </Button>
+              <Button className="w-[80px] h-[40px] text-[14px] rounded-[5px]">변경하기</Button>
               {name.content && !name.valid && (
                 <Message>공백 혹은 특수 문자는 넣으실 수 없습니다</Message>
               )}
             </div>
           </BlueBoard>
           <BlueBoard className="py-[25px] px-[23px] w-full max-w-[650px] bg-white mt-[20px]">
-            <h2 className="text-[16px] text-[#464646] mb-[7px]">
-              비밀번호 변경
-            </h2>
+            <h2 className="text-[16px] text-[#464646] mb-[7px]">비밀번호 변경</h2>
             <p className="text-[14px] text-[#6D6D6D] mb-[48px] font-medium">
-              영어(소문자 또는 대문자)와 숫자를 조합해 8자 이상 16자 이하로
-              입력해 주세요
+              영어(소문자 또는 대문자)와 숫자를 조합해 8자 이상 16자 이하로 입력해 주세요
             </p>
             <div className="relative mb-[35px]">
               <AuthInput
@@ -210,14 +194,10 @@ export default function EditProfile() {
                 placeholder="새 비밀번호 확인"
                 type="password"
                 value={checkPassword.content}
-                onChange={(e) =>
-                  handleInputValidation(e, "checkPassword", value)
-                }
+                onChange={(e) => handleInputValidation(e, "checkPassword", value)}
                 className="h-[40px] mb-[0] max-w-[475px]"
               />
-              <Button className="w-[80px] h-[40px] text-[14px] rounded-[5px]">
-                변경하기
-              </Button>
+              <Button className="w-[80px] h-[40px] text-[14px] rounded-[5px]">변경하기</Button>
               {checkPassword.content && !checkPassword.valid && (
                 <Message>비밀번호가 일치하지 않습니다</Message>
               )}
@@ -242,9 +222,7 @@ export default function EditProfile() {
                 <option>한화 이글스</option>
                 <option>키움 히어로즈</option>
               </select>
-              <Button className="w-[80px] h-[40px] text-[14px] rounded-[5px]">
-                변경하기
-              </Button>
+              <Button className="w-[80px] h-[40px] text-[14px] rounded-[5px]">변경하기</Button>
             </div>
           </BlueBoard>
         </div>

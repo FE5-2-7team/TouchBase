@@ -12,6 +12,7 @@ import { axiosInstance } from "../../api/axiosInstance";
 import { Like, Comment } from "../../types/postType";
 import { userStore } from "../../stores/userStore";
 import { useNavigate } from "react-router";
+import { refreshStore } from "../../stores/refreshStore";
 interface ThreadProps {
   postId: string;
   username: string;
@@ -52,6 +53,7 @@ ThreadProps) {
     return like ? like._id : null;
   });
   const [isHeartSending, setIsHeartSending] = useState(false);
+  const refetch = refreshStore((state) => state.refetch);
 
   const nav = useNavigate();
 
@@ -72,8 +74,31 @@ ThreadProps) {
     setIsEdit(false);
   };
 
-  const deleteHandler = () => {
-    console.log("삭제");
+  const deleteHandler = async () => {
+    try {
+      const { data } = await axiosInstance.delete("posts/delete", {
+        data: { id: postId },
+      });
+      refetch();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const postDelete = () => {
+    Swal.fire({
+      icon: "error",
+      title: "게시글을 삭제하시겠어요? ",
+      text: "삭제하시면 복원이 불가합니다. 🥲",
+      showConfirmButton: true,
+      showCancelButton: true,
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await deleteHandler();
+      }
+    });
   };
 
   // 좋아요 on & off
@@ -220,9 +245,7 @@ ThreadProps) {
             </div>
 
             {/* 게시물 작성자와 로그인 계정이 일치할 경우 (임시로 username === "mythread") */}
-            {postUserId === userId && (
-              <MyThreads onEdit={editHandler} onDelete={deleteHandler} />
-            )}
+            {postUserId === userId && <MyThreads onEdit={editHandler} onDelete={postDelete} />}
           </div>
         </div>
       </div>

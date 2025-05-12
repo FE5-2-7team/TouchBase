@@ -51,7 +51,7 @@ export default function Highlight() {
             },
           }
         );
-        setVideos(res.data.items.splice(0, 5));
+        setVideos(res.data.items);
       } catch (err) {
         console.error("YouTube API 호출 실패:", err);
       }

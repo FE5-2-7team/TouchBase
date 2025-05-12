@@ -8,7 +8,6 @@ type Props = {
 export default function MessageChatView({ messages, myId }: Props) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
-  // 스크롤을 하단으로 자동이동 되게
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -19,7 +18,7 @@ export default function MessageChatView({ messages, myId }: Props) {
     <>
       <div
         ref={scrollRef}
-        className="p-5 h-[540px] flex flex-col min-h-[540px] justify-between overflow-y-auto "
+        className="p-5 h-[540px] w-[70%] flex flex-col min-h-[540px] overflow-y-auto "
       >
         {messages.map((msg, idx) => (
           <div
@@ -27,14 +26,15 @@ export default function MessageChatView({ messages, myId }: Props) {
             className={`mb-5 flex ${msg.sender?._id === myId ? "justify-end " : "justify-start"}`}
           >
             <div
-              className={`px-4 py-3 rounded-xl max-w-[100%]  ${
-                msg.sender?._id === myId
-                  ? "bg-[#305AB3] text-white ml-20 break-words"
-                  : "bg-gray-100 text-gray-800 mr-20 break-words"
-              }`}
+              className={`px-4 py-3 rounded-xl w-fit h-[104px] max-w-[70%]"  
+                ${
+                  msg.sender?._id === myId
+                    ? "bg-[#305AB3] text-white ml-20 break-words"
+                    : "bg-gray-100 text-gray-800 mr-20 break-words"
+                }`}
             >
               <p className="text-lg">{msg.message}</p>
-              <p className="text-sm text-right mt-1 whitespace-normal opacity-50">
+              <p className="text-sm text-right mt-8 whitespace-normal opacity-50 ">
                 {msg.createdAt
                   ? new Date(msg.createdAt).toLocaleString("ko-KR", {
                       month: "long",
