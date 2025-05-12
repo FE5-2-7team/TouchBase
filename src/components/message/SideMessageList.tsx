@@ -55,14 +55,14 @@ export default function SideMessageList() {
           return (
             <li
               key={list._id}
-              className="h-18 px-3 pb-2 pt-1 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:bg-opacity-70 cursor-pointer"
+              className="h-18 px-3 pb-2 pt-1  hover:bg-gray-200 dark:hover:bg-gray-800 cursor-pointer"
               onClick={() => {
                 clickMessage(selectedUser, fetchMessageList, navigate);
               }}
             >
               <div className="flex justify-between mt-1">
                 <div className="text-md dark:text-white">{selectedUser.fullName}</div>
-                <div className="text-xs text-right text-gray-500 dark:text-gray-400">
+                <div className="text-xs text-right text-gray-400 dark:text-gray-400">
                   {list.createdAt &&
                     new Date(list.createdAt).toLocaleString("ko-KR", {
                       month: "long",
@@ -72,7 +72,7 @@ export default function SideMessageList() {
               </div>
 
               <div className="flex items-center gap-2 mt-2 justify-between">
-                <span className="text-md line-clamp-1 dark:text-white text-black">
+                <span className="text-md line-clamp-1 text-gray-400 dark:text-gray-500">
                   {list.message}
                 </span>
                 {list.receiver?._id === myId && !list.seen && (
