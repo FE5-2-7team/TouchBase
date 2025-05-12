@@ -6,6 +6,7 @@ import { axiosInstance } from "../../api/axiosInstance";
 import { ExtendedUser, Follow } from "../../types/postType";
 import { refreshStore } from "../../stores/refreshStore";
 import useGetUser from "../Profile/useGetUser";
+import { Link } from "react-router";
 
 interface ProfileCardProps {
   loginUserId: string;
@@ -50,37 +51,39 @@ export default function SimpleProfileCard({ loginUserId, author }: ProfileCardPr
   return (
     <div className="w-full max-w-[285px] bg-[#F5F5F5] dark:bg-gray-900 mx-auto shadow-md rounded-[10px] border-2 border-[#d9d9d9] p-4 flex items-center gap-6">
       {/* 프로필 이미지 */}
-      <div className="flex flex-col items-center gap-1">
-        <div className="border border-[#d9d9d9] rounded-full bg-[#0033A0] flex items-center justify-center">
-          {author.image ? (
-            <div className="relative w-[60px] h-[60px]">
-              <img src={author.image} alt="profile" className="w-full h-full rounded-full" />
-              <div
-                className={twMerge(
-                  "absolute w-[9px] h-[9px] right-[1px] top-[5px] rounded-[100px] bg-[#00FF1E] dark:border dark:border-[#0033A0]",
-                  !author.isOnline && "hidden"
-                )}
-              />
-            </div>
-          ) : (
-            <div className="relative w-[60px] h-[60px]">
-              <ProfileImage size={60} />
-              <div
-                className={twMerge(
-                  "absolute w-[9px] h-[9px] right-[1px] top-[5px] rounded-[100px] bg-[#00FF1E] dark:border dark:border-[#0033A0]",
-                  !author.isOnline && "hidden"
-                )}
-              />
-            </div>
-          )}
+      <Link to={`/profile/${author._id}/posts`}>
+        <div className="flex flex-col items-center gap-1">
+          <div className="border border-[#d9d9d9] rounded-full bg-[#0033A0] flex items-center justify-center">
+            {author.image ? (
+              <div className="relative w-[60px] h-[60px]">
+                <img src={author.image} alt="profile" className="w-full h-full rounded-full" />
+                <div
+                  className={twMerge(
+                    "absolute w-[9px] h-[9px] right-[1px] top-[5px] rounded-[100px] bg-[#00FF1E] dark:border dark:border-[#0033A0]",
+                    !author.isOnline && "hidden"
+                  )}
+                />
+              </div>
+            ) : (
+              <div className="relative w-[60px] h-[60px]">
+                <ProfileImage size={60} />
+                <div
+                  className={twMerge(
+                    "absolute w-[9px] h-[9px] right-[1px] top-[5px] rounded-[100px] bg-[#00FF1E] dark:border dark:border-[#0033A0]",
+                    !author.isOnline && "hidden"
+                  )}
+                />
+              </div>
+            )}
+          </div>
+          <div className="text-[12px] text-center font-bold">{author.username ? author.username : author.fullName}</div>
         </div>
-        <div className="text-[12px] text-center font-bold">{author.username ? author.username : author.fullName}</div>
-      </div>
+      </Link>
 
       {/* 사용자 정보 */}
       <div className="flex flex-col flex-grow gap-2">
         {/* 통계 정보 */}
-        <div className="flex gap-3 text-[10px] cursor-pointer">
+        <div className="flex gap-3 text-[10px]">
           {stats.map(({ id, label, count }) => (
             <span
               key={id}
@@ -94,19 +97,21 @@ export default function SimpleProfileCard({ loginUserId, author }: ProfileCardPr
         </div>
 
         {author._id === loginUserId ? (
-          <button className="px-4 py-1 rounded-[6px] border bg-[#fff] border-[#d6d6d6] text-[10px] text-[#333] hover:bg-[#0033a0] hover:text-[#fff] transition">
-            내 프로필 가기
-          </button>
+          <Link to={`/profile/${loginUserId}/posts`} onClick={() => window.scrollTo(0, 0)}>
+            <button className="px-4 py-1 rounded-[6px] border bg-[#fff] border-[#d6d6d6] text-[10px] text-[#333] hover:bg-[#0033a0] hover:text-[#fff] transition cursor-pointer">
+              내 프로필 가기
+            </button>
+          </Link>
         ) : following ? (
           <button
-            className="px-4 py-1 rounded-[6px] border bg-[#fff] border-[#d6d6d6] text-[10px] text-[#333] hover:bg-[#0033a0] hover:text-[#fff] transition"
+            className="px-4 py-1 rounded-[6px] border bg-[#fff] border-[#d6d6d6] text-[10px] text-[#333] hover:bg-[#0033a0] hover:text-[#fff] transition cursor-pointer"
             onClick={unfollowHandler}
           >
             팔로우 취소
           </button>
         ) : (
           <button
-            className="px-4 py-1 rounded-[6px] border bg-[#fff] border-[#d6d6d6] text-[10px] text-[#333] hover:bg-[#0033a0] hover:text-[#fff] transition"
+            className="px-4 py-1 rounded-[6px] border bg-[#fff] border-[#d6d6d6] text-[10px] text-[#333] hover:bg-[#0033a0] hover:text-[#fff] transition cursor-pointer"
             onClick={followHandler}
           >
             팔로우
