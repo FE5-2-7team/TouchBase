@@ -35,7 +35,6 @@ export default function Threads({
   title,
   content,
   date,
-  // channel,
   images = [],
   likes,
   comments,
@@ -44,8 +43,6 @@ export default function Threads({
 ThreadProps) {
   const userId = userStore((state) => state.getUser()?._id);
 
-  console.log(postUserId);
-  console.log(userId);
   const [showed, setShowed] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [commentList, setCommentList] = useState<Comment[]>(comments);
