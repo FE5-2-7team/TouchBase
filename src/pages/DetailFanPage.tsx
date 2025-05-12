@@ -7,15 +7,15 @@ export default function DetailFanPage() {
   const { teamName } = useParams<{ teamName: string }>();
   const typeTeamName = teamName as string;
 
-  // const postApi = async() => {
-  //   try {
+  //   const postApi = async() => {
+  //     try {
 
-  //       await axiosInstance.get('post/{postId}', {
+  //         await axiosInstance.get('post/{postId}', {
 
-  //       })
+  //         })
 
+  //     }
   //   }
-  // }
 
   return (
     <>
