@@ -1,6 +1,4 @@
-import { useState } from "react";
 import ProfileImage from "./ProfileImage";
-import { FaUserCircle } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
 import { axiosInstance } from "../../api/axiosInstance";
 import { ExtendedUser, Follow } from "../../types/postType";
