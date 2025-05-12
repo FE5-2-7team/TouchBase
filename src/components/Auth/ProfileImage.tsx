@@ -1,10 +1,10 @@
-import { FaCamera } from "react-icons/fa";
+import { FaCamera, FaRegTrashAlt } from "react-icons/fa";
 import ProfileIcon from "../Icons/ProfileIcon";
 import { twMerge } from "tailwind-merge";
 import { userStore } from "../../stores/userStore";
 import { BaseUser } from "../../types/postType.ts";
-import { useState } from "react";
-import handleimageChange from "./imageChange.ts";
+import { useRef, useState } from "react";
+import { handleimageChange, handleimageRemove } from "./imageChange.ts";
 
 export default function ProfileImage({ className }: { className: string }) {
   const user: BaseUser | null = userStore.getState().getUser();
@@ -14,6 +14,8 @@ export default function ProfileImage({ className }: { className: string }) {
     src: "",
     valid: false,
   });
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   return (
     <>
@@ -30,13 +32,25 @@ export default function ProfileImage({ className }: { className: string }) {
             <ProfileIcon size={82} />
           )}
         </div>
-        <div className="absolute cursor-pointer box-content w-[30px] h-[30px] top-[-4px] right-[-4px] bg-[#ABABAB] rounded-full p-1 flex items-center justify-center border-white border-[4px]">
+        <div className="absolute cursor-pointer box-content w-[30px] h-[30px] top-[-4px] right-[-4px] bg-[#ABABAB] rounded-full p-1 flex items-center justify-center border-white border-[4px] overflow-hidden">
           <input
             type="file"
             accept="image/*"
             onChange={(e) => handleimageChange(e, setimage)}
+            ref={inputRef}
+            className="absolute top-[-100px]"
           ></input>
-          <FaCamera className="text-[#fff] text-[21px]" />
+          {image.valid ? (
+            <FaRegTrashAlt
+              onClick={() => handleimageRemove(setimage)}
+              className="text-[#fff] text-[22px]"
+            />
+          ) : (
+            <FaCamera
+              onClick={() => inputRef.current!.click()}
+              className="text-[#fff] text-[21px]"
+            />
+          )}
         </div>
       </div>
     </>

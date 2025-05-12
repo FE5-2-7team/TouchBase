@@ -1,6 +1,6 @@
 import { axiosFileInstance } from "../../api/axiosInstance";
 
-const handleimageChange = async (
+export const handleimageChange = async (
   e: React.ChangeEvent<HTMLInputElement>,
   setFc: React.Dispatch<
     React.SetStateAction<{
@@ -36,4 +36,24 @@ const handleimageChange = async (
   }
 };
 
-export default handleimageChange;
+export const handleimageRemove = async (
+  setFc: React.Dispatch<
+    React.SetStateAction<{
+      src: string;
+      valid: boolean;
+    }>
+  >
+) => {
+  try {
+    await axiosFileInstance.post("/users/remove-photo");
+    setFc((img) => {
+      return {
+        ...img,
+        src: "",
+        valid: false,
+      };
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
