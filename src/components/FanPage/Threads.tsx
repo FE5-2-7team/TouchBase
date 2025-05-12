@@ -15,6 +15,7 @@ import { useNavigate } from "react-router";
 interface ThreadProps {
   postId: string;
   username: string;
+  postUserId: string;
   title: string;
   content: string;
   date: string;
@@ -28,6 +29,7 @@ interface ThreadProps {
 
 export default function Threads({
   postId,
+  postUserId,
   username,
   title,
   content,
@@ -41,6 +43,8 @@ export default function Threads({
 ThreadProps) {
   const userId = userStore((state) => state.getUser()?._id);
 
+  console.log(postUserId);
+  console.log(userId);
   const [showed, setShowed] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [commentList, setCommentList] = useState<Comment[]>(comments);
@@ -219,7 +223,7 @@ ThreadProps) {
             </div>
 
             {/* 게시물 작성자와 로그인 계정이 일치할 경우 (임시로 username === "mythread") */}
-            {username === "mythread" && (
+            {postUserId === userId && (
               <MyThreads onEdit={editHandler} onDelete={deleteHandler} />
             )}
           </div>
