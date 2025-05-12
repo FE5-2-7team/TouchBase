@@ -2,10 +2,35 @@ import { NavLink, Outlet, useParams } from "react-router";
 import mascot from "../assets/images/doosan_mascot.png";
 import useGetUser from "../components/Profile/useGetUser";
 import ProfileImage from "../components/FanPage/ProfileImage";
+import { useEffect, useState } from "react";
 
 export default function ProfileLayout() {
   const params = useParams();
   const user = useGetUser(params.id!);
+
+  const [isVisible, setIsVisible] = useState(false);
+
+  // 스크롤 이벤트
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  // 최상단으로 스크롤 이동
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <div className="flex flex-col gap-[34px] w-full max-w-[1200px] mx-auto mt-[40px]">
@@ -76,6 +101,14 @@ export default function ProfileLayout() {
         />
       </div>
       <Outlet></Outlet>
+      {isVisible && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-6 right-6 md:bottom-10 md:right-20 p-3 bg-blue-600 text-white rounded-[10px] shadow-lg hover:bg-blue-700 transition-all"
+        >
+          TOP
+        </button>
+      )}
     </div>
   );
 }
