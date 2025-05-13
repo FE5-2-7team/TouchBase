@@ -1,13 +1,9 @@
 import { axiosFileInstance } from "../../api/axiosInstance";
+import { userStore } from "../../stores/userStore.ts";
+// import { ExtendedUser } from "../../types/postType.ts";
 
 export const handleimageChange = async (
-  e: React.ChangeEvent<HTMLInputElement>,
-  setFc: React.Dispatch<
-    React.SetStateAction<{
-      src: string;
-      valid: boolean;
-    }>
-  >
+  e: React.ChangeEvent<HTMLInputElement>
 ) => {
   const file = e.target.files?.[0];
   if (!file) {
@@ -16,43 +12,29 @@ export const handleimageChange = async (
   }
   const formData = new FormData();
 
-  formData.append("isCover", false.toString());
+  formData.append("isCover", "false");
   formData.append("image", file);
 
   try {
-    const response = await axiosFileInstance.post(
+    const { data } = await axiosFileInstance.post(
       "/users/upload-photo",
       formData
     );
-    setFc((img) => {
-      return {
-        ...img,
-        src: response.data.image,
-        valid: true,
-      };
-    });
+    userStore.getState().setUser(data);
   } catch (err) {
     console.error(err);
   }
 };
 
-export const handleimageRemove = async (
-  setFc: React.Dispatch<
-    React.SetStateAction<{
-      src: string;
-      valid: boolean;
-    }>
-  >
-) => {
+export const handleimageRemove = async () => {
+  const formData = new FormData();
+  formData.append("isCover", "false");
+
   try {
-    await axiosFileInstance.post("/users/remove-photo");
-    setFc((img) => {
-      return {
-        ...img,
-        src: "",
-        valid: false,
-      };
+    const { data } = await axiosFileInstance.delete("/users/delete-photo", {
+      data: formData,
     });
+    userStore.getState().setUser(data);
   } catch (err) {
     console.error(err);
   }

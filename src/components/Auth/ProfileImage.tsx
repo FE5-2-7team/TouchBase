@@ -1,20 +1,16 @@
 import { FaCamera, FaRegTrashAlt } from "react-icons/fa";
 import ProfileIcon from "../Icons/ProfileIcon";
 import { twMerge } from "tailwind-merge";
-import { userStore } from "../../stores/userStore";
-import { BaseUser } from "../../types/postType.ts";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { handleimageChange, handleimageRemove } from "./imageChange.ts";
+// import { ExtendedUser } from "../../types/postType.ts";
 
-export default function ProfileImage({ className }: { className: string }) {
-  const user: BaseUser | null = userStore.getState().getUser();
-  console.log(user);
+type PropsType = {
+  className: string;
+  src: string | undefined;
+};
 
-  const [image, setimage] = useState({
-    src: "",
-    valid: false,
-  });
-
+export default function ProfileImage({ className, src }: PropsType) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
@@ -26,8 +22,8 @@ export default function ProfileImage({ className }: { className: string }) {
         )}
       >
         <div className="bg-[#2F6BEB] overflow-hidden w-full h-full rounded-full flex items-center justify-center">
-          {image.valid ? (
-            <img src={image.src} className="w-full h-full object-cover"></img>
+          {src ? (
+            <img src={src} className="w-full h-full object-cover"></img>
           ) : (
             <ProfileIcon size={82} />
           )}
@@ -36,19 +32,19 @@ export default function ProfileImage({ className }: { className: string }) {
           <input
             type="file"
             accept="image/*"
-            onChange={(e) => handleimageChange(e, setimage)}
+            onChange={(e) => handleimageChange(e)}
             ref={inputRef}
-            className="absolute top-[-100px]"
+            className="sr-only"
           ></input>
-          {image.valid ? (
+          {src ? (
             <FaRegTrashAlt
-              onClick={() => handleimageRemove(setimage)}
-              className="text-[#fff] text-[22px]"
+              onClick={handleimageRemove}
+              className="text-[#fff] text-[20px]"
             />
           ) : (
             <FaCamera
               onClick={() => inputRef.current!.click()}
-              className="text-[#fff] text-[21px]"
+              className="text-[#fff] text-[20px]"
             />
           )}
         </div>
