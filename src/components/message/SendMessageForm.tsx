@@ -14,9 +14,18 @@ export default function SendMessageForm({
   const sendHandler = async () => {
     if (!content) return;
     try {
-      await axiosInstance.post("/messages/create", {
+      const res = await axiosInstance.post("/messages/create", {
         receiver: selectedUserId,
         message: content,
+      });
+
+      const messageId = res.data._id;
+
+      await axiosInstance.post("/notifications/create", {
+        notificationType: "MESSAGE",
+        notificationTypeId: messageId,
+        userId: selectedUserId,
+        postId: null,
       });
       setContent("");
       onSend();
