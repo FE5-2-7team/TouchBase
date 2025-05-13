@@ -11,10 +11,6 @@ export const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use((config) => {
   const token = userStore.getState().getToken();
   if (token) config.headers.Authorization = `Bearer ${token}`;
-
-  if (!config.headers["Content-Type"]) {
-    config.headers["Content-Type"] = "application/json";
-  }
   return config;
 });
 

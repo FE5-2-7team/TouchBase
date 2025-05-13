@@ -193,8 +193,11 @@ export default function Threads({
       {/* 상단: 프로필 + 본문 */}
       <div className="flex gap-[25px]">
         {/* 왼쪽 고정 프로필 */}
-        <div onMouseEnter={() => setShowed(true)} onMouseLeave={() => setShowed(false)}>
-          <ProfileBlock username={username} />
+        <div
+          onMouseEnter={() => setShowed(true)}
+          onMouseLeave={() => setShowed(false)}
+        >
+          <ProfileBlock username={username} imageUrl={author.image} />
           {!isMyThread && showed && (
             <div className="absolute z-50 w-[285px] top-5 left-[90px]">
               <SimpleProfileCard loginUserId={userId} author={author} />
