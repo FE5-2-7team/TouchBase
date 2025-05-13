@@ -30,6 +30,14 @@ export default function FollowCard({ followId }: { followId: string }) {
       const { data } = await axiosInstance.post<Follow>("follow/create", {
         userId: followId,
       });
+
+      await axiosInstance.post("notifications/create", {
+        notificationType: "FOLLOW",
+        notificationTypeId: data._id,
+        userId: data.user,
+        postId: null,
+      });
+
       refetch();
     } catch (e) {
       console.error(e);
