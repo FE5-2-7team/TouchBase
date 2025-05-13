@@ -29,7 +29,7 @@ export default function EditPosts({
   editFinishHandler,
 }: EditProps) {
   const userId = userStore.getState().getUser()?._id;
-  const user = useGetUser(userId!);
+  const { user } = useGetUser(userId!);
   const userName = user?.username ? user.username : user?.fullName;
 
   const [title, setTitle] = useState(titleValue || "");
@@ -96,7 +96,7 @@ export default function EditPosts({
         formData.append("imageToDeletePublicId", deleteImage);
       }
 
-      const { data } = await axiosFileInstance.put(`posts/update`, formData);
+      await axiosFileInstance.put(`posts/update`, formData);
       console.log("파일 수정 성공");
     } catch (error) {
       const err = error as AxiosError;

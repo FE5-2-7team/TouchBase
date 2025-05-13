@@ -5,7 +5,7 @@ import { refreshStore } from "../../stores/refreshStore";
 
 export default function useGetUser(userId: string) {
   const [user, setUser] = useState<ExtendedUser>();
-  const [, startTransition] = useTransition();
+  const [isLoading, startTransition] = useTransition();
   const refresh = refreshStore((state) => state.refresh);
 
   const getHandler = async () => {
@@ -23,5 +23,5 @@ export default function useGetUser(userId: string) {
     });
   }, [refresh, userId]);
 
-  return user;
+  return { user, isLoading };
 }
