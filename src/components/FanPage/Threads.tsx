@@ -13,6 +13,7 @@ import { Like, Comment, Follow, ExtendedUser } from "../../types/postType";
 import { userStore } from "../../stores/userStore";
 import { useNavigate, useLocation } from "react-router";
 import { refreshStore } from "../../stores/refreshStore";
+import EditPosts from "../Profile/EditPosts";
 interface ThreadProps {
   postId: string;
   username: string;
@@ -22,11 +23,13 @@ interface ThreadProps {
   content: string;
   date: string;
   channel: string;
-  images?: string;
+  images: string;
+  imagesPublicId: string | null;
   likes: Like[];
   comments: Comment[];
   likeChecked: boolean;
   isMyThread?: boolean;
+  channelId?: string;
 }
 
 export default function Threads({
@@ -38,10 +41,12 @@ export default function Threads({
   content,
   date,
   images,
+  imagesPublicId,
   likes,
   comments,
   likeChecked,
   isMyThread = false,
+  channelId,
 }: ThreadProps) {
   const userId = userStore((state) => state.getUser()?._id);
 
@@ -86,7 +91,6 @@ export default function Threads({
   // 수정, 삭제
   const editHandler = () => {
     setIsEdit(true);
-    console.log("수정");
   };
 
   const editFinishHandler = () => {
@@ -169,10 +173,13 @@ export default function Threads({
 
   if (isEdit) {
     return (
-      <Upload
+      <EditPosts
+        channelId={channelId}
+        postId={postId}
         titleValue={title}
         contentValue={content}
-        imageValue={images}
+        imageValue={images ?? null}
+        imagesPublicId={imagesPublicId ?? null}
         editFinishHandler={editFinishHandler}
       />
     );
@@ -190,7 +197,7 @@ export default function Threads({
           onMouseEnter={() => setShowed(true)}
           onMouseLeave={() => setShowed(false)}
         >
-          <ProfileBlock username={username} />
+          <ProfileBlock username={username} imageUrl={author.image} />
           {!isMyThread && showed && (
             <div className="absolute z-50 w-[285px] top-5 left-[90px]">
               <SimpleProfileCard loginUserId={userId} author={author} />
@@ -208,49 +215,29 @@ export default function Threads({
           {/* 이미지가 있을 때만 보여주기 */}
           {images && (
             <div className="flex gap-2 flex-wrap mb-2">
-              <img
-                src={images}
-                alt={`thread image`}
-                className="w-[70%] rounded-[6px]"
-              />
+              <img src={images} alt={`thread image`} className="w-[70%] rounded-[6px]" />
             </div>
           )}
           <div className="flex justify-between items-center text-[#ababab] text-[16px] mt-auto">
             <div className="flex items-center gap-4">
-              <button
-                className="flex items-center gap-1 hover:cursor-pointer"
-                onClick={toggleHeart}
-              >
-                {heart ? (
-                  <FaHeart className="text-[18px] text-red-500" />
-                ) : (
-                  <FaRegHeart className="text-[18px]" />
-                )}
+              <button className="flex items-center gap-1 hover:cursor-pointer" onClick={toggleHeart}>
+                {heart ? <FaHeart className="text-[18px] text-red-500" /> : <FaRegHeart className="text-[18px]" />}
                 {heartCount}
               </button>
-              <button
-                className="flex items-center gap-1 hover:cursor-pointer"
-                onClick={toggleShowComments}
-              >
+              <button className="flex items-center gap-1 hover:cursor-pointer" onClick={toggleShowComments}>
                 <FaRegComment className="text-[18px]" /> {commentList.length}
               </button>
             </div>
 
             {/* 게시물 작성자와 로그인 계정이 일치할 경우 (임시로 username === "mythread") */}
-            {postUserId === userId && (
-              <MyThreads onEdit={editHandler} onDelete={postDelete} />
-            )}
+            {postUserId === userId && <MyThreads onEdit={editHandler} onDelete={postDelete} />}
           </div>
         </div>
       </div>
 
       {showComments && (
         <div className="w-full overflow-hidden transition-all ease-in-out">
-          <Comments
-            postId={postId}
-            commentList={commentList}
-            setCommentList={setCommentList}
-          />
+          <Comments postId={postId} commentList={commentList} setCommentList={setCommentList} />
         </div>
       )}
     </div>
