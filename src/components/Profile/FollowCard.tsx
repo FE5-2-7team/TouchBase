@@ -5,12 +5,14 @@ import { ExtendedUser, Follow } from "../../types/postType";
 import { axiosInstance } from "../../api/axiosInstance";
 import { refreshStore } from "../../stores/refreshStore";
 import { Link } from "react-router";
+import { userStore } from "../../stores/userStore";
 
-export default function FollowCard({ followId, profileId }: { followId: string; profileId: string }) {
+export default function FollowCard({ followId }: { followId: string }) {
   const userDetails: ExtendedUser | undefined = useGetUser(followId);
+  const loginUserId = userStore((state) => state.getUser()?._id);
   const refetch = refreshStore((state) => state.refetch);
 
-  const following = userDetails?.followers.find((follow) => follow.follower === profileId);
+  const following = userDetails?.followers.find((follow) => follow.follower === loginUserId);
 
   const unfollowHandler = async () => {
     try {
@@ -36,12 +38,12 @@ export default function FollowCard({ followId, profileId }: { followId: string; 
 
   return (
     <div className="flex items-center border border-[#335CB3] dark:border-[#FFFFFF] rounded-[10px] w-[470px] h-[63px] justify-between px-[13px] my-[5px]">
-      <Link to={`/profile/${userDetails?._id}/posts`} reloadDocument className="flex items-center">
+      <Link to={`/profile/${userDetails?._id}/posts`} className="flex items-center">
         <div className="relative w-[34px] h-[34px]">
           {userDetails?.image ? (
             <img src={userDetails?.image} alt="profile image" className="absolute w-full h-full rounded-full" />
           ) : (
-            <FaUserCircle className="absolute w-full h-full fill-[#0033A0] dark:fill-[#FFFFFF]" />
+            <FaUserCircle className="absolute w-full h-full fill-[#2F6BEB] dark:fill-[#FFFFFF]" />
           )}
 
           <div
@@ -56,19 +58,30 @@ export default function FollowCard({ followId, profileId }: { followId: string; 
         </div>
       </Link>
 
-      <button className="w-[100px] h-[24px] text-[14px] rounded-[10px] bg-[#0033A0] text-[#ffffff] cursor-pointer">
+      <button
+        className={twMerge(
+          "w-[100px] h-[24px] text-[14px] rounded-[10px] bg-[#0033A0] dark:bg-[#2F6BEB] text-[#ffffff] cursor-pointer",
+          followId === loginUserId && "hidden"
+        )}
+      >
         쪽지 보내기
       </button>
       {following ? (
         <button
-          className="w-[100px] h-[24px] text-[14px] rounded-[10px] bg-[#C5585F] text-[#ffffff] cursor-pointer"
+          className={twMerge(
+            "w-[100px] h-[24px] text-[14px] rounded-[10px] bg-[#C5585F] text-[#ffffff] cursor-pointer",
+            followId === loginUserId && "hidden"
+          )}
           onClick={unfollowHandler}
         >
           팔로우 취소
         </button>
       ) : (
         <button
-          className="w-[100px] h-[24px] text-[14px] rounded-[10px] bg-[#C5585F] text-[#ffffff] cursor-pointer"
+          className={twMerge(
+            "w-[100px] h-[24px] text-[14px] rounded-[10px] bg-[#C5585F] text-[#ffffff] cursor-pointer",
+            followId === loginUserId && "hidden"
+          )}
           onClick={followHandler}
         >
           팔로우

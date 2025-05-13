@@ -46,10 +46,14 @@ export default function SimpleProfileCard({ loginUserId, author }: ProfileCardPr
     }
   };
 
+  const navigateHandler = () => {
+    window.scrollTo(0, 0);
+  };
+
   return (
     <div className="w-full max-w-[285px] bg-[#F5F5F5] dark:bg-gray-900 mx-auto shadow-md rounded-[10px] border-2 border-[#d9d9d9] p-4 flex items-center gap-6">
       {/* 프로필 이미지 */}
-      <Link to={`/profile/${author._id}/posts`}>
+      <Link to={`/profile/${author._id}/posts`} onClick={navigateHandler}>
         <div className="flex flex-col items-center gap-1">
           <div className="border border-[#d9d9d9] rounded-full bg-[#0033A0] flex items-center justify-center">
             {author.image ? (
@@ -95,7 +99,7 @@ export default function SimpleProfileCard({ loginUserId, author }: ProfileCardPr
         </div>
 
         {author._id === loginUserId ? (
-          <Link to={`/profile/${loginUserId}/posts`} onClick={() => window.scrollTo(0, 0)}>
+          <Link to={`/profile/${loginUserId}/posts`} onClick={navigateHandler}>
             <button className="px-4 py-1 rounded-[6px] border bg-[#fff] border-[#d6d6d6] text-[10px] text-[#333] hover:bg-[#0033a0] hover:text-[#fff] transition cursor-pointer">
               내 프로필 가기
             </button>
