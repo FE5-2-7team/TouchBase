@@ -8,7 +8,7 @@ import EmptyContent from "./EmptyContent";
 
 export default function MyThreadsList() {
   const [myPosts, setMyPosts] = useState<Post[]>([]);
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
   const params = useParams();
   const refresh = refreshStore((state) => state.refresh);
 
@@ -27,7 +27,7 @@ export default function MyThreadsList() {
     });
   }, [refresh, params.id]);
 
-  if (isPending) <h1>Loading...</h1>;
+  // if (isPending) <h1>Loading...</h1>;
 
   return (
     <div className="flex flex-col gap-6 mb-[40px]">

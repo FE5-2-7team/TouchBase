@@ -98,7 +98,7 @@ export default function Threads({
 
   const deleteHandler = async () => {
     try {
-      const { data } = await axiosInstance.delete("posts/delete", {
+      await axiosInstance.delete("posts/delete", {
         data: { id: postId },
       });
       refetch();

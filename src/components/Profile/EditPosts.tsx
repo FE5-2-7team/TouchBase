@@ -29,7 +29,7 @@ export default function EditPosts({
   editFinishHandler,
 }: EditProps) {
   const userId = userStore.getState().getUser()?._id;
-  const user = useGetUser(userId!);
+  const { user, isLoading } = useGetUser(userId!);
   const userName = user?.username ? user.username : user?.fullName;
 
   const [title, setTitle] = useState(titleValue || "");

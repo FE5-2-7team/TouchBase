@@ -33,7 +33,7 @@ export default function App() {
               path="following"
               element={<FollowBox isFollower={false} />}
             />
-            <Route path="modify" element={<EditProfile />}></Route>
+            <Route path="edit" element={<EditProfile />}></Route>
           </Route>
           <Route path="/fanpage/:teamName/:channelId" element={<FanPage />} />
           <Route
