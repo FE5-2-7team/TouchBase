@@ -1,22 +1,48 @@
 import { FaUserCircle } from "react-icons/fa";
+import { axiosInstance } from "../../api/axiosInstance";
+import { useEffect, useState } from "react";
 interface ProfileImageProps {
   imageUrl?: string;
   alt?: string;
   size?: number;
+  authorId?: string;
 }
 
 export default function ProfileImage({
   imageUrl,
   alt = "profile",
   size,
+  authorId,
 }: ProfileImageProps) {
+  const [fetchImg, setFetchImg] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    const getUserImg = async () => {
+      try {
+        if (authorId) {
+          console.log(authorId);
+          const res = await axiosInstance.get(`/users/${authorId}`);
+          setFetchImg(res.data.image);
+        }
+      } catch {
+        console.log("파싱실패!");
+      }
+    };
+    getUserImg();
+  }, [authorId]);
+
+  const finalImageUrl = imageUrl || fetchImg;
   return (
     <div
       className="w-20 h-20 rounded-full flex items-center justify-center overflow-hidden"
       style={{ width: size, height: size }}
     >
-      {imageUrl ? (
-        <img src={imageUrl} alt={alt} className="object-cover w-full h-full" />
+      {finalImageUrl ? (
+        <img
+          src={finalImageUrl}
+          alt={alt}
+          className="object-cover w-full h-full"
+        />
       ) : (
         <FaUserCircle
           size={size}
