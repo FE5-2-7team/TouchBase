@@ -57,9 +57,11 @@ export default function ThreadsList() {
             date={new Date(post.createdAt).toLocaleDateString()}
             channel={post.channel.name}
             images={post.image ?? ""}
+            imagesPublicId={post.imagePublicId ?? null}
             likes={post.likes}
             comments={post.comments}
             likeChecked={likeChecked}
+            channelId={post.channel._id}
           />
         );
       })}
