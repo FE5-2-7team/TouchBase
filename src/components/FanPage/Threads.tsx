@@ -6,13 +6,13 @@ import ProfileBlock from "./ProfileBlock";
 import SimpleProfileCard from "./SimpleProfileCard";
 import Comments from "./Comments";
 import MyThreads from "./MyThreads";
-import Upload from "./Upload";
 import { AxiosError } from "axios";
 import { axiosInstance } from "../../api/axiosInstance";
 import { Like, Comment, Follow, ExtendedUser } from "../../types/postType";
 import { userStore } from "../../stores/userStore";
 import { useNavigate, useLocation } from "react-router";
 import { refreshStore } from "../../stores/refreshStore";
+import EditPosts from "../Profile/EditPosts";
 interface ThreadProps {
   postId: string;
   username: string;
@@ -22,11 +22,13 @@ interface ThreadProps {
   content: string;
   date: string;
   channel: string;
-  images?: string;
+  images: string;
+  imagesPublicId: string | null;
   likes: Like[];
   comments: Comment[];
   likeChecked: boolean;
   isMyThread?: boolean;
+  channelId?: string;
 }
 
 export default function Threads({
@@ -38,10 +40,12 @@ export default function Threads({
   content,
   date,
   images,
+  imagesPublicId,
   likes,
   comments,
   likeChecked,
   isMyThread = false,
+  channelId,
 }: ThreadProps) {
   const userId = userStore((state) => state.getUser()?._id);
 
@@ -86,7 +90,6 @@ export default function Threads({
   // 수정, 삭제
   const editHandler = () => {
     setIsEdit(true);
-    console.log("수정");
   };
 
   const editFinishHandler = () => {
@@ -138,9 +141,6 @@ export default function Threads({
         const newLikeId = res.data._id;
         setMyLikeId(newLikeId);
       } else {
-        // const likedUser = likes.find((like) => like.user === userId);
-        // const likedId = likedUser?._id;
-
         await axiosInstance.delete("/likes/delete", {
           data: {
             id: myLikeId,
@@ -169,10 +169,13 @@ export default function Threads({
 
   if (isEdit) {
     return (
-      <Upload
+      <EditPosts
+        channelId={channelId}
+        postId={postId}
         titleValue={title}
         contentValue={content}
-        imageValue={images}
+        imageValue={images ?? null}
+        imagesPublicId={imagesPublicId ?? null}
         editFinishHandler={editFinishHandler}
       />
     );
@@ -191,6 +194,7 @@ export default function Threads({
           onMouseLeave={() => setShowed(false)}
         >
           <ProfileBlock username={username} imageUrl={author.image} />
+
           {!isMyThread && showed && (
             <div className="absolute z-50 w-[285px] top-5 left-[90px]">
               <SimpleProfileCard loginUserId={userId} author={author} />
