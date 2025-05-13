@@ -34,6 +34,33 @@ export default function ProfileLayout() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex flex-col gap-[34px] w-full max-w-[1200px] mx-auto mt-[40px] animate-pulse">
+        <div className="border border-[#D9D9D9] shadow-md rounded-[10px] lg:h-[200px] md:h-[154px] sm:h-[120px] flex items-center gap-[50px] justify-between lg:px-[110px] px-[80px]">
+          <FaUserCircle className="w-[100px] h-[100px] text-gray-200 dark:text-gray-700" />
+          <div>
+            <div className="w-[200px] md:h-[24px] sm:h-[10px] bg-gray-200 rounded-full dark:bg-gray-700 mb-2"></div>
+            <div className="lg:w-[580px] md:w-[420px] sm:w-[240px] md:h-[20px] sm:h-[9px] bg-gray-200 rounded-full dark:bg-gray-700 mt-[7px] md:mb-[14px] sm:mb-[5px]"></div>
+            <div className="w-[100px] md:h-[22px] sm:h-[15px] rounded-[10px] bg-gray-200 dark:bg-gray-700"></div>
+          </div>
+          <div className="flex items-center justify-center lg:w-[100px] lg:h-[158px] md:w-[69px] md:h-[109px] bg-gray-300 rounded-sm sm:w-96 dark:bg-gray-700 md:flex sm:hidden">
+            <svg
+              className="w-10 h-10 text-gray-200 dark:text-gray-600"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              viewBox="0 0 20 18"
+            >
+              <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z" />
+            </svg>
+          </div>
+        </div>
+        <Outlet></Outlet>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-[34px] w-full max-w-[1200px] mx-auto mt-[40px]">
       <div className="border border-[#D9D9D9] shadow-md rounded-[10px] lg:h-[200px] md:h-[154px] sm:h-[120px] flex items-center gap-[50px] justify-between lg:px-[110px] px-[80px]">
