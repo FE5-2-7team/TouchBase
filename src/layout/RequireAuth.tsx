@@ -14,7 +14,8 @@ export default function RootLayout() {
       if (!response) {
         Swal.fire({
           icon: "info",
-          title: "로그인이 필요합니다. \n로그인 페이지로 이동합니다.",
+          title: "로그인이 필요합니다.",
+          text: "로그인 페이지로 이동합니다.",
           timer: 1500,
           showConfirmButton: false,
         });

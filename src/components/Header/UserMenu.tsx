@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
+
 import { userStore } from "../../stores/userStore";
 
 export default function UserMenu() {
@@ -21,30 +22,41 @@ export default function UserMenu() {
 
   return (
     <>
-      <div className="w-22 h-27 bg-white border border-gray-200 rounded-md">
-        <ul className="mx-2 text-center cursor-pointer">
-          <li className="py-[3px] mt-1 border-b border-gray-200 cursor-pointer hover:underline hover:underline-offset-3">
-            <Link to={`/profile/${userId}/posts`}>내 프로필</Link>
-          </li>
-          <li className="py-[3px] mt-1 border-b border-gray-200 cursor-pointer hover:underline hover:underline-offset-3">
-            <Link to="/message">쪽지함</Link>
-          </li>
-          <li
-            className="py-[3px] mt-1 mb-1 cursor-pointer hover:underline hover:underline-offset-3"
-            onClick={() => {
-              if (isLoggedin) {
-                logout();
-                navigate("/");
-                window.location.reload();
-              } else {
-                navigate("/login");
-              }
-            }}
-          >
-            {isLoggedin ? "로그아웃" : "로그인"}
-          </li>
-        </ul>
-      </div>
+      {isLoggedin ? (
+        <div className="w-22 h-27 bg-white border border-gray-200 rounded-md">
+          <ul className="mx-2 text-center cursor-pointer">
+            <li className="py-[3px] mt-1 border-b border-gray-200 cursor-pointer hover:underline hover:underline-offset-3">
+              <Link to={`/profile/${userId}/posts`}>내 프로필</Link>
+            </li>
+            <li className="py-[3px] mt-1 border-b border-gray-200 cursor-pointer hover:underline hover:underline-offset-3">
+              <Link to="/message">쪽지함</Link>
+            </li>
+            <li
+              className="py-[3px] mt-1 mb-1 cursor-pointer hover:underline hover:underline-offset-3"
+              onClick={() => {
+                if (isLoggedin) {
+                  logout();
+                  navigate("/");
+                  window.location.reload();
+                }
+              }}
+            >
+              로그아웃
+            </li>
+          </ul>
+        </div>
+      ) : (
+        <div className="w-22 h-10 bg-white border border-gray-200 rounded-md">
+          <ul className="mx-2 text-center cursor-pointer">
+            <li
+              className="py-[3px] mt-1 mb-1 cursor-pointer hover:underline hover:underline-offset-3"
+              onClick={() => navigate("/login")}
+            >
+              로그인
+            </li>
+          </ul>
+        </div>
+      )}
     </>
   );
 }
