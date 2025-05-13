@@ -1,12 +1,12 @@
-import { BaseUser } from "./postType";
+import { BaseUser, ExtendedUser } from "./postType";
 
 export interface UserStore {
-  user: BaseUser | null;
+  user: ExtendedUser | null;
   token: string;
-  setUser: (user: BaseUser) => void;
+  setUser: (user: BaseUser | ExtendedUser) => void;
   setToken: (token: string) => void;
   getToken: () => string;
-  getUser: () => BaseUser | null;
+  getUser: () => null | ExtendedUser;
   logout: () => void;
 }
 

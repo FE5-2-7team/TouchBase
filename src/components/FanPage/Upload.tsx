@@ -4,7 +4,7 @@ import { LuImagePlus } from "react-icons/lu";
 import ProfileBlock from "./ProfileBlock";
 import { MdOutlineReplay } from "react-icons/md";
 import { userStore } from "../../stores/userStore";
-import { axiosFileInstance } from "../../api/axiosInstance";
+import { axiosInstance } from "../../api/axiosInstance";
 import { useParams } from "react-router";
 import { AxiosError } from "axios";
 import { refreshStore } from "../../stores/refreshStore";
@@ -22,7 +22,7 @@ export default function Upload({
 }: UploadProps) {
   const { channelId } = useParams();
   const userName = userStore.getState().getUser()?.fullName;
-  // console.log(userName);
+  const currentUser = userStore.getState().getUser();
 
   const [title, setTitle] = useState(titleValue || "");
   const [contents, setContents] = useState(contentValue || "");
@@ -75,11 +75,15 @@ export default function Upload({
 
       if (imageFiles) {
         formData.append("image", imageFiles);
-        console.log("이미지 파일", imageFiles);
+        // console.log("이미지 파일", imageFiles);
       }
-      const res = await axiosFileInstance.post(`/posts/create`, formData);
+      await axiosInstance.post(`/posts/create`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
       console.log("파일 업로드 성공");
-      console.log(res.data);
     } catch (error) {
       const err = error as AxiosError;
       console.error("생성 불가!!!", err.message);
@@ -98,7 +102,7 @@ export default function Upload({
         <div className="p-[24px] flex gap-[25px]">
           {/* 왼쪽 프로필 영역 */}
           <div className="flex-shrink-0 self-start">
-            <ProfileBlock username={userName} />
+            <ProfileBlock username={userName} imageUrl={currentUser?.image} />
           </div>
 
           {/* 오른쪽 입력 영역 */}

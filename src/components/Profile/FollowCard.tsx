@@ -12,7 +12,9 @@ export default function FollowCard({ followId }: { followId: string }) {
   const loginUserId = userStore((state) => state.getUser()?._id);
   const refetch = refreshStore((state) => state.refetch);
 
-  const following = userDetails?.followers.find((follow) => follow.follower === loginUserId);
+  const following = userDetails?.followers.find(
+    (follow) => follow.follower === loginUserId
+  );
 
   const unfollowHandler = async () => {
     try {
@@ -38,10 +40,17 @@ export default function FollowCard({ followId }: { followId: string }) {
 
   return (
     <div className="flex items-center border border-[#335CB3] dark:border-[#FFFFFF] rounded-[10px] w-[470px] h-[63px] justify-between px-[13px] my-[5px]">
-      <Link to={`/profile/${userDetails?._id}/posts`} className="flex items-center">
+      <Link
+        to={`/profile/${userDetails?._id}/posts`}
+        className="flex items-center"
+      >
         <div className="relative w-[34px] h-[34px]">
           {userDetails?.image ? (
-            <img src={userDetails?.image} alt="profile image" className="absolute w-full h-full rounded-full" />
+            <img
+              src={userDetails?.image}
+              alt="profile image"
+              className="absolute w-full h-full rounded-full"
+            />
           ) : (
             <FaUserCircle className="absolute w-full h-full fill-[#2F6BEB] dark:fill-[#FFFFFF]" />
           )}
@@ -54,7 +63,9 @@ export default function FollowCard({ followId }: { followId: string }) {
           />
         </div>
         <div className="text-[16px] text-[#6D6D6D] dark:text-[#FFFFFF] w-[170px] ml-[10px]">
-          {userDetails?.username ? userDetails?.username : userDetails?.fullName}
+          {userDetails?.username
+            ? userDetails?.username
+            : userDetails?.fullName}
         </div>
       </Link>
 
