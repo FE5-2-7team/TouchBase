@@ -194,7 +194,6 @@ export default function Threads({
           onMouseLeave={() => setShowed(false)}
         >
           <ProfileBlock username={username} imageUrl={author.image} />
-
           {!isMyThread && showed && (
             <div className="absolute z-50 w-[285px] top-5 left-[90px]">
               <SimpleProfileCard loginUserId={userId} author={author} />

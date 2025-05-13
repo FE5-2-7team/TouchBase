@@ -2,19 +2,18 @@ import { useState, useEffect } from "react";
 import Upload from "../components/FanPage/Upload";
 import Sidebar from "../components/FanPage/Sidebar";
 import ThreadsList from "./../components/FanPage/ThreadsList";
-import { useParams } from "react-router";
-// import { Post } from "../types/postType"
+import { useParams, useNavigate } from "react-router";
+import { userStore } from "../stores/userStore";
 
 export default function FanPage() {
   const { teamName } = useParams<{ teamName: string }>();
   const typeTeamName = teamName as string;
+  const userId = userStore((state) => state.getUser()?._id);
 
-  // const [posts, setPosts] = useState<Post[]>([]);
+  const nav = useNavigate();
 
   // top 버튼 보일지 말지
   const [isVisible, setIsVisible] = useState(false);
-
-  //
 
   // 스크롤 이벤트
   useEffect(() => {
@@ -43,7 +42,21 @@ export default function FanPage() {
       <div className="flex flex-col md:flex-row w-full max-w-[1500px] mx-auto">
         <Sidebar teamName={typeTeamName} />
         <div className="flex-1 px-2 md:mt-[80px] md:ml-[50px] md:mr-10 mt-[100px]">
-          <Upload />
+          {userId ? (
+            <Upload />
+          ) : (
+            <div className="border border-gray-300 rounded-lg p-4 mb-6 bg-white dark:bg-[#191A1E] shadow-sm text-center">
+              <p className="mb-4 text-gray-700 dark:text-[#fff] font-semibold">
+                로그인한 유저만 글 작성이 가능합니다.
+              </p>
+              <button
+                onClick={() => nav("/login")}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-[#0033A0] transition-all"
+              >
+                로그인하러 가기 ~ 🎵
+              </button>
+            </div>
+          )}
           <div className="my-[50px] border-t border-[#d9d9d9] w-full"></div>
           <ThreadsList />
           <div className="m-[30px]"></div>

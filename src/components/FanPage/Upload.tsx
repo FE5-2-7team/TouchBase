@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Button from "./Button";
-import { LuImagePlus } from "react-icons/lu";
+import { LuImagePlus, LuImageMinus } from "react-icons/lu";
 import ProfileBlock from "./ProfileBlock";
 import { MdOutlineReplay } from "react-icons/md";
 import { userStore } from "../../stores/userStore";
@@ -114,7 +114,7 @@ export default function Upload({
               onChange={(e) => setTitle(e.target.value)}
               placeholder="제목을 입력해 주세요."
               className="text-[16px] border border-[#d9d9d9] mb-[10px] 
-            w-full md:max-w-[950px] h-[35px] rounded-[10px] px-4 py-1 
+            w-full md:max-w-[1200px] h-[35px] rounded-[10px] px-4 py-1 
             box-border focus:border-[#0033A0] focus:outline-none"
             />
 
@@ -125,7 +125,7 @@ export default function Upload({
                 onChange={(e) => setContents(e.target.value)}
                 placeholder="내용을 입력해 주세요."
                 className="text-[16px] border border-[#d9d9d9] mb-[10px] 
-              w-full md:max-w-[950px] min-h-[90px] rounded-[10px] px-4 py-2 
+              w-full md:max-w-[1200px] min-h-[90px] rounded-[10px] px-4 py-2 
               box-border resize-none focus:border-[#0033a0] 
               focus:outline-none overflow-auto whitespace-pre-wrap pb-[60px]"
               />
@@ -145,14 +145,28 @@ export default function Upload({
             <div className="flex items-center justify-between gap-4 mt-1">
               {/* 왼쪽 아이콘들 */}
               <div className="flex items-center gap-5">
-                <button
-                  type="button"
-                  onClick={ImgClickHandler}
-                  title="이미지 삽입"
-                  className="hover:opacity-80 transition-transform duration-200 hover:scale-105"
-                >
-                  <LuImagePlus className="text-[18px] text-[#ababab]" />
-                </button>
+                {images ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setImages("");
+                      setImageFiles(null);
+                    }}
+                    title="이미지 삭제"
+                    className="hover:opacity-80 transition-transform duration-200 hover:scale-105 cursor-pointer"
+                  >
+                    <LuImageMinus className="text-[22px] text-[#ababab]" />
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={ImgClickHandler}
+                    title="이미지 삽입"
+                    className="hover:opacity-80 transition-transform duration-200 hover:scale-105 cursor-pointer"
+                  >
+                    <LuImagePlus className="text-[22px] text-[#ababab]" />
+                  </button>
+                )}
                 <input
                   type="file"
                   accept="image/*"
@@ -166,12 +180,10 @@ export default function Upload({
                   title="되돌리기"
                   className="hover:opacity-80 transition-transform duration-200 hover:scale-105"
                 >
-                  <MdOutlineReplay className="text-[18px] text-[#ababab]" />
+                  <MdOutlineReplay className="text-[22px] text-[#ababab]" />
                 </button>
               </div>
-
-              {/* 오른쪽 POST 버튼 */}
-              <div className="flex items-center md:mr-[75px]">
+              <div className="flex items-center justify-end w-full">
                 <Button onClick={postHandler}>POST</Button>
               </div>
             </div>
