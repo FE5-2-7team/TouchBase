@@ -7,7 +7,7 @@ import { userStore } from "../stores/userStore";
 
 export default function ProfileLayout() {
   const params = useParams();
-  const user = useGetUser(params.id!);
+  const { user, isLoading } = useGetUser(params.id!);
   const loginUserId = userStore((state) => state.getUser()?._id);
 
   const [isVisible, setIsVisible] = useState(false);
