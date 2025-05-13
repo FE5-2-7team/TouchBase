@@ -22,7 +22,7 @@ interface ThreadProps {
   content: string;
   date: string;
   channel: string;
-  images?: string[];
+  images?: string;
   likes: Like[];
   comments: Comment[];
   likeChecked: boolean;
@@ -37,7 +37,7 @@ export default function Threads({
   title,
   content,
   date,
-  images = [],
+  images,
   likes,
   comments,
   likeChecked,
@@ -172,7 +172,7 @@ export default function Threads({
       <Upload
         titleValue={title}
         contentValue={content}
-        imageList={images}
+        imageValue={images}
         editFinishHandler={editFinishHandler}
       />
     );
@@ -206,16 +206,13 @@ export default function Threads({
           </div>
           <div className="text-[16px] mb-[10px]">{content}</div>
           {/* 이미지가 있을 때만 보여주기 */}
-          {images.length > 0 && (
+          {images && (
             <div className="flex gap-2 flex-wrap mb-2">
-              {images.map((src, index) => (
-                <img
-                  key={index}
-                  src={src}
-                  alt={`img-${index}`}
-                  className="w-[70%] rounded-[6px]"
-                />
-              ))}
+              <img
+                src={images}
+                alt={`thread image`}
+                className="w-[70%] rounded-[6px]"
+              />
             </div>
           )}
           <div className="flex justify-between items-center text-[#ababab] text-[16px] mt-auto">
