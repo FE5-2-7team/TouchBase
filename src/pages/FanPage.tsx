@@ -3,13 +3,18 @@ import Upload from "../components/FanPage/Upload";
 import Sidebar from "../components/FanPage/Sidebar";
 import ThreadsList from "./../components/FanPage/ThreadsList";
 import { useParams } from "react-router";
+// import { Post } from "../types/postType"
 
 export default function FanPage() {
   const { teamName } = useParams<{ teamName: string }>();
   const typeTeamName = teamName as string;
 
+  // const [posts, setPosts] = useState<Post[]>([]);
+
   // top 버튼 보일지 말지
   const [isVisible, setIsVisible] = useState(false);
+
+  //
 
   // 스크롤 이벤트
   useEffect(() => {

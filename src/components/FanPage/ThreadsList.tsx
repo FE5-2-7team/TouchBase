@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { userStore } from "../../stores/userStore";
 import { refreshStore } from "../../stores/refreshStore";
+
 export default function ThreadsList() {
   const { teamName, channelId } = useParams();
   const [posts, setPosts] = useState<Post[]>([]);
@@ -55,7 +56,7 @@ export default function ThreadsList() {
             content={postContent}
             date={new Date(post.createdAt).toLocaleDateString()}
             channel={post.channel.name}
-            images={post.image ? [post.image] : []}
+            images={post.image ?? ""}
             likes={post.likes}
             comments={post.comments}
             likeChecked={likeChecked}
