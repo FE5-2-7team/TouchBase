@@ -1,35 +1,45 @@
-import React, { useEffect, useRef, useState } from "react";
-import Button from "./Button";
-import { LuImagePlus } from "react-icons/lu";
-import ProfileBlock from "./ProfileBlock";
-import { MdOutlineReplay } from "react-icons/md";
+import { useRef, useState } from "react";
 import { userStore } from "../../stores/userStore";
-import { axiosInstance } from "../../api/axiosInstance";
-import { useParams } from "react-router";
-import { AxiosError } from "axios";
+import useGetUser from "./useGetUser";
 import { refreshStore } from "../../stores/refreshStore";
+import ProfileBlock from "../FanPage/ProfileBlock";
+import { LuImageMinus, LuImagePlus } from "react-icons/lu";
+import { MdOutlineReplay } from "react-icons/md";
+import Button from "../FanPage/Button";
+import { axiosFileInstance } from "../../api/axiosInstance";
+import { AxiosError } from "axios";
 
-interface UploadProps {
-  titleValue?: string;
-  contentValue?: string;
-  imageValue?: string;
+interface EditProps {
+  channelId?: string;
+  postId: string;
+  titleValue: string;
+  contentValue: string;
+  imageValue: string | null;
+  imagesPublicId: string | null;
+  editFinishHandler: () => void;
 }
 
-export default function Upload({
+export default function EditPosts({
+  channelId,
+  postId,
   titleValue,
   contentValue,
   imageValue,
-}: UploadProps) {
-  const { channelId } = useParams();
-  const userName = userStore.getState().getUser()?.fullName;
-  const currentUser = userStore.getState().getUser();
+  imagesPublicId,
+  editFinishHandler,
+}: EditProps) {
+  const userId = userStore.getState().getUser()?._id;
+  const user = useGetUser(userId!);
+  const userName = user?.username ? user.username : user?.fullName;
 
   const [title, setTitle] = useState(titleValue || "");
   const [contents, setContents] = useState(contentValue || "");
-  const [images, setImages] = useState<string | undefined>(imageValue);
+  const [images, setImages] = useState<string | null>(imageValue);
   const [imageFiles, setImageFiles] = useState<File | null>(null);
+  const [deleteImage, setDeleteImage] = useState<string | null>(null);
 
   const ImgInputRef = useRef<HTMLInputElement | null>(null);
+  const refetch = refreshStore((state) => state.refetch);
 
   const ImgClickHandler = () => {
     ImgInputRef.current?.click();
@@ -38,8 +48,12 @@ export default function Upload({
   const UndoHandler = () => {
     setTitle("");
     setContents("");
+  };
+
+  const deleteImgHandler = async () => {
     setImages("");
     setImageFiles(null);
+    setDeleteImage(imagesPublicId);
   };
 
   const ImgFileChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,45 +70,36 @@ export default function Upload({
     }
   };
 
-  const postHandler = async () => {
-    await uploadThread();
-    refreshStore.getState().refetch();
-    UndoHandler();
+  const editHandler = async () => {
+    await putHandler();
+    refetch();
+    editFinishHandler();
   };
 
   // 포스트 업데이트 api 호출
-  const uploadThread = async () => {
+  const putHandler = async () => {
     try {
       const formData = new FormData();
 
-      formData.append(
-        "title",
-        JSON.stringify([{ postTitle: title, postContent: contents }])
-      );
-      formData.append("channelId", channelId || "");
+      formData.append("postId", postId);
+      formData.append("title", JSON.stringify([{ postTitle: title, postContent: contents }]));
+      formData.append("channelId", channelId ?? "");
 
       if (imageFiles) {
         formData.append("image", imageFiles);
-        // console.log("이미지 파일", imageFiles);
       }
-      await axiosInstance.post(`/posts/create`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
 
-      console.log("파일 업로드 성공");
+      if (deleteImage) {
+        formData.append("imageToDeletePublicId", deleteImage);
+      }
+
+      const { data } = await axiosFileInstance.put(`posts/update`, formData);
+      console.log("파일 수정 성공");
     } catch (error) {
       const err = error as AxiosError;
-      console.error("생성 불가!!!", err.message);
+      console.error("수정 불가", err.message);
     }
   };
-
-  useEffect(() => {
-    if (titleValue) setTitle(titleValue);
-    if (contentValue) setContents(contentValue);
-    if (imageValue) setImages(imageValue);
-  }, [titleValue, contentValue, imageValue]);
 
   return (
     <>
@@ -102,7 +107,7 @@ export default function Upload({
         <div className="p-[24px] flex gap-[25px]">
           {/* 왼쪽 프로필 영역 */}
           <div className="flex-shrink-0 self-start">
-            <ProfileBlock username={userName} imageUrl={currentUser?.image} />
+            <ProfileBlock username={userName} />
           </div>
 
           {/* 오른쪽 입력 영역 */}
@@ -132,11 +137,7 @@ export default function Upload({
 
               {images && (
                 <div className="my-4">
-                  <img
-                    src={images}
-                    alt="Uploaded"
-                    className="max-w-full rounded-md"
-                  />
+                  <img src={images} alt="Uploaded" className="max-w-full rounded-md" />
                 </div>
               )}
             </div>
@@ -145,14 +146,25 @@ export default function Upload({
             <div className="flex items-center justify-between gap-4 mt-1">
               {/* 왼쪽 아이콘들 */}
               <div className="flex items-center gap-5">
-                <button
-                  type="button"
-                  onClick={ImgClickHandler}
-                  title="이미지 삽입"
-                  className="hover:opacity-80 transition-transform duration-200 hover:scale-105"
-                >
-                  <LuImagePlus className="text-[18px] text-[#ababab]" />
-                </button>
+                {images ? (
+                  <button
+                    type="button"
+                    onClick={deleteImgHandler}
+                    title="이미지 삭제"
+                    className="hover:opacity-80 transition-transform duration-200 hover:scale-105 cursor-pointer"
+                  >
+                    <LuImageMinus className="text-[18px] text-[#ababab]" />
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={ImgClickHandler}
+                    title="이미지 삽입"
+                    className="hover:opacity-80 transition-transform duration-200 hover:scale-105 cursor-pointer"
+                  >
+                    <LuImagePlus className="text-[18px] text-[#ababab]" />
+                  </button>
+                )}
                 <input
                   type="file"
                   accept="image/*"
@@ -164,7 +176,7 @@ export default function Upload({
                   type="button"
                   onClick={UndoHandler}
                   title="되돌리기"
-                  className="hover:opacity-80 transition-transform duration-200 hover:scale-105"
+                  className="hover:opacity-80 transition-transform duration-200 hover:scale-105 cursor-pointer"
                 >
                   <MdOutlineReplay className="text-[18px] text-[#ababab]" />
                 </button>
@@ -172,7 +184,7 @@ export default function Upload({
 
               {/* 오른쪽 POST 버튼 */}
               <div className="flex items-center md:mr-[75px]">
-                <Button onClick={postHandler}>POST</Button>
+                <Button onClick={editHandler}>EDIT</Button>
               </div>
             </div>
           </div>

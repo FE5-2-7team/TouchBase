@@ -58,11 +58,13 @@ export default function MyThreadsList() {
               content={postContent}
               date={new Date(post.createdAt).toLocaleDateString()}
               channel={post.channel.name}
-              images={post.image ? [post.image] : []}
+              images={post.image ?? ""}
+              imagesPublicId={post.imagePublicId ?? null}
               likes={post.likes}
               comments={post.comments}
               likeChecked={likeChecked}
               isMyThread={true}
+              channelId={post.channel._id}
             />
           );
         })

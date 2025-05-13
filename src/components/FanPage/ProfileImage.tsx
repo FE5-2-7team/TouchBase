@@ -1,29 +1,27 @@
-import ProfileIcon from "../Icons/ProfileIcon";
-
+import { FaUserCircle } from "react-icons/fa";
 interface ProfileImageProps {
-  size?: number;
   imageUrl?: string;
   alt?: string;
+  size?: number;
 }
 
 export default function ProfileImage({
-  size = 80,
   imageUrl,
   alt = "profile",
+  size,
 }: ProfileImageProps) {
   return (
     <div
-      className="rounded-full bg-[#2F6BEB] flex items-center justify-center overflow-hidden"
+      className="w-20 h-20 rounded-full flex items-center justify-center overflow-hidden"
       style={{ width: size, height: size }}
     >
       {imageUrl ? (
-        <img
-          src={imageUrl}
-          alt={alt}
-          className="object-contain w-full h-full"
-        />
+        <img src={imageUrl} alt={alt} className="object-cover w-full h-full" />
       ) : (
-        <ProfileIcon size={size * 0.5} color="white" />
+        <FaUserCircle
+          size={size}
+          className="w-full h-full fill-[#2F6BEB] dark:fill-[#FFFFFF]"
+        />
       )}
     </div>
   );
