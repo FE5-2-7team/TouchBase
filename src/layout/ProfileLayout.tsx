@@ -1,12 +1,14 @@
 import { NavLink, Outlet, useParams } from "react-router";
 import mascot from "../assets/images/doosan_mascot.png";
 import useGetUser from "../components/Profile/useGetUser";
-import ProfileImage from "../components/FanPage/ProfileImage";
 import { useEffect, useState } from "react";
+import { FaUserCircle } from "react-icons/fa";
+import { userStore } from "../stores/userStore";
 
 export default function ProfileLayout() {
   const params = useParams();
   const user = useGetUser(params.id!);
+  const loginUserId = userStore((state) => state.getUser()?._id);
 
   const [isVisible, setIsVisible] = useState(false);
 
@@ -42,7 +44,7 @@ export default function ProfileLayout() {
             alt="my profile"
           />
         ) : (
-          <ProfileImage size={90} />
+          <FaUserCircle className="w-[100px] h-[100px] fill-[#2F6BEB] dark:fill-[#FFFFFF]" />
         )}
 
         <div className="">
@@ -77,22 +79,30 @@ export default function ProfileLayout() {
                 {user?.following.length}
               </button>
             </NavLink>
-            <NavLink
-              to="/message"
-              className={({ isActive }) => (isActive ? "text-[#FF9500]" : "text-[#0033A0] dark:text-[#FFFFFF]")}
-            >
-              <button className="flex items-center cursor-pointer md:text-[16px] sm:text-[9px]">
-                <span className="md:text-[20px] sm:text-[9px] font-bold md:mr-[10px] sm:mr-[6px]">쪽지함</span>
-                {user?.messages.length}
+            {params.id && loginUserId === params.id ? (
+              <NavLink
+                to="/message"
+                className={({ isActive }) => (isActive ? "text-[#FF9500]" : "text-[#0033A0] dark:text-[#FFFFFF]")}
+              >
+                <button className="flex items-center cursor-pointer md:text-[16px] sm:text-[9px]">
+                  <span className="md:text-[20px] sm:text-[9px] font-bold md:mr-[10px] sm:mr-[6px]">쪽지함</span>
+                  {user?.messages.length}
+                </button>
+              </NavLink>
+            ) : (
+              ""
+            )}
+          </div>
+          {params.id && loginUserId === params.id ? (
+            <NavLink to="modify">
+              {" "}
+              <button className="border rounded-[10px] py-[3px] px-[10px] md:text-[16px] sm:text-[9px] text-[#6D6D6D] dark:text-[#FFFFFF] cursor-pointer">
+                프로필 수정
               </button>
             </NavLink>
-          </div>
-          <NavLink to="modify">
-            {" "}
-            <button className="border rounded-[10px] py-[3px] px-[10px] md:text-[16px] sm:text-[9px] text-[#6D6D6D] dark:text-[#FFFFFF] cursor-pointer">
-              프로필 수정
-            </button>
-          </NavLink>
+          ) : (
+            ""
+          )}
         </div>
         <img
           className="lg:w-[100px] lg:h-[158px] md:w-[69px] md:h-[109px] opacity-50 md:block sm:hidden"

@@ -1,4 +1,4 @@
-import ProfileImage from "./ProfileImage";
+import { FaUserCircle } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
 import { axiosInstance } from "../../api/axiosInstance";
 import { ExtendedUser, Follow } from "../../types/postType";
@@ -40,6 +40,14 @@ export default function SimpleProfileCard({ loginUserId, author }: ProfileCardPr
       const { data } = await axiosInstance.post<Follow>("follow/create", {
         userId: author._id,
       });
+
+      await axiosInstance.post("notifications/create", {
+        notificationType: "FOLLOW",
+        notificationTypeId: data._id,
+        userId: data.user,
+        postId: null,
+      });
+
       refetch();
     } catch (e) {
       console.error(e);
@@ -55,7 +63,7 @@ export default function SimpleProfileCard({ loginUserId, author }: ProfileCardPr
       {/* 프로필 이미지 */}
       <Link to={`/profile/${author._id}/posts`} onClick={navigateHandler}>
         <div className="flex flex-col items-center gap-1">
-          <div className="border border-[#d9d9d9] rounded-full bg-[#0033A0] flex items-center justify-center">
+          <div className="flex items-center justify-center">
             {author.image ? (
               <div className="relative w-[60px] h-[60px]">
                 <img src={author.image} alt="profile" className="w-full h-full rounded-full" />
@@ -68,10 +76,10 @@ export default function SimpleProfileCard({ loginUserId, author }: ProfileCardPr
               </div>
             ) : (
               <div className="relative w-[60px] h-[60px]">
-                <ProfileImage size={60} />
+                <FaUserCircle className="absolute w-full h-full fill-[#2F6BEB] dark:fill-[#FFFFFF]" />
                 <div
                   className={twMerge(
-                    "absolute w-[9px] h-[9px] right-[1px] top-[5px] rounded-[100px] bg-[#00FF1E] dark:border dark:border-[#0033A0]",
+                    "absolute w-[9px] h-[9px] right-[3px] top-[5px] rounded-[100px] bg-[#00FF1E] dark:border dark:border-[#0033A0]",
                     !author.isOnline && "hidden"
                   )}
                 />
