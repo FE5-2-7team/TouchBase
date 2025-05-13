@@ -4,7 +4,7 @@ import { LuImagePlus } from "react-icons/lu";
 import ProfileBlock from "./ProfileBlock";
 import { MdOutlineReplay } from "react-icons/md";
 import { userStore } from "../../stores/userStore";
-import { axiosInstance } from "../../api/axiosInstance";
+import { axiosFileInstance } from "../../api/axiosInstance";
 import { useParams } from "react-router";
 import { AxiosError } from "axios";
 import { refreshStore } from "../../stores/refreshStore";
@@ -12,25 +12,24 @@ import { refreshStore } from "../../stores/refreshStore";
 interface UploadProps {
   titleValue?: string;
   contentValue?: string;
-  imageList?: string[];
-  editFinishHandler?: () => void;
+  imageValue?: string;
 }
 
 export default function Upload({
   titleValue,
   contentValue,
-  imageList,
-  editFinishHandler,
+  imageValue,
 }: UploadProps) {
   const { channelId } = useParams();
   const userName = userStore.getState().getUser()?.fullName;
   // console.log(userName);
 
   const [title, setTitle] = useState(titleValue || "");
-  const [images, setImages] = useState<string[]>(imageList || []);
-  const contentRef = useRef<HTMLDivElement | null>(null);
+  const [contents, setContents] = useState(contentValue || "");
+  const [images, setImages] = useState<string | undefined>(imageValue);
+  const [imageFiles, setImageFiles] = useState<File | null>(null);
+
   const ImgInputRef = useRef<HTMLInputElement | null>(null);
-  const [isEmpty, setIsEmpty] = useState(true);
 
   const ImgClickHandler = () => {
     ImgInputRef.current?.click();
@@ -38,109 +37,72 @@ export default function Upload({
 
   const UndoHandler = () => {
     setTitle("");
-    setIsEmpty(true);
-    setImages([]);
-    if (contentRef.current) {
-      contentRef.current.innerHTML = "";
-    }
+    setContents("");
+    setImages("");
+    setImageFiles(null);
   };
 
   const ImgFileChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+
     if (file) {
       const reader = new FileReader();
       reader.onload = function (e) {
         const result = e.target?.result as string;
-
-        if (result && contentRef.current) {
-          contentRef.current.focus();
-
-          // 이미지
-          const img = document.createElement("img");
-          img.src = result;
-          img.style.maxWidth = "100%";
-          img.style.marginTop = "10px";
-
-          // 커서 위치 삽입
-          const selection = window.getSelection();
-          if (selection && selection.rangeCount > 0) {
-            const range = selection.getRangeAt(0);
-            range.collapse(false);
-            range.insertNode(img);
-
-            // 커서 이미지 뒤로 이동
-            range.setStartAfter(img);
-            range.collapse(true);
-            selection.removeAllRanges();
-            selection.addRange(range);
-          } else {
-            // 커서가 없으면 그냥 마지막에 추가
-            contentRef.current.appendChild(img);
-          }
-        }
-
-        setImages((prev) => [...prev, result]);
-        setIsEmpty(false);
+        setImages(result);
+        setImageFiles(file);
       };
       reader.readAsDataURL(file);
     }
   };
-  const InputHandler = () => {
-    const text = contentRef.current?.innerText.trim() || "";
-    setIsEmpty(text === "");
-  };
+
+  // const InputHandler = () => {
+  //   const text = contentRef.current?.innerText.trim() || "";
+  //   setIsEmpty(text === "");
+  // };
 
   const postHandler = async () => {
-    console.log(channelId);
     await uploadThread();
     refreshStore.getState().refetch();
-    editFinishHandler?.();
     UndoHandler();
   };
-
-  useEffect(() => {
-    const contentHTML = contentValue || "";
-
-    const imageHTML =
-      imageList && imageList.length > 0
-        ? imageList
-            .map(
-              (src) =>
-                `<img src="${src}" style="max-width:100%; margin-top:10px;" />`
-            )
-            .join("")
-        : "";
-
-    if (contentRef.current) {
-      contentRef.current.innerHTML = contentHTML + imageHTML;
-    }
-
-    setImages(imageList || []);
-    InputHandler();
-  }, [contentValue, imageList]);
 
   // 포스트 업데이트 api 호출
   const uploadThread = async () => {
     try {
-      const contentHTML = contentRef.current?.innerHTML || "";
-      const res = await axiosInstance.post(`/posts/create`, {
-        title: JSON.stringify([{ postTitle: title, postContent: contentHTML }]),
-        image: images,
-        channelId: channelId,
-      });
-      console.log(res.data.title);
+      const formData = new FormData();
+
+      formData.append(
+        "title",
+        JSON.stringify([{ postTitle: title, postContent: contents }])
+      );
+      formData.append("channelId", channelId || "");
+
+      if (imageFiles) {
+        formData.append("image", imageFiles);
+        console.log("이미지 파일", imageFiles);
+      }
+      const res = await axiosFileInstance.post(`/posts/create`, formData);
+      console.log("파일 업로드 성공");
+      console.log(res.data);
     } catch (error) {
       const err = error as AxiosError;
       console.error("생성 불가!!!", err.message);
     }
   };
 
+  useEffect(() => {
+    if (titleValue) setTitle(titleValue);
+    if (contentValue) setContents(contentValue);
+    if (imageValue) setImages(imageValue);
+  }, [titleValue, contentValue, imageValue]);
+
   return (
     <>
       <div className="shadow-md w-full max-w-full md:max-w-[1200px] mx-auto rounded-[10px] border border-[#d9d9d9] flex flex-col">
         <div className="p-[24px] flex gap-[25px]">
           {/* 왼쪽 프로필 영역 */}
-          <div className="flex-shink-0 self-start">
+          <div className="flex-shrink-0 self-start">
             <ProfileBlock username={userName} />
           </div>
 
@@ -153,62 +115,65 @@ export default function Upload({
               onChange={(e) => setTitle(e.target.value)}
               placeholder="제목을 입력해 주세요."
               className="text-[16px] border border-[#d9d9d9] mb-[10px] 
-          w-full md:max-w-[950px] h-[35px] rounded-[10px] px-4 py-1 
-          box-border focus:border-[#0033A0] focus:outline-none"
+            w-full md:max-w-[950px] h-[35px] rounded-[10px] px-4 py-1 
+            box-border focus:border-[#0033A0] focus:outline-none"
             />
 
             {/* 내용 입력 */}
             <div className="relative">
-              <div
-                ref={contentRef}
-                contentEditable
-                onInput={InputHandler}
+              <textarea
+                value={contents}
+                onChange={(e) => setContents(e.target.value)}
+                placeholder="내용을 입력해 주세요."
                 className="text-[16px] border border-[#d9d9d9] mb-[10px] 
-      w-full md:max-w-[950px] min-h-[90px] rounded-[10px] px-4 py-2 
-      box-border resize-none focus:border-[#0033a0] 
-      focus:outline-none overflow-auto whitespace-pre-wrap pb-[60px]"
+              w-full md:max-w-[950px] min-h-[90px] rounded-[10px] px-4 py-2 
+              box-border resize-none focus:border-[#0033a0] 
+              focus:outline-none overflow-auto whitespace-pre-wrap pb-[60px]"
               />
 
-              {/* placeholder */}
-              {isEmpty && (
-                <div className="absolute left-4 top-2 text-[#999999] pointer-events-none">
-                  내용을 입력해 주세요.
+              {images && (
+                <div className="my-4">
+                  <img
+                    src={images}
+                    alt="Uploaded"
+                    className="max-w-full rounded-md"
+                  />
                 </div>
               )}
+            </div>
 
-              {/* 아이콘 + POST 버튼 */}
-              <div className="absolute md:max-w-[950px] left-0 right-0  bottom-5 gap-4 px-4 md:px-4 flex items-center justify-between">
-                {/* 왼쪽 아이콘들 */}
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={ImgClickHandler}
-                    title="이미지 삽입"
-                    className="hover:opacity-80 transition-transform duration-200 hover:scale-105"
-                  >
-                    <LuImagePlus className="text-[18px] text-[#ababab]" />
-                  </button>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    ref={ImgInputRef}
-                    onChange={ImgFileChangeHandler}
-                    style={{ display: "none" }}
-                  />
-                  <button
-                    type="button"
-                    onClick={UndoHandler}
-                    title="되돌리기"
-                    className="hover:opacity-80 transition-transform duration-200 hover:scale-105"
-                  >
-                    <MdOutlineReplay className="text-[18px] text-[#ababab]" />
-                  </button>
-                </div>
+            {/* 아이콘 + POST 버튼 영역 */}
+            <div className="flex items-center justify-between gap-4 mt-1">
+              {/* 왼쪽 아이콘들 */}
+              <div className="flex items-center gap-5">
+                <button
+                  type="button"
+                  onClick={ImgClickHandler}
+                  title="이미지 삽입"
+                  className="hover:opacity-80 transition-transform duration-200 hover:scale-105"
+                >
+                  <LuImagePlus className="text-[18px] text-[#ababab]" />
+                </button>
+                <input
+                  type="file"
+                  accept="image/*"
+                  ref={ImgInputRef}
+                  onChange={ImgFileChangeHandler}
+                  style={{ display: "none" }}
+                />
+                <button
+                  type="button"
+                  onClick={UndoHandler}
+                  title="되돌리기"
+                  className="hover:opacity-80 transition-transform duration-200 hover:scale-105"
+                >
+                  <MdOutlineReplay className="text-[18px] text-[#ababab]" />
+                </button>
+              </div>
 
-                {/* 오른쪽 POST 버튼 */}
-                <div className="flex items-center gap-2">
-                  <Button onClick={postHandler}>POST</Button>
-                </div>
+              {/* 오른쪽 POST 버튼 */}
+              <div className="flex items-center md:mr-[75px]">
+                <Button onClick={postHandler}>POST</Button>
               </div>
             </div>
           </div>

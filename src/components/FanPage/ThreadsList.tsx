@@ -56,7 +56,7 @@ export default function ThreadsList() {
             content={postContent}
             date={new Date(post.createdAt).toLocaleDateString()}
             channel={post.channel.name}
-            images={post.image ? [post.image] : []}
+            images={post.image ?? ""}
             likes={post.likes}
             comments={post.comments}
             likeChecked={likeChecked}
