@@ -55,7 +55,6 @@ export default function HeaderIcon() {
       try {
         const res = await axiosInstance.get("/notifications");
         setAlerts(res.data);
-        console.log(res.data);
       } catch (err) {
         console.error("알림 목록 불러오기 실패", err);
       }
@@ -81,7 +80,9 @@ export default function HeaderIcon() {
           )}
           {activeBox === "notice" && (
             <div ref={boxRef} className="absolute top-full -left-38 mt-2 z-[100] ">
-              {activeBox && <NoticeBox onClose={() => toggleBox(null)} alerts={alerts} />}
+              {activeBox && (
+                <NoticeBox onClose={() => toggleBox(null)} alerts={alerts} setAlerts={setAlerts} />
+              )}
             </div>
           )}
         </div>
