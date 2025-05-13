@@ -29,7 +29,7 @@ export default function MessageChatView({ messages, myId }: Props) {
                 <div
                   className={`px-4 py-3 rounded-xl max-w-[80%] w-auto"  
                 ${
-                  msg.sender?._id === myId
+                  isMine
                     ? "bg-[#305AB3] text-white ml-20 break-words self-end"
                     : "bg-gray-100 text-gray-800 mr-20 break-words dark:bg-[#2D3037] dark:text-white self-start"
                 }`}
