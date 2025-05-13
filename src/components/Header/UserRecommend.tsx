@@ -18,7 +18,6 @@ export default function UserRecommend({ onClose }: Props) {
 
         const randomUser = [...res.data].sort(() => 0.5 - Math.random());
         setRecommends(randomUser.slice(0, 10));
-        console.log(UserRecommend);
       } catch (err) {
         console.error("추천 유저 불러오기 실패", err);
       }
@@ -46,7 +45,7 @@ export default function UserRecommend({ onClose }: Props) {
             </div>
           )}
           <Link
-            to={`/profile/${user._id}`}
+            to={`/profile/${user._id}/posts`}
             className="mt-2.5 text-sm cursor-pointer whitespace-nowrap dark:text-white"
           >
             {user.username ? user.username : user.fullName}
