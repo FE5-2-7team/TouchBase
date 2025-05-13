@@ -56,11 +56,6 @@ export default function Upload({
     }
   };
 
-  // const InputHandler = () => {
-  //   const text = contentRef.current?.innerText.trim() || "";
-  //   setIsEmpty(text === "");
-  // };
-
   const postHandler = async () => {
     await uploadThread();
     refreshStore.getState().refetch();
