@@ -13,3 +13,12 @@ axiosInstance.interceptors.request.use((config) => {
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
+
+const token = userStore.getState().getToken();
+
+export const axiosFileInstance = axios.create({
+  baseURL: "http://13.125.208.179:5011/",
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});

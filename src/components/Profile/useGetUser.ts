@@ -21,7 +21,7 @@ export default function useGetUser(userId: string) {
     startTransition(async () => {
       await getHandler();
     });
-  }, [refresh]);
+  }, [refresh, userId]);
 
   return user;
 }

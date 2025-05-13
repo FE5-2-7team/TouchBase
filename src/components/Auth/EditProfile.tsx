@@ -142,13 +142,13 @@ export default function EditProfile() {
     setRender((render) => !render);
   };
 
-  useEffect(() => {
-    if (id) {
-      urlValidation(id);
-    } else {
-      navigate("*", { replace: true });
-    }
-  }, [id, render]);
+  // useEffect(() => {
+  //   if (id) {
+  //     urlValidation(id);
+  //   } else {
+  //     navigate("*", { replace: true });
+  //   }
+  // }, [id, render]);
 
   //input onChnage 유효성 검사 - 재사용 모듈화 하기 -
   function handleInputValidation(
@@ -284,7 +284,10 @@ export default function EditProfile() {
                 onChange={(e) => handleInputValidation(e, "name", value)}
                 className="h-[40px] mb-[0] max-w-[475px]"
               />
-              <Button onClick={() => handleUpdateUser(name, "name")}>
+              <Button
+                onClick={() => handleUpdateUser(name, "name")}
+                className="w-[80px] h-[40px] text-[14px] rounded-[5px]"
+              >
                 변경하기
               </Button>
               {name.content && !name.valid && (
