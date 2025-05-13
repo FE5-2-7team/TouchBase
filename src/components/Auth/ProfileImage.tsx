@@ -1,19 +1,17 @@
-import { FaCamera } from "react-icons/fa";
+import { FaCamera, FaRegTrashAlt } from "react-icons/fa";
 import ProfileIcon from "../Icons/ProfileIcon";
 import { twMerge } from "tailwind-merge";
-import { userStore } from "../../stores/userStore";
-import { BaseUser } from "../../types/postType.ts";
-import { useState } from "react";
-import handleimageChange from "./imageChange.ts";
+import { useRef } from "react";
+import { handleimageChange, handleimageRemove } from "./imageChange.ts";
+// import { ExtendedUser } from "../../types/postType.ts";
 
-export default function ProfileImage({ className }: { className: string }) {
-  const user: BaseUser | null = userStore.getState().getUser();
-  console.log(user);
+type PropsType = {
+  className: string;
+  src: string | undefined;
+};
 
-  const [image, setimage] = useState({
-    src: "",
-    valid: false,
-  });
+export default function ProfileImage({ className, src }: PropsType) {
+  const inputRef = useRef<HTMLInputElement>(null);
 
   return (
     <>
@@ -24,19 +22,31 @@ export default function ProfileImage({ className }: { className: string }) {
         )}
       >
         <div className="bg-[#2F6BEB] overflow-hidden w-full h-full rounded-full flex items-center justify-center">
-          {image.valid ? (
-            <img src={image.src} className="w-full h-full object-cover"></img>
+          {src ? (
+            <img src={src} className="w-full h-full object-cover"></img>
           ) : (
             <ProfileIcon size={82} />
           )}
         </div>
-        <div className="absolute cursor-pointer box-content w-[30px] h-[30px] top-[-4px] right-[-4px] bg-[#ABABAB] rounded-full p-1 flex items-center justify-center border-white border-[4px]">
+        <div className="absolute cursor-pointer box-content w-[30px] h-[30px] top-[-4px] right-[-4px] bg-[#ABABAB] rounded-full p-1 flex items-center justify-center border-white border-[4px] overflow-hidden">
           <input
             type="file"
             accept="image/*"
-            onChange={(e) => handleimageChange(e, setimage)}
+            onChange={(e) => handleimageChange(e)}
+            ref={inputRef}
+            className="sr-only"
           ></input>
-          <FaCamera className="text-[#fff] text-[21px]" />
+          {src ? (
+            <FaRegTrashAlt
+              onClick={handleimageRemove}
+              className="text-[#fff] text-[20px]"
+            />
+          ) : (
+            <FaCamera
+              onClick={() => inputRef.current!.click()}
+              className="text-[#fff] text-[20px]"
+            />
+          )}
         </div>
       </div>
     </>
