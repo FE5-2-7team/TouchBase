@@ -1,8 +1,8 @@
 import { NavLink, Outlet, useParams } from "react-router";
 import mascot from "../assets/images/doosan_mascot.png";
 import useGetUser from "../components/Profile/useGetUser";
-import ProfileImage from "../components/FanPage/ProfileImage";
 import { useEffect, useState } from "react";
+import { FaUserCircle } from "react-icons/fa";
 
 export default function ProfileLayout() {
   const params = useParams();
@@ -42,7 +42,7 @@ export default function ProfileLayout() {
             alt="my profile"
           />
         ) : (
-          <ProfileImage size={90} />
+          <FaUserCircle className="w-[100px] h-[100px] fill-[#2F6BEB] dark:fill-[#FFFFFF]"/>
         )}
 
         <div className="">
