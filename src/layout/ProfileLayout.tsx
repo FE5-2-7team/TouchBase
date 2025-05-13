@@ -94,7 +94,7 @@ export default function ProfileLayout() {
             )}
           </div>
           {params.id && loginUserId === params.id ? (
-            <NavLink to="modify">
+            <NavLink to="edit">
               {" "}
               <button className="border rounded-[10px] py-[3px] px-[10px] md:text-[16px] sm:text-[9px] text-[#6D6D6D] dark:text-[#FFFFFF] cursor-pointer">
                 프로필 수정
