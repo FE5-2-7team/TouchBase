@@ -151,7 +151,7 @@ export default function EditPosts({
                     type="button"
                     onClick={deleteImgHandler}
                     title="이미지 삭제"
-                    className="hover:opacity-80 transition-transform duration-200 hover:scale-105"
+                    className="hover:opacity-80 transition-transform duration-200 hover:scale-105 cursor-pointer"
                   >
                     <LuImageMinus className="text-[18px] text-[#ababab]" />
                   </button>
@@ -160,7 +160,7 @@ export default function EditPosts({
                     type="button"
                     onClick={ImgClickHandler}
                     title="이미지 삽입"
-                    className="hover:opacity-80 transition-transform duration-200 hover:scale-105"
+                    className="hover:opacity-80 transition-transform duration-200 hover:scale-105 cursor-pointer"
                   >
                     <LuImagePlus className="text-[18px] text-[#ababab]" />
                   </button>
@@ -176,7 +176,7 @@ export default function EditPosts({
                   type="button"
                   onClick={UndoHandler}
                   title="되돌리기"
-                  className="hover:opacity-80 transition-transform duration-200 hover:scale-105"
+                  className="hover:opacity-80 transition-transform duration-200 hover:scale-105 cursor-pointer"
                 >
                   <MdOutlineReplay className="text-[18px] text-[#ababab]" />
                 </button>
