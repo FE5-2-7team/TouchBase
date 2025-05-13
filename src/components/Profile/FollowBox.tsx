@@ -6,7 +6,7 @@ import EmptyContent from "./EmptyContent";
 
 export default function FollowBox({ isFollower }: { isFollower: boolean }) {
   const params = useParams();
-  const { user, isLoading } = useGetUser(params.id!);
+  const { user } = useGetUser(params.id!);
 
   return (
     <div className="h-[550px] flex flex-col items-center p-[27px] rounded-[10px] border border-[#d9d9d9] shadow-md w-full max-w-[1200px] lg:px-[7%] md:px-[27%] mb-[40px]">

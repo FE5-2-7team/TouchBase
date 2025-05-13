@@ -26,7 +26,7 @@ export default function SimpleProfileCard({ loginUserId, author }: ProfileCardPr
 
   const unfollowHandler = async () => {
     try {
-      const { data } = await axiosInstance.delete<Follow>("follow/delete", {
+      await axiosInstance.delete<Follow>("follow/delete", {
         data: { id: following?._id },
       });
       refetch();

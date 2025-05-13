@@ -1,4 +1,4 @@
-import { startTransition, useEffect, useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { ExtendedUser } from "../../types/postType";
 import { axiosInstance } from "../../api/axiosInstance";
 import { refreshStore } from "../../stores/refreshStore";

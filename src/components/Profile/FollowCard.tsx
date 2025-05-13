@@ -15,7 +15,6 @@ export default function FollowCard({ followId }: { followId: string }) {
   if (isLoading) {
     return (
       <div
-        role="status"
         className="flex items-center border border-gray-200 rounded-[10px] shadow-sm animate-pulse w-[470px] h-[63px] justify-between px-[13px] my-[5px] dark:border-gray-700"
       >
         <FaUserCircle className="w-[34px] h-[34px] text-gray-200 dark:text-gray-700" />
@@ -32,7 +31,7 @@ export default function FollowCard({ followId }: { followId: string }) {
 
   const unfollowHandler = async () => {
     try {
-      const { data } = await axiosInstance.delete<Follow>("follow/delete", {
+      await axiosInstance.delete<Follow>("follow/delete", {
         data: { id: following?._id },
       });
       refetch();
