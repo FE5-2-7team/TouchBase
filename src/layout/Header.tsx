@@ -1,4 +1,3 @@
-import M_logo from "../assets/images/m_logo.png";
 import tb_w_logo from "../assets/images/tb_w_logo.svg";
 
 import { logos } from "../utils/getLogoImages";
@@ -39,9 +38,8 @@ export default function Header() {
             <img
               src={tb_w_logo}
               alt="PC버전 로고"
-              className="md:w-60 md:h-12 md:mt-3 md:ml-[120px] h-9 w-52 ml-6 mt-6 cursor-pointer hiddenHeader"
+              className="md:w-60 md:h-12 md:ml-[120px] sm:ml-0 mt-5 md:mt-4 sm:w-50 h-9 ml-6 cursor-pointer hiddenHeader"
             />
-            <img src={M_logo} alt="모바일버전 로고" className="mt-[6%] ml-4 h-10 w-fit m_logo" />
           </Link>
           <HeaderIcon />
         </div>
@@ -54,10 +52,10 @@ export default function Header() {
               <li key={channel._id} className={liItemStyle}>
                 <Link
                   to={`/fanpage/${channel.name}/${channel._id}`}
-                  className="flex items-center justify-center hover:text-[#ff9500] hover:underline hover:underline-offset-6 hover:decoration-2"
+                  className="flex items-center justify-center hover:text-[#ff9500] hover:underline hover:underline-offset-5 hover:decoration-2"
                 >
                   {logoList && <img src={logoList.logo} className={liImgStyle} alt={channel._id} />}
-                  <p className="text-lg ">{channel.name}</p>
+                  <p className="md:text-lg sm:text-sm">{channel.name}</p>
                 </Link>
               </li>
             );

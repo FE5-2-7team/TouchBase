@@ -5,12 +5,14 @@ import Threads from "../FanPage/Threads";
 import { useParams } from "react-router";
 import { refreshStore } from "../../stores/refreshStore";
 import EmptyContent from "./EmptyContent";
+import { userStore } from "../../stores/userStore";
 
 export default function MyThreadsList() {
   const [myPosts, setMyPosts] = useState<Post[]>([]);
   const [, startTransition] = useTransition();
   const params = useParams();
   const refresh = refreshStore((state) => state.refresh);
+  const loginUserId = userStore((state) => state.getUser()?._id);
 
   const getHandler = async () => {
     try {
@@ -26,8 +28,6 @@ export default function MyThreadsList() {
       await getHandler();
     });
   }, [refresh, params.id]);
-
-  // if (isPending) <h1>Loading...</h1>;
 
   return (
     <div className="flex flex-col gap-6 mb-[40px]">
@@ -45,7 +45,7 @@ export default function MyThreadsList() {
             console.error("파싱실패", e);
           }
 
-          const likeChecked = post.likes.some((like) => like.user === params.id);
+          const likeChecked = post.likes.some((like) => like.user === loginUserId);
 
           return (
             <Threads

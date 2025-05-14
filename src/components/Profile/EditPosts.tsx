@@ -7,6 +7,7 @@ import { MdOutlineReplay } from "react-icons/md";
 import Button from "../FanPage/Button";
 import { axiosFileInstance } from "../../api/axiosInstance";
 import { AxiosError } from "axios";
+import { refreshStore } from "../../stores/refreshStore";
 
 interface EditProps {
   channelId?: string;
@@ -39,6 +40,7 @@ export default function EditPosts({
   const [isEditing, setIsEditing] = useState(false);
 
   const ImgInputRef = useRef<HTMLInputElement | null>(null);
+  const refetch = refreshStore((state) => state.refetch);
 
   const ImgClickHandler = () => {
     ImgInputRef.current?.click();
@@ -71,6 +73,7 @@ export default function EditPosts({
 
   const editHandler = async () => {
     await putHandler();
+    refetch();
     editFinishHandler();
   };
 
@@ -79,7 +82,6 @@ export default function EditPosts({
     try {
       setIsEditing(true);
       const formData = new FormData();
-
       formData.append("postId", postId);
       formData.append("title", JSON.stringify([{ postTitle: title, postContent: contents }]));
       formData.append("channelId", channelId ?? "");
