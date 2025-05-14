@@ -65,7 +65,7 @@ export default function SimpleProfileCard({ loginUserId, author }: ProfileCardPr
           <div className="flex items-center justify-center">
             <FaUserCircle className="w-[60px] h-[60px] text-gray-200 dark:text-gray-700" />
           </div>
-          <div className="w-[50px] h-[12px] rounded-full bg-gray-200 dark:bg-gray-700"></div>
+          <div className="w-[70px] h-[12px] rounded-full bg-gray-200 dark:bg-gray-700"></div>
         </div>
         <div className="flex flex-col flex-grow gap-2">
           <div className="w-[120px] h-[12px] rounded-full bg-gray-200 dark:bg-gray-700"></div>
@@ -103,7 +103,7 @@ export default function SimpleProfileCard({ loginUserId, author }: ProfileCardPr
               </div>
             )}
           </div>
-          <div className="text-[12px] text-center font-bold">{author.username ? author.username : author.fullName}</div>
+          <div className="text-[12px] text-center font-bold w-[70px] truncate">{author.username ? author.username : author.fullName}</div>
         </div>
       </Link>
 
