@@ -8,6 +8,8 @@ export default function RootLayout() {
   const location = useLocation();
   const showLayout = location.pathname.includes("edit") ? false : true;
 
+  const hideFooter = location.pathname.includes("message") ? false : true;
+
   if (!showLayout) {
     return <Outlet />;
   }
@@ -18,7 +20,7 @@ export default function RootLayout() {
       <div className="pt-[150px] dark:bg-[#191A1E] dark:text-white">
         <Outlet />
       </div>
-      {!teamName && <Footer />}
+      {!teamName && hideFooter && <Footer />}
     </>
   );
 }
