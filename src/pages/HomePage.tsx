@@ -4,7 +4,7 @@ import InfinityLogo from "../components/Main/InfinityLogo";
 import Highlight from "../components/Main/Highlight";
 import MainPostGroup from "../components/Main/MainPostGroup";
 import KBO from "../assets/images/watermark.png";
-
+import Footer from "../layout/Footer";
 export default function MainContent() {
   return (
     <>
@@ -33,6 +33,7 @@ export default function MainContent() {
           <InfinityLogo />
         </div>
       </main>
+      <Footer />
     </>
   );
 }
