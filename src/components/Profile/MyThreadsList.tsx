@@ -56,7 +56,7 @@ export default function MyThreadsList() {
               author={post.author}
               title={postTitle}
               content={postContent}
-              date={new Date(post.createdAt).toLocaleDateString()}
+              date={new Date(post.updatedAt).toLocaleDateString()}
               channel={post.channel.name}
               images={post.image ?? ""}
               imagesPublicId={post.imagePublicId ?? null}
