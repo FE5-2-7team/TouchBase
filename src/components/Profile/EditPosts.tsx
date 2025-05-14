@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 import { userStore } from "../../stores/userStore";
 import useGetUser from "./useGetUser";
-import { refreshStore } from "../../stores/refreshStore";
 import ProfileBlock from "../FanPage/ProfileBlock";
 import { LuImageMinus, LuImagePlus } from "react-icons/lu";
 import { MdOutlineReplay } from "react-icons/md";
@@ -37,9 +36,9 @@ export default function EditPosts({
   const [images, setImages] = useState<string | null>(imageValue);
   const [imageFiles, setImageFiles] = useState<File | null>(null);
   const [deleteImage, setDeleteImage] = useState<string | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
 
   const ImgInputRef = useRef<HTMLInputElement | null>(null);
-  const refetch = refreshStore((state) => state.refetch);
 
   const ImgClickHandler = () => {
     ImgInputRef.current?.click();
@@ -72,20 +71,17 @@ export default function EditPosts({
 
   const editHandler = async () => {
     await putHandler();
-    refetch();
     editFinishHandler();
   };
 
   // 포스트 업데이트 api 호출
   const putHandler = async () => {
     try {
+      setIsEditing(true);
       const formData = new FormData();
 
       formData.append("postId", postId);
-      formData.append(
-        "title",
-        JSON.stringify([{ postTitle: title, postContent: contents }])
-      );
+      formData.append("title", JSON.stringify([{ postTitle: title, postContent: contents }]));
       formData.append("channelId", channelId ?? "");
 
       if (imageFiles) {
@@ -98,19 +94,45 @@ export default function EditPosts({
 
       await axiosFileInstance.put(`posts/update`, formData);
       console.log("파일 수정 성공");
+      setIsEditing(false);
     } catch (error) {
       const err = error as AxiosError;
       console.error("수정 불가", err.message);
     }
   };
 
+  if (isEditing) {
+    return (
+      <>
+        <div className="shadow-md w-full max-w-full md:max-w-[1200px] mx-auto rounded-[10px] border border-[#d9d9d9] flex flex-col">
+          <div className="p-[24px] flex gap-[25px]">
+            <div className="flex-shrink-0 self-start">
+              <ProfileBlock username={userName} imageUrl={user?.image} />
+            </div>
+            <div className="flex flex-col w-full">
+              <div className="mb-[10px] w-full md:max-w-[1200px] h-[35px] rounded-[10px] px-4 py-1 bg-gray-200 dark:bg-gray-700"></div>
+              <div className="mb-[10px] w-full md:max-w-[1200px] min-h-[90px] rounded-[10px] px-4 py-2 bg-gray-200 dark:bg-gray-700"></div>
+              <div className="flex items-center justify-between gap-4 mt-1">
+                <div className="flex items-center gap-5">
+                  <div className="w-[22px] h-[22px] bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                  <div className="w-[22px] h-[22px] bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <div className="shadow-md w-full max-w-full md:max-w-[1200px] mx-auto rounded-[10px] border border-[#d9d9d9] flex flex-col">
         <div className="p-[24px] flex gap-[25px]">
           {/* 왼쪽 프로필 영역 */}
+
           <div className="flex-shrink-0 self-start">
-            <ProfileBlock username={userName} />
+            <ProfileBlock username={userName} imageUrl={user?.image} />
           </div>
 
           {/* 오른쪽 입력 영역 */}
@@ -140,11 +162,7 @@ export default function EditPosts({
 
               {images && (
                 <div className="my-4">
-                  <img
-                    src={images}
-                    alt="Uploaded"
-                    className="max-w-full rounded-md"
-                  />
+                  <img src={images} alt="Uploaded" className="max-w-full rounded-md" />
                 </div>
               )}
             </div>
@@ -189,7 +207,7 @@ export default function EditPosts({
                 </button>
               </div>
 
-              {/* 오른쪽 POST 버튼 */}
+              {/* 오른쪽 EDIT 버튼 */}
               <div className="flex items-center justify-end w-full">
                 <Button onClick={editHandler}>EDIT</Button>
               </div>
