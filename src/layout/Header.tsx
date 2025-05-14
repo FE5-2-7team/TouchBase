@@ -33,7 +33,7 @@ export default function Header() {
   }, []);
   return (
     <header>
-      <div className="z-60 fixed bg-[#0033A0] w-full h-[80px] dark:bg-[#16171B]">
+      <div className="z-70 fixed bg-[#0033A0] w-full h-[80px] dark:bg-[#16171B]">
         <div className="flex justify-between">
           <Link to="/">
             <img
@@ -46,7 +46,7 @@ export default function Header() {
           <HeaderIcon />
         </div>
       </div>
-      <div className="fixed z-10 w-full bg-[#f5f5f5] h-[80px] md:h-[70px] top-[80px] border-b border-gray-200 dark:border-0 hiddenHeader dark:bg-[#202228] dark:text-white">
+      <div className="fixed z-60 w-full bg-[#f5f5f5] h-[80px] md:h-[70px] top-[80px] border-b border-gray-200 dark:border-0 hiddenHeader dark:bg-[#202228] dark:text-white">
         <ul className="grid grid-cols-5 md:grid-cols-10 xl:gap-[1%] md:px-[8%] px-[2%] md:mt-5 mt-3 ">
           {channels.map((channel) => {
             const logoList = logos.find((logo) => logo.name === channel.name);

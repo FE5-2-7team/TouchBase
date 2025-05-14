@@ -7,17 +7,15 @@ interface Props {
   onClose: () => void;
 }
 export default function UserRecommend({ onClose }: Props) {
-  const [allUsers, setAllUsers] = useState<ExtendedUser[]>([]);
   const [recommneds, setRecommends] = useState<ExtendedUser[]>([]);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const res = await axiosInstance.get("/users/get-users");
-        setAllUsers(res.data);
 
         const randomUser = [...res.data].sort(() => 0.5 - Math.random());
-        setRecommends(randomUser.slice(0, 10));
+        setRecommends(randomUser.slice(0, 8));
       } catch (err) {
         console.error("추천 유저 불러오기 실패", err);
       }
@@ -28,7 +26,7 @@ export default function UserRecommend({ onClose }: Props) {
 
   return (
     <>
-      <h3 className="ml-5 text-sm text-[#2F6BEB] dark:text-gray-400">추천 유저</h3>
+      <h3 className="ml-5 text-sm text-[#2F6BEB] dark:text-gray-400 sm:mt-5">추천 유저</h3>
       {recommneds.map((user) => (
         <div
           key={user._id}

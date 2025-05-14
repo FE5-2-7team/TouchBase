@@ -1,15 +1,16 @@
 import { FaUser } from "react-icons/fa";
 import { Link } from "react-router";
+import { ExtendedUser } from "../../types/postType";
 export default function SearchUser({
   keyword,
   results,
   onClose,
 }: {
   keyword: string;
-  results: any[];
+  results: ExtendedUser[];
   onClose: () => void;
 }) {
-  const filterUsers = results.filter((user: any) => {
+  const filterUsers = results.filter((user: ExtendedUser) => {
     const trimkeyword = keyword?.toLowerCase().trim();
 
     const username = (user.username ?? "").toLowerCase().trim() || "";

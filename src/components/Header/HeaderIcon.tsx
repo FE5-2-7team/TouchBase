@@ -7,6 +7,7 @@ import { useDarkMode } from "../../hooks/useDarkMode";
 import UserMenu from "./UserMenu";
 import NoticeBox from "./NoticeBox";
 import SearchBox from "./SearchBox";
+import { userStore } from "../../stores/userStore";
 
 const iconDiv = "w-[30px] h-[30px] bg-white rounded-2xl mt-6 relative";
 const iconStyle = "w-5 h-5 ml-[5px] mt-1 text-[#002779] cursor-pointer dark:text-[#16171B]";
@@ -32,6 +33,7 @@ export default function HeaderIcon() {
   const boxRef = useRef<HTMLDivElement>(null);
   const [alerts, setAlerts] = useState<Alert[]>([]);
   const UnRead = alerts.some((a) => !a.seen);
+  const isLoggedin = !!userStore.getState().getUser();
 
   const toggleBox = (type: "userMenu" | "notice" | "search" | null) => {
     setActiveBox((prev) => (prev === type ? null : type));
@@ -64,7 +66,11 @@ export default function HeaderIcon() {
 
   return (
     <>
-      <div className="flex md:gap-2 gap-3 md:w-72 md:mx-5 mx-3 hiddenHeader">
+      <div
+        className={`flex md:gap-2 gap-3  hiddenHeader ${
+          !isLoggedin ? "w-66" : "md:mx-5 mx-3 md:w-70"
+        }`}
+      >
         <div className={iconDiv}>
           <MdSearch className={iconStyle} onClick={() => toggleBox("search")} />
           {activeBox === "search" && (
@@ -73,19 +79,25 @@ export default function HeaderIcon() {
             </div>
           )}
         </div>
-        <div className={iconDiv}>
-          <CgBell className={iconStyle} onClick={() => toggleBox("notice")} />
-          {UnRead && (
-            <span className="absolute text-red-600 top-[-3px] right-[-1px] text-[9px]">●</span>
-          )}
-          {activeBox === "notice" && (
-            <div ref={boxRef} className="absolute top-full -left-38 mt-2 z-[100] ">
-              {activeBox && (
-                <NoticeBox onClose={() => toggleBox(null)} alerts={alerts} setAlerts={setAlerts} />
-              )}
-            </div>
-          )}
-        </div>
+        {isLoggedin && (
+          <div className={iconDiv}>
+            <CgBell className={iconStyle} onClick={() => toggleBox("notice")} />
+            {UnRead && (
+              <span className="absolute text-red-600 top-[-3px] right-[-1px] text-[9px]">●</span>
+            )}
+            {activeBox === "notice" && (
+              <div ref={boxRef} className="absolute top-full -left-38 mt-2 z-[100] ">
+                {activeBox && (
+                  <NoticeBox
+                    onClose={() => toggleBox(null)}
+                    alerts={alerts}
+                    setAlerts={setAlerts}
+                  />
+                )}
+              </div>
+            )}
+          </div>
+        )}
         <div className={iconDiv}>
           {isDark ? (
             <MdLightMode className={iconStyle} onClick={toggleDarkMode} />
