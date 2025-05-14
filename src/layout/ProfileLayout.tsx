@@ -131,11 +131,15 @@ export default function ProfileLayout() {
             ""
           )}
         </div>
-        <img
-          className="lg:w-[100px] lg:h-[158px] md:w-[69px] md:h-[109px] opacity-50 md:block sm:hidden"
-          src={mascot}
-          alt="철웅이"
-        />
+        {user?.coverImage ? (
+          <img
+            className="lg:w-[100px] lg:h-[158px] md:w-[69px] md:h-[109px] md:block sm:hidden"
+            src={user?.coverImage}
+            alt="구단 마스코트"
+          />
+        ) : (
+          <div className="lg:w-[100px] md:w-[69px] md:block sm:hidden"></div>
+        )}
       </div>
       <Outlet></Outlet>
       {isVisible && (
