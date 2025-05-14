@@ -21,25 +21,29 @@ export default function Sidebar({ teamName, title, setTitle }: SidebarProps) {
   const nav = useNavigate();
   const { channelId } = useParams();
 
+  const params = new URLSearchParams(location.search);
+  const isSortPage = params.get("sort") === "like";
+  const defaultTitle = isSortPage ? "최신글" : "인기글";
+
   useEffect(() => {
-    setTitle("최신글");
+    setTitle(defaultTitle);
   }, [teamName]);
 
   const navItems = [
     {
       icon: <FaBaseball />,
-      title: "경기일정",
+      title: "경기 일정",
       href: "https://www.koreabaseball.com/",
     },
     {
-      icon: title === "인기글" ? <FaRegClock /> : <FaRegThumbsUp />,
-      title: title === "인기글" ? "최신글" : "인기글",
+      icon: title === "최신글" ? <FaRegClock /> : <FaRegThumbsUp />,
+      title: title,
       href: null,
       onClick: () => {
-        const isPopularNow = title === "인기글";
-        setTitle(isPopularNow ? "최신글" : "인기글");
+        // const isPopularNow = title === "인기글";
+        setTitle(isSortPage ? "인기글" : "최신글");
         nav(
-          isPopularNow
+          isSortPage
             ? `/fanpage/${teamName}/${channelId}`
             : `/fanpage/${teamName}/${channelId}?sort=like`
         );
@@ -62,7 +66,7 @@ export default function Sidebar({ teamName, title, setTitle }: SidebarProps) {
     <>
       <div
         className="md:sticky fixed md:top-[150px] top-[160px] left-0 z-5 w-full md:w-[240px] md:h-screen md:left-0
-    border-b md:border-r md:border-b-0 border-[#d9d9d9] bg-[#fff] dark:bg-[#191A1E] "
+    border-b md:border-r md:border-b-0 border-[#d9d9d9] bg-[#fff] dark:bg-[#191A1E] dark:border-[#4c4c4c]"
       >
         {/* PC에서만 로고 보이게 */}
         <div className="md:flex hidden md:mt-[50px] md:mb-[40px] items-center justify-center">
@@ -89,11 +93,11 @@ export default function Sidebar({ teamName, title, setTitle }: SidebarProps) {
                       href={item.href}
                       target={isExternal ? "_blank" : undefined}
                       rel={isExternal ? "noopener noreferrer" : undefined}
-                      className="w-full h-full flex items-center justify-center px-1 md:px-6 hover:bg-[#0033A0] hover:text-white transition-all duration-200 whitespace-nowrap"
+                      className="w-full h-full flex items-center justify-center px-1 md:px-6 hover:bg-[#0033A0] dark:hover:bg-[#235BD2] hover:text-white transition-all duration-200 whitespace-nowrap"
                     >
-                      <div className="flex items-center justify-start gap-2 md:justify-start">
-                        <span className="md:m-5">{item.icon}</span>
-                        <span className="text-center md:text-left w-auto md:w-[100px]">
+                      <div className="flex items-center justify-start md:justify-start">
+                        <span className="md:m-4">{item.icon}</span>
+                        <span className="text-center md:text-left w-auto md:w-[90px]">
                           {item.title}
                         </span>
                       </div>
@@ -101,11 +105,11 @@ export default function Sidebar({ teamName, title, setTitle }: SidebarProps) {
                   ) : (
                     <button
                       onClick={item.onClick}
-                      className="w-full h-full flex items-center justify-center px-1 md:px-6 hover:bg-[#0033A0] hover:text-white transition-all duration-200 whitespace-nowrap"
+                      className="w-full h-full flex items-center justify-center px-1 md:px-6 hover:bg-[#0033A0] dark:hover:bg-[#235BD2] hover:text-white transition-all duration-200 whitespace-nowrap cursor-pointer"
                     >
-                      <div className="flex items-center justify-start gap-2 md:justify-start">
-                        <span className="md:m-5">{item.icon}</span>
-                        <span className="text-center md:text-left w-auto md:w-[100px]">
+                      <div className="flex items-center justify-start md:justify-start">
+                        <span className="md:m-4">{item.icon}</span>
+                        <span className="text-center md:text-left w-auto md:w-[90px]">
                           {item.title}
                         </span>
                       </div>

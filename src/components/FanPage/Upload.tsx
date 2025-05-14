@@ -21,7 +21,6 @@ export default function Upload({
   imageValue,
 }: UploadProps) {
   const { channelId } = useParams();
-  const userFullName = userStore.getState().getUser()?.fullName;
   const userName = userStore.getState().getUser()?.username;
   const currentUser = userStore.getState().getUser();
 
@@ -99,12 +98,12 @@ export default function Upload({
 
   return (
     <>
-      <div className="shadow-md w-full max-w-full md:max-w-[1200px] mx-auto rounded-[10px] border border-[#d9d9d9] flex flex-col">
+      <div className="shadow-md w-full max-w-full md:max-w-[1200px] mx-auto rounded-[10px] border border-[#d9d9d9] dark:border-[#4c4c4c] flex flex-col">
         <div className="p-[24px] flex gap-[25px]">
           {/* 왼쪽 프로필 영역 */}
           <div className="flex-shrink-0 self-start">
             <ProfileBlock
-              username={userName || userFullName || "알 수 없음"}
+              username={userName || "undefined"}
               imageUrl={currentUser?.image}
             />
           </div>
@@ -117,9 +116,9 @@ export default function Upload({
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="제목을 입력해 주세요."
-              className="text-[16px] border border-[#d9d9d9] mb-[10px] 
+              className="text-[16px] border border-[#d9d9d9] dark:border-[#4c4c4c] mb-[10px] 
             w-full md:max-w-[1200px] h-[35px] rounded-[10px] px-4 py-1 
-            box-border focus:border-[#0033A0] focus:outline-none"
+            box-border focus:border-[#0033A0] dark:focus:border-[#235bd2] focus:outline-none"
             />
 
             {/* 내용 입력 */}
@@ -128,9 +127,9 @@ export default function Upload({
                 value={contents}
                 onChange={(e) => setContents(e.target.value)}
                 placeholder="내용을 입력해 주세요."
-                className="text-[16px] border border-[#d9d9d9] mb-[10px] 
+                className="text-[16px] border border-[#d9d9d9] dark:border-[#4c4c4c] mb-[10px] 
               w-full md:max-w-[1200px] min-h-[90px] rounded-[10px] px-4 py-2 
-              box-border resize-none focus:border-[#0033a0] 
+              box-border resize-none dark:focus:border-[#235bd2] focus:border-[#0033a0] 
               focus:outline-none overflow-auto whitespace-pre-wrap pb-[60px]"
               />
 
@@ -182,7 +181,7 @@ export default function Upload({
                   type="button"
                   onClick={UndoHandler}
                   title="되돌리기"
-                  className="hover:opacity-80 transition-transform duration-200 hover:scale-105"
+                  className="hover:opacity-80 transition-transform duration-200 hover:scale-105 cursor-pointer"
                 >
                   <MdOutlineReplay className="text-[22px] text-[#ababab]" />
                 </button>
