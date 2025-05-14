@@ -15,12 +15,14 @@ import { axiosInstance } from "../../api/axiosInstance.ts";
 import { handleimageChange } from "./imageChange.ts";
 import { userStore } from "../../stores/userStore";
 import { ExtendedUser } from "../../types/postType.ts";
+import SelectClub from "./SelectClub.tsx";
 
 export default function EditProfile() {
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
 
   const user = userStore.getState().getUser() as ExtendedUser;
+  console.log(user);
 
   //input value
   const [value, setValue] = useState({
@@ -56,7 +58,7 @@ export default function EditProfile() {
         type === "name"
           ? await axiosInstance.put("settings/update-user", {
               fullName: data.content,
-              username: "",
+              username: user.username,
             })
           : await axiosInstance.put("settings/update-password", {
               password: data.content,
@@ -139,12 +141,12 @@ export default function EditProfile() {
             </p>
             <div className="w-full py-[50px] border-y border-[#E4E4E4] flex flex-col gap-[35px] font-sans">
               <div className="w-full flex justify-between">
-                <div className="w-content-fit h-[32px] text-[20px] text-[#5A5A5A] cursor-pointer hover:text-[#FF9500] hover:border-b">
-                  내 프로필
+                <div className="w-content-fit h-[32px] text-[20px] font-semibold text-[#797979] cursor-pointer hover:text-[#FF9500] hover:border-b">
+                  <Link to={`/profile/${user._id}/posts`}>내 프로필</Link>
                 </div>
               </div>
               <div className="w-full flex justify-between">
-                <div className="w-content-fit h-[32px] text-[20px] text-[#5A5A5A] cursor-pointer hover:text-[#FF9500] hover:border-b">
+                <div className="w-content-fit h-[32px] text-[20px] font-semibold text-[#797979] cursor-pointer hover:text-[#FF9500] hover:border-b">
                   내 팔로워
                 </div>
                 <div className="w-[50%] text-[20px] text-[#5A5A5A]">
@@ -152,7 +154,7 @@ export default function EditProfile() {
                 </div>
               </div>
               <div className="w-full flex justify-between">
-                <div className="w-content-fit h-[32px] text-[20px] text-[#5A5A5A] cursor-pointer hover:text-[#FF9500] hover:border-b">
+                <div className="w-content-fit h-[32px] text-[20px] font-semibold text-[#797979] cursor-pointer hover:text-[#FF9500] hover:border-b">
                   내 팔로잉
                 </div>
                 <div className="w-[50%] text-[20px] text-[#5A5A5A]">
@@ -175,7 +177,7 @@ export default function EditProfile() {
               </p>
             </div>
             <img
-              className="w-full cursor-pointer mb-[25px]"
+              className="w-full cursor-defalut mb-[25px]"
               src={advertisement}
               alt="2025 kbo 시즌 이미지"
             />
@@ -271,30 +273,7 @@ export default function EditProfile() {
               )}
             </div>
           </BlueBoard>
-          <BlueBoard className="py-[25px] px-[23px] w-full max-w-[650px] bg-white mt-[20px]">
-            <h2 className="text-[16px] text-[#464646] mb-[7px]">구단 변경</h2>
-            <p className="text-[14px] text-[#6D6D6D] mb-[48px] font-medium">
-              응원하는 구단을 선택해 주세요
-            </p>
-            <div className="flex gap-[44px] justify-between">
-              <select className="text-gray-400 px-[4px] border-b border-[#0033A0] font-semibold dark:text-white dark:placeholder:text-white h-[40px] mb-[0] w-[475px]">
-                <option>구단 선택</option>
-                <option>SSG 랜더스</option>
-                <option>LG 트윈스</option>
-                <option>KT 위즈</option>
-                <option>NC 다이노스</option>
-                <option>KIA 타이거즈</option>
-                <option>삼성 라이온즈</option>
-                <option>두산 베어스</option>
-                <option>롯데 자이언츠</option>
-                <option>한화 이글스</option>
-                <option>키움 히어로즈</option>
-              </select>
-              <Button className="w-[80px] h-[40px] text-[14px] rounded-[5px]">
-                변경하기
-              </Button>
-            </div>
-          </BlueBoard>
+          <SelectClub />
         </div>
       </div>
     </>
