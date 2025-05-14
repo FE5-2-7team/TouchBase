@@ -22,9 +22,23 @@ export type Alert = {
     fullName?: string;
   };
   message?: string;
-  comment?: object;
+  comment?: {
+    _id: string;
+    author: string;
+  };
+  post: {
+    _id: string;
+    channel: string;
+  };
   follow?: string;
-  likes?: string;
+  likes?: {
+    _id: string;
+    user: string;
+    post: {
+      _id: string;
+      channel: string;
+    };
+  };
 };
 
 export default function HeaderIcon() {

@@ -2,6 +2,8 @@ import { MdClose } from "react-icons/md";
 import { Alert } from "./HeaderIcon";
 import { useNavigate } from "react-router";
 import { axiosInstance } from "../../api/axiosInstance";
+import { useChannelStore } from "../../stores/channelStore";
+
 const alertList =
   "border-b border-gray-200 py-1.5 cursor-pointer hover:underline hover:underline-offset-3";
 
@@ -32,11 +34,27 @@ export default function NoticeBox({
 
       setAlerts((prev) => prev.map((a) => ({ ...a, seen: true })));
 
-      navigate(`/message/${alert.author._id}`, {
-        state: {
-          selectedUser: alert.author,
-        },
-      });
+      if (alert.message) {
+        navigate(`/message/${alert.author._id}`, {
+          state: {
+            selectedUser: alert.author,
+          },
+        });
+      }
+      if (alert.comment) {
+        const channelId = alert.post.channel || "unknown";
+
+        const res = await axiosInstance.get(`/channels/${channelId}`);
+        const teamName = res.data.name;
+        useChannelStore.getState().setChannel(channelId, teamName);
+        const postId = alert.likes?.post._id || alert.post?._id || alert.post || "unknown";
+
+        navigate(`/fanpage/${teamName}/${channelId}/${postId}`);
+      }
+      if (alert.follow) {
+        console.log("팔로우 알림 클릭");
+        navigate(`/profile/${alert.author._id}/posts`);
+      }
     } catch (err) {
       console.error("읽음 처리 실패", err);
     }
@@ -54,9 +72,9 @@ export default function NoticeBox({
         ) : (
           <div className="mx-4">
             {alerts.slice(0, 6).map((a) => (
-              <p key={a._id} className={alertList} onClick={() => handleAlertClick(a)}>
+              <div key={a._id} className={alertList} onClick={() => handleAlertClick(a)}>
                 {getAlertMessage(a)}
-              </p>
+              </div>
             ))}
           </div>
         )}
