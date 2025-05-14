@@ -14,9 +14,7 @@ export default function FollowCard({ followId }: { followId: string }) {
 
   if (isLoading) {
     return (
-      <div
-        className="flex items-center border border-gray-200 rounded-[10px] shadow-sm animate-pulse w-[470px] h-[63px] justify-between px-[13px] my-[5px] dark:border-gray-700"
-      >
+      <div className="flex items-center border border-gray-200 rounded-[10px] shadow-sm animate-pulse w-[470px] h-[63px] justify-between px-[13px] my-[5px] dark:border-gray-700">
         <FaUserCircle className="w-[34px] h-[34px] text-gray-200 dark:text-gray-700" />
         <div className="w-[170px] ml-[10px] h-2.5 bg-gray-200 rounded-full dark:bg-gray-700"></div>
         <div className="w-[100px] h-[24px] bg-gray-200 rounded-full dark:bg-gray-700"></div>
@@ -60,7 +58,7 @@ export default function FollowCard({ followId }: { followId: string }) {
   };
 
   return (
-    <div className="flex items-center border border-[#335CB3] dark:border-[#FFFFFF] rounded-[10px] w-[470px] h-[63px] justify-between px-[13px] my-[5px]">
+    <div className="flex items-center border border-[#335CB3] dark:border-[#4c4c4c] rounded-[10px] w-[470px] h-[63px] justify-between px-[13px] my-[5px]">
       <Link to={`/profile/${userDetails?._id}/posts`} className="flex items-center">
         <div className="relative w-[34px] h-[34px]">
           {userDetails?.image ? (
@@ -81,14 +79,17 @@ export default function FollowCard({ followId }: { followId: string }) {
         </div>
       </Link>
 
-      <button
-        className={twMerge(
-          "w-[100px] h-[24px] text-[14px] rounded-[10px] bg-[#0033A0] dark:bg-[#2F6BEB] text-[#ffffff] cursor-pointer",
-          followId === loginUserId && "hidden"
-        )}
-      >
-        쪽지 보내기
-      </button>
+      <Link to={`/message/${userDetails?._id}`}>
+        <button
+          className={twMerge(
+            "w-[100px] h-[24px] text-[14px] rounded-[10px] bg-[#0033A0] dark:bg-[#2F6BEB] text-[#ffffff] cursor-pointer",
+            followId === loginUserId && "hidden"
+          )}
+        >
+          쪽지 보내기
+        </button>
+      </Link>
+
       {following ? (
         <button
           className={twMerge(
