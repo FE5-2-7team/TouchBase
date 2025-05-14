@@ -211,7 +211,7 @@ export default function EditPosts({
 
               {/* 오른쪽 EDIT 버튼 */}
               <div className="flex items-center justify-end w-full">
-                <Button onClick={editHandler}>EDIT</Button>
+                <Button onClick={editHandler}>수정완료</Button>
               </div>
             </div>
           </div>
