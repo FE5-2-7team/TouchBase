@@ -170,19 +170,19 @@ export default function SignUp() {
                   e.preventDefault();
                   handleNickNameCheck();
                 }}
-                className="bg-[rgba(0,51,160,0.4)] rounded-[5px] text-[16px] hover:bg-[rgba(0,51,160,1)] hover:text-[#fff] transition"
+                className="bg-[rgba(0,51,160,1)] rounded-[5px] text-[16px] hover:bg-[rgba(0,51,160,1)] hover:text-[#fff] transition"
               >
                 중복 확인
               </Button>
               {value.nickName && !valid.nickName && (
-                <Message>공백 혹은 특수 문자는 넣으실 수 없습니다</Message>
+                <Message>공백 혹은 특수 문자는 사용하실 수 없습니다</Message>
               )}
               {nickNameValid && (
                 <Message className="text-green-500">
-                  사용 가능한 닉네임 입니다
+                  사용 가능한 닉네임입니다
                 </Message>
               )}
-              {nickNameApiValid && <Message>중복 된 닉네임 입니다</Message>}
+              {nickNameApiValid && <Message>중복된 닉네임 입니다</Message>}
             </div>
             <div className="w-full flex gap-[20px] mb-[35px] items-center relative">
               <Input
@@ -195,7 +195,7 @@ export default function SignUp() {
                 }}
               />
               {value.email && !valid.email && (
-                <Message>이메일 형식이 올바르지 않습니다</Message>
+                <Message>올바른 이메일 형식이 아닙니다</Message>
               )}
             </div>
             <div className="relative mb-[35px]">
@@ -207,10 +207,10 @@ export default function SignUp() {
                 onChange={(e) => handleInputValidation(e, "password", value)}
               />
               {value.password && !valid.password && (
-                <Message>8~16자, 영문, 숫자 조합 입니다</Message>
+                <Message>8~16자, 영문, 숫자를 사용해 주세요</Message>
               )}
             </div>
-            <div className="relative mb-[35px]">
+            <div className="relative mb-[35px] ">
               <Input
                 onFocus={handleCheckPasswordFocus}
                 onChange={(e) =>

@@ -27,7 +27,11 @@ export default function SearchUser({
             filterUsers.map((user) => {
               console.log(user._id);
               return (
-                <div key={user._id} className="user-card flex my-3 mx-6" onClick={() => {}}>
+                <div
+                  key={user._id}
+                  className="user-card flex my-3 mx-6"
+                  onClick={() => {}}
+                >
                   {user.image ? (
                     <img
                       src={user.image}
