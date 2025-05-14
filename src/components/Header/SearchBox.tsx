@@ -83,8 +83,8 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
       onClick={onClose}
     >
       <div
-        className={`bg-white w-[700px] p-6 rounded-xl bottom-52.5 relative dark:bg-[#35363C] ${
-          searchResults ? "h-[620px] top-8" : "h-auto"
+        className={`bg-white md:w-[700px] sm:w-[500px] p-6 rounded-xl bottom-52.5 relative dark:bg-[#35363C]  ${
+          searchResults ? "h-[600px] top-8" : "h-auto"
         }`}
         onClick={modalHandler}
       >

@@ -16,7 +16,7 @@ export default function NoticeBox({
 }) {
   const navigate = useNavigate();
   const getAlertMessage = (a: Alert) => {
-    const sender = a.author?.fullName || "익명의 유저";
+    const sender = a.author?.fullName;
 
     if (a.message) return `${sender}님이 쪽지를 보냈습니다.`;
     if (a.follow) return `${sender}님이 당신을 팔로우 했습니다.`;
@@ -53,7 +53,7 @@ export default function NoticeBox({
           </div>
         ) : (
           <div className="mx-4">
-            {alerts.map((a) => (
+            {alerts.slice(0, 6).map((a) => (
               <p key={a._id} className={alertList} onClick={() => handleAlertClick(a)}>
                 {getAlertMessage(a)}
               </p>

@@ -49,7 +49,7 @@ export default function SearchThreads({ keyword, results, onClose }: SearchThrea
   return (
     <>
       <div className="mt-4">
-        <div className="grid grid-cols-1 gap-3 p-4 max-h-[400px] overflow-scroll">
+        <div className="grid grid-cols-1 gap-3 p-4 max-h-[400px] overflow-y-auto">
           {keyword ? (
             searchThreads && searchThreads.length > 0 ? (
               searchThreads.map((post, idx) => {
@@ -62,7 +62,7 @@ export default function SearchThreads({ keyword, results, onClose }: SearchThrea
                     className="p-2 bg-white rounded-lg border border-gray-300 hover:shadow-sm hover:bg-gray-100 dark:bg-[#191A1E] dark:border-gray-700 dark:hover:bg-gray-600"
                     onClick={() => {
                       onClose();
-                      navigate(`/fanpage/${teamName}/${channelId}`);
+                      navigate(`/fanpage/${teamName}/${channelId}/${post._id}`);
                     }}
                   >
                     <h4 className="ml-2 text-sm dark:text-white cursor-pointer">{post.title}</h4>
