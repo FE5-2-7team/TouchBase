@@ -120,7 +120,7 @@ export default function Comments({
           onClick={handleSubmit}
           disabled={isSubmitting || input.trim() === ""}
         >
-          POST
+          댓글 달기
         </Button>
       </div>
 
@@ -132,24 +132,24 @@ export default function Comments({
               <ProfileImage size={32} authorId={comment.author._id} />
               <div className="flex flex-col w-full">
                 <span className="font-semibold">
-                  {comment.author?.fullName || "익명"}
+                  {comment.author?.fullName}
                 </span>
                 {/* 댓글 본문 + 날짜 + 삭제 */}
                 <div className="flex justify-between items-center w-full">
                   <span className="text-sm">{comment.comment}</span>
 
                   <div className="flex items-center gap-2">
-                    <span className="pb-[20px] pr-[5px] text-[12px] text-[#999]">
-                      {formateDate(comment.createdAt)}
-                    </span>
                     {comment.author?._id === userId && (
                       <button
-                        className="text-[#ababab] gap-1 pb-[20px] font-semibold hover:cursor-pointer"
+                        className="text-[#ababab] pb-[20px] font-semibold hover:cursor-pointer"
                         onClick={() => DeleteComments(comment._id)}
                       >
                         <FaRegTrashCan className="text-[18px]" />
                       </button>
                     )}
+                    <span className="pb-[20px] pr-[5px] text-[12px] text-[#999]">
+                      {formateDate(comment.createdAt)}
+                    </span>
                   </div>
                 </div>
               </div>

@@ -35,7 +35,7 @@ export default function Sidebar({ teamName, title, setTitle }: SidebarProps) {
       icon: title === "인기글" ? <FaRegClock /> : <FaRegThumbsUp />,
       title: title === "인기글" ? "최신글" : "인기글",
       href: null,
-      onclick: () => {
+      onClick: () => {
         const isPopularNow = title === "인기글";
         setTitle(isPopularNow ? "최신글" : "인기글");
         nav(
@@ -100,7 +100,7 @@ export default function Sidebar({ teamName, title, setTitle }: SidebarProps) {
                     </a>
                   ) : (
                     <button
-                      onClick={item.onclick}
+                      onClick={item.onClick}
                       className="w-full h-full flex items-center justify-center px-1 md:px-6 hover:bg-[#0033A0] hover:text-white transition-all duration-200 whitespace-nowrap"
                     >
                       <div className="flex items-center justify-start gap-2 md:justify-start">
