@@ -23,7 +23,7 @@ export default function NoticeBox({
     if (a.message) return `${sender}님이 쪽지를 보냈습니다.`;
     if (a.follow) return `${sender}님이 당신을 팔로우 했습니다.`;
     if (a.comment) return `${sender}님이 댓글을 달았습니다.`;
-    if (a.likes) return `${sender}님이 게시글에 좋아요를 눌렀습니다.`;
+    if (a.like) return `${sender}님이 게시글에 좋아요를 눌렀습니다.`;
   };
 
   const handleAlertClick = async (alert: Alert) => {
@@ -41,18 +41,21 @@ export default function NoticeBox({
           },
         });
       }
-      if (alert.comment) {
-        const channelId = alert.post.channel || "unknown";
+      if (alert.like) {
+        const channelId = alert.like?.post.channel;
+        const teamName = useChannelStore.getState().getChannelName(channelId as string);
+        const postId = alert.like.post._id;
 
-        const res = await axiosInstance.get(`/channels/${channelId}`);
-        const teamName = res.data.name;
-        useChannelStore.getState().setChannel(channelId, teamName);
-        const postId = alert.likes?.post._id || alert.post?._id || alert.post || "unknown";
+        navigate(`/fanpage/${teamName}/${channelId}/${postId}`);
+      }
+      if (alert.comment) {
+        const channelId = alert.comment?.post.channel;
+        const teamName = useChannelStore.getState().getChannelName(channelId);
+        const postId = alert.comment?.post._id;
 
         navigate(`/fanpage/${teamName}/${channelId}/${postId}`);
       }
       if (alert.follow) {
-        console.log("팔로우 알림 클릭");
         navigate(`/profile/${alert.author._id}/posts`);
       }
     } catch (err) {
