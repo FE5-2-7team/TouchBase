@@ -7,8 +7,6 @@ import SearchThreads from "./SearchThreads";
 import SearchUser from "./SearchUser";
 import UserRecommend from "./UserRecommend";
 import ThreadRecommends from "./ThreadRecommends";
-import { useChannelStore } from "../../stores/channelStore";
-import { Channel } from "../../types/postType";
 
 export default function SearchBox({ onClose }: { onClose: () => void }) {
   const [keyword, setKeyword] = useState("");
@@ -61,21 +59,6 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
       setSearchResults([]);
     }
   }, [keyword]);
-
-  useEffect(() => {
-    const fetchChannels = async () => {
-      try {
-        const res = await axiosInstance.get("/channels");
-        res.data.forEach((channel: Channel) => {
-          useChannelStore.getState().setChannel(channel._id, channel.name);
-        });
-      } catch (err) {
-        console.error("채널 불러오기 실패", err);
-      }
-    };
-
-    fetchChannels();
-  }, []);
 
   return (
     <div
