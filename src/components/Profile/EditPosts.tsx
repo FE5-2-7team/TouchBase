@@ -106,7 +106,7 @@ export default function EditPosts({
   if (isEditing) {
     return (
       <>
-        <div className="shadow-md w-full max-w-full md:max-w-[1200px] mx-auto rounded-[10px] border border-[#d9d9d9] flex flex-col">
+        <div className="shadow-md w-full max-w-full md:max-w-[1200px] mx-auto rounded-[10px] border border-[#d9d9d9]  dark:border-gray-700 flex flex-col">
           <div className="p-[24px] flex gap-[25px]">
             <div className="flex-shrink-0 self-start">
               {userName && <ProfileBlock username={userName} imageUrl={user?.image} />}

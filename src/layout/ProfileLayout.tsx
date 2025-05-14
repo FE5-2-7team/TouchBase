@@ -35,8 +35,8 @@ export default function ProfileLayout() {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col gap-[34px] w-full max-w-[1200px] mx-auto mt-[40px] animate-pulse">
-        <div className="border border-[#D9D9D9] shadow-md rounded-[10px] lg:h-[200px] md:h-[154px] sm:h-[120px] flex items-center gap-[50px] justify-between lg:px-[110px] px-[80px]">
+      <div className="flex flex-col gap-[34px] w-full max-w-[1200px] mx-auto mt-[40px] animate-pulse min-h-[calc(100vh-190px)]">
+        <div className="border border-[#D9D9D9] dark:border-[#4c4c4c] shadow-md rounded-[10px] lg:h-[200px] md:h-[154px] sm:h-[120px] flex items-center gap-[50px] justify-between lg:px-[110px] px-[80px]">
           <FaUserCircle className="w-[100px] h-[100px] text-gray-200 dark:text-gray-700" />
           <div>
             <div className="w-[200px] md:h-[24px] sm:h-[10px] bg-gray-200 rounded-full dark:bg-gray-700 mb-2"></div>
@@ -122,7 +122,7 @@ export default function ProfileLayout() {
           {params.id && loginUserId === params.id ? (
             <NavLink to="/profile/edit">
               {" "}
-              <button className="border rounded-[10px] py-[3px] px-[10px] md:text-[16px] sm:text-[9px] text-[#6D6D6D] dark:text-[#FFFFFF] cursor-pointer">
+              <button className="border border-[#D9D9D9] dark:border-[#4c4c4c] hover:dark:border-[#D6D6D6] rounded-[10px] py-[3px] px-[10px] md:text-[16px] sm:text-[9px] text-[#6D6D6D] dark:text-[#FFFFFF] hover:bg-[#0033A0] hover:text-[#ffffff] dark:hover:bg-[#235BD2] transition cursor-pointer">
                 프로필 수정
               </button>
             </NavLink>
