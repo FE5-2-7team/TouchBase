@@ -82,10 +82,7 @@ export default function EditPosts({
       const formData = new FormData();
 
       formData.append("postId", postId);
-      formData.append(
-        "title",
-        JSON.stringify([{ postTitle: title, postContent: contents }])
-      );
+      formData.append("title", JSON.stringify([{ postTitle: title, postContent: contents }]));
       formData.append("channelId", channelId ?? "");
 
       if (imageFiles) {
@@ -109,8 +106,9 @@ export default function EditPosts({
       <div className="shadow-md w-full max-w-full md:max-w-[1200px] mx-auto rounded-[10px] border border-[#d9d9d9] flex flex-col">
         <div className="p-[24px] flex gap-[25px]">
           {/* 왼쪽 프로필 영역 */}
+
           <div className="flex-shrink-0 self-start">
-            <ProfileBlock username={userName} />
+            <ProfileBlock username={userName} imageUrl={user?.image} />
           </div>
 
           {/* 오른쪽 입력 영역 */}
@@ -140,11 +138,7 @@ export default function EditPosts({
 
               {images && (
                 <div className="my-4">
-                  <img
-                    src={images}
-                    alt="Uploaded"
-                    className="max-w-full rounded-md"
-                  />
+                  <img src={images} alt="Uploaded" className="max-w-full rounded-md" />
                 </div>
               )}
             </div>
