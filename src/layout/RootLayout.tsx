@@ -1,10 +1,16 @@
 import Header from "../layout/Header";
 import Footer from "../layout/Footer";
 import { Outlet } from "react-router";
-import { useParams } from "react-router";
+import { useParams, useLocation } from "react-router";
 
 export default function RootLayout() {
   const { teamName } = useParams();
+  const location = useLocation();
+  const showLayout = location.pathname.includes("edit") ? false : true;
+
+  if (!showLayout) {
+    return <Outlet />;
+  }
 
   return (
     <>

@@ -29,7 +29,7 @@ export default function EditPosts({
   editFinishHandler,
 }: EditProps) {
   const userId = userStore.getState().getUser()?._id;
-  const user = useGetUser(userId!);
+  const { user } = useGetUser(userId!);
   const userName = user?.username ? user.username : user?.fullName;
 
   const [title, setTitle] = useState(titleValue || "");
@@ -82,7 +82,10 @@ export default function EditPosts({
       const formData = new FormData();
 
       formData.append("postId", postId);
-      formData.append("title", JSON.stringify([{ postTitle: title, postContent: contents }]));
+      formData.append(
+        "title",
+        JSON.stringify([{ postTitle: title, postContent: contents }])
+      );
       formData.append("channelId", channelId ?? "");
 
       if (imageFiles) {
@@ -93,7 +96,7 @@ export default function EditPosts({
         formData.append("imageToDeletePublicId", deleteImage);
       }
 
-      const { data } = await axiosFileInstance.put(`posts/update`, formData);
+      await axiosFileInstance.put(`posts/update`, formData);
       console.log("파일 수정 성공");
     } catch (error) {
       const err = error as AxiosError;
@@ -119,7 +122,7 @@ export default function EditPosts({
               onChange={(e) => setTitle(e.target.value)}
               placeholder="제목을 입력해 주세요."
               className="text-[16px] border border-[#d9d9d9] mb-[10px] 
-            w-full md:max-w-[950px] h-[35px] rounded-[10px] px-4 py-1 
+            w-full md:max-w-[1200px] h-[35px] rounded-[10px] px-4 py-1 
             box-border focus:border-[#0033A0] focus:outline-none"
             />
 
@@ -130,14 +133,18 @@ export default function EditPosts({
                 onChange={(e) => setContents(e.target.value)}
                 placeholder="내용을 입력해 주세요."
                 className="text-[16px] border border-[#d9d9d9] mb-[10px] 
-              w-full md:max-w-[950px] min-h-[90px] rounded-[10px] px-4 py-2 
+              w-full md:max-w-[1200px] min-h-[90px] rounded-[10px] px-4 py-2 
               box-border resize-none focus:border-[#0033a0] 
               focus:outline-none overflow-auto whitespace-pre-wrap pb-[60px]"
               />
 
               {images && (
                 <div className="my-4">
-                  <img src={images} alt="Uploaded" className="max-w-full rounded-md" />
+                  <img
+                    src={images}
+                    alt="Uploaded"
+                    className="max-w-full rounded-md"
+                  />
                 </div>
               )}
             </div>
@@ -153,7 +160,7 @@ export default function EditPosts({
                     title="이미지 삭제"
                     className="hover:opacity-80 transition-transform duration-200 hover:scale-105 cursor-pointer"
                   >
-                    <LuImageMinus className="text-[18px] text-[#ababab]" />
+                    <LuImageMinus className="text-[22px] text-[#ababab]" />
                   </button>
                 ) : (
                   <button
@@ -162,7 +169,7 @@ export default function EditPosts({
                     title="이미지 삽입"
                     className="hover:opacity-80 transition-transform duration-200 hover:scale-105 cursor-pointer"
                   >
-                    <LuImagePlus className="text-[18px] text-[#ababab]" />
+                    <LuImagePlus className="text-[22px] text-[#ababab]" />
                   </button>
                 )}
                 <input
@@ -178,12 +185,12 @@ export default function EditPosts({
                   title="되돌리기"
                   className="hover:opacity-80 transition-transform duration-200 hover:scale-105 cursor-pointer"
                 >
-                  <MdOutlineReplay className="text-[18px] text-[#ababab]" />
+                  <MdOutlineReplay className="text-[22px] text-[#ababab]" />
                 </button>
               </div>
 
               {/* 오른쪽 POST 버튼 */}
-              <div className="flex items-center md:mr-[75px]">
+              <div className="flex items-center justify-end w-full">
                 <Button onClick={editHandler}>EDIT</Button>
               </div>
             </div>

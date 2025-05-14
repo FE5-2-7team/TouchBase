@@ -6,10 +6,9 @@ import ProfileBlock from "./ProfileBlock";
 import SimpleProfileCard from "./SimpleProfileCard";
 import Comments from "./Comments";
 import MyThreads from "./MyThreads";
-import Upload from "./Upload";
 import { AxiosError } from "axios";
 import { axiosInstance } from "../../api/axiosInstance";
-import { Like, Comment, Follow, ExtendedUser } from "../../types/postType";
+import { Like, Comment, ExtendedUser } from "../../types/postType";
 import { userStore } from "../../stores/userStore";
 import { useNavigate, useLocation } from "react-router";
 import { refreshStore } from "../../stores/refreshStore";
@@ -99,7 +98,7 @@ export default function Threads({
 
   const deleteHandler = async () => {
     try {
-      const { data } = await axiosInstance.delete("posts/delete", {
+      await axiosInstance.delete("posts/delete", {
         data: { id: postId },
       });
       refetch();
@@ -142,9 +141,6 @@ export default function Threads({
         const newLikeId = res.data._id;
         setMyLikeId(newLikeId);
       } else {
-        // const likedUser = likes.find((like) => like.user === userId);
-        // const likedId = likedUser?._id;
-
         await axiosInstance.delete("/likes/delete", {
           data: {
             id: myLikeId,
@@ -193,14 +189,11 @@ export default function Threads({
       {/* 상단: 프로필 + 본문 */}
       <div className="flex gap-[25px]">
         {/* 왼쪽 고정 프로필 */}
-        <div
-          onMouseEnter={() => setShowed(true)}
-          onMouseLeave={() => setShowed(false)}
-        >
+        <div onMouseEnter={() => setShowed(true)} onMouseLeave={() => setShowed(false)}>
           <ProfileBlock username={username} imageUrl={author.image} />
           {!isMyThread && showed && (
             <div className="absolute z-50 w-[285px] top-5 left-[90px]">
-              <SimpleProfileCard loginUserId={userId} author={author} />
+              {userId && <SimpleProfileCard loginUserId={userId} author={author} />}
             </div>
           )}
         </div>
@@ -237,7 +230,12 @@ export default function Threads({
 
       {showComments && (
         <div className="w-full overflow-hidden transition-all ease-in-out">
-          <Comments postId={postId} commentList={commentList} setCommentList={setCommentList} />
+          <Comments
+            author={author}
+            postId={postId}
+            commentList={commentList}
+            setCommentList={setCommentList}
+          />
         </div>
       )}
     </div>
