@@ -69,7 +69,7 @@ export default function MyThreadsList() {
           );
         })
       ) : (
-        <div className="h-[550px] border border-[#d9d9d9] shadow-md px-[27px] rounded-[10px] flex justify-center">
+        <div className="h-[550px] border border-[#d9d9d9] dark:border-[#4c4c4c] shadow-md px-[27px] rounded-[10px] flex justify-center">
           <EmptyContent message="게시물을 작성해보세요"></EmptyContent>
         </div>
       )}

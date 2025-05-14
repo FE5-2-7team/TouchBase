@@ -60,7 +60,7 @@ export default function FollowCard({ followId }: { followId: string }) {
   };
 
   return (
-    <div className="flex items-center border border-[#335CB3] dark:border-[#FFFFFF] rounded-[10px] w-[470px] h-[63px] justify-between px-[13px] my-[5px]">
+    <div className="flex items-center border border-[#335CB3] dark:border-[#4c4c4c] rounded-[10px] w-[470px] h-[63px] justify-between px-[13px] my-[5px]">
       <Link to={`/profile/${userDetails?._id}/posts`} className="flex items-center">
         <div className="relative w-[34px] h-[34px]">
           {userDetails?.image ? (
