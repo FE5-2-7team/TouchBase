@@ -35,7 +35,6 @@ export default function App() {
             />
           </Route>
           <Route path="/fanpage/:teamName/:channelId/*" element={<FanPage />} />
-          <Route path="/profile/edit" element={<EditProfile />}></Route>
           <Route
             path="/fanpage/:teamName/:channelId/:postId"
             element={<DetailFanPage />}
