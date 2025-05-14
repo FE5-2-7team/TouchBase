@@ -83,7 +83,6 @@ export default function SignUp() {
 
   //닉네임 유효성 검사
   async function handleNickNameCheck() {
-    console.log(value, valid);
     if (value.nickName === "" || !valid.nickName) return;
 
     try {
@@ -129,8 +128,11 @@ export default function SignUp() {
       const response = await axiosInstance.post(`/signup`, {
         email: value.email.toLocaleLowerCase().trim(),
         fullName: value.nickName.toLocaleLowerCase().trim(),
+        userName: value.nickName.toLocaleLowerCase().trim(),
         password: value.password.toLocaleLowerCase().trim(),
       });
+
+      console.log(response.data);
 
       //로그인 기능
       if (response.status === 200) {

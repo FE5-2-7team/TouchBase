@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
+import watermark from "../../assets/images/watermark.png";
 
 export default function InputBoard({
   children,
@@ -12,9 +13,10 @@ export default function InputBoard({
     <>
       <div
         className={twMerge(
-          "w-full h-screen flex flex-col items-center justify-center px-[16px] dark:bg-black",
+          `w-full h-screen flex flex-col items-center justify-center px-[16px] dark:bg-black bg-no-repeat bg-left-bottom`,
           className
         )}
+        style={{ backgroundImage: `url(${watermark})` }}
       >
         {children}
       </div>
