@@ -13,7 +13,7 @@ export default function InputBoard({
     <>
       <div
         className={twMerge(
-          `w-full h-screen flex flex-col items-center justify-center px-[16px] dark:bg-black bg-no-repeat bg-left-bottom`,
+          `w-full h-screen flex flex-col items-center justify-center px-[16px] dark:bg-[#16171B] bg-no-repeat bg-left-bottom`,
           className
         )}
         style={{ backgroundImage: `url(${watermark})` }}

@@ -1,18 +1,15 @@
 import Logo from "./Logo";
 import ProfileImage from "./ProfileImage";
 import AuthInput from "./AuthInput";
-import advertisement from "../../assets/images/advertisement.svg";
-import footerLogo from "../../assets/images/smallLogo.png";
 import { Link, useNavigate } from "react-router";
 import BlueBoard from "./BlueBoard";
 import Button from "../FanPage/Button";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { editValidation } from "./inputValidation.ts";
 import { SignUpValue1 } from "../../types/userTypes.ts";
 import Message from "./Message.tsx";
 import { logout } from "../../api/auth";
 import { axiosInstance } from "../../api/axiosInstance.ts";
-import { handleimageChange } from "./imageChange.ts";
 import { userStore } from "../../stores/userStore";
 import { ExtendedUser } from "../../types/postType.ts";
 import SelectClub from "./SelectClub.tsx";
@@ -37,7 +34,6 @@ export default function EditProfile() {
   });
   const { name, password, checkPassword } = value;
   const user = userStore.getState().getUser() as ExtendedUser;
-  const inputRef = useRef<HTMLInputElement>(null);
 
   type FieldType = "name" | "checkPassword";
 
@@ -64,10 +60,10 @@ export default function EditProfile() {
       if (response.status !== 200) throw new Error();
 
       if (type === "checkPassword") {
+        await logout();
         navigate("/login");
         return;
       }
-      console.log(response.data);
       userStore.getState().setUser(response.data);
     } catch (err) {
       console.log(err);
@@ -92,7 +88,7 @@ export default function EditProfile() {
     });
   };
 
-  //input onChnage 유효성 검사 - 재사용 모듈화 하기 -
+  //input onChnage 유효성 검사
   function handleValidation(
     e: React.ChangeEvent<HTMLInputElement>,
     type: "name" | "email" | "password" | "checkPassword",
@@ -127,42 +123,42 @@ export default function EditProfile() {
 
   return (
     <>
-      <div className="flex h-fit">
-        <div className="fixed top-0 left-0 z-10 min-w-[420px] h-screen w-[39%] flex justify-end shadow-[4px_0_10px_rgba(0,0,0,0.15)]">
-          <aside className="h-full w-[420px] border-x border-x-[#E4E4E4] px-[63px] py-[30px] flex flex-col items-center ">
+      <div className="flex h-screen">
+        <div className="fixed top-0 left-0 z-10 min-w-[420px] h-screen w-[39%] flex justify-end shadow-[4px_0_10px_rgba(0,0,0,0.15)] dark:bg-[#262626] ">
+          <aside className="h-full w-[420px] border-x border-x-[#E4E4E4] px-[63px] py-[30px] flex flex-col items-center dark:bg-[#434343] dark:border-[#4F4F4F] dark:border-left">
             <Logo className="w-[156px] mb-[30px]" />
             <ProfileImage className="mb-[12px]" />
-            <p className="text-[24px] font-bold cursor-default">
+            <p className="text-[24px] font-bold cursor-default dark:text-[#fff]">
               {user.fullName}
             </p>
-            <p className="text-[14px] text-[#7C7B7B] font-regular mb-[42px] cursor-default">
+            <p className="text-[14px] text-[#7C7B7B] font-regular mb-[42px] cursor-default dark:text-[#7C7B7B]">
               {user.email}
             </p>
-            <div className="w-full py-[50px] border-y border-[#E4E4E4] flex flex-col gap-[35px] font-sans">
+            <div className="w-full py-[50px] border-y border-[#E4E4E4] flex flex-col gap-[35px] font-sans dark:border-[#4F4F4F] dark:border-y">
               <div className="w-full flex justify-between">
-                <div className="w-content-fit h-[32px] text-[20px] font-semibold text-[#797979] cursor-pointer hover:text-[#FF9500] hover:border-b">
+                <div className="dark:text-[#DCDCDC] w-content-fit h-[32px] text-[20px] font-semibold text-[#797979] cursor-pointer hover:text-[#FF9500] hover:border-b">
                   <Link to={`/profile/${user._id}/posts`}>내 프로필</Link>
                 </div>
               </div>
               <div className="w-full flex justify-between">
-                <div className="w-content-fit h-[32px] text-[20px] font-semibold text-[#797979] cursor-default">
+                <div className="dark:text-[#DCDCDC] w-content-fit h-[32px] text-[20px] font-semibold text-[#797979] cursor-default">
                   내 팔로워
                 </div>
-                <div className="w-[50%] text-[20px] text-[#5A5A5A]">
+                <div className="dark:text-[#DCDCDC] w-[50%] text-[20px] text-[#5A5A5A]">
                   {user.followers.length}
                 </div>
               </div>
               <div className="w-full flex justify-between">
-                <div className="w-content-fit h-[32px] text-[20px] font-semibold text-[#797979] cursor-default">
+                <div className="dark:text-[#DCDCDC] w-content-fit h-[32px] text-[20px] font-semibold text-[#797979] cursor-default">
                   내 팔로잉
                 </div>
-                <div className="w-[50%] text-[20px] text-[#5A5A5A]">
+                <div className="dark:text-[#DCDCDC] w-[50%] text-[20px] text-[#5A5A5A]">
                   {user.following.length}
                 </div>
               </div>
             </div>
             <div className="py-[30px] w-full">
-              <p className="text-[#646464] text-[16px] cursor-pointer mb-[14px] hover:text-[#FF9500]">
+              <p className="text-[#7F7F7F] text-[16px] cursor-pointer mb-[14px] hover:text-[#FF9500] dark:text-[#646464]">
                 <Link to={`/message`}>내 쪽지함</Link>
               </p>
               <p
@@ -170,53 +166,25 @@ export default function EditProfile() {
                   logout();
                   navigate("/");
                 }}
-                className="text-[#646464] text-[16px] cursor-pointer hover:text-[#FF9500]"
+                className="text-[#7F7F7F] text-[16px] cursor-pointer hover:text-[#FF9500] dark:text-[#646464]"
               >
                 로그 아웃
               </p>
             </div>
-            <img
-              className="w-full cursor-defalut mb-[25px]"
-              src={advertisement}
-              alt="2025 kbo 시즌 이미지"
-            />
-            <Link to={"/"}>
-              <img
-                className="w-[100px]"
-                src={footerLogo}
-                alt="푸터 로고 이미지"
-              ></img>
-            </Link>
           </aside>
         </div>
         <div
-          className="bg-[rgba(0,51,160,0.1)] ml-[39%] w-[61%] min-w-[650px] px-[105px] font-sans bg-no-repeat bg-right-bottom"
+          className="bg-[rgba(0,51,160,0.1)] h-full ml-[39%] w-[61%] min-w-[650px] px-[105px] font-sans bg-no-repeat bg-right-bottom dark:bg-[#262626]"
           style={{ backgroundImage: `url(${watermark2})` }}
         >
           <div className="flex justify-end max-w-[650px]">
             <EditIcons />
           </div>
           <BlueBoard className="py-[25px] px-[23px] w-full max-w-[650px] bg-white mt-[20px]">
-            <div className="flex justify-between items-center">
-              <h2 className="text-[16px] text-[#464646]">프로필 이미지 변경</h2>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => handleimageChange(e)}
-                ref={inputRef}
-                className="sr-only"
-              ></input>
-              <Button
-                onClick={() => inputRef.current!.click()}
-                className="w-[80px] h-[40px] text-[14px] rounded-[5px]"
-              >
-                변경하기
-              </Button>
-            </div>
-          </BlueBoard>
-          <BlueBoard className="py-[25px] px-[23px] w-full max-w-[650px] bg-white mt-[20px]">
-            <h2 className="text-[16px] text-[#464646] mb-[7px]">닉네임 변경</h2>
-            <p className="text-[14px] text-[#6D6D6D] mb-[48px] font-medium">
+            <h2 className="text-[16px] text-[#464646] mb-[7px] dark:text-white">
+              닉네임 변경
+            </h2>
+            <p className="text-[14px] text-[#6D6D6D] mb-[48px] font-medium dark:text-[#BABABA]">
               닉네임는 공백을 제외 한 소문자 영문, 한글, 숫자만 사용할 수
               있습니다
             </p>
@@ -240,12 +208,11 @@ export default function EditProfile() {
             </div>
           </BlueBoard>
           <BlueBoard className="py-[25px] px-[23px] w-full max-w-[650px] bg-white mt-[20px]">
-            <h2 className="text-[16px] text-[#464646] mb-[7px]">
+            <h2 className="text-[16px] text-[#464646] mb-[7px] dark:text-white">
               비밀번호 변경
             </h2>
-            <p className="text-[14px] text-[#6D6D6D] mb-[48px] font-medium">
-              영어(소문자 또는 대문자)와 숫자를 조합해 8자 이상 16자 이하로
-              입력해 주세요
+            <p className="text-[14px] text-[#6D6D6D] mb-[48px] font-medium dark:text-[#BABABA]">
+              영어와 숫자를 조합해 8자 이상 16자 이하로 입력해 주세요
             </p>
             <div className="relative mb-[35px]">
               <AuthInput

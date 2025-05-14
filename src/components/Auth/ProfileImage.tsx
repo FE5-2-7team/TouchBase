@@ -7,7 +7,6 @@ import { ExtendedUser } from "../../types/postType.ts";
 
 export default function ProfileImage({ className }: { className: string }) {
   const user = userStore((state) => state.user) as ExtendedUser;
-  console.log(user);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -20,7 +19,7 @@ export default function ProfileImage({ className }: { className: string }) {
         )}
       >
         <div className="bg-[#fff] overflow-hidden w-full h-full rounded-full flex items-center justify-center">
-          {user.image ? (
+          {user?.image ? (
             <img
               src={user.image}
               alt="프로필 이미지"
@@ -30,7 +29,7 @@ export default function ProfileImage({ className }: { className: string }) {
             <FaUserCircle className="text-[#2F6BEB] text text-[131px]" />
           )}
         </div>
-        <div className="absolute cursor-pointer box-content w-[30px] h-[30px] top-[-4px] right-[-4px] bg-[#ABABAB] rounded-full p-1 flex items-center justify-center border-white border-[4px] overflow-hidden">
+        <div className="absolute cursor-pointer box-content w-[30px] h-[30px] top-[-4px] right-[-4px] bg-[#ABABAB] dark:bg-[#fff] rounded-full p-1 flex items-center justify-center border-white border-[4px] overflow-hidden dark:border-[#4F4F4F]">
           <input
             type="file"
             accept="image/*"
@@ -38,15 +37,15 @@ export default function ProfileImage({ className }: { className: string }) {
             ref={inputRef}
             className="sr-only"
           ></input>
-          {user.image ? (
+          {user?.image ? (
             <FaRegTrashAlt
               onClick={handleimageRemove}
-              className="text-[#fff] text-[20px]"
+              className="text-[#fff] text-[20px] dark:text-[#262626]"
             />
           ) : (
             <FaCamera
               onClick={() => inputRef.current!.click()}
-              className="text-[#fff] text-[20px]"
+              className="text-[#fff] text-[20px] dark:text-[#262626]"
             />
           )}
         </div>
