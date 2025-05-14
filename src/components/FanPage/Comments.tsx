@@ -23,6 +23,7 @@ export default function Comments({
   const [isDeleting, setIsDeleting] = useState(false);
 
   const userId = userStore((state) => state.getUser()?._id);
+  const user = userStore((state) => state.getUser());
 
   const fetchComments = useCallback(async () => {
     try {
@@ -45,9 +46,16 @@ export default function Comments({
         postId: postId,
       });
 
-      console.log(res.data);
+      // console.log(res.data);
       setCommentList((prev) => [...prev, res.data]);
       setInput("");
+
+      await axiosInstance.post(`/notifications/create`, {
+        notificationType: "COMMENT",
+        notificationTypeId: res.data._id,
+        userId: author._id,
+        postId: postId,
+      });
     } catch (error) {
       console.log("댓글 작성 실패", error);
     } finally {
@@ -94,7 +102,7 @@ export default function Comments({
     <div className="flex flex-col gap-3 mt-2">
       {/* 댓글 입력 */}
       <div className="flex items-center gap-2 w-full py-2">
-        <ProfileImage size={32} imageUrl={author.image} />
+        <ProfileImage size={32} imageUrl={user?.image} />
         <input
           type="text"
           placeholder="댓글을 입력해 주세요."

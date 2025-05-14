@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Upload from "../components/FanPage/Upload";
 import Sidebar from "../components/FanPage/Sidebar";
 import ThreadsList from "./../components/FanPage/ThreadsList";
-import { useParams, useNavigate } from "react-router";
+import { useParams, useNavigate, useLocation } from "react-router";
 import { userStore } from "../stores/userStore";
 
 export default function FanPage() {
@@ -12,6 +12,7 @@ export default function FanPage() {
   const [title, setTitle] = useState("최신글");
 
   const nav = useNavigate();
+  const location = useLocation();
 
   // top 버튼 보일지 말지
   const [isVisible, setIsVisible] = useState(false);
@@ -59,7 +60,7 @@ export default function FanPage() {
             </div>
           )}
           <div className="my-[50px] border-t border-[#d9d9d9] w-full"></div>
-          <ThreadsList />
+          <ThreadsList location={location} />
           <div className="m-[30px]"></div>
         </div>
       </div>
