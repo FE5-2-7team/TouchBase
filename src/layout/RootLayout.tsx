@@ -5,6 +5,7 @@ import { useParams, useLocation } from "react-router";
 
 export default function RootLayout() {
   const { teamName } = useParams();
+  const { id } = useParams();
   const location = useLocation();
   const showLayout = location.pathname.includes("edit") ? false : true;
 
@@ -20,7 +21,7 @@ export default function RootLayout() {
       <div className="pt-[150px] dark:bg-[#191A1E] dark:text-white">
         <Outlet />
       </div>
-      {!teamName && hideFooter && <Footer />}
+      {!teamName && !id && hideFooter && <Footer />}
     </>
   );
 }
