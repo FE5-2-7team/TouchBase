@@ -49,7 +49,7 @@ export default function SideMessageList() {
 
   return (
     <>
-      <ul className="mt-20 w-[258px] max-h-[708px] overflow-y-auto">
+      <ul className="mt-20 w-[258px] max-h-[710px] overflow-y-auto">
         {lists.map((list) => {
           const selectedUser = (list.sender?._id === myId ? list.receiver : list.sender) as Sender;
           return (

@@ -16,7 +16,7 @@ export default function MessageChatView({ messages, myId }: Props) {
 
   return (
     <>
-      <div ref={scrollRef} className="p-5 h-[580px] w-[70%] flex flex-col overflow-y-auto ">
+      <div ref={scrollRef} className="p-5 w-[70%] max-h-[600px] overflow-y-auto flex flex-col">
         {messages.map((msg, idx) => {
           const isMine = msg.sender?._id === myId;
 
