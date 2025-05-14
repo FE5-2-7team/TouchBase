@@ -49,13 +49,13 @@ export default function SideMessageList() {
 
   return (
     <>
-      <ul className="mt-10 w-[258px] overflow-y-auto">
+      <ul className="mt-20 w-[258px] max-h-[708px] overflow-y-auto">
         {lists.map((list) => {
           const selectedUser = (list.sender?._id === myId ? list.receiver : list.sender) as Sender;
           return (
             <li
               key={list._id}
-              className="h-18 px-3 pb-2 pt-1  hover:bg-gray-200 dark:hover:bg-gray-800 cursor-pointer"
+              className="h-18 px-3 pb-2 pt-1  hover:bg-gray-200 dark:hover:bg-gray-800 cursor-pointer overflow-y-auto"
               onClick={() => {
                 clickMessage(selectedUser, fetchMessageList, navigate);
               }}

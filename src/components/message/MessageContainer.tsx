@@ -35,7 +35,7 @@ export default function MessageContainer() {
 
   return (
     <>
-      <div className="w-[100%] h-[820px] mb-[125px] items-center mt-12 relative ">
+      <div className="w-[100%] mb-[125px] items-center mt-12 relative ">
         <div className="flex ml-50 text-2xl  font-semibold my-6 text-gray-800 dark:text-white">
           {selectedUser.fullName || selectedUser.username} 님과의 쪽지
         </div>
