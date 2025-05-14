@@ -12,7 +12,7 @@ export default function SendMessageForm({
   const [content, setContent] = useState("");
 
   const sendHandler = async () => {
-    if (!content) return;
+    if (!content.trim()) return;
     try {
       const res = await axiosInstance.post("/messages/create", {
         receiver: selectedUserId,
@@ -35,15 +35,26 @@ export default function SendMessageForm({
   };
   return (
     <>
-      <div className="flex w-[75%] mt-4 border-1 border-gray-200 rounded-2xl absolute dark:border-gray-600">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+        className="flex w-[75%] mt-4 border-1 border-gray-200 rounded-2xl absolute dark:border-gray-600"
+      >
         <textarea
           className="p-4 h-32 w-[80%] my-2 border-gray-300 resize-none focus:outline-none"
           placeholder="내용을 입력하세요."
           value={content}
           onChange={(e) => setContent(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              sendHandler();
+            }
+          }}
         ></textarea>
         <SendButton onClick={sendHandler} />
-      </div>
+      </form>
     </>
   );
 }

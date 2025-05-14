@@ -16,23 +16,22 @@ export default function MessageChatView({ messages, myId }: Props) {
 
   return (
     <>
-      <div ref={scrollRef} className="p-5 w-[70%] max-h-[600px] overflow-y-auto flex flex-col">
+      <div ref={scrollRef} className="p-5 w-[77%] ml-4 overflow-y-auto h-[530px] flex flex-col">
         {messages.map((msg, idx) => {
           const isMine = msg.sender?._id === myId;
 
           return (
             <div key={idx} className={`mb-5 flex ${isMine ? "justify-end " : "justify-start"}`}>
-              <div className="flex flex-col mr-2 items-end">
+              <div className="flex flex-col mr-2 w-full">
                 <div
-                  className={`px-4 py-3 rounded-xl max-w-[80%] w-auto"  
+                  className={`w-[80%] px-4 py-3 rounded-xl break-words
                 ${
                   isMine
-                    ? "bg-[#305AB3] text-white ml-20 break-words self-end"
+                    ? " bg-[#305AB3] text-white ml-20 self-end"
                     : "bg-gray-100 text-gray-800 mr-20 break-words dark:bg-[#2D3037] dark:text-white self-start"
                 }`}
                 >
-                  <p className="text-lg">{msg.message}</p>
-                  <p className="text-sm text-right mt-8 whitespace-normal opacity-50 dark:opacity-30">
+                  <p className="text-lg text-left ml-2 whitespace-normal opacity-50 dark:opacity-30">
                     {msg.createdAt
                       ? new Date(msg.createdAt).toLocaleString("ko-KR", {
                           month: "long",
@@ -43,6 +42,7 @@ export default function MessageChatView({ messages, myId }: Props) {
                         })
                       : ""}
                   </p>
+                  <p className="text-lg mt-10 mb-2 ml-2 justify-baseline">{msg.message}</p>
                 </div>
                 {isMine && (
                   <p className="text-xs text-right mt-1 opacity-60">

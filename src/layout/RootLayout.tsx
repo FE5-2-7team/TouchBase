@@ -13,7 +13,7 @@ export default function RootLayout() {
   return (
     <>
       <Header />
-      <div className="pt-[150px] dark:bg-[#191A1E] dark:text-white h-full">
+      <div className="pt-[150px] dark:bg-[#191A1E] dark:text-white h-screen">
         <Outlet />
       </div>
     </>
