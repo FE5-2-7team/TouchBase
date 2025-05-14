@@ -2,6 +2,8 @@ import { useState } from "react";
 import { axiosFileInstance } from "../../api/axiosInstance";
 import BlueBoard from "./BlueBoard";
 import Button from "../FanPage/Button";
+import { userStore } from "../../stores/userStore";
+import Message from "./Message.tsx";
 
 export default function SelectClub() {
   const [selectedValue, setSelectedValue] = useState("");
@@ -85,13 +87,14 @@ export default function SelectClub() {
         formData
       );
       console.log(data);
+      userStore.getState().setUser(data);
     } catch (error) {
       console.log(error);
     }
   };
   return (
     <>
-      <BlueBoard className="py-[25px] px-[23px] w-full max-w-[650px] bg-white mt-[20px]">
+      <BlueBoard className="py-[25px] px-[23px] w-full max-w-[650px] bg-white mt-[20px] relative mb-[30px]">
         <h2 className="text-[16px] text-[#464646] mb-[7px]">구단 변경</h2>
         <p className="text-[14px] text-[#6D6D6D] mb-[48px] font-medium">
           응원하는 구단을 선택해 주세요
@@ -117,6 +120,11 @@ export default function SelectClub() {
             변경하기
           </Button>
         </div>
+        {selectedValue === "구단 선택" && (
+          <Message className="bottom-[3px] top-auto left-[22px]">
+            구단을 선택해 주세요
+          </Message>
+        )}
       </BlueBoard>
     </>
   );

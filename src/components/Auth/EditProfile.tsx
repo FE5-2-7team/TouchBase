@@ -16,15 +16,11 @@ import { handleimageChange } from "./imageChange.ts";
 import { userStore } from "../../stores/userStore";
 import { ExtendedUser } from "../../types/postType.ts";
 import SelectClub from "./SelectClub.tsx";
+import watermark2 from "../../assets/images/watermark2.png";
+import EditIcons from "./EditIcons.tsx";
 
 export default function EditProfile() {
   const navigate = useNavigate();
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const user = userStore.getState().getUser() as ExtendedUser;
-  console.log(user);
-
-  //input value
   const [value, setValue] = useState({
     name: {
       valid: false,
@@ -40,6 +36,8 @@ export default function EditProfile() {
     },
   });
   const { name, password, checkPassword } = value;
+  const user = userStore.getState().getUser() as ExtendedUser;
+  const inputRef = useRef<HTMLInputElement>(null);
 
   type FieldType = "name" | "checkPassword";
 
@@ -69,6 +67,7 @@ export default function EditProfile() {
         navigate("/login");
         return;
       }
+      console.log(response.data);
       userStore.getState().setUser(response.data);
     } catch (err) {
       console.log(err);
@@ -129,10 +128,10 @@ export default function EditProfile() {
   return (
     <>
       <div className="flex h-fit">
-        <div className="min-w-[420px] w-[39%] flex justify-end shadow-[4px_0_10px_rgba(0,0,0,0.15)]">
-          <aside className="h-full w-[420px] border-x border-x-[#E4E4E4] px-[63px] py-[30px] flex flex-col items-center">
+        <div className="fixed top-0 left-0 z-10 min-w-[420px] h-screen w-[39%] flex justify-end shadow-[4px_0_10px_rgba(0,0,0,0.15)]">
+          <aside className="h-full w-[420px] border-x border-x-[#E4E4E4] px-[63px] py-[30px] flex flex-col items-center ">
             <Logo className="w-[156px] mb-[30px]" />
-            <ProfileImage className="mb-[12px]" src={user.image} />
+            <ProfileImage className="mb-[12px]" />
             <p className="text-[24px] font-bold cursor-default">
               {user.fullName}
             </p>
@@ -146,7 +145,7 @@ export default function EditProfile() {
                 </div>
               </div>
               <div className="w-full flex justify-between">
-                <div className="w-content-fit h-[32px] text-[20px] font-semibold text-[#797979] cursor-pointer hover:text-[#FF9500] hover:border-b">
+                <div className="w-content-fit h-[32px] text-[20px] font-semibold text-[#797979] cursor-default">
                   내 팔로워
                 </div>
                 <div className="w-[50%] text-[20px] text-[#5A5A5A]">
@@ -154,7 +153,7 @@ export default function EditProfile() {
                 </div>
               </div>
               <div className="w-full flex justify-between">
-                <div className="w-content-fit h-[32px] text-[20px] font-semibold text-[#797979] cursor-pointer hover:text-[#FF9500] hover:border-b">
+                <div className="w-content-fit h-[32px] text-[20px] font-semibold text-[#797979] cursor-default">
                   내 팔로잉
                 </div>
                 <div className="w-[50%] text-[20px] text-[#5A5A5A]">
@@ -190,7 +189,13 @@ export default function EditProfile() {
             </Link>
           </aside>
         </div>
-        <div className="bg-[rgba(0,51,160,0.1)] w-[61%] min-w-[650px] px-[105px] font-sans">
+        <div
+          className="bg-[rgba(0,51,160,0.1)] ml-[39%] w-[61%] min-w-[650px] px-[105px] font-sans bg-no-repeat bg-right-bottom"
+          style={{ backgroundImage: `url(${watermark2})` }}
+        >
+          <div className="flex justify-end max-w-[650px]">
+            <EditIcons />
+          </div>
           <BlueBoard className="py-[25px] px-[23px] w-full max-w-[650px] bg-white mt-[20px]">
             <div className="flex justify-between items-center">
               <h2 className="text-[16px] text-[#464646]">프로필 이미지 변경</h2>

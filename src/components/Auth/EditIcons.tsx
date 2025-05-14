@@ -1,12 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { axiosInstance } from "../../api/axiosInstance";
 import { CgBell } from "react-icons/cg";
-import { MdDarkMode, MdPerson, MdSearch, MdLightMode } from "react-icons/md";
+import { MdDarkMode, MdSearch, MdLightMode } from "react-icons/md";
 import { useDarkMode } from "../../hooks/useDarkMode";
 
-import UserMenu from "./UserMenu";
-import NoticeBox from "./NoticeBox";
-import SearchBox from "./SearchBox";
+import NoticeBox from "../Header/NoticeBox";
+import SearchBox from "../Header/SearchBox";
 import { userStore } from "../../stores/userStore";
 
 const iconDiv = "w-[30px] h-[30px] bg-white rounded-2xl mt-6 relative";
@@ -28,7 +27,7 @@ export type Alert = {
   likes?: string;
 };
 
-export default function HeaderIcon() {
+export default function EditIcons() {
   const { isDark, toggleDarkMode } = useDarkMode();
   const [activeBox, setActiveBox] = useState<Boxtype>(null);
   const boxRef = useRef<HTMLDivElement>(null);
@@ -67,13 +66,7 @@ export default function HeaderIcon() {
 
   return (
     <>
-      <div
-        className={`flex md:gap-2 hiddenHeader ${
-          !isLoggedin
-            ? "mr-10 md:mr-26 lg:mr-50 gap-1.5"
-            : "lg:mx-5 md:w-72 mr-4 gap-1.5"
-        }`}
-      >
+      <div className="w-full flex justify-end gap-[7px]">
         <div className={iconDiv}>
           <MdSearch className={iconStyle} onClick={() => toggleBox("search")} />
           {activeBox === "search" && (
@@ -111,21 +104,6 @@ export default function HeaderIcon() {
             <MdLightMode className={iconStyle} onClick={toggleDarkMode} />
           ) : (
             <MdDarkMode className={iconStyle} onClick={toggleDarkMode} />
-          )}
-        </div>
-
-        <div className={iconDiv}>
-          <MdPerson
-            className={iconStyle}
-            onClick={() => toggleBox("userMenu")}
-          />
-          {activeBox === "userMenu" && (
-            <div
-              ref={boxRef}
-              className="absolute top-full -right-8 mt-2.5 z-[100]  "
-            >
-              {activeBox && <UserMenu />}
-            </div>
           )}
         </div>
       </div>
