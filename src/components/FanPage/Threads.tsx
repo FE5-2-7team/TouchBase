@@ -140,6 +140,14 @@ export default function Threads({
         });
         const newLikeId = res.data._id;
         setMyLikeId(newLikeId);
+
+        // 알림 생성 함수 만들어서 api호출
+        await axiosInstance.post(`/notifications/create`, {
+          notificationType: "LIKE",
+          notificationTypeId: res.data._id,
+          userId: author._id,
+          postId: postId,
+        });
       } else {
         await axiosInstance.delete("/likes/delete", {
           data: {
