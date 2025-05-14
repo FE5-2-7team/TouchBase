@@ -230,7 +230,12 @@ export default function Threads({
 
       {showComments && (
         <div className="w-full overflow-hidden transition-all ease-in-out">
-          <Comments postId={postId} commentList={commentList} setCommentList={setCommentList} />
+          <Comments
+            author={author}
+            postId={postId}
+            commentList={commentList}
+            setCommentList={setCommentList}
+          />
         </div>
       )}
     </div>

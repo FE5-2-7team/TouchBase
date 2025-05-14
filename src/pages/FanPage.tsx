@@ -9,6 +9,7 @@ export default function FanPage() {
   const { teamName } = useParams<{ teamName: string }>();
   const typeTeamName = teamName as string;
   const userId = userStore((state) => state.getUser()?._id);
+  const [title, setTitle] = useState("최신글");
 
   const nav = useNavigate();
 
@@ -40,7 +41,7 @@ export default function FanPage() {
   return (
     <>
       <div className="flex flex-col md:flex-row w-full max-w-[1500px] mx-auto">
-        <Sidebar teamName={typeTeamName} />
+        <Sidebar teamName={typeTeamName} title={title} setTitle={setTitle} />
         <div className="flex-1 px-2 md:mt-[80px] md:ml-[50px] md:mr-10 mt-[100px]">
           {userId ? (
             <Upload />
@@ -51,7 +52,7 @@ export default function FanPage() {
               </p>
               <button
                 onClick={() => nav("/login")}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-[#0033A0] transition-all"
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-[#0033A0] transition-all cursor-pointer"
               >
                 로그인하러 가기 ~ 🎵
               </button>

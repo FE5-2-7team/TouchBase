@@ -1,17 +1,19 @@
 import { useCallback, useEffect, useState } from "react";
 import ProfileImage from "./ProfileImage";
 import Button from "./Button";
-import { Comment } from "../../types/postType";
+import { Comment, ExtendedUser } from "../../types/postType";
 import { axiosInstance } from "../../api/axiosInstance";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { userStore } from "../../stores/userStore";
 interface CommentsProps {
+  author: ExtendedUser;
   postId: string;
   commentList: Comment[];
   setCommentList: React.Dispatch<React.SetStateAction<Comment[]>>;
 }
 
 export default function Comments({
+  author,
   postId,
   commentList,
   setCommentList,
@@ -92,7 +94,7 @@ export default function Comments({
     <div className="flex flex-col gap-3 mt-2">
       {/* 댓글 입력 */}
       <div className="flex items-center gap-2 w-full py-2">
-        <ProfileImage size={32} />
+        <ProfileImage size={32} imageUrl={author.image} />
         <input
           type="text"
           placeholder="댓글을 입력해 주세요."
@@ -119,12 +121,11 @@ export default function Comments({
         {Array.isArray(commentList) &&
           commentList.map((comment) => (
             <div key={comment._id} className="flex items-center gap-2 w-full">
-              <ProfileImage size={32} />
+              <ProfileImage size={32} authorId={comment.author._id} />
               <div className="flex flex-col w-full">
                 <span className="font-semibold">
                   {comment.author?.fullName || "익명"}
                 </span>
-
                 {/* 댓글 본문 + 날짜 + 삭제 */}
                 <div className="flex justify-between items-center w-full">
                   <span className="text-sm">{comment.comment}</span>

@@ -6,8 +6,10 @@ import { TbHandMove } from "react-icons/tb";
 import { teamInfo } from "../../utils/getLogoImages";
 interface SidebarProps {
   teamName: string;
+  title: string;
+  setTitle: (title: string) => void;
 }
-export default function Sidebar({ teamName }: SidebarProps) {
+export default function Sidebar({ teamName, title, setTitle }: SidebarProps) {
   const teams = teamInfo.find((team) => team.name === teamName)!;
 
   const navItems = [
@@ -47,30 +49,38 @@ export default function Sidebar({ teamName }: SidebarProps) {
 
         <nav className="w-full md:mt-0">
           <ul className="flex md:flex-col flex-row justify-around gap-2 md:gap-8 md:text-[20px] font-bold py-4 text-[#343434] dark:text-[#fff]">
-            {navItems.map((item, index) => (
-              <li
-                key={index}
-                className="w-full md:w-[235px] h-[40px] md:h-[50px] flex justify-center"
-              >
-                <a
-                  href={item.href}
-                  target={item.href.startsWith("http") ? "_blank" : undefined}
-                  rel={
-                    item.href.startsWith("http")
-                      ? "noopener noreferrer"
-                      : undefined
-                  }
-                  className="w-full h-full flex items-center justify-center px-1 md:px-6 hover:bg-[#0033A0] hover:text-white transition-all duration-200 whitespace-nowrap"
+            {navItems.map((item, index) => {
+              const isPopular = item.title === "인기글";
+              return (
+                <li
+                  key={index}
+                  className="w-full md:w-[235px] h-[40px] md:h-[50px] flex justify-center"
                 >
-                  <div className="flex items-center justify-start gap-2 md:justify-start">
-                    <span className="md:m-5">{item.icon}</span>
-                    <span className="text-center md:text-left w-auto md:w-[100px]">
-                      {item.title}
-                    </span>
-                  </div>
-                </a>
-              </li>
-            ))}
+                  <a
+                    href={item.href}
+                    target={item.href.startsWith("http") ? "_blank" : undefined}
+                    rel={
+                      item.href.startsWith("http")
+                        ? "noopener noreferrer"
+                        : undefined
+                    }
+                    onClick={() => {
+                      if (isPopular) {
+                        setTitle(title === "인기글" ? "최신글" : "인기글");
+                      }
+                    }}
+                    className="w-full h-full flex items-center justify-center px-1 md:px-6 hover:bg-[#0033A0] hover:text-white transition-all duration-200 whitespace-nowrap"
+                  >
+                    <div className="flex items-center justify-start gap-2 md:justify-start">
+                      <span className="md:m-5">{item.icon}</span>
+                      <span className="text-center md:text-left w-auto md:w-[100px]">
+                        {item.title}
+                      </span>
+                    </div>
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         </nav>
       </div>
