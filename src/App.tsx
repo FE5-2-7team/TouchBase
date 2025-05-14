@@ -29,17 +29,11 @@ export default function App() {
           <Route path="/profile/:id" element={<ProfileLayout />}>
             <Route index path="posts" element={<MyThreadsList />} />
             <Route path="follower" element={<FollowBox isFollower={true} />} />
-            <Route
-              path="following"
-              element={<FollowBox isFollower={false} />}
-            />
-            <Route path="edit" element={<EditProfile />}></Route>
+            <Route path="following" element={<FollowBox isFollower={false} />} />
           </Route>
+          <Route path="/profile/edit" element={<EditProfile />}></Route>
           <Route path="/fanpage/:teamName/:channelId" element={<FanPage />} />
-          <Route
-            path="/fanpage/:teamName/:channelId/:postId"
-            element={<DetailFanPage />}
-          />
+          <Route path="/fanpage/:teamName/:channelId/:postId" element={<DetailFanPage />} />
           <Route element={<RequireAuth />}>
             <Route path="/message" element={<MessagePage />}>
               <Route index element={<EmptyMessage />} />
