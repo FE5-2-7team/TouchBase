@@ -63,13 +63,4 @@ th {
   .hiddenHeader {
     display: none;
   }
-  .m_logo {
-    display: block;
-  }
-}
-
-@media (min-width: 321px) {
-  .m_logo {
-    display: none;
-  }
 }

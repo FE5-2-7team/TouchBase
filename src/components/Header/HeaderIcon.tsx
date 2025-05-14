@@ -67,8 +67,8 @@ export default function HeaderIcon() {
   return (
     <>
       <div
-        className={`flex md:gap-2 gap-3  hiddenHeader ${
-          !isLoggedin ? "w-66" : "md:mx-5 mx-3 md:w-70"
+        className={`flex md:gap-2 hiddenHeader ${
+          !isLoggedin ? "mr-10 md:mr-26 lg:mr-50 gap-1.5" : "lg:mx-5 md:w-72 mr-4 gap-1.5"
         }`}
       >
         <div className={iconDiv}>
