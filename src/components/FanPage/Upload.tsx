@@ -104,7 +104,7 @@ export default function Upload({
           {/* 왼쪽 프로필 영역 */}
           <div className="flex-shrink-0 self-start">
             <ProfileBlock
-              username={userFullName || userName}
+              username={userName || userFullName || "알 수 없음"}
               imageUrl={currentUser?.image}
             />
           </div>
