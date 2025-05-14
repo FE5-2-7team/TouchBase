@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { useChannelStore } from "../../stores/channelStore";
+import { Post } from "../../types/postType";
 
 export default function ThreadRecommends({ onClose }: { onClose: () => void }) {
   const [recommends, setRecommends] = useState<any[]>([]);
@@ -12,7 +14,7 @@ export default function ThreadRecommends({ onClose }: { onClose: () => void }) {
         const res = await axios.get(import.meta.env.VITE_API_NEW_POST);
         const data = res.data;
 
-        const allParsed: any[] = [];
+        const allParsed: Post[] = [];
 
         for (const post of data) {
           try {
@@ -23,7 +25,7 @@ export default function ThreadRecommends({ onClose }: { onClose: () => void }) {
               }
             }
           } catch (err) {
-            console.error("파싱 실패:", post.title);
+            console.error("파싱 실패:", err);
           }
         }
         const randomThreads = allParsed.sort(() => 1 - Math.random());
@@ -38,15 +40,17 @@ export default function ThreadRecommends({ onClose }: { onClose: () => void }) {
 
   return (
     <>
-      <h3 className="ml-5 text-sm text-[#2F6BEB] dark:text-gray-400">추천 게시글</h3>
+      <h3 className="ml-5 text-sm text-[#2F6BEB] dark:text-gray-400 sm:mt-5">추천 게시글</h3>
       <div className="grid grid-cols-1 gap-3 p-4 max-h-[600px] overflow-y-auto">
         {recommends.map((post, idx) => {
+          const channelId = typeof post.channel === "string" ? post.channel : post.channel._id;
+          const teamName = useChannelStore.getState().getChannelName(channelId);
           return (
             <div
               key={idx}
               className="p-2 bg-white rounded-lg border border-gray-300 hover:shadow-sm hover:bg-gray-100 dark:bg-[#191A1E] dark:border-gray-800 dark:hover:bg-gray-800"
               onClick={() => {
-                navigate(`/channel/${post._id}`);
+                navigate(`/fanpage/${teamName}/${channelId}/${post._id}`);
                 onClose();
               }}
             >

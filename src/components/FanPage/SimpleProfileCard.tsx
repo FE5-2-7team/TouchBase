@@ -14,7 +14,7 @@ interface ProfileCardProps {
 export default function SimpleProfileCard({ loginUserId, author }: ProfileCardProps) {
   // const [activeTab, setActiveTab] = useState("posts");
   const refetch = refreshStore((state) => state.refetch);
-  const authorDetails = useGetUser(author._id);
+  const { user: authorDetails } = useGetUser(author._id);
 
   const stats = [
     { id: "posts", label: "게시물", count: author.posts.length },
@@ -26,7 +26,7 @@ export default function SimpleProfileCard({ loginUserId, author }: ProfileCardPr
 
   const unfollowHandler = async () => {
     try {
-      const { data } = await axiosInstance.delete<Follow>("follow/delete", {
+      await axiosInstance.delete<Follow>("follow/delete", {
         data: { id: following?._id },
       });
       refetch();

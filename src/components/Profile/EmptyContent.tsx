@@ -2,7 +2,7 @@ export interface EmptyMessageProps {
   message: string;
 }
 
-export default function EmptyContent({ imgSrc, message }: EmptyMessageProps) {
+export default function EmptyContent({ message }: EmptyMessageProps) {
   return (
     <>
       <div className="flex flex-col justify-center text-gray-400">

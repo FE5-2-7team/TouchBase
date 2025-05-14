@@ -7,6 +7,8 @@ import SearchThreads from "./SearchThreads";
 import SearchUser from "./SearchUser";
 import UserRecommend from "./UserRecommend";
 import ThreadRecommends from "./ThreadRecommends";
+import { useChannelStore } from "../../stores/channelStore";
+import { Channel } from "../../types/postType";
 
 export default function SearchBox({ onClose }: { onClose: () => void }) {
   const [keyword, setKeyword] = useState("");
@@ -60,14 +62,29 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
     }
   }, [keyword]);
 
+  useEffect(() => {
+    const fetchChannels = async () => {
+      try {
+        const res = await axiosInstance.get("/channels");
+        res.data.forEach((channel: Channel) => {
+          useChannelStore.getState().setChannel(channel._id, channel.name);
+        });
+      } catch (err) {
+        console.error("채널 불러오기 실패", err);
+      }
+    };
+
+    fetchChannels();
+  }, []);
+
   return (
     <div
-      className="fixed inset-0 bg-black/70 backdrop-blur-xs z-50 flex items-center justify-center dark:bg-[#16171B]/90"
+      className="fixed inset-0 bg-black/70 backdrop-blur-xs z-60 flex items-center justify-center dark:bg-[#16171B]/90"
       onClick={onClose}
     >
       <div
-        className={`bg-white w-[700px] p-6 rounded-xl bottom-52.5 relative dark:bg-[#35363C] ${
-          searchResults ? "h-[620px] top-8" : "h-auto"
+        className={`bg-white md:w-[700px] sm:w-[500px] p-6 rounded-xl bottom-52.5 relative dark:bg-[#35363C]  ${
+          searchResults ? "h-[600px] top-8" : "h-auto"
         }`}
         onClick={modalHandler}
       >
@@ -130,11 +147,11 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
           <>
             {activeTab === "user" ? (
               <div>
-                <SearchUser keyword={keyword} results={searchResults} />
+                <SearchUser keyword={keyword} results={searchResults} onClose={onClose} />
               </div>
             ) : (
               <div>
-                <SearchThreads keyword={keyword} results={searchResults} />
+                <SearchThreads keyword={keyword} results={searchResults} onClose={onClose} />
               </div>
             )}
           </>

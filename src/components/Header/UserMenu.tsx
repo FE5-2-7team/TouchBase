@@ -25,10 +25,10 @@ export default function UserMenu() {
       {isLoggedin ? (
         <div className="w-22 h-27 bg-white border border-gray-200 rounded-md">
           <ul className="mx-2 text-center cursor-pointer">
-            <li className="py-[3px] mt-1 border-b border-gray-200 cursor-pointer hover:underline hover:underline-offset-3">
+            <li className="py-[3px] mt-1 border-b border-b-gray-200 cursor-pointer hover:underline hover:underline-offset-3">
               <Link to={`/profile/${userId}/posts`}>내 프로필</Link>
             </li>
-            <li className="py-[3px] mt-1 border-b border-gray-200 cursor-pointer hover:underline hover:underline-offset-3">
+            <li className="py-[3px] mt-1 border-b border-b-gray-200 cursor-pointer hover:underline hover:underline-offset-3">
               <Link to="/message">쪽지함</Link>
             </li>
             <li
@@ -46,13 +46,19 @@ export default function UserMenu() {
           </ul>
         </div>
       ) : (
-        <div className="w-22 h-10 bg-white border border-gray-200 rounded-md">
-          <ul className="mx-2 text-center cursor-pointer">
+        <div className="w-22 h-19 bg-white border border-gray-200 rounded-md">
+          <ul className="mx-2 text-center cursor-pointer ">
             <li
-              className="py-[3px] mt-1 mb-1 cursor-pointer hover:underline hover:underline-offset-3"
+              className="py-[3px] mt-1 mb-1 border-b border-b-gray-200 cursor-pointer hover:underline hover:underline-offset-3"
               onClick={() => navigate("/login")}
             >
               로그인
+            </li>
+            <li
+              className="py-[3px] mt-1 mb-1 cursor-pointer hover:underline hover:underline-offset-3"
+              onClick={() => navigate("/signup")}
+            >
+              회원가입
             </li>
           </ul>
         </div>
