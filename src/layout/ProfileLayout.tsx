@@ -3,11 +3,15 @@ import useGetUser from "../components/Profile/useGetUser";
 import { useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { userStore } from "../stores/userStore";
+import { axiosInstance } from "../api/axiosInstance";
+import { Follow } from "../types/postType";
+import { refreshStore } from "../stores/refreshStore";
 
 export default function ProfileLayout() {
   const params = useParams();
   const { user, isLoading } = useGetUser(params.id!);
   const loginUserId = userStore((state) => state.getUser()?._id);
+  const refetch = refreshStore((state) => state.refetch);
 
   const [isVisible, setIsVisible] = useState(false);
 
@@ -31,6 +35,36 @@ export default function ProfileLayout() {
   // 최상단으로 스크롤 이동
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const unfollowHandler = async () => {
+    try {
+      await axiosInstance.delete<Follow>("follow/delete", {
+        data: { id: following?._id },
+      });
+      refetch();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const followHandler = async () => {
+    try {
+      const { data } = await axiosInstance.post<Follow>("follow/create", {
+        userId: params.id,
+      });
+
+      await axiosInstance.post("notifications/create", {
+        notificationType: "FOLLOW",
+        notificationTypeId: data._id,
+        userId: data.user,
+        postId: null,
+      });
+
+      refetch();
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   if (isLoading) {
@@ -138,18 +172,28 @@ export default function ProfileLayout() {
               </button>
             </NavLink>
           ) : following ? (
-            <button className="border border-[#D9D9D9] dark:border-[#4c4c4c] hover:dark:border-[#D6D6D6] rounded-[10px] py-[3px] px-[10px] md:text-[16px] sm:text-[9px] text-[#6D6D6D] dark:text-[#FFFFFF] hover:bg-[#0033A0] hover:text-[#ffffff] dark:hover:bg-[#235BD2] transition cursor-pointer">
+            <button
+              className="border border-[#D9D9D9] dark:border-[#4c4c4c] hover:dark:border-[#D6D6D6] rounded-[10px] py-[3px] px-[10px] md:text-[16px] sm:text-[9px] text-[#6D6D6D] dark:text-[#FFFFFF] hover:bg-[#0033A0] hover:text-[#ffffff] dark:hover:bg-[#235BD2] transition cursor-pointer"
+              onClick={unfollowHandler}
+            >
               팔로우 취소
             </button>
           ) : (
-            <button className="border border-[#D9D9D9] dark:border-[#4c4c4c] hover:dark:border-[#D6D6D6] rounded-[10px] py-[3px] px-[10px] md:text-[16px] sm:text-[9px] text-[#6D6D6D] dark:text-[#FFFFFF] hover:bg-[#0033A0] hover:text-[#ffffff] dark:hover:bg-[#235BD2] transition cursor-pointer">
+            <button
+              className="border border-[#D9D9D9] dark:border-[#4c4c4c] hover:dark:border-[#D6D6D6] rounded-[10px] py-[3px] px-[10px] md:text-[16px] sm:text-[9px] text-[#6D6D6D] dark:text-[#FFFFFF] hover:bg-[#0033A0] hover:text-[#ffffff] dark:hover:bg-[#235BD2] transition cursor-pointer"
+              onClick={followHandler}
+            >
               팔로우
             </button>
           )}
         </div>
         <div className="">
           {user?.coverImage ? (
-            <img className="sm:h-[60px] md:h-[100px] lg:h-[123px] opacity-80 md:block sm:hidden  m-auto object-cover" src={user?.coverImage} alt="구단 마스코트" />
+            <img
+              className="sm:h-[60px] md:h-[100px] lg:h-[123px] opacity-80 md:block sm:hidden  m-auto object-cover"
+              src={user?.coverImage}
+              alt="구단 마스코트"
+            />
           ) : (
             <div className="lg:w-[100px] md:w-[70px] md:block sm:hidden"></div>
           )}
