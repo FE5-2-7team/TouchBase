@@ -95,9 +95,9 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
             <MdSearch className=" mx-2 w-9 h-9 text-gray-400 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-100" />
           </button>
         </div>
-        <div className="flex justify-center mt-4 gap-3">
+        <div className="flex justify-center mt-4 gap-3 ">
           <button
-            className={`px-4 py-1.5 w-40 rounded-2xl text-sm ${
+            className={`px-4 py-1.5 w-40 rounded-2xl text-sm cursor-pointer ${
               activeTab === "user"
                 ? "bg-[#0033A0] text-white dark:bg-[#235BD2] dark:text-gray-200"
                 : "bg-gray-100 text-gray-500"
@@ -107,7 +107,7 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
             유저
           </button>
           <button
-            className={`px-4 py-1.5 w-40 rounded-2xl text-sm ${
+            className={`px-4 py-1.5 w-40 rounded-2xl text-sm cursor-pointer ${
               activeTab === "thread"
                 ? "bg-[#0033A0] text-white dark:bg-[#235BD2] dark:text-gray-200"
                 : "bg-gray-100 text-gray-500"
