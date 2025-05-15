@@ -60,7 +60,7 @@ export default function Ranking() {
   return (
     <>
       <div className="w-full">
-        <MainTitle title="경기 순위" color="#0033A0" />
+        <MainTitle title="구단 순위" color="#0033A0" />
         <div className="mt-10">
           <div className="border-1 border-[#00000020] dark:border-[#35363C] w-full py-[10px]">
             <div className="grid grid-cols-9 gap-4 py-2 border-b border-[#00000020] dark:border-[#35363C] text-center">
