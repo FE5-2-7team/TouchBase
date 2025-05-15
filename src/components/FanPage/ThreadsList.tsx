@@ -10,7 +10,7 @@ import ThreadSkeleton from "./ThreadSkeleton";
 import { safeParsePost } from "../../utils/parsePost";
 
 export default function ThreadsList({ location }: { location: Location }) {
-  const { teamName, channelId } = useParams();
+  const { channelId } = useParams();
   const [posts, setPosts] = useState<Post[]>([]);
 
   // 스켈렛톤
@@ -39,11 +39,13 @@ export default function ThreadsList({ location }: { location: Location }) {
   }, [channelId, refresh, location.search]);
 
   const sortedPosts = useMemo(() => {
-    const filterPosts = posts.filter((post) => post.channel.name === teamName);
     return isSortPage
-      ? [...filterPosts].sort((a, b) => b.likes.length - a.likes.length)
-      : filterPosts;
-  }, [posts, teamName, isSortPage]);
+      ? [...posts].sort((a, b) => b.likes.length - a.likes.length)
+      : [...posts].sort(
+          (a, b) =>
+            new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+        );
+  }, [posts, isSortPage]);
 
   return (
     <div className="flex flex-col gap-6">
