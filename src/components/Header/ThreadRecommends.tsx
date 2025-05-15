@@ -56,9 +56,6 @@ export default function ThreadRecommends({ onClose }: { onClose: () => void }) {
             >
               <div>
                 <h4 className="ml-2 text-sm dark:text-white cursor-pointer">{post.postTitle}</h4>
-                {/* <p className="text-sm text-gray-700 mt-1 dark:text-gray-300 line-clamp-2">
-                  {post.postContent}
-                </p> */}
               </div>
             </div>
           );
