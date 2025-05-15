@@ -1,10 +1,11 @@
 import tb_w_logo from "../assets/images/tb_w_logo.svg";
 
 import { logos } from "../utils/getLogoImages";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import HeaderIcon from "../components/Header/HeaderIcon";
 import { axiosInstance } from "../api/axiosInstance";
 import { useEffect, useState } from "react";
+import { useChannelStore } from "../stores/channelStore";
 
 const liItemStyle = "justify-center cursor-pointer whitespace-nowrap ";
 const liImgStyle = "mr-1 h-7 w-7 lg:mr-2";
@@ -16,6 +17,7 @@ type Channel = {
 
 export default function Header() {
   const [channels, setChannels] = useState<Channel[]>([]);
+  const location = useLocation();
 
   useEffect(() => {
     const teamList = async () => {
@@ -29,6 +31,34 @@ export default function Header() {
     };
 
     teamList();
+  }, []);
+
+  useEffect(() => {
+    const fetchChannels = async () => {
+      try {
+        const res = await axiosInstance.get("/channels");
+
+        res.data.forEach((channel: Channel) => {
+          useChannelStore.getState().setChannel(channel._id, channel.name);
+        });
+      } catch (err) {
+        console.error("채널 불러오기 실패", err);
+      }
+    };
+
+    fetchChannels();
+  }, []);
+
+  useEffect(() => {
+    const fetchNoti = async () => {
+      try {
+        const res = await axiosInstance.get("/notifications");
+        console.log("알림 데이터", res.data);
+      } catch (err) {
+        console.error("알림 목록 불러오기 실패", err);
+      }
+    };
+    fetchNoti();
   }, []);
   return (
     <header>
@@ -52,7 +82,11 @@ export default function Header() {
               <li key={channel._id} className={liItemStyle}>
                 <Link
                   to={`/fanpage/${channel.name}/${channel._id}`}
-                  className="flex items-center justify-center hover:text-[#ff9500] hover:underline hover:underline-offset-5 hover:decoration-2"
+                  className={`flex items-center justify-center hover:text-[#ff9500] hover:underline hover:underline-offset-5 hover:decoration-2 ${
+                    location.pathname.includes(channel._id)
+                      ? "text-[#ff9500] underline underline-offset-4 decoration-2"
+                      : ""
+                  }`}
                 >
                   {logoList && <img src={logoList.logo} className={liImgStyle} alt={channel._id} />}
                   <p className="md:text-lg sm:text-sm">{channel.name}</p>

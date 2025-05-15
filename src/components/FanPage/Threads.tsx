@@ -192,7 +192,7 @@ export default function Threads({
   return (
     <div
       className="w-full max-w-full md:max-w-[1200px] relative mx-auto shadow-md rounded-[10px] 
-      border border-[#d9d9d9] p-[24px] flex flex-col gap-[20px]"
+      border border-[#d9d9d9] dark:border-[#4c4c4c] p-[24px] flex flex-col gap-[20px]"
     >
       {/* 상단: 프로필 + 본문 */}
       <div className="flex gap-[25px]">

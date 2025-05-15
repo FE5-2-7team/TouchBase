@@ -1,15 +1,10 @@
 import Header from "../layout/Header";
-import Footer from "../layout/Footer";
 import { Outlet } from "react-router";
-import { useParams, useLocation } from "react-router";
+import { useLocation } from "react-router";
 
 export default function RootLayout() {
-  const { teamName } = useParams();
-  const { id } = useParams();
   const location = useLocation();
   const showLayout = location.pathname.includes("edit") ? false : true;
-
-  const hideFooter = location.pathname.includes("message") ? false : true;
 
   if (!showLayout) {
     return <Outlet />;
@@ -18,10 +13,9 @@ export default function RootLayout() {
   return (
     <>
       <Header />
-      <div className="pt-[150px] dark:bg-[#191A1E] dark:text-white">
+      <div className="pt-[150px] dark:bg-[#191A1E] dark:text-white h-screen">
         <Outlet />
       </div>
-      {!teamName && !id && hideFooter && <Footer />}
     </>
   );
 }

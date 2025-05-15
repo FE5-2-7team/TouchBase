@@ -11,7 +11,6 @@ export default function UserMenu() {
   const [isLoggedin, setIsLoggedin] = useState(false);
   const [userId, setuserId] = useState("");
 
-  console.log(setuserId);
   useEffect(() => {
     const user = getUser();
     if (user) {

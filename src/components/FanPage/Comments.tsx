@@ -114,7 +114,7 @@ export default function Comments({
               handleSubmit();
             }
           }}
-          className="flex-grow h-[36px] px-3 text-sm border border-[#d9d9d9] rounded-[10px] focus:outline-none"
+          className="flex-grow h-[36px] px-3 text-sm border border-[#d9d9d9] dark:border-[#4c4c4c] rounded-[10px] focus:outline-none"
         />
         <Button
           onClick={handleSubmit}
@@ -132,7 +132,7 @@ export default function Comments({
               <ProfileImage size={32} authorId={comment.author._id} />
               <div className="flex flex-col w-full">
                 <span className="font-semibold">
-                  {comment.author?.fullName}
+                  {comment.author.username || "undefined"}
                 </span>
                 {/* 댓글 본문 + 날짜 + 삭제 */}
                 <div className="flex justify-between items-center w-full">

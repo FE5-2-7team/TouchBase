@@ -47,7 +47,7 @@ export interface Follow {
 export interface Comment {
   _id: string;
   comment: string;
-  author: BaseUser;
+  author: ExtendedUser;
   post: string;
   createdAt: string;
   updatedAt: string;
