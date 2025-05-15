@@ -57,6 +57,8 @@ export default function Upload({
   };
 
   const postHandler = async () => {
+    // if (!title.trim() && !contents.trim()) return;
+
     await uploadThread();
     refreshStore.getState().refetch();
     UndoHandler();
@@ -75,7 +77,6 @@ export default function Upload({
 
       if (imageFiles) {
         formData.append("image", imageFiles);
-        // console.log("이미지 파일", imageFiles);
       }
       await axiosInstance.post(`/posts/create`, formData, {
         headers: {
@@ -187,7 +188,12 @@ export default function Upload({
                 </button>
               </div>
               <div className="flex items-center justify-end w-full">
-                <Button onClick={postHandler}>업로드</Button>
+                <Button
+                  onClick={postHandler}
+                  disabled={!title.trim() && !contents.trim() && !images}
+                >
+                  업로드
+                </Button>
               </div>
             </div>
           </div>
