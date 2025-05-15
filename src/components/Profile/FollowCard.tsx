@@ -25,9 +25,7 @@ export default function FollowCard({ followId }: { followId: string }) {
     );
   }
 
-  const following = userDetails?.followers.find(
-    (follow) => follow.follower === loginUserId
-  );
+  const following = userDetails?.followers.find((follow) => follow.follower === loginUserId);
 
   const unfollowHandler = async () => {
     try {
@@ -61,10 +59,7 @@ export default function FollowCard({ followId }: { followId: string }) {
 
   return (
     <div className="flex items-center border border-[#335CB3] dark:border-[#4c4c4c] rounded-[10px] w-[470px] h-[63px] justify-between px-[13px] my-[5px]">
-      <Link
-        to={`/profile/${userDetails?._id}/posts`}
-        className="flex items-center"
-      >
+      <Link to={`/profile/${userDetails?._id}/posts`} className="flex items-center">
         <div className="relative w-[34px] h-[34px]">
           {userDetails?.image ? (
             <img
@@ -84,9 +79,7 @@ export default function FollowCard({ followId }: { followId: string }) {
           />
         </div>
         <div className="text-[16px] text-[#6D6D6D] dark:text-[#FFFFFF] w-[170px] ml-[10px]">
-          {userDetails?.username
-            ? userDetails?.username
-            : userDetails?.fullName}
+          {userDetails?.username || "undefined"}
         </div>
       </Link>
 
