@@ -15,6 +15,7 @@ import { ExtendedUser } from "../../types/postType.ts";
 import SelectClub from "./SelectClub.tsx";
 import watermark2 from "../../assets/images/watermark2.png";
 import EditIcons from "./EditIcons.tsx";
+import Swal from "sweetalert2";
 
 export default function EditProfile() {
   const navigate = useNavigate();
@@ -59,6 +60,11 @@ export default function EditProfile() {
             });
       if (response.status !== 200) throw new Error();
 
+      Swal.fire({
+        icon: "success",
+        title: "수정이 완료 됐습니다",
+        confirmButtonText: "닫기",
+      });
       if (type === "checkPassword") {
         await logout();
         navigate("/login");

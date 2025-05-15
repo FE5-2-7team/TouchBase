@@ -26,7 +26,7 @@ export default function ProfileImage({ className }: { className: string }) {
               className="w-full h-full object-cover"
             ></img>
           ) : (
-            <FaUserCircle className="text-[#2F6BEB] text text-[131px]" />
+            <FaUserCircle className="text-[#2F6BEB] text text-[132px]" />
           )}
         </div>
         <div className="absolute cursor-pointer box-content w-[30px] h-[30px] top-[-4px] right-[-4px] bg-[#ABABAB] dark:bg-[#fff] rounded-full p-1 flex items-center justify-center border-white border-[4px] overflow-hidden dark:border-[#4F4F4F]">
