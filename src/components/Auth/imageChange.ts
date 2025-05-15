@@ -1,7 +1,6 @@
 import Swal from "sweetalert2";
 import { axiosFileInstance } from "../../api/axiosInstance";
 import { userStore } from "../../stores/userStore.ts";
-// import { ExtendedUser } from "../../types/postType.ts";
 
 export const handleimageChange = async (
   e: React.ChangeEvent<HTMLInputElement>

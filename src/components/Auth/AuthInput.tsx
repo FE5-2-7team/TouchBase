@@ -30,7 +30,7 @@ export default function Input({
       {type !== "password" ? (
         <input
           className={twMerge(
-            "mb-[30px] w-full h-[40px] text-[#696969] dark:border-[#fff] px-[4px] border-b border-[#0033A0] font-semibold dark:text-white dark:placeholder:text-white",
+            "mb-[30px] w-full h-[40px] focus:outline-[#444444] dark:focus:outline-[#444444] text-[#696969] px-[4px] border-b border-[#0033A0] dark:border-[#fff] font-semibold dark:text-white dark:placeholder:text-white",
             className
           )}
           onChange={onChange}
@@ -42,7 +42,7 @@ export default function Input({
       ) : (
         <div className={twMerge("w-full mb-[30px] relative", className)}>
           <input
-            className="w-full h-[40px] text-[#696969] px-[4px] border-b border-[#0033A0] dark:border-[#fff] font-semibold dark:text-white dark:placeholder:text-white"
+            className="w-full h-[40px] focus:outline-[#444444] dark:focus:outline-[#444444] text-[#696969] px-[4px] border-b border-[#0033A0] dark:border-[#fff] font-semibold dark:text-white dark:placeholder:text-white"
             placeholder={placeholder}
             type={passwordShow ? "password" : "text"}
             value={value}
