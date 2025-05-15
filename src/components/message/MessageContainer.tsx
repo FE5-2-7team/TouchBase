@@ -4,16 +4,16 @@ import { MessageProps } from "../../types/messageType";
 import MessageChatView from "./MessageChatView";
 import { axiosInstance } from "../../api/axiosInstance";
 import { userStore } from "../../stores/userStore";
-import { useParams, useLocation } from "react-router";
+import { useLocation } from "react-router";
 import { ExtendedUser } from "../../types/postType";
 import EmptyMessage from "./EmptyMessage";
 
 export default function MessageContainer() {
   const [messages, setMessages] = useState<MessageProps[]>([]);
   const myId = userStore.getState().getUser()?._id;
-  const { id: selectedUserId } = useParams();
   const location = useLocation();
   const selectedUser = location.state?.selectedUser as ExtendedUser;
+  const selectedUserId = selectedUser._id;
 
   const fetchMessages = async () => {
     try {

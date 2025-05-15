@@ -9,6 +9,7 @@ type ChannelStore = {
 
 export const useChannelStore = create<ChannelStore>((set, get) => ({
   channels: [],
+  refetch: false,
   setChannel: (channelId: string, name: string) =>
     set((state): ChannelStore | Partial<ChannelStore> => ({
       channels: [
