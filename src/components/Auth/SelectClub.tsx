@@ -95,8 +95,10 @@ export default function SelectClub() {
   return (
     <>
       <BlueBoard className="py-[25px] px-[23px] w-full max-w-[650px] bg-white mt-[20px] relative mb-[30px]">
-        <h2 className="text-[16px] text-[#464646] mb-[7px]">구단 변경</h2>
-        <p className="text-[14px] text-[#6D6D6D] mb-[48px] font-medium">
+        <h2 className="dark:text-white text-[16px] text-[#464646] mb-[7px]">
+          구단 변경
+        </h2>
+        <p className="dark:text-[#BABABA] text-[14px] text-[#6D6D6D] mb-[48px] font-medium">
           응원하는 구단을 선택해 주세요
         </p>
         <div className="flex gap-[44px] justify-between">
@@ -105,7 +107,7 @@ export default function SelectClub() {
               console.log(e.target.value);
               setSelectedValue(e.target.value);
             }}
-            className="text-gray-400 px-[4px] border-b border-[#0033A0] font-semibold dark:text-white dark:placeholder:text-white h-[40px] mb-[0] w-[475px]"
+            className="text-gray-400 px-[4px] border-b border-[#0033A0] font-semibold dark:text-white dark:placeholder:text-black h-[40px] mb-[0] w-[475px] dark:border-[#fff]"
           >
             {imageOptions.map((option) => (
               <option key={option.value} value={option.value}>

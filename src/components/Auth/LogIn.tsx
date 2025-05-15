@@ -110,7 +110,7 @@ export default function LogIn() {
             </div>
             <Button>로그인</Button>
           </form>
-          <div className="border-b my-[18px] border-[#0033A0]"></div>
+          <div className="border-b my-[18px] border-[#0033A0] dark:border-[#fff]"></div>
           <Button className="text-black bg-[#FF9500]">
             <Link to={"/signup"}>회원가입</Link>
           </Button>
