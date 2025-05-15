@@ -3,11 +3,15 @@ import useGetUser from "../components/Profile/useGetUser";
 import { useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { userStore } from "../stores/userStore";
+import { axiosInstance } from "../api/axiosInstance";
+import { Follow } from "../types/postType";
+import { refreshStore } from "../stores/refreshStore";
 
 export default function ProfileLayout() {
   const params = useParams();
   const { user, isLoading } = useGetUser(params.id!);
   const loginUserId = userStore((state) => state.getUser()?._id);
+  const refetch = refreshStore((state) => state.refetch);
 
   const [isVisible, setIsVisible] = useState(false);
 
@@ -31,6 +35,36 @@ export default function ProfileLayout() {
   // 최상단으로 스크롤 이동
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const unfollowHandler = async () => {
+    try {
+      await axiosInstance.delete<Follow>("follow/delete", {
+        data: { id: following?._id },
+      });
+      refetch();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const followHandler = async () => {
+    try {
+      const { data } = await axiosInstance.post<Follow>("follow/create", {
+        userId: params.id,
+      });
+
+      await axiosInstance.post("notifications/create", {
+        notificationType: "FOLLOW",
+        notificationTypeId: data._id,
+        userId: data.user,
+        postId: null,
+      });
+
+      refetch();
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   if (isLoading) {
@@ -64,28 +98,32 @@ export default function ProfileLayout() {
 
   return (
     <div className="flex flex-col gap-[34px] w-full max-w-[1200px] mx-auto mt-[40px] min-h-[calc(100vh-190px)]">
-      <div className="border border-[#D9D9D9] dark:border-[#4c4c4c] shadow-md rounded-[10px] lg:h-[200px] md:h-[154px] sm:h-[120px] flex items-center gap-[50px] justify-between lg:px-[110px] px-[80px]">
-        {user?.image ? (
-          <img
-            className="lg:w-[123px] lg:h-[123px] md:w-[100px] md:h-[100px] sm:w-[60px] sm:h-[60px] rounded-full object-cover"
-            src={user?.image}
-            alt="my profile"
-          />
-        ) : (
-          <FaUserCircle className="w-[100px] h-[100px] fill-[#2F6BEB] dark:fill-[#FFFFFF]" />
-        )}
-
+      <div className="border border-[#D9D9D9] dark:border-[#4c4c4c] shadow-md rounded-[10px] lg:h-[200px] md:h-[154px] sm:h-[120px] grid grid-cols-4 items-center">
         <div className="">
-          <div className="md:text-[24px] font-bold sm:text-[10px] mb-[12px]">
+          {user?.image ? (
+            <img
+              className="sm:h-[60px] md:h-[100px] lg:h-[123px] sm:w-[60px] md:w-[100px] lg:w-[123px] rounded-full object-cover m-auto"
+              src={user?.image}
+              alt="my profile"
+            />
+          ) : (
+            <FaUserCircle className="w-[100px] h-[100px] fill-[#2F6BEB] dark:fill-[#FFFFFF] m-auto" />
+          )}
+        </div>
+
+        <div className="col-span-2">
+          <div className="lg:text-[24px] md:text-[21px] font-bold sm:text-[13px] mb-[12px]">
             {user?.username ? user?.username : user?.fullName}
           </div>
-          <div className="flex lg:w-[580px] md:w-[420px] sm:w-[240px] flex-start gap-[50px] mt-[7px] md:mb-[14px] sm:mb-[5px]">
+          <div className="flex flex-start w-[580px] lg:gap-[70px] md:gap-[40px] sm:gap-[40px] mt-[7px] md:mb-[14px] sm:mb-[5px]">
             <NavLink
               to="posts"
               className={({ isActive }) => (isActive ? "text-[#FF9500]" : "text-[#0033A0] dark:text-[#FFFFFF]")}
             >
-              <button className="flex items-center cursor-pointer md:text-[16px] sm:text-[9px]">
-                <span className="md:text-[20px] sm:text-[9px] font-bold md:mr-[10px] sm:mr-[6px]">게시물</span>
+              <button className="flex items-center cursor-pointer lg:text-[17px] md:text-[16px] sm:text-[9px]">
+                <span className="lg:text-[20px] md:text-[18px] sm:text-[9px] font-bold md:mr-[10px] sm:mr-[6px]">
+                  게시물
+                </span>
                 {user?.posts.length}
               </button>
             </NavLink>
@@ -93,8 +131,10 @@ export default function ProfileLayout() {
               to="follower"
               className={({ isActive }) => (isActive ? "text-[#FF9500]" : "text-[#0033A0] dark:text-[#FFFFFF]")}
             >
-              <button className="flex items-center cursor-pointer md:text-[16px] sm:text-[9px]">
-                <span className="md:text-[20px] sm:text-[9px] font-bold md:mr-[10px] sm:mr-[6px]">팔로워</span>
+              <button className="flex items-center cursor-pointer lg:text-[17px] md:text-[16px] sm:text-[9px]">
+                <span className="lg:text-[20px] md:text-[18px] sm:text-[9px] font-bold md:mr-[10px] sm:mr-[6px]">
+                  팔로워
+                </span>
                 {user?.followers.length}
               </button>
             </NavLink>
@@ -102,8 +142,10 @@ export default function ProfileLayout() {
               to="following"
               className={({ isActive }) => (isActive ? "text-[#FF9500]" : "text-[#0033A0] dark:text-[#FFFFFF]")}
             >
-              <button className="flex items-center cursor-pointer md:text-[16px] sm:text-[9px]">
-                <span className="md:text-[20px] sm:text-[9px] font-bold md:mr-[10px] sm:mr-[6px]">팔로잉</span>
+              <button className="flex items-center cursor-pointer lg:text-[17px] md:text-[16px] sm:text-[9px]">
+                <span className="lg:text-[20px] md:text-[18px] sm:text-[9px] font-bold md:mr-[10px] sm:mr-[6px]">
+                  팔로잉
+                </span>
                 {user?.following.length}
               </button>
             </NavLink>
@@ -112,8 +154,10 @@ export default function ProfileLayout() {
                 to="/message"
                 className={({ isActive }) => (isActive ? "text-[#FF9500]" : "text-[#0033A0] dark:text-[#FFFFFF]")}
               >
-                <button className="flex items-center cursor-pointer md:text-[16px] sm:text-[9px]">
-                  <span className="md:text-[20px] sm:text-[9px] font-bold md:mr-[10px] sm:mr-[6px]">쪽지함</span>
+                <button className="flex items-center cursor-pointer lg:text-[17px] md:text-[16px] sm:text-[9px]">
+                  <span className="lg:text-[20px] md:text-[18px] sm:text-[9px] font-bold md:mr-[10px] sm:mr-[6px]">
+                    쪽지함
+                  </span>
                   {user?.messages.length}
                 </button>
               </NavLink>
@@ -128,30 +172,38 @@ export default function ProfileLayout() {
               </button>
             </NavLink>
           ) : following ? (
-            <button className="border border-[#D9D9D9] dark:border-[#4c4c4c] hover:dark:border-[#D6D6D6] rounded-[10px] py-[3px] px-[10px] md:text-[16px] sm:text-[9px] text-[#6D6D6D] dark:text-[#FFFFFF] hover:bg-[#0033A0] hover:text-[#ffffff] dark:hover:bg-[#235BD2] transition cursor-pointer">
+            <button
+              className="border border-[#D9D9D9] dark:border-[#4c4c4c] hover:dark:border-[#D6D6D6] rounded-[10px] py-[3px] px-[10px] md:text-[16px] sm:text-[9px] text-[#6D6D6D] dark:text-[#FFFFFF] hover:bg-[#0033A0] hover:text-[#ffffff] dark:hover:bg-[#235BD2] transition cursor-pointer"
+              onClick={unfollowHandler}
+            >
               팔로우 취소
             </button>
           ) : (
-            <button className="border border-[#D9D9D9] dark:border-[#4c4c4c] hover:dark:border-[#D6D6D6] rounded-[10px] py-[3px] px-[10px] md:text-[16px] sm:text-[9px] text-[#6D6D6D] dark:text-[#FFFFFF] hover:bg-[#0033A0] hover:text-[#ffffff] dark:hover:bg-[#235BD2] transition cursor-pointer">
+            <button
+              className="border border-[#D9D9D9] dark:border-[#4c4c4c] hover:dark:border-[#D6D6D6] rounded-[10px] py-[3px] px-[10px] md:text-[16px] sm:text-[9px] text-[#6D6D6D] dark:text-[#FFFFFF] hover:bg-[#0033A0] hover:text-[#ffffff] dark:hover:bg-[#235BD2] transition cursor-pointer"
+              onClick={followHandler}
+            >
               팔로우
             </button>
           )}
         </div>
-        {user?.coverImage ? (
-          <img
-            className="lg:w-[140px] md:w-[69px] opacity-80 md:block sm:hidden"
-            src={user?.coverImage}
-            alt="구단 마스코트"
-          />
-        ) : (
-          <div className="lg:w-[100px] md:w-[70px] md:block sm:hidden"></div>
-        )}
+        <div className="">
+          {user?.coverImage ? (
+            <img
+              className="sm:h-[60px] md:h-[100px] lg:h-[123px] opacity-80 md:block sm:hidden  m-auto object-cover"
+              src={user?.coverImage}
+              alt="구단 마스코트"
+            />
+          ) : (
+            <div className="lg:w-[100px] md:w-[70px] md:block sm:hidden"></div>
+          )}
+        </div>
       </div>
       <Outlet></Outlet>
       {isVisible && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-6 right-6 md:bottom-10 md:right-20 p-3 bg-blue-600 text-white rounded-[10px] shadow-lg hover:bg-blue-700 transition-all cursor-pointer"
+          className="fixed bottom-6 right-6 md:bottom-10 md:right-20 p-3 bg-[#235bd2] text-white rounded-[10px] shadow-lg hover:bg-[#0033a0] transition-all cursor-pointer"
         >
           TOP
         </button>
