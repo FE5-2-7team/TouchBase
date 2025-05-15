@@ -107,7 +107,7 @@ export default function ProfileLayout() {
               alt="my profile"
             />
           ) : (
-            <FaUserCircle className="w-[100px] h-[100px] fill-[#2F6BEB] dark:fill-[#FFFFFF]" />
+            <FaUserCircle className="w-[100px] h-[100px] fill-[#2F6BEB] dark:fill-[#FFFFFF] m-auto" />
           )}
         </div>
 
@@ -203,7 +203,7 @@ export default function ProfileLayout() {
       {isVisible && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-6 right-6 md:bottom-10 md:right-20 p-3 bg-blue-600 text-white rounded-[10px] shadow-lg hover:bg-blue-700 transition-all cursor-pointer"
+          className="fixed bottom-6 right-6 md:bottom-10 md:right-20 p-3 bg-[#235bd2] text-white rounded-[10px] shadow-lg hover:bg-[#0033a0] transition-all cursor-pointer"
         >
           TOP
         </button>
