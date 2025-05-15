@@ -60,12 +60,14 @@ export default function ProfileLayout() {
     );
   }
 
+  const following = user?.followers.find((follow) => follow.follower === loginUserId);
+
   return (
     <div className="flex flex-col gap-[34px] w-full max-w-[1200px] mx-auto mt-[40px] min-h-[calc(100vh-190px)]">
       <div className="border border-[#D9D9D9] dark:border-[#4c4c4c] shadow-md rounded-[10px] lg:h-[200px] md:h-[154px] sm:h-[120px] flex items-center gap-[50px] justify-between lg:px-[110px] px-[80px]">
         {user?.image ? (
           <img
-            className="lg:w-[123px] lg:h-[123px] md:w-[100px] md:h-[100px] sm:w-[60px] sm:h-[60px] rounded-full"
+            className="lg:w-[123px] lg:h-[123px] md:w-[100px] md:h-[100px] sm:w-[60px] sm:h-[60px] rounded-full object-cover"
             src={user?.image}
             alt="my profile"
           />
@@ -74,10 +76,10 @@ export default function ProfileLayout() {
         )}
 
         <div className="">
-          <div className="md:text-[24px] font-bold sm:text-[10px]">
+          <div className="md:text-[24px] font-bold sm:text-[10px] mb-[12px]">
             {user?.username ? user?.username : user?.fullName}
           </div>
-          <div className="flex lg:w-[580px] md:w-[420px] sm:w-[240px] justify-between mt-[7px] md:mb-[14px] sm:mb-[5px]">
+          <div className="flex lg:w-[580px] md:w-[420px] sm:w-[240px] flex-start gap-[50px] mt-[7px] md:mb-[14px] sm:mb-[5px]">
             <NavLink
               to="posts"
               className={({ isActive }) => (isActive ? "text-[#FF9500]" : "text-[#0033A0] dark:text-[#FFFFFF]")}
@@ -121,13 +123,18 @@ export default function ProfileLayout() {
           </div>
           {params.id && loginUserId === params.id ? (
             <NavLink to="/profile/edit">
-              {" "}
               <button className="border border-[#D9D9D9] dark:border-[#4c4c4c] hover:dark:border-[#D6D6D6] rounded-[10px] py-[3px] px-[10px] md:text-[16px] sm:text-[9px] text-[#6D6D6D] dark:text-[#FFFFFF] hover:bg-[#0033A0] hover:text-[#ffffff] dark:hover:bg-[#235BD2] transition cursor-pointer">
                 프로필 수정
               </button>
             </NavLink>
+          ) : following ? (
+            <button className="border border-[#D9D9D9] dark:border-[#4c4c4c] hover:dark:border-[#D6D6D6] rounded-[10px] py-[3px] px-[10px] md:text-[16px] sm:text-[9px] text-[#6D6D6D] dark:text-[#FFFFFF] hover:bg-[#0033A0] hover:text-[#ffffff] dark:hover:bg-[#235BD2] transition cursor-pointer">
+              팔로우 취소
+            </button>
           ) : (
-            ""
+            <button className="border border-[#D9D9D9] dark:border-[#4c4c4c] hover:dark:border-[#D6D6D6] rounded-[10px] py-[3px] px-[10px] md:text-[16px] sm:text-[9px] text-[#6D6D6D] dark:text-[#FFFFFF] hover:bg-[#0033A0] hover:text-[#ffffff] dark:hover:bg-[#235BD2] transition cursor-pointer">
+              팔로우
+            </button>
           )}
         </div>
         {user?.coverImage ? (

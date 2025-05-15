@@ -62,7 +62,11 @@ export default function FollowCard({ followId }: { followId: string }) {
       <Link to={`/profile/${userDetails?._id}/posts`} className="flex items-center">
         <div className="relative w-[34px] h-[34px]">
           {userDetails?.image ? (
-            <img src={userDetails?.image} alt="profile image" className="absolute w-full h-full rounded-full" />
+            <img
+              src={userDetails?.image}
+              alt="profile image"
+              className="absolute w-full h-full rounded-full object-cover"
+            />
           ) : (
             <FaUserCircle className="absolute w-full h-full fill-[#2F6BEB] dark:fill-[#FFFFFF]" />
           )}
