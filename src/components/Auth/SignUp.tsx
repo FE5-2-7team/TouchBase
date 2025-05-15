@@ -135,7 +135,7 @@ export default function SignUp() {
       const response = await axiosInstance.post(`/signup`, {
         email: value.email.toLocaleLowerCase().trim(),
         fullName: value.name.toLocaleLowerCase().trim(),
-        userName: value.nickName.toLocaleLowerCase().trim(),
+        username: value.nickName.toLocaleLowerCase().trim(),
         password: value.password.toLocaleLowerCase().trim(),
       });
 
@@ -143,19 +143,17 @@ export default function SignUp() {
 
       //로그인 기능
       if (response.status === 200) {
-        await login({
+        const res = await login({
           email: value.email,
           password: value.password,
         });
+        console.log(res);
         localStorage.setItem("saveId", value.email);
         navigate("/");
-      } else {
-        showValidationErrorAlert();
       }
     } catch (error) {
       console.log(error);
-    } finally {
-      console.log(localStorage.getItem("saveId"));
+      showValidationErrorAlert();
     }
   }
 
