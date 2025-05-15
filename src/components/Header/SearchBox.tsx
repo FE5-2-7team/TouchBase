@@ -7,10 +7,13 @@ import SearchThreads from "./SearchThreads";
 import SearchUser from "./SearchUser";
 import UserRecommend from "./UserRecommend";
 import ThreadRecommends from "./ThreadRecommends";
+import { ExtendedUser, Post } from "../../types/postType";
+
+type SearchProps = ExtendedUser & Post;
 
 export default function SearchBox({ onClose }: { onClose: () => void }) {
   const [keyword, setKeyword] = useState("");
-  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [searchResults, setSearchResults] = useState<SearchProps[]>([]);
   const [activeTab, setActiveTab] = useState<"user" | "thread">("user");
 
   const modalHandler = (e: React.MouseEvent) => {
@@ -95,13 +98,13 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
             <MdSearch className=" mx-2 w-9 h-9 text-gray-400 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-100" />
           </button>
         </div>
-        <div className="border-1 border-gray-100 mt-5 rounded-xl dark:border-gray-600">
-          <div className="flex justify-between w-full ">
+        <div className="mt-5 rounded-xl ">
+          <div className="flex justify-between w-full border-b border-b-gray-300 dark:border-b dark:border-b-gray-600 ">
             <button
               className={`px-4 py-3 w-[50%] text-md cursor-pointer rounded-tl-xl ${
                 activeTab === "user"
-                  ? "dark:bg-[#35363C] dark:text-white text-gray-700"
-                  : "bg-gray-100 text-gray-500"
+                  ? "dark:bg-[#35363C] dark:text-white text-gray-700 border-b-2 border-b-black dark:border-b-2 dark:border-b-white"
+                  : "dark:bg-[#35363C] text-gray-400"
               }`}
               onClick={() => setActiveTab("user")}
             >
@@ -110,8 +113,8 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
             <button
               className={`px-4 w-[50%] text-md cursor-pointer rounded-tr-xl ${
                 activeTab === "thread"
-                  ? "bg-white text-white dark:text-gray-200"
-                  : "bg-gray-300 text-gray-900"
+                  ? "dark:bg-[#35363C] dark:text-white text-gray-700 border-b-2 border-b-black dark:border-b-2 dark:border-b-white"
+                  : "dark:bg-[#35363C] text-gray-400 pb-[3px]"
               }`}
               onClick={() => setActiveTab("thread")}
             >

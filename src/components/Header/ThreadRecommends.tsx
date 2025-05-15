@@ -35,7 +35,7 @@ export default function ThreadRecommends({ onClose }: { onClose: () => void }) {
           }
         }
         const randomThreads = allParsed.sort(() => 1 - Math.random());
-        setRecommends(randomThreads.slice(0, 10));
+        setRecommends(randomThreads.slice(0, 7));
       } catch (err) {
         console.error("추천 게시글 불러오기 실패", err);
       }
@@ -46,13 +46,10 @@ export default function ThreadRecommends({ onClose }: { onClose: () => void }) {
 
   return (
     <>
-      <h3 className="ml-5 text-sm text-[#2F6BEB] dark:text-gray-400 sm:mt-5">
-        추천 게시글
-      </h3>
-      <div className="grid grid-cols-1 gap-3 p-4 max-h-[600px] overflow-y-auto">
+      <h3 className="ml-5 text-sm text-[#2F6BEB] dark:text-gray-400 sm:mt-5">추천 게시글</h3>
+      <div className="grid grid-cols-1 gap-3 p-4 mt-2 h-[340px]">
         {recommends.map((post, idx) => {
-          const channelId =
-            typeof post.channel === "string" ? post.channel : post.channel._id;
+          const channelId = typeof post.channel === "string" ? post.channel : post.channel._id;
           const teamName = useChannelStore.getState().getChannelName(channelId);
           return (
             <div

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { MdClose } from "react-icons/md";
 import { Alert } from "./HeaderIcon";
 import { useNavigate } from "react-router";
@@ -7,7 +7,7 @@ import { useChannelStore } from "../../stores/channelStore";
 import { userStore } from "../../stores/userStore";
 
 const alertList =
-  "border-b border-gray-200 py-1 cursor-pointer hover:underline hover:underline-offset-2 relative";
+  "border-b border-gray-200 last:border-0 w-76 py-1 cursor-pointer hover:underline hover:underline-offset-2 relative";
 
 export default function NoticeBox({
   onClose,
@@ -20,12 +20,11 @@ export default function NoticeBox({
 }) {
   const navigate = useNavigate();
   const myId = userStore.getState().getUser()?._id;
-  const [readId, setReadId] = useState<string[]>([]);
 
   const getAlertMessage = (a: Alert) => {
     if (!a) return;
     if (a.author._id === myId) return;
-    const sender = a.author?.fullName;
+    const sender = a.username;
 
     if (a.message) return `${sender}님이 쪽지를 보냈습니다.`;
     if (a.follow) return `${sender}님이 당신을 팔로우 했습니다.`;
@@ -36,11 +35,11 @@ export default function NoticeBox({
   const handleAlertClick = async (alert: Alert) => {
     if (!alert.author) return;
 
-    setReadId((prev) => {
-      const alertId = [...prev, alert._id];
-      localStorage.setItem("alertId", JSON.stringify(alertId));
-      return alertId;
-    });
+    const prev = JSON.parse(localStorage.getItem("alertId") || "[]");
+    const updated = [...new Set([...prev, alert._id])];
+    localStorage.setItem("alertId", JSON.stringify(updated));
+    console.log(prev);
+    console.log(updated);
     setAlerts((prev) => prev.map((a) => (a._id === alert._id ? { ...a, seen: true } : a)));
 
     if (alert.message) {
@@ -79,7 +78,7 @@ export default function NoticeBox({
   }, [alerts]);
   return (
     <>
-      <div className="w-86 h-auto pb-2 bg-white border border-gray-200 rounded-md ">
+      <div className="w-86 h-auto pb-1.5 bg-white border border-gray-200 rounded-md ">
         <button>
           <MdClose onClick={onClose} className="absolute w-5 h-5 right-2 top-2 cursor-pointer" />
         </button>
@@ -96,10 +95,10 @@ export default function NoticeBox({
               .slice(0, 6)
               .map((a) => (
                 <div key={a._id} className={alertList} onClick={() => handleAlertClick(a)}>
+                  <div className="truncate pr-5">{getAlertMessage(a)}</div>
                   {!a.seen && (
-                    <span className="absolute top-3 right-1 text-red-500 text-[8px]">●</span>
+                    <span className="absolute top-2.5 right-1 text-red-500 text-[8px]">●</span>
                   )}
-                  {getAlertMessage(a)}
                 </div>
               ))}
           </div>
