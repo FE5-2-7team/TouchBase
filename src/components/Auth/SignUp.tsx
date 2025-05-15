@@ -19,6 +19,7 @@ export default function SignUp() {
 
   const [value, setValue] = useState({
     nickName: "",
+    name: "",
     email: "",
     password: "",
     checkPassword: "",
@@ -26,6 +27,7 @@ export default function SignUp() {
 
   const [valid, setValid] = useState({
     nickName: false,
+    name: false,
     email: false,
     password: false,
     checkPassword: false,
@@ -66,6 +68,11 @@ export default function SignUp() {
     setValid((valid) => {
       return { ...valid, [type]: isValid };
     });
+    if (value[type] === "") {
+      setValid((valid) => {
+        return { ...valid, [type]: false };
+      });
+    }
   }
 
   //비밀번호 체크 인풋에 포커스 들어갈 때 유효성 검사
@@ -127,7 +134,7 @@ export default function SignUp() {
       //회원가입 데이터 post
       const response = await axiosInstance.post(`/signup`, {
         email: value.email.toLocaleLowerCase().trim(),
-        fullName: value.nickName.toLocaleLowerCase().trim(),
+        fullName: value.name.toLocaleLowerCase().trim(),
         userName: value.nickName.toLocaleLowerCase().trim(),
         password: value.password.toLocaleLowerCase().trim(),
       });
@@ -166,6 +173,7 @@ export default function SignUp() {
                 value={value.nickName}
               />
               <Button
+                disabled={!valid.nickName}
                 onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                   e.preventDefault();
                   handleNickNameCheck();
@@ -183,6 +191,20 @@ export default function SignUp() {
                 </Message>
               )}
               {nickNameApiValid && <Message>중복된 닉네임 입니다</Message>}
+            </div>
+            <div className="w-full flex gap-[20px] mb-[35px] items-center relative">
+              <Input
+                placeholder={"이름"}
+                type="name"
+                className="w-full mb-[0]"
+                value={value.name}
+                onChange={(e) => {
+                  handleInputValidation(e, "name", value);
+                }}
+              />
+              {value.name && !valid.name && (
+                <Message>이름은 한글 2~5글자로 입력해주세요</Message>
+              )}
             </div>
             <div className="w-full flex gap-[20px] mb-[35px] items-center relative">
               <Input

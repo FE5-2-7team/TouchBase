@@ -4,6 +4,7 @@ import BlueBoard from "./BlueBoard";
 import Button from "../FanPage/Button";
 import { userStore } from "../../stores/userStore";
 import Message from "./Message.tsx";
+import Swal from "sweetalert2";
 
 export default function SelectClub() {
   const [selectedValue, setSelectedValue] = useState("");
@@ -86,7 +87,11 @@ export default function SelectClub() {
         "/users/upload-photo",
         formData
       );
-      console.log(data);
+      Swal.fire({
+        icon: "success",
+        title: "구단을 변경 했습니다",
+        confirmButtonText: "닫기",
+      });
       userStore.getState().setUser(data);
     } catch (error) {
       console.log(error);

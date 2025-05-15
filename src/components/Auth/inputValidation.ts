@@ -11,6 +11,9 @@ export function inputValidation(
     case "nickName":
       isValid = /^[a-z0-9가-힣ㄱ-ㅎㅏ-ㅣ]+$/.test(e.target.value);
       break;
+    case "name":
+      isValid = /^[가-힣]{2,5}$/.test(e.target.value);
+      break;
     case "email":
       isValid = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(
         e.target.value
