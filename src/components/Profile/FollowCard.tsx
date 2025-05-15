@@ -83,7 +83,7 @@ export default function FollowCard({ followId }: { followId: string }) {
         </div>
       </Link>
 
-      <Link to={`/message/${userDetails?._id}`}>
+      <Link to={`/message/${userDetails?._id}`} state={{ selectedUser: userDetails }}>
         <button
           className={twMerge(
             "w-[100px] h-[24px] text-[14px] rounded-[10px] bg-[#0033A0] dark:bg-[#2F6BEB] text-[#ffffff] cursor-pointer",

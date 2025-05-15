@@ -10,7 +10,7 @@ export default function MessagePage() {
             <MessageSidebar />
           </div>
 
-          <div className="flex-1 pl-6 ">
+          <div className="flex-1 pl-6">
             <Outlet />
           </div>
         </div>

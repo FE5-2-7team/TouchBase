@@ -37,7 +37,7 @@ export default function App() {
             <Route path="/message" element={<MessagePage />}>
               <Route index element={<EmptyMessage />} />
               <Route path="new" element={<NewMessage />} />
-              <Route path="/message/:id" element={<MessagePage />} />
+              <Route path="/message/:id" element={<MessageContainer />} />
             </Route>
             <Route path="profile/edit" element={<EditProfile />} />
           </Route>

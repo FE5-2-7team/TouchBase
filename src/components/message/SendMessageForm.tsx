@@ -1,6 +1,7 @@
 import { useState } from "react";
 import SendButton from "./SendButton";
 import { axiosInstance } from "../../api/axiosInstance";
+import { useMessageStore } from "../../stores/messageStore";
 
 export default function SendMessageForm({
   selectedUserId,
@@ -10,7 +11,6 @@ export default function SendMessageForm({
   onSend: () => void;
 }) {
   const [content, setContent] = useState("");
-
   const sendHandler = async () => {
     if (!content.trim()) return;
     try {
@@ -29,6 +29,7 @@ export default function SendMessageForm({
       });
       setContent("");
       onSend();
+      useMessageStore.getState().setRefetch();
     } catch (err) {
       console.error("메세지 보내기 실패", err);
     }
@@ -47,6 +48,9 @@ export default function SendMessageForm({
           value={content}
           onChange={(e) => setContent(e.target.value)}
           onKeyDown={(e) => {
+            if (e.nativeEvent.isComposing) {
+              return;
+            }
             if (e.key === "Enter" && !e.shiftKey) {
               e.preventDefault();
               sendHandler();
