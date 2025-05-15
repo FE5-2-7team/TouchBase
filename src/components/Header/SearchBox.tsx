@@ -66,7 +66,7 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
       onClick={onClose}
     >
       <div
-        className={`bg-white md:w-[700px] sm:w-[500px] p-6 rounded-xl bottom-52.5 relative dark:bg-[#35363C]  ${
+        className={`bg-white md:w-[700px] sm:w-[500px] p-6 rounded-xl bottom-52.5 relative dark:bg-[#35363C] ${
           searchResults ? "h-[600px] top-8" : "h-auto"
         }`}
         onClick={modalHandler}
@@ -77,7 +77,7 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
             onClick={onClose}
           />
         </button>
-        <div className="flex ml-2 my-2 ">
+        <div className="flex ml-2 my-2">
           <input
             type="text"
             placeholder="아이디 또는 게시글을 입력하세요"
@@ -95,50 +95,52 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
             <MdSearch className=" mx-2 w-9 h-9 text-gray-400 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-100" />
           </button>
         </div>
-        <div className="flex justify-center mt-4 gap-3 ">
-          <button
-            className={`px-4 py-1.5 w-40 rounded-2xl text-sm cursor-pointer ${
-              activeTab === "user"
-                ? "bg-[#0033A0] text-white dark:bg-[#235BD2] dark:text-gray-200"
-                : "bg-gray-100 text-gray-500"
-            }`}
-            onClick={() => setActiveTab("user")}
-          >
-            유저
-          </button>
-          <button
-            className={`px-4 py-1.5 w-40 rounded-2xl text-sm cursor-pointer ${
-              activeTab === "thread"
-                ? "bg-[#0033A0] text-white dark:bg-[#235BD2] dark:text-gray-200"
-                : "bg-gray-100 text-gray-500"
-            }`}
-            onClick={() => setActiveTab("thread")}
-          >
-            게시글
-          </button>
-        </div>
+        <div className="border-1 border-gray-100 mt-5 rounded-xl dark:border-gray-600">
+          <div className="flex justify-between w-full ">
+            <button
+              className={`px-4 py-3 w-[50%] text-md cursor-pointer rounded-tl-xl ${
+                activeTab === "user"
+                  ? "dark:bg-[#35363C] dark:text-white text-gray-700"
+                  : "bg-gray-100 text-gray-500"
+              }`}
+              onClick={() => setActiveTab("user")}
+            >
+              유저
+            </button>
+            <button
+              className={`px-4 w-[50%] text-md cursor-pointer rounded-tr-xl ${
+                activeTab === "thread"
+                  ? "bg-white text-white dark:text-gray-200"
+                  : "bg-gray-300 text-gray-900"
+              }`}
+              onClick={() => setActiveTab("thread")}
+            >
+              게시글
+            </button>
+          </div>
 
-        {keyword.trim() === "" &&
-          searchResults.length === 0 &&
-          (activeTab === "user" ? (
-            <UserRecommend onClose={onClose} />
-          ) : (
-            <ThreadRecommends onClose={onClose} />
-          ))}
-
-        {searchResults && (
-          <>
-            {activeTab === "user" ? (
-              <div>
-                <SearchUser keyword={keyword} results={searchResults} onClose={onClose} />
-              </div>
+          {keyword.trim() === "" &&
+            searchResults.length === 0 &&
+            (activeTab === "user" ? (
+              <UserRecommend onClose={onClose} />
             ) : (
-              <div>
-                <SearchThreads keyword={keyword} results={searchResults} onClose={onClose} />
-              </div>
-            )}
-          </>
-        )}
+              <ThreadRecommends onClose={onClose} />
+            ))}
+
+          {searchResults && (
+            <>
+              {activeTab === "user" ? (
+                <div>
+                  <SearchUser keyword={keyword} results={searchResults} onClose={onClose} />
+                </div>
+              ) : (
+                <div>
+                  <SearchThreads keyword={keyword} results={searchResults} onClose={onClose} />
+                </div>
+              )}
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
