@@ -24,7 +24,7 @@ export default function Button({
         transition 
         ${
           disabled
-            ? "bg-gray-300 text-white cursor-not-allowed"
+            ? "bg-gray-300 dark:bg-gray-600 text-white cursor-not-allowed"
             : "bg-[#0033A0] text-white cursor-pointer hover:bg-white hover:border hover:border-[#0033A0] hover:text-[#0033A0] dark:bg-[#235BD2]"
         }
         `,
