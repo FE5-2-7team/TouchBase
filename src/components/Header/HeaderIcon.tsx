@@ -80,7 +80,14 @@ export default function HeaderIcon() {
     const fetchAlert = async () => {
       try {
         const res = await axiosInstance.get("/notifications");
-        setAlerts(res.data);
+        const myId = userStore.getState().getUser()?._id;
+
+        const filtered = res.data.filter((a: Alert) => {
+          const myComment = a.comment?.author === myId;
+          const myAction = a.author._id === myId;
+          return !myAction && !myComment;
+        });
+        setAlerts(filtered);
       } catch (err) {
         console.error("알림 목록 불러오기 실패", err);
       }
