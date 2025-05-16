@@ -143,7 +143,9 @@ export default function EditPosts({
             <input
               type="text"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => {
+                if (e.target.value.length <= 20) setTitle(e.target.value);
+              }}
               placeholder="제목을 입력해 주세요."
               className="text-[16px] border border-[#d9d9d9] dark:border-[#4c4c4c] mb-[10px] 
             w-full md:max-w-[1200px] h-[35px] rounded-[10px] px-4 py-1 
