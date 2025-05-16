@@ -24,7 +24,7 @@ export default function NoticeBox({
   const getAlertMessage = (a: Alert) => {
     if (!a) return;
     if (a.author._id === myId) return;
-    const sender = a.username;
+    const sender = a.author.username ? a.author.username : "익명의 유저";
 
     if (a.message) return `${sender}님이 쪽지를 보냈습니다.`;
     if (a.follow) return `${sender}님이 당신을 팔로우 했습니다.`;
@@ -38,8 +38,6 @@ export default function NoticeBox({
     const prev = JSON.parse(localStorage.getItem("alertId") || "[]");
     const updated = [...new Set([...prev, alert._id])];
     localStorage.setItem("alertId", JSON.stringify(updated));
-    console.log(prev);
-    console.log(updated);
     setAlerts((prev) => prev.map((a) => (a._id === alert._id ? { ...a, seen: true } : a)));
 
     if (alert.message) {
