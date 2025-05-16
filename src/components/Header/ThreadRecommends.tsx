@@ -54,14 +54,16 @@ export default function ThreadRecommends({ onClose }: { onClose: () => void }) {
           return (
             <div
               key={idx}
-              className="p-2 bg-white rounded-lg border border-gray-300 hover:shadow-sm hover:bg-gray-100 dark:bg-[#191A1E] dark:border-gray-800 dark:hover:bg-gray-800"
+              className="p-2 w-full bg-white rounded-lg border border-gray-300 hover:shadow-sm hover:bg-gray-100 dark:bg-[#191A1E] dark:border-gray-800 dark:hover:bg-gray-800"
               onClick={() => {
                 navigate(`/fanpage/${teamName}/${channelId}/${post._id}`);
                 onClose();
               }}
             >
               <div>
-                <h4 className="ml-2 text-sm dark:text-white cursor-pointer">{post.postTitle}</h4>
+                <h4 className="ml-2 text-sm whitespace-nowrap truncate dark:text-white cursor-pointer">
+                  {post.postTitle ? post.postTitle : post.postContent}
+                </h4>
               </div>
             </div>
           );

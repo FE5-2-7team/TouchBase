@@ -46,7 +46,7 @@ export default function UserRecommend({ onClose }: Props) {
             to={`/profile/${user._id}/posts`}
             className="mt-2.5 text-sm cursor-pointer whitespace-nowrap dark:text-white"
           >
-            {user.username ? user.username : user.fullName}
+            {user.username ? user.username : "익명의 유저"}
           </Link>
         </div>
       ))}

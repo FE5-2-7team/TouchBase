@@ -67,6 +67,7 @@ export interface Channel {
 
 export interface Post {
   postTitle?: string;
+  postContent?: string;
   _id: string;
   title: string;
   image?: string;
