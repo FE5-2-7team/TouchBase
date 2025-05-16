@@ -1,8 +1,10 @@
 import axios from "axios";
 import { userStore } from "../stores/userStore";
 
+const baseURL = import.meta.env.VITE_API_URL;
+
 export const axiosInstance = axios.create({
-  baseURL: "http://13.125.208.179:5011/",
+  baseURL: window.location.hostname === "localhost" ? baseURL : "/api",
   headers: {
     "Content-Type": "application/json",
   },
@@ -15,7 +17,7 @@ axiosInstance.interceptors.request.use((config) => {
 });
 
 export const axiosFileInstance = axios.create({
-  baseURL: "http://13.125.208.179:5011/",
+  baseURL: window.location.hostname === "localhost" ? baseURL : "/api",
   headers: {
     "Content-Type": "multipart/form-data",
   },
