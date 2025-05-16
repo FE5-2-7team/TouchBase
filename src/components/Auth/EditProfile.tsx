@@ -6,7 +6,7 @@ import BlueBoard from "./BlueBoard";
 import Button from "../FanPage/Button";
 import { useState } from "react";
 import { editValidation } from "./inputValidation.ts";
-import { SignUpValue1 } from "../../types/userTypes.ts";
+import { UpdateValue } from "../../types/userTypes.ts";
 import Message from "./Message.tsx";
 import { logout } from "../../api/auth";
 import { axiosInstance } from "../../api/axiosInstance.ts";
@@ -20,7 +20,7 @@ import Swal from "sweetalert2";
 export default function EditProfile() {
   const navigate = useNavigate();
   const [value, setValue] = useState({
-    name: {
+    nickName: {
       valid: false,
       content: "",
     },
@@ -33,10 +33,10 @@ export default function EditProfile() {
       content: "",
     },
   });
-  const { name, password, checkPassword } = value;
+  const { nickName, password, checkPassword } = value;
   const user = userStore.getState().getUser() as ExtendedUser;
 
-  type FieldType = "name" | "checkPassword";
+  type FieldType = "nickName" | "checkPassword";
 
   //유저 정보 업데이트
   const handleUpdate = async (
@@ -51,7 +51,7 @@ export default function EditProfile() {
 
     try {
       const response =
-        type === "name"
+        type === "nickName"
           ? await axiosInstance.put("settings/update-user", {
               fullName: user.fullName,
               username: data.content,
@@ -74,13 +74,18 @@ export default function EditProfile() {
       }
       userStore.getState().setUser(response.data);
     } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "수정을 실패 했습니다",
+        confirmButtonText: "닫기",
+      });
       console.log(err);
     }
 
     setValue((value) => {
       return {
         ...value,
-        name: {
+        nickName: {
           valid: false,
           content: "",
         },
@@ -99,8 +104,8 @@ export default function EditProfile() {
   //input onChnage 유효성 검사
   function handleValidation(
     e: React.ChangeEvent<HTMLInputElement>,
-    type: "name" | "email" | "password" | "checkPassword",
-    value: SignUpValue1
+    type: "nickName" | "email" | "password" | "checkPassword",
+    value: UpdateValue
   ) {
     const isValid = editValidation(e, type, value);
     // type이 부분 나중에 value key 값으로 대처하기
@@ -182,75 +187,81 @@ export default function EditProfile() {
           </aside>
         </div>
         <div
-          className="bg-[rgba(0,51,160,0.1)] h-full ml-[39%] w-[61%] min-w-[650px] px-[105px] font-sans bg-no-repeat bg-right-bottom dark:bg-[#262626]"
+          className="bg-[rgba(0,51,160,0.1)] flex flex-col justify-between h-full ml-[39%] w-[61%] min-w-[650px] px-[105px] py-[20px] font-sans bg-no-repeat bg-right-bottom dark:bg-[#262626]"
           style={{ backgroundImage: `url(${watermark2})` }}
         >
           <div className="flex justify-end max-w-[650px]">
             <EditIcons />
           </div>
-          <BlueBoard className="py-[25px] px-[23px] w-full max-w-[650px] bg-white mt-[20px]">
-            <h2 className="text-[16px] text-[#464646] mb-[7px] dark:text-white">
-              닉네임 변경
-            </h2>
-            <p className="text-[14px] text-[#6D6D6D] mb-[48px] font-medium dark:text-[#BABABA]">
-              닉네임는 공백을 제외 한 소문자 영문, 한글, 숫자만 사용할 수
-              있습니다
-            </p>
+          <BlueBoard className="py-[25px] px-[23px] h-[25%] flex flex-col justify-between w-full max-w-[650px] bg-white">
+            <div>
+              <h2 className="text-[16px] text-[#464646] mb-[7px] dark:text-white">
+                닉네임 변경
+              </h2>
+              <p className="text-[14px] text-[#6D6D6D] font-medium dark:text-[#BABABA]">
+                닉네임는 공백을 제외 한 소문자 영문, 한글, 숫자만 사용할 수
+                있습니다
+              </p>
+            </div>
             <div className="flex gap-[44px] justify-between relative">
               <AuthInput
                 placeholder="새 닉네임"
                 type="text"
-                value={name.content}
-                onChange={(e) => handleValidation(e, "name", value)}
+                value={nickName.content}
+                onChange={(e) => handleValidation(e, "nickName", value)}
                 className="h-[40px] mb-[0] max-w-[475px]"
               />
               <Button
-                onClick={() => handleUpdate(name, "name")}
+                onClick={() => handleUpdate(nickName, "nickName")}
                 className="w-[80px] h-[40px] text-[14px] rounded-[5px]"
               >
                 변경하기
               </Button>
-              {name.content && !name.valid && (
+              {nickName.content && !nickName.valid && (
                 <Message>공백 혹은 특수 문자는 넣으실 수 없습니다</Message>
               )}
             </div>
           </BlueBoard>
-          <BlueBoard className="py-[25px] px-[23px] w-full max-w-[650px] bg-white mt-[20px]">
-            <h2 className="text-[16px] text-[#464646] mb-[7px] dark:text-white">
-              비밀번호 변경
-            </h2>
-            <p className="text-[14px] text-[#6D6D6D] mb-[48px] font-medium dark:text-[#BABABA]">
-              영어와 숫자를 조합해 8자 이상 16자 이하로 입력해 주세요
-            </p>
-            <div className="relative mb-[35px]">
-              <AuthInput
-                placeholder={"새 비밀번호"}
-                type="password"
-                value={password.content}
-                onChange={(e) => handleValidation(e, "password", value)}
-                className="h-[40px] mb-[0] max-w-[475px]"
-              />
-              {password.content && !password.valid && (
-                <Message>8~16자, 영문, 숫자 조합 입니다</Message>
-              )}
+          <BlueBoard className="py-[25px] px-[23px] w-full h-[34%] flex flex-col justify-between max-w-[650px] bg-white">
+            <div>
+              <h2 className="text-[16px] text-[#464646] mb-[7px] dark:text-white">
+                비밀번호 변경
+              </h2>
+              <p className="text-[14px] text-[#6D6D6D] font-medium dark:text-[#BABABA]">
+                영어와 숫자를 조합해 8자 이상 16자 이하로 입력해 주세요
+              </p>
             </div>
-            <div className="flex gap-[44px] justify-between relative">
-              <AuthInput
-                placeholder="새 비밀번호 확인"
-                type="password"
-                value={checkPassword.content}
-                onChange={(e) => handleValidation(e, "checkPassword", value)}
-                className="h-[40px] mb-[0] max-w-[475px]"
-              />
-              <Button
-                onClick={() => handleUpdate(checkPassword, "checkPassword")}
-                className="w-[80px] h-[40px] text-[14px] rounded-[5px]"
-              >
-                변경하기
-              </Button>
-              {checkPassword.content && !checkPassword.valid && (
-                <Message>비밀번호가 일치하지 않습니다</Message>
-              )}
+            <div>
+              <div className="relative mb-[35px]">
+                <AuthInput
+                  placeholder={"새 비밀번호"}
+                  type="password"
+                  value={password.content}
+                  onChange={(e) => handleValidation(e, "password", value)}
+                  className="h-[40px] mb-[0] max-w-[475px]"
+                />
+                {password.content && !password.valid && (
+                  <Message>8~16자, 영문, 숫자 조합 입니다</Message>
+                )}
+              </div>
+              <div className="flex gap-[44px] justify-between relative">
+                <AuthInput
+                  placeholder="새 비밀번호 확인"
+                  type="password"
+                  value={checkPassword.content}
+                  onChange={(e) => handleValidation(e, "checkPassword", value)}
+                  className="h-[40px] mb-[0] max-w-[475px]"
+                />
+                <Button
+                  onClick={() => handleUpdate(checkPassword, "checkPassword")}
+                  className="w-[80px] h-[40px] text-[14px] rounded-[5px]"
+                >
+                  변경하기
+                </Button>
+                {checkPassword.content && !checkPassword.valid && (
+                  <Message>비밀번호가 일치하지 않습니다</Message>
+                )}
+              </div>
             </div>
           </BlueBoard>
           <SelectClub />

@@ -8,9 +8,9 @@ import NoticeBox from "../Header/NoticeBox";
 import SearchBox from "../Header/SearchBox";
 import { userStore } from "../../stores/userStore";
 
-const iconDiv = "w-[30px] h-[30px] bg-white rounded-2xl mt-6 relative";
-const iconStyle =
-  "w-5 h-5 ml-[5px] mt-1 text-[#002779] cursor-pointer dark:text-[#16171B]";
+const iconDiv =
+  "w-[30px] h-[30px] bg-white rounded-2xl relative flex justify-center items-center";
+const iconStyle = "w-5 h-5 text-[#002779] cursor-pointer dark:text-[#16171B]";
 
 export type Boxtype = "userMenu" | "notice" | "search" | null;
 
