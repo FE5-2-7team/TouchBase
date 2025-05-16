@@ -3,7 +3,7 @@ import Button from "../FanPage/Button";
 import Input from "./AuthInput";
 import BlueBoard from "./BlueBoard";
 import { useState } from "react";
-import { BaseUser } from "../../types/postType.ts";
+import { ExtendedUser } from "../../types/postType.ts";
 import { axiosInstance } from "../../api/axiosInstance.ts";
 import { useNavigate } from "react-router";
 import Message from "./Message.tsx";
@@ -89,7 +89,7 @@ export default function SignUp() {
     });
   }
 
-  //닉네임 유효성 검사
+  //닉네임 중복 유효성 검사
   async function handleNickNameCheck() {
     if (value.nickName === "" || !valid.nickName) return;
 
@@ -97,7 +97,7 @@ export default function SignUp() {
       const response = await fetch(`${baseUrl}users/get-users`);
       const json = await response.json();
       const result = json.some(
-        (el: BaseUser) => el.fullName === value.nickName
+        (el: ExtendedUser) => el.username === value.nickName
       );
       console.log(json, result);
       if (result) {

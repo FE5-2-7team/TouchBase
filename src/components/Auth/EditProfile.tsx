@@ -19,6 +19,7 @@ import Swal from "sweetalert2";
 
 export default function EditProfile() {
   const navigate = useNavigate();
+  const [nickNameApiValid, setNickNameApiValid] = useState(false);
   const [value, setValue] = useState({
     nickName: {
       valid: false,
@@ -35,6 +36,7 @@ export default function EditProfile() {
   });
   const { nickName, password, checkPassword } = value;
   const user = userStore.getState().getUser() as ExtendedUser;
+  const myName = user.username;
 
   type FieldType = "nickName" | "checkPassword";
 
@@ -45,7 +47,10 @@ export default function EditProfile() {
   ) => {
     //input validation
     for (const keys in data) {
-      if (data[keys as keyof typeof data] == false) {
+      if (
+        data[keys as keyof typeof data] == false ||
+        nickName.content === myName
+      ) {
         Swal.fire({
           icon: "error",
           title: "변경 사항을 확인 해주세요.",
@@ -56,16 +61,18 @@ export default function EditProfile() {
     }
 
     try {
-      const response =
-        type === "nickName"
-          ? await axiosInstance.put("settings/update-user", {
-              fullName: user.fullName,
-              username: data.content,
-            })
-          : await axiosInstance.put("settings/update-password", {
-              password: data.content,
-            });
-      console.log(response);
+      let response;
+      if (type === "nickName") {
+        await handleNickNameCheck();
+        response = await axiosInstance.put("settings/update-user", {
+          fullName: user.fullName,
+          username: data.content,
+        });
+      } else {
+        response = await axiosInstance.put("settings/update-password", {
+          password: data.content,
+        });
+      }
       if (response.status !== 200) throw new Error();
 
       Swal.fire({
@@ -113,6 +120,7 @@ export default function EditProfile() {
     type: "nickName" | "email" | "password" | "checkPassword",
     value: UpdateValue
   ) {
+    setNickNameApiValid(false);
     const isValid = editValidation(e, type, value);
     // type이 부분 나중에 value key 값으로 대처하기
     if (type === "password") {
@@ -140,10 +148,26 @@ export default function EditProfile() {
     });
   }
 
+  async function handleNickNameCheck() {
+    if (nickName.content === "" || !nickName.valid) return;
+
+    const { data } = await axiosInstance(`/users/get-users`);
+    const result = data.some(
+      (el: ExtendedUser) => el.username === nickName.content
+    );
+
+    if (result) {
+      setNickNameApiValid(true);
+      throw new Error("중복 된 닉네임 입니다");
+    } else {
+      setNickNameApiValid(false);
+    }
+  }
+
   return (
     <>
       <div className="flex h-screen">
-        <div className="fixed top-0 left-0 z-10 min-w-[420px] h-screen w-[39%] flex justify-end shadow-[4px_0_10px_rgba(0,0,0,0.15)] dark:bg-[#262626] ">
+        <div className=" min-w-[420px] h-screen w-[39%] flex justify-end shadow-[4px_0_10px_rgba(0,0,0,0.15)] dark:bg-[#262626] ">
           <aside className="h-full w-[420px] border-x border-x-[#E4E4E4] px-[63px] py-[30px] flex flex-col items-center dark:bg-[#434343] dark:border-[#4F4F4F] dark:border-left">
             <Logo className="w-[156px] mb-[30px]" />
             <ProfileImage className="mb-[12px]" />
@@ -193,7 +217,7 @@ export default function EditProfile() {
           </aside>
         </div>
         <div
-          className="bg-[rgba(0,51,160,0.1)] flex flex-col justify-between h-full ml-[39%] w-[61%] min-w-[650px] px-[105px] py-[20px] font-sans bg-no-repeat bg-right-bottom dark:bg-[#262626]"
+          className="bg-[rgba(0,51,160,0.1)] flex flex-col justify-between h-full w-[61%] min-w-[650px] px-[105px] py-[20px] font-sans bg-no-repeat bg-right-bottom dark:bg-[#262626]"
           style={{ backgroundImage: `url(${watermark2})` }}
         >
           <div className="flex justify-end max-w-[650px]">
@@ -226,6 +250,7 @@ export default function EditProfile() {
               {nickName.content && !nickName.valid && (
                 <Message>공백 혹은 특수 문자는 넣으실 수 없습니다</Message>
               )}
+              {nickNameApiValid && <Message>중복된 닉네임 입니다</Message>}
             </div>
           </BlueBoard>
           <BlueBoard className="py-[25px] px-[23px] w-full h-[34%] flex flex-col justify-between max-w-[650px] bg-white">
