@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { axiosInstance } from "../../api/axiosInstance";
-import { BaseUser } from "../../types/postType";
+import { ExtendedUser } from "../../types/postType";
 
 type Props = {
-  onSelect: (user: BaseUser) => void;
+  onSelect: (user: ExtendedUser) => void;
 };
 export default function UserSearchInput({ onSelect }: Props) {
   const [keyword, setKeyword] = useState("");
-  const [results, setResults] = useState<BaseUser[]>([]);
+  const [results, setResults] = useState<ExtendedUser[]>([]);
 
   const searchInput = async () => {
     const res = await axiosInstance.get(`/search/users/${encodeURIComponent(keyword)}`);
@@ -35,13 +35,13 @@ export default function UserSearchInput({ onSelect }: Props) {
             <li
               key={user._id}
               onClick={() => {
-                setKeyword(user.fullName);
+                setKeyword(user.username as string);
                 setResults([]);
                 onSelect(user);
               }}
               className="text-lg line-clamp-1 my-2 ml-3 cursor-pointer overflow-scroll"
             >
-              {user.fullName}
+              {user.username}
             </li>
           );
         })}

@@ -29,7 +29,7 @@ export default function Upload({
   const [contents, setContents] = useState(contentValue || "");
   const [images, setImages] = useState<string | undefined>(imageValue);
   const [imageFiles, setImageFiles] = useState<File | null>(null);
-
+  const [isUploading, setIsUploading] = useState(false);
   const ImgInputRef = useRef<HTMLInputElement | null>(null);
 
   const ImgClickHandler = () => {
@@ -58,9 +58,14 @@ export default function Upload({
   };
 
   const postHandler = async () => {
-    await uploadThread();
-    refreshStore.getState().refetch();
-    UndoHandler();
+    try {
+      setIsUploading(true);
+      await uploadThread();
+      refreshStore.getState().refetch();
+      UndoHandler();
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   // 포스트 업데이트 api 호출
@@ -98,6 +103,15 @@ export default function Upload({
 
   return (
     <>
+      {isUploading && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
+          <div className="bg-white dark:bg-[#1e1e1e] text-black dark:text-white rounded-xl px-6 py-4 shadow-lg flex flex-col items-center">
+            <div className="loader mb-2" />
+            <p className="text-center">게시글 업로드 중..</p>
+          </div>
+        </div>
+      )}
+
       <div className="shadow-md w-full max-w-full md:max-w-[1200px] mx-auto rounded-[10px] border border-[#d9d9d9] dark:border-[#4c4c4c] flex flex-col">
         <div className="p-[24px] flex gap-[25px]">
           {/* 왼쪽 프로필 영역 */}
@@ -115,7 +129,7 @@ export default function Upload({
               type="text"
               value={title}
               onChange={(e) => {
-                if (e.target.value.length <= 70) setTitle(e.target.value);
+                if (e.target.value.length <= 20) setTitle(e.target.value);
               }}
               placeholder="제목을 입력해 주세요. (70자 이내)"
               className="text-[16px] border border-[#d9d9d9] dark:border-[#4c4c4c] mb-[10px] 

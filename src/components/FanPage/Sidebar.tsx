@@ -40,13 +40,13 @@ export default function Sidebar({ teamName, title, setTitle }: SidebarProps) {
       title: title,
       href: null,
       onClick: () => {
-        // const isPopularNow = title === "인기글";
         setTitle(isSortPage ? "인기글" : "최신글");
         nav(
           isSortPage
             ? `/fanpage/${teamName}/${channelId}`
             : `/fanpage/${teamName}/${channelId}?sort=like`
         );
+        window.scrollTo({ top: 0, behavior: "smooth" });
       },
     },
     { icon: <IoGift />, title: "구단 굿즈", href: "https://kbomarket.com/" },

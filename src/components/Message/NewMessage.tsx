@@ -60,7 +60,7 @@ export default function NewMessage() {
                       key={user._id}
                       className="my-3 pl-3 text-gray-800 cursor-pointer"
                       onClick={() => {
-                        setKeyword(user.username ? user.username : user.fullName);
+                        setKeyword(user.username as string);
                         setAllUsers([]);
                         setSeletedUser(user);
                         navigate(`/message/${user._id}`, {
@@ -68,7 +68,7 @@ export default function NewMessage() {
                         });
                       }}
                     >
-                      {user.username ? user.username : "익명의 유저"} / {user.fullName}
+                      {user.username ? user.username : "익명의 유저"}
                     </li>
                   ))}
                 </ul>
