@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import Upload from "../components/FanPage/Upload";
 import Sidebar from "../components/FanPage/Sidebar";
-import ThreadsList from "./../components/FanPage/ThreadsList";
 import { useParams, useNavigate, useLocation } from "react-router";
 import { userStore } from "../stores/userStore";
 import NewThreadList from "../components/FanPage/NewThreadList";
