@@ -116,7 +116,7 @@ export default function SignUp() {
     Swal.fire({
       icon: "error",
       title: "회원가입 실패",
-      text: "유효하지 않은 아이디 혹은 이메일, 비밀번호 입니다.",
+      text: "유효하지 않은 닉네임 혹은 이메일, 비밀번호 입니다.",
       confirmButtonText: "닫기",
     });
   };
