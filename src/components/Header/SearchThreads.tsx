@@ -68,7 +68,7 @@ export default function SearchThreads({ keyword, results, onClose }: SearchThrea
                     }}
                   >
                     <h4 className="ml-2 text-sm whitespace-nowrap truncate dark:text-white cursor-pointer">
-                      {post.postTitle ? post.postTitle : post.postContent}
+                      {post.postContent}
                     </h4>
                   </div>
                 );
