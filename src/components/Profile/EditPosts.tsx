@@ -146,7 +146,7 @@ export default function EditPosts({
               onChange={(e) => {
                 if (e.target.value.length <= 20) setTitle(e.target.value);
               }}
-              placeholder="제목을 입력해 주세요."
+              placeholder="제목을 입력해 주세요. (20자 이내)"
               className="text-[16px] border border-[#d9d9d9] dark:border-[#4c4c4c] mb-[10px] 
             w-full md:max-w-[1200px] h-[35px] rounded-[10px] px-4 py-1 
             box-border focus:border-[#0033a0] focus:outline-none"
@@ -213,7 +213,9 @@ export default function EditPosts({
 
               {/* 오른쪽 EDIT 버튼 */}
               <div className="flex items-center justify-end w-full">
-                <Button onClick={editHandler}>수정완료</Button>
+                <Button onClick={editHandler} disabled={!title.trim() && !contents.trim() && !images}>
+                  수정완료
+                </Button>
               </div>
             </div>
           </div>
