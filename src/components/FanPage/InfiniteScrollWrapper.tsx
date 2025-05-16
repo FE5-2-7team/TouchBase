@@ -17,7 +17,7 @@ const LIMIT = 10;
 
 export default function InfiniteScrollWrapper({
   channelId,
-  // refresh,
+  refresh,
   sortFn,
   userId,
 }: Props) {
@@ -76,7 +76,7 @@ export default function InfiniteScrollWrapper({
     setPosts([]);
     setOffset(0);
     setHasMore(true);
-  }, [channelId, isSortPage]);
+  }, [channelId, isSortPage, refresh]);
 
   // 최초 데이터 요청
   useEffect(() => {
