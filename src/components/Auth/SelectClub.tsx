@@ -5,9 +5,13 @@ import Button from "../FanPage/Button";
 import { userStore } from "../../stores/userStore";
 import Message from "./Message.tsx";
 import Swal from "sweetalert2";
+import { ExtendedUser } from "../../types/postType.ts";
+import { useNavigate } from "react-router";
 
 export default function SelectClub() {
   const [selectedValue, setSelectedValue] = useState("");
+  const user = userStore.getState().getUser() as ExtendedUser;
+  const navigate = useNavigate();
 
   const imageOptions = [
     { label: "구단 선택", value: "구단 선택", imageUrl: "" },
@@ -89,9 +93,10 @@ export default function SelectClub() {
       );
       Swal.fire({
         icon: "success",
-        title: "구단을 변경 했습니다",
+        title: "구단을 변경 했습니다.",
         confirmButtonText: "닫기",
       });
+      navigate(`/profile/${user._id}/posts`);
       userStore.getState().setUser(data);
     } catch (error) {
       console.log(error);
