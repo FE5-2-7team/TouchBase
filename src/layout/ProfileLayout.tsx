@@ -158,7 +158,6 @@ export default function ProfileLayout() {
                   <span className="lg:text-[20px] md:text-[18px] sm:text-[9px] font-bold md:mr-[10px] sm:mr-[6px]">
                     쪽지함
                   </span>
-                  {user?.messages.length}
                 </button>
               </NavLink>
             ) : (
