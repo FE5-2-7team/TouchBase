@@ -4,12 +4,17 @@ import { Post } from "../../types/postType";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
 import { userStore } from "../../stores/userStore";
+import ThreadSkeleton from "./ThreadSkeleton";
+
 export default function ThreadDetail() {
   const { postId, channelId } = useParams();
   const [posts, setPosts] = useState<Post[]>([]);
   const userId = userStore.getState().getUser()?._id;
+  const [isLoading, setIsLoading] = useState(true);
 
   const nav = useNavigate();
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -18,6 +23,8 @@ export default function ThreadDetail() {
         setPosts(postRes.data);
       } catch (error) {
         console.log("로드실패", error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchPosts();
@@ -27,8 +34,9 @@ export default function ThreadDetail() {
 
   return (
     <div className="flex flex-col gap-6">
-      {/* 피드들 */}
-      {filterDetail.length === 0 ? (
+      {isLoading ? (
+        <ThreadSkeleton />
+      ) : filterDetail.length === 0 ? (
         <div className="border border-gray-300 dark:border-[#4c4c4c] rounded-lg p-4 mb-6 bg-white dark:bg-[#191A1E] shadow-sm text-center">
           <p className="mb-4 text-gray-700 dark:text-[#fff] font-semibold">
             삭제된 피드입니다.
