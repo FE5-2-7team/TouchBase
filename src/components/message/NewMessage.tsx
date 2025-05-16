@@ -68,8 +68,7 @@ export default function NewMessage() {
                         });
                       }}
                     >
-                      {user.username ? user.username : "이름없음"} /{" "}
-                      {user.fullName ? user.fullName : ""}
+                      {user.username ? user.username : "익명의 유저"} / {user.fullName}
                     </li>
                   ))}
                 </ul>
