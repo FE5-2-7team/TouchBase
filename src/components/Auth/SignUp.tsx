@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 import { inputValidation } from "./inputValidation.ts";
 import { SignUpValue } from "../../types/userTypes.ts";
 import { login } from "../../api/auth";
+import { AxiosError } from "axios";
 
 export default function SignUp() {
   const baseUrl = import.meta.env.VITE_API_URL;
@@ -115,7 +116,7 @@ export default function SignUp() {
     Swal.fire({
       icon: "error",
       title: "회원가입 실패",
-      text: "유효하지 않은 아이디 혹은 이메일, 비밀번호 입니다 ",
+      text: "유효하지 않은 아이디 혹은 이메일, 비밀번호 입니다.",
       confirmButtonText: "닫기",
     });
   };
@@ -139,10 +140,8 @@ export default function SignUp() {
         password: value.password.toLocaleLowerCase().trim(),
       });
 
-      console.log(response.data);
-
-      //로그인 기능
       if (response.status === 200) {
+        //로그인 기능
         const res = await login({
           email: value.email,
           password: value.password,
@@ -152,8 +151,20 @@ export default function SignUp() {
         navigate("/");
       }
     } catch (error) {
-      console.log(error);
-      showValidationErrorAlert();
+      const axiosError = error as AxiosError<string>;
+
+      if (
+        axiosError.response?.data === "The email address is already being used."
+      ) {
+        Swal.fire({
+          icon: "error",
+          title: "회원가입 실패",
+          text: "중복된 이메일 입니다.",
+          confirmButtonText: "닫기",
+        });
+      } else {
+        showValidationErrorAlert();
+      }
     }
   }
 
@@ -181,7 +192,7 @@ export default function SignUp() {
                 중복 확인
               </Button>
               {value.nickName && !valid.nickName && (
-                <Message>공백 혹은 특수 문자는 사용하실 수 없습니다</Message>
+                <Message>공백 혹은 특수 문자는 사용할 수 없습니다</Message>
               )}
               {nickNameValid && (
                 <Message className="text-green-500">

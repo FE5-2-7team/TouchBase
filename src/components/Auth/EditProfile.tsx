@@ -45,9 +45,15 @@ export default function EditProfile() {
   ) => {
     //input validation
     for (const keys in data) {
-      if (data[keys as keyof typeof data] == false) return;
+      if (data[keys as keyof typeof data] == false) {
+        Swal.fire({
+          icon: "error",
+          title: "변경 사항을 확인 해주세요.",
+          confirmButtonText: "닫기",
+        });
+        return;
+      }
     }
-    console.log(data.content);
 
     try {
       const response =
@@ -64,7 +70,7 @@ export default function EditProfile() {
 
       Swal.fire({
         icon: "success",
-        title: "수정이 완료 됐습니다",
+        title: "수정이 완료 됐습니다.",
         confirmButtonText: "닫기",
       });
       if (type === "checkPassword") {
@@ -76,7 +82,7 @@ export default function EditProfile() {
     } catch (err) {
       Swal.fire({
         icon: "error",
-        title: "수정을 실패 했습니다",
+        title: "수정을 실패 했습니다.",
         confirmButtonText: "닫기",
       });
       console.log(err);
