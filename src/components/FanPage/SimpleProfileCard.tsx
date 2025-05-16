@@ -103,7 +103,7 @@ export default function SimpleProfileCard({ loginUserId, author }: ProfileCardPr
               </div>
             )}
           </div>
-          <div className="text-[12px] text-center font-bold w-[70px] truncate">{author.username || "undefined"}</div>
+          <div className="text-[12px] text-center font-bold w-[70px] truncate">{author.username || "익명의 유저"}</div>
         </div>
       </Link>
 

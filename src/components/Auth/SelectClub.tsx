@@ -99,13 +99,15 @@ export default function SelectClub() {
   };
   return (
     <>
-      <BlueBoard className="py-[25px] px-[23px] w-full max-w-[650px] bg-white mt-[20px] relative mb-[30px]">
-        <h2 className="dark:text-white text-[16px] text-[#464646] mb-[7px]">
-          구단 변경
-        </h2>
-        <p className="dark:text-[#BABABA] text-[14px] text-[#6D6D6D] mb-[48px] font-medium">
-          응원하는 구단을 선택해 주세요
-        </p>
+      <BlueBoard className="py-[25px] px-[23px] w-full h-[25%] flex flex-col justify-between max-w-[650px] bg-white relative">
+        <div>
+          <h2 className="dark:text-white text-[16px] text-[#464646] mb-[7px]">
+            구단 변경
+          </h2>
+          <p className="dark:text-[#BABABA] text-[14px] text-[#6D6D6D] font-medium">
+            응원하는 구단을 선택해 주세요
+          </p>
+        </div>
         <div className="flex gap-[44px] justify-between">
           <select
             onChange={(e) => {

@@ -11,28 +11,11 @@ export interface UserStore {
 }
 
 export type SignUpValue = {
-  // nickName?: string;
-  // email?: string;
-  // password?: string;
-  // name?: string;
-  // checkPassword?: string;
   [type: string]: string;
 };
 
-export type SignUpValue1 = {
-  name?: {
-    valid: boolean;
-    content: string;
-  };
-  email?: {
-    valid: boolean;
-    content: string;
-  };
-  password?: {
-    valid: boolean;
-    content: string;
-  };
-  checkPassword?: {
+export type UpdateValue = {
+  [type: string]: {
     valid: boolean;
     content: string;
   };
