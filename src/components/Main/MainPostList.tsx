@@ -51,7 +51,9 @@ export default function MainPostList({
                   </div>
                   <div>{item.channel.name}</div>
                 </>
-                <div className="hover:underline">{parseIfJson(item.title)}</div>
+                <div className="hover:underline whitespace-nowrap overflow-hidden text-ellipsis w-[70%]">
+                  {parseIfJson(item.title)}
+                </div>
               </div>
             </Link>
           ))}
