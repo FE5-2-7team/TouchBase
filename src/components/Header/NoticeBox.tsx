@@ -22,9 +22,11 @@ export default function NoticeBox({
   const myId = userStore.getState().getUser()?._id;
 
   const getAlertMessage = (a: Alert) => {
+    const authorName = a.author.username;
     if (!a) return;
-    if (a.author._id === myId) return;
-    const sender = a.author.username ? a.author.username : "익명의 유저";
+    if (authorName === myId) return;
+    if (a.comment?.author === myId) return;
+    const sender = authorName ? authorName : "익명의 유저";
 
     if (a.message) return `${sender}님이 쪽지를 보냈습니다.`;
     if (a.follow) return `${sender}님이 당신을 팔로우 했습니다.`;
