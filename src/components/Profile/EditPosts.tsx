@@ -30,7 +30,7 @@ export default function EditPosts({
 }: EditProps) {
   const userId = userStore.getState().getUser()?._id;
   const { user } = useGetUser(userId!);
-  const userName = user?.username || "undefined";
+  const userName = user?.username || "익명의 유저";
 
   const [title, setTitle] = useState(titleValue || "");
   const [contents, setContents] = useState(contentValue || "");

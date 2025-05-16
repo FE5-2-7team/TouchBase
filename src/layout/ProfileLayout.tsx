@@ -113,7 +113,7 @@ export default function ProfileLayout() {
 
         <div className="col-span-2">
           <div className="lg:text-[24px] md:text-[21px] font-bold sm:text-[13px] mb-[12px]">
-            {user?.username || "undefined"}
+            {user?.username || "익명의 유저"}
           </div>
           <div className="flex flex-start w-[580px] lg:gap-[70px] md:gap-[40px] sm:gap-[40px] mt-[7px] md:mb-[14px] sm:mb-[5px]">
             <NavLink

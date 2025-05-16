@@ -79,7 +79,7 @@ export default function FollowCard({ followId }: { followId: string }) {
           />
         </div>
         <div className="text-[16px] text-[#6D6D6D] dark:text-[#FFFFFF] w-[170px] ml-[10px]">
-          {userDetails?.username || "undefined"}
+          {userDetails?.username || "익명의 유저"}
         </div>
       </Link>
 
