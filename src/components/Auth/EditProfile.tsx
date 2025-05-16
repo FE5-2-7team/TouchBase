@@ -148,6 +148,7 @@ export default function EditProfile() {
     });
   }
 
+  //중복 유효성
   async function handleNickNameCheck() {
     if (nickName.content === "" || !nickName.valid) return;
 
