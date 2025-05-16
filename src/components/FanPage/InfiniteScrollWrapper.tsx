@@ -131,7 +131,7 @@ export default function InfiniteScrollWrapper({
           <Threads
             key={post._id}
             postId={post._id}
-            username={post.author.username ?? post.author.fullName}
+            username={post.author.username ?? "익명의 유저"}
             postUserId={post.author._id}
             author={post.author}
             title={postTitle}

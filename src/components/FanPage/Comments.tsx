@@ -144,7 +144,7 @@ export default function Comments({
                 <span className="font-semibold">
                   {comment.author.username
                     ? comment.author.username
-                    : comment.author.fullName}
+                    : "익명의 유저"}
                 </span>
                 {/* 댓글 본문 + 날짜 + 삭제 */}
                 <div className="flex justify-between items-center w-full">
