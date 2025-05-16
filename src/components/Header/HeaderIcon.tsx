@@ -19,7 +19,11 @@ export type Boxtype = "userMenu" | "notice" | "search" | null;
 export type Alert = {
   _id: string;
   seen: boolean;
-  author: BaseUser;
+  author: {
+    _id: string;
+    username: string;
+    fullname: string;
+  };
   user: BaseUser;
   post: string;
   like?: {
