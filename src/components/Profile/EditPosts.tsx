@@ -30,7 +30,7 @@ export default function EditPosts({
 }: EditProps) {
   const userId = userStore.getState().getUser()?._id;
   const { user } = useGetUser(userId!);
-  const userName = user?.username ? user.username : user?.fullName;
+  const userName = user?.username || "undefined";
 
   const [title, setTitle] = useState(titleValue || "");
   const [contents, setContents] = useState(contentValue || "");
@@ -109,7 +109,7 @@ export default function EditPosts({
         <div className="shadow-md w-full max-w-full md:max-w-[1200px] mx-auto rounded-[10px] border border-[#d9d9d9]  dark:border-gray-700 flex flex-col">
           <div className="p-[24px] flex gap-[25px]">
             <div className="flex-shrink-0 self-start">
-              {userName && <ProfileBlock username={userName} imageUrl={user?.image} />}
+              <ProfileBlock username={userName} imageUrl={user?.image} />
             </div>
             <div className="flex flex-col w-full">
               <div className="mb-[10px] w-full md:max-w-[1200px] h-[35px] rounded-[10px] px-4 py-1 bg-gray-200 dark:bg-gray-700"></div>
@@ -134,7 +134,7 @@ export default function EditPosts({
           {/* 왼쪽 프로필 영역 */}
 
           <div className="flex-shrink-0 self-start">
-            {userName && <ProfileBlock username={userName} imageUrl={user?.image} />}
+            <ProfileBlock username={userName} imageUrl={user?.image} />
           </div>
 
           {/* 오른쪽 입력 영역 */}

@@ -108,7 +108,7 @@ export default function LogIn() {
                 </label>
               </div>
             </div>
-            <Button>로그인</Button>
+            <Button className="dark:bg-[#235BD2]">로그인</Button>
           </form>
           <div className="border-b my-[18px] border-[#0033A0] dark:border-[#fff]"></div>
           <Button className="text-black bg-[#FF9500]">

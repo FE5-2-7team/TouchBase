@@ -1,11 +1,13 @@
+import { useEffect } from "react";
 import { MdClose } from "react-icons/md";
 import { Alert } from "./HeaderIcon";
 import { useNavigate } from "react-router";
 import { axiosInstance } from "../../api/axiosInstance";
 import { useChannelStore } from "../../stores/channelStore";
+import { userStore } from "../../stores/userStore";
 
 const alertList =
-  "border-b border-gray-200 py-1.5 cursor-pointer hover:underline hover:underline-offset-3";
+  "border-b border-gray-200 last:border-0 w-76 py-1 cursor-pointer hover:underline hover:underline-offset-2 relative";
 
 export default function NoticeBox({
   onClose,
@@ -17,8 +19,12 @@ export default function NoticeBox({
   setAlerts: React.Dispatch<React.SetStateAction<Alert[]>>;
 }) {
   const navigate = useNavigate();
+  const myId = userStore.getState().getUser()?._id;
+
   const getAlertMessage = (a: Alert) => {
-    const sender = a.author?.fullName;
+    if (!a) return;
+    if (a.author._id === myId) return;
+    const sender = a.username;
 
     if (a.message) return `${sender}님이 쪽지를 보냈습니다.`;
     if (a.follow) return `${sender}님이 당신을 팔로우 했습니다.`;
@@ -29,42 +35,50 @@ export default function NoticeBox({
   const handleAlertClick = async (alert: Alert) => {
     if (!alert.author) return;
 
-    try {
-      await axiosInstance.put("/notifications/seen");
+    const prev = JSON.parse(localStorage.getItem("alertId") || "[]");
+    const updated = [...new Set([...prev, alert._id])];
+    localStorage.setItem("alertId", JSON.stringify(updated));
+    console.log(prev);
+    console.log(updated);
+    setAlerts((prev) => prev.map((a) => (a._id === alert._id ? { ...a, seen: true } : a)));
 
-      setAlerts((prev) => prev.map((a) => ({ ...a, seen: true })));
+    if (alert.message) {
+      navigate(`/message/${alert.author._id}`, {
+        state: {
+          selectedUser: alert.author,
+        },
+      });
+    }
+    if (alert.like) {
+      const channelId = alert.like?.post.channel;
+      const teamName = useChannelStore.getState().getChannelName(channelId as string);
+      const postId = alert.like.post._id;
 
-      if (alert.message) {
-        navigate(`/message/${alert.author._id}`, {
-          state: {
-            selectedUser: alert.author,
-          },
-        });
-      }
-      if (alert.like) {
-        const channelId = alert.like?.post.channel;
-        const teamName = useChannelStore.getState().getChannelName(channelId as string);
-        const postId = alert.like.post._id;
+      navigate(`/fanpage/${teamName}/${channelId}/${postId}`);
+    }
+    if (alert.comment) {
+      const channelId = alert.comment?.post.channel;
+      const teamName = useChannelStore.getState().getChannelName(channelId);
+      const postId = alert.comment?.post._id;
 
-        navigate(`/fanpage/${teamName}/${channelId}/${postId}`);
-      }
-      if (alert.comment) {
-        const channelId = alert.comment?.post.channel;
-        const teamName = useChannelStore.getState().getChannelName(channelId);
-        const postId = alert.comment?.post._id;
-
-        navigate(`/fanpage/${teamName}/${channelId}/${postId}`);
-      }
-      if (alert.follow) {
-        navigate(`/profile/${alert.author._id}/posts`);
-      }
-    } catch (err) {
-      console.error("읽음 처리 실패", err);
+      navigate(`/fanpage/${teamName}/${channelId}/${postId}`);
+    }
+    if (alert.follow) {
+      navigate(`/profile/${alert.author._id}/posts`);
     }
   };
+
+  useEffect(() => {
+    const allSeen = alerts.length > 0 && alerts.every((a) => a.seen);
+    if (!allSeen) {
+      axiosInstance.put("/notifications/seen").catch((err) => {
+        console.error("알림 읽음 실패", err);
+      });
+    }
+  }, [alerts]);
   return (
     <>
-      <div className="w-86 h-auto pb-2 bg-white border border-gray-200 rounded-md ">
+      <div className="w-86 h-auto pb-1.5 bg-white border border-gray-200 rounded-md ">
         <button>
           <MdClose onClick={onClose} className="absolute w-5 h-5 right-2 top-2 cursor-pointer" />
         </button>
@@ -74,11 +88,19 @@ export default function NoticeBox({
           </div>
         ) : (
           <div className="mx-4">
-            {alerts.slice(0, 6).map((a) => (
-              <div key={a._id} className={alertList} onClick={() => handleAlertClick(a)}>
-                {getAlertMessage(a)}
-              </div>
-            ))}
+            {alerts
+              .filter(
+                (a) => a.author?._id !== myId && (a.message || a.follow || a.comment || a.like)
+              )
+              .slice(0, 6)
+              .map((a) => (
+                <div key={a._id} className={alertList} onClick={() => handleAlertClick(a)}>
+                  <div className="truncate pr-5">{getAlertMessage(a)}</div>
+                  {!a.seen && (
+                    <span className="absolute top-2.5 right-1 text-red-500 text-[8px]">●</span>
+                  )}
+                </div>
+              ))}
           </div>
         )}
       </div>
