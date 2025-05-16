@@ -20,6 +20,9 @@ export default function NoticeBox({
 }) {
   const navigate = useNavigate();
   const myId = userStore.getState().getUser()?._id;
+  const visibleAlerts = alerts
+    .filter((a) => a.author?._id !== myId && (a.message || a.follow || a.comment || a.like))
+    .slice(0, 6);
 
   const getAlertMessage = (a: Alert) => {
     const authorName = a.author.username;
@@ -81,25 +84,20 @@ export default function NoticeBox({
         <button>
           <MdClose onClick={onClose} className="absolute w-5 h-5 right-2 top-2 cursor-pointer" />
         </button>
-        {alerts.length === 0 ? (
+        {visibleAlerts.length === 0 ? (
           <div className="mx-4">
-            <p>새로운 알림이 없습니다.</p>
+            <p>표시할 알림이 없습니다.</p>
           </div>
         ) : (
           <div className="mx-4">
-            {alerts
-              .filter(
-                (a) => a.author?._id !== myId && (a.message || a.follow || a.comment || a.like)
-              )
-              .slice(0, 6)
-              .map((a) => (
-                <div key={a._id} className={alertList} onClick={() => handleAlertClick(a)}>
-                  <div className="truncate pr-5">{getAlertMessage(a)}</div>
-                  {!a.seen && (
-                    <span className="absolute top-2.5 right-1 text-red-500 text-[8px]">●</span>
-                  )}
-                </div>
-              ))}
+            {visibleAlerts.map((a) => (
+              <div key={a._id} className={alertList} onClick={() => handleAlertClick(a)}>
+                <div className="truncate pr-5">{getAlertMessage(a)}</div>
+                {!a.seen && (
+                  <span className="absolute top-2.5 right-1 text-red-500 text-[8px]">●</span>
+                )}
+              </div>
+            ))}
           </div>
         )}
       </div>
