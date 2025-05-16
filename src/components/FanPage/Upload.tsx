@@ -22,7 +22,7 @@ export default function Upload({
 }: UploadProps) {
   const { channelId } = useParams();
   const userName = userStore.getState().getUser()?.username;
-  const userFullName = userStore.getState().getUser()?.fullName;
+  // const userFullName = userStore.getState().getUser()?.fullName;
   const currentUser = userStore.getState().getUser();
 
   const [title, setTitle] = useState(titleValue || "");
@@ -58,8 +58,6 @@ export default function Upload({
   };
 
   const postHandler = async () => {
-    // if (!title.trim() && !contents.trim()) return;
-
     await uploadThread();
     refreshStore.getState().refetch();
     UndoHandler();
@@ -105,7 +103,7 @@ export default function Upload({
           {/* 왼쪽 프로필 영역 */}
           <div className="flex-shrink-0 self-start">
             <ProfileBlock
-              username={userName ? userName : userFullName}
+              username={userName ? userName : "익명의 유저"}
               imageUrl={currentUser?.image}
             />
           </div>
@@ -116,8 +114,10 @@ export default function Upload({
             <input
               type="text"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="제목을 입력해 주세요."
+              onChange={(e) => {
+                if (e.target.value.length <= 70) setTitle(e.target.value);
+              }}
+              placeholder="제목을 입력해 주세요. (70자 이내)"
               className="text-[16px] border border-[#d9d9d9] dark:border-[#4c4c4c] mb-[10px] 
             w-full md:max-w-[1200px] h-[35px] rounded-[10px] px-4 py-1 
             box-border focus:border-[#0033A0] dark:focus:border-[#235bd2] focus:outline-none"

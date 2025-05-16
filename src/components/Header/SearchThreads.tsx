@@ -11,8 +11,9 @@ type SearchThreadProps = {
 type ParsedPost = {
   _id: string;
   channel: Channel;
-  title: string;
   teamName: string;
+  postTitle: string;
+  postContent: string;
 };
 
 export default function SearchThreads({ keyword, results, onClose }: SearchThreadProps) {
@@ -32,7 +33,8 @@ export default function SearchThreads({ keyword, results, onClose }: SearchThrea
               allParsed.push({
                 _id: post._id,
                 channel: post.channel,
-                title: item.postTitle,
+                postTitle: item.postTitle,
+                postContent: item.postContent,
                 teamName: post.channel.name ?? "undefined",
               });
             });
@@ -65,7 +67,9 @@ export default function SearchThreads({ keyword, results, onClose }: SearchThrea
                       navigate(`/fanpage/${teamName}/${channelId}/${post._id}`);
                     }}
                   >
-                    <h4 className="ml-2 text-sm dark:text-white cursor-pointer">{post.title}</h4>
+                    <h4 className="ml-2 text-sm whitespace-nowrap truncate dark:text-white cursor-pointer">
+                      {post.postTitle ? post.postTitle : post.postContent}
+                    </h4>
                   </div>
                 );
               })

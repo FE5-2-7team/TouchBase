@@ -11,12 +11,11 @@ export default function SearchUser({
   onClose: () => void;
 }) {
   const filterUsers = results.filter((user: ExtendedUser) => {
-    const trimkeyword = keyword?.toLowerCase().trim();
+    const trimkeyword = keyword?.trim().toLowerCase();
 
-    const username = (user.username ?? "").toLowerCase().trim() || "";
-    const fullName = (user.fullName ?? "").toLowerCase().trim() || "";
+    const username = (user.username ?? "").trim().toLowerCase() || "";
 
-    return username.includes(trimkeyword) || fullName.includes(trimkeyword);
+    return username.includes(trimkeyword);
   });
 
   return (
@@ -27,11 +26,7 @@ export default function SearchUser({
             filterUsers.map((user) => {
               console.log(user._id);
               return (
-                <div
-                  key={user._id}
-                  className="user-card flex my-3 mx-6"
-                  onClick={() => {}}
-                >
+                <div key={user._id} className="user-card flex my-3 mx-6" onClick={() => {}}>
                   {user.image ? (
                     <img
                       src={user.image}
@@ -48,7 +43,7 @@ export default function SearchUser({
                     onClick={onClose}
                     className="mt-2 text-md cursor-pointer whitespace-nowrap dark:text-white"
                   >
-                    {user.username ? user.username : user.fullName}
+                    {user.username ? user.username : "익명의 유저"}
                   </Link>
                 </div>
               );

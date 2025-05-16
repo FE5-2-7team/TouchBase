@@ -7,6 +7,7 @@ export interface MessageType {
 export interface Sender {
   _id: string;
   fullName: string;
+  username: string;
 }
 
 export type MessageMode = "write" | "received" | "sent" | "reply";

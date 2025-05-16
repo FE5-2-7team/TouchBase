@@ -7,7 +7,7 @@ import { axiosInstance } from "../api/axiosInstance";
 import { useEffect, useState } from "react";
 import { useChannelStore } from "../stores/channelStore";
 
-const liItemStyle = "justify-center cursor-pointer whitespace-nowrap ";
+const liItemStyle = "justify-center cursor-pointer whitespace-nowrap";
 const liImgStyle = "mr-1 h-7 w-7 lg:mr-2";
 
 type Channel = {

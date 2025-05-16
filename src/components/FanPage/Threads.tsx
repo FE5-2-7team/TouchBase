@@ -212,12 +212,14 @@ export default function Threads({
         </div>
 
         {/* 본문 내용 */}
-        <div className="flex flex-col w-full justify-center">
-          <div className="flex items-center gap-2 text-[16px] font-semibold mb-[10px]">
+        <div className="flex flex-col w-full md:max-w-[990px] justify-center break-words">
+          <div className="flex items-center gap-2 text-[16px] font-semibold mb-[10px] w-full">
             <span>{title}</span>
             <span className="text-[14px] text-[#ababab]">{date}</span>
           </div>
-          <div className="text-[16px] mb-[10px]">{content}</div>
+          <div className="text-[16px] mb-[10px] w-full break-all md:whitespace-pre-wrap">
+            {content}
+          </div>
           {/* 이미지가 있을 때만 보여주기 */}
           {images && (
             <div className="flex gap-2 flex-wrap mb-2">

@@ -17,7 +17,7 @@ const LIMIT = 10;
 
 export default function InfiniteScrollWrapper({
   channelId,
-  // refresh,
+  refresh,
   sortFn,
   userId,
 }: Props) {
@@ -76,7 +76,7 @@ export default function InfiniteScrollWrapper({
     setPosts([]);
     setOffset(0);
     setHasMore(true);
-  }, [channelId, isSortPage]);
+  }, [channelId, isSortPage, refresh]);
 
   // 최초 데이터 요청
   useEffect(() => {
@@ -131,7 +131,7 @@ export default function InfiniteScrollWrapper({
           <Threads
             key={post._id}
             postId={post._id}
-            username={post.author.username ?? post.author.fullName}
+            username={post.author.username ?? "익명의 유저"}
             postUserId={post.author._id}
             author={post.author}
             title={postTitle}
