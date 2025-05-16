@@ -83,7 +83,7 @@ export default function SimpleProfileCard({ loginUserId, author }: ProfileCardPr
           <div className="flex items-center justify-center">
             {author.image ? (
               <div className="relative w-[60px] h-[60px]">
-                <img src={author.image} alt="profile" className="w-full h-full rounded-full" />
+                <img src={author.image} alt="profile" className="w-full h-full rounded-full object-cover" />
                 <div
                   className={twMerge(
                     "absolute w-[9px] h-[9px] right-[1px] top-[5px] rounded-[100px] bg-[#00FF1E] dark:border dark:border-[#0033A0]",
