@@ -64,7 +64,13 @@ export default function Header() {
                       : ""
                   }`}
                 >
-                  {logoList && <img src={logoList.logo} className={liImgStyle} alt={channel._id} />}
+                  {logoList && (
+                    <img
+                      src={logoList.logo}
+                      className={liImgStyle}
+                      alt={channel._id}
+                    />
+                  )}
                   <p className="md:text-lg sm:text-sm">{channel.name}</p>
                 </Link>
               </li>
