@@ -159,7 +159,7 @@ export default function EditProfile() {
 
     if (result) {
       setNickNameApiValid(true);
-      throw new Error("중복 된 닉네임 입니다");
+      throw new Error("중복된 닉네임 입니다");
     } else {
       setNickNameApiValid(false);
     }
@@ -230,8 +230,8 @@ export default function EditProfile() {
                 닉네임 변경
               </h2>
               <p className="text-[14px] text-[#6D6D6D] font-medium dark:text-[#BABABA]">
-                닉네임는 공백을 제외 한 소문자 영문, 한글, 숫자만 사용할 수
-                있습니다
+                닉네임은 공백을 제외한 1~8 내외의 소문자 영문, 한글, 숫자만
+                사용할 수 있습니다
               </p>
             </div>
             <div className="flex gap-[44px] justify-between relative">
@@ -249,7 +249,9 @@ export default function EditProfile() {
                 변경하기
               </Button>
               {nickName.content && !nickName.valid && (
-                <Message>공백 혹은 특수 문자는 넣으실 수 없습니다</Message>
+                <Message>
+                  공백 혹은 특수 문자, 영문 대문자는 넣으실 수 없습니다
+                </Message>
               )}
               {nickNameApiValid && <Message>중복된 닉네임 입니다</Message>}
             </div>
