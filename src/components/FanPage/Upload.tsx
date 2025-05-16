@@ -129,7 +129,7 @@ export default function Upload({
               type="text"
               value={title}
               onChange={(e) => {
-                if (e.target.value.length <= 70) setTitle(e.target.value);
+                if (e.target.value.length <= 20) setTitle(e.target.value);
               }}
               placeholder="제목을 입력해 주세요. (70자 이내)"
               className="text-[16px] border border-[#d9d9d9] dark:border-[#4c4c4c] mb-[10px] 

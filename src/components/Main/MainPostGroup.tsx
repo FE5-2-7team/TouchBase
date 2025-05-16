@@ -3,6 +3,7 @@ import MainPostList from "./MainPostList";
 import axios from "axios";
 import { KBONewsTypes, Post } from "../../types/postType";
 import MainTitle from "./MainTitle";
+import { useNewAndHotPostStore } from "../../stores/newAndHotPostStore";
 
 const NEW_POST_API_URL = import.meta.env.VITE_API_NEW_POST;
 const HOT_POST_API_URL = import.meta.env.VITE_API_HOT_POST;
@@ -34,6 +35,7 @@ const SkeletonList = ({
 );
 
 export default function MainPostGroup() {
+  const { setNewPostList, setHotPostList } = useNewAndHotPostStore();
   const [isLoading, setIsLoading] = useState(true);
   const [newPost, setNewPost] = useState<Post[]>([]);
   const [hotPost, setHotPost] = useState<Post[]>([]);
@@ -62,6 +64,7 @@ export default function MainPostGroup() {
           updateOptimisticNewPost(res.data);
         });
         setNewPost(res.data);
+        setNewPostList(res.data);
       } else {
         console.error("Error fetching new post:", res.status);
       }
@@ -78,6 +81,7 @@ export default function MainPostGroup() {
           updateOptimisticHotPost(res.data);
         });
         setHotPost(res.data);
+        setHotPostList(res.data);
       } else {
         console.error("Error fetching hot post:", res.status);
       }

@@ -17,6 +17,7 @@ export default function ThreadDetail() {
   window.scrollTo({ top: 0, behavior: "smooth" });
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchPosts = async () => {
       try {
         const postRes = await axiosInstance.get(`/posts/channel/${channelId}`);
