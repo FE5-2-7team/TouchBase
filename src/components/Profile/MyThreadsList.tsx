@@ -51,7 +51,7 @@ export default function MyThreadsList() {
             <Threads
               key={post._id}
               postId={post._id}
-              username={post.author?.username || "undefined"}
+              username={post.author?.username || "익명의 유저"}
               postUserId={post.author._id}
               author={post.author}
               title={postTitle}
