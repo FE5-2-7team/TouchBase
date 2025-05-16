@@ -1,4 +1,4 @@
-import MessageSidebar from "../components/Message/MessageSidebar";
+import MessageSidebar from "../components/MessageComponent/MessageSidebar";
 import { Outlet } from "react-router";
 
 export default function MessagePage() {
