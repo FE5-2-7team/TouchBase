@@ -5,6 +5,7 @@ import { Comment, ExtendedUser } from "../../types/postType";
 import { axiosInstance } from "../../api/axiosInstance";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { userStore } from "../../stores/userStore";
+import { Link } from "react-router";
 interface CommentsProps {
   author: ExtendedUser;
   postId: string;
@@ -98,6 +99,10 @@ export default function Comments({
     return `${yy}.${mm}.${dd} ${hh}:${min}`;
   };
 
+  const navigateHandler = () => {
+    window.scrollTo(0, 0);
+  };
+
   return (
     <div className="flex flex-col gap-3 mt-2">
       {/* 댓글 입력 */}
@@ -129,7 +134,12 @@ export default function Comments({
         {Array.isArray(commentList) &&
           commentList.map((comment) => (
             <div key={comment._id} className="flex items-center gap-2 w-full">
-              <ProfileImage size={32} authorId={comment.author._id} />
+              <Link
+                to={`/profile/${comment.author._id}/posts`}
+                onClick={navigateHandler}
+              >
+                <ProfileImage size={32} authorId={comment.author._id} />
+              </Link>
               <div className="flex flex-col w-full">
                 <span className="font-semibold">
                   {comment.author.username
