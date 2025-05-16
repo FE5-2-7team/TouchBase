@@ -3,7 +3,6 @@ import { axiosInstance } from "../../api/axiosInstance";
 import { CgBell } from "react-icons/cg";
 import { MdDarkMode, MdPerson, MdSearch, MdLightMode } from "react-icons/md";
 import { useDarkMode } from "../../hooks/useDarkMode";
-
 import UserMenu from "./UserMenu";
 import NoticeBox from "./NoticeBox";
 import SearchBox from "./SearchBox";

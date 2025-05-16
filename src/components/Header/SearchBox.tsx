@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { MdSearch, MdClose } from "react-icons/md";
 import { axiosInstance } from "../../api/axiosInstance";
 import Swal from "sweetalert2";
-import "animate.css";
 import SearchThreads from "./SearchThreads";
 import SearchUser from "./SearchUser";
 import UserRecommend from "./UserRecommend";
@@ -31,20 +30,6 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
         position: "bottom",
         timer: 1500,
         showConfirmButton: false,
-        showClass: {
-          popup: `
-                  animate__animated
-                  animate__fadeInUp
-                  animate__faster
-                `,
-        },
-        hideClass: {
-          popup: `
-                  animate__animated
-                  animate__fadeOutDown
-                  animate__faster
-                `,
-        },
       });
       return;
     }

@@ -62,7 +62,7 @@ export default function ThreadRecommends({ onClose }: { onClose: () => void }) {
             >
               <div>
                 <h4 className="ml-2 text-sm whitespace-nowrap truncate dark:text-white cursor-pointer">
-                  {post.postTitle ? post.postTitle : post.postContent}
+                  {post.postContent ? post.postContent : "제목 없음"}
                 </h4>
               </div>
             </div>
