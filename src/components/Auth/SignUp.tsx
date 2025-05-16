@@ -14,8 +14,6 @@ import { login } from "../../api/auth";
 import { AxiosError } from "axios";
 
 export default function SignUp() {
-  const baseUrl = import.meta.env.VITE_API_URL;
-
   const navigate = useNavigate();
 
   const [value, setValue] = useState({
@@ -91,15 +89,15 @@ export default function SignUp() {
 
   //닉네임 중복 유효성 검사
   async function handleNickNameCheck() {
+    console.log("동작 합니다");
     if (value.nickName === "" || !valid.nickName) return;
 
     try {
-      const response = await fetch(`${baseUrl}users/get-users`);
-      const json = await response.json();
-      const result = json.some(
+      const { data } = await axiosInstance(`/users/get-users`);
+      const result = data.some(
         (el: ExtendedUser) => el.username === value.nickName
       );
-      console.log(json, result);
+      console.log(result);
       if (result) {
         setNickNameValid(false);
         setNickNameApiValid(true);
