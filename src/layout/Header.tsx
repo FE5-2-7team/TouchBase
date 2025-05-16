@@ -44,7 +44,6 @@ export default function Header() {
             <img
               src={tb_w_logo}
               alt="PC버전 로고"
-              onClick={() => window.scrollTo(0, 0)}
               className="md:w-60 md:h-12 md:ml-[120px] sm:ml-0 mt-5 md:mt-4 sm:w-50 h-9 ml-6 cursor-pointer hiddenHeader"
             />
           </Link>
@@ -59,7 +58,6 @@ export default function Header() {
               <li key={channel._id} className={liItemStyle}>
                 <Link
                   to={`/fanpage/${channel.name}/${channel._id}`}
-                  onClick={() => window.scrollTo(0, 0)}
                   className={`flex items-center justify-center hover:text-[#ff9500] hover:underline hover:underline-offset-7 hover:decoration-2 ${
                     location.pathname.includes(channel._id)
                       ? "text-[#ff9500] underline underline-offset-7 decoration-2 font-bold"
