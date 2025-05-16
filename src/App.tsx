@@ -12,10 +12,10 @@ import MyThreadsList from "./components/Profile/MyThreadsList";
 import { useDarkMode } from "./hooks/useDarkMode";
 import AuthLayout from "./layout/RejectIfAuth";
 import RequireAuth from "./layout/RequireAuth";
-import NewMessage from "./components/MessageComponent/NewMessage";
+import NewMessage from "./components/Message/NewMessage";
 import MessagePage from "./pages/MessagePage";
-import MessageContainer from "./components/MessageComponent/MessageContainer";
-import EmptyMessage from "./components/MessageComponent/EmptyMessage";
+import MessageContainer from "./components/Message/MessageContainer";
+import EmptyMessage from "./components/Message/EmptyMessage";
 import DetailFanPage from "./pages/DetailFanPage";
 export default function App() {
   useDarkMode();
