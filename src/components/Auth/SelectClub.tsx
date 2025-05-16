@@ -4,6 +4,7 @@ import BlueBoard from "./BlueBoard";
 import Button from "../FanPage/Button";
 import { userStore } from "../../stores/userStore";
 import Message from "./Message.tsx";
+import Swal from "sweetalert2";
 
 export default function SelectClub() {
   const [selectedValue, setSelectedValue] = useState("");
@@ -23,12 +24,12 @@ export default function SelectClub() {
     {
       label: "LG 트윈스",
       value: "LG 트윈스",
-      imageUrl: "/public/images/lg.webp",
+      imageUrl: "/public/images/lg.png",
     },
     {
       label: "두산 베어스",
       value: "두산 베어스",
-      imageUrl: "/public/images/doosan.webp",
+      imageUrl: "/public/images/doosan.png",
     },
     { label: "KT wiz", value: "KT wiz", imageUrl: "/public/images/kt.png" },
     {
@@ -44,7 +45,7 @@ export default function SelectClub() {
     {
       label: "한화 이글스",
       value: "한화 이글스",
-      imageUrl: "/public/images/hanwha.webp",
+      imageUrl: "/public/images/hanwha.png",
     },
     {
       label: "NC 다이노스",
@@ -86,7 +87,11 @@ export default function SelectClub() {
         "/users/upload-photo",
         formData
       );
-      console.log(data);
+      Swal.fire({
+        icon: "success",
+        title: "구단을 변경 했습니다",
+        confirmButtonText: "닫기",
+      });
       userStore.getState().setUser(data);
     } catch (error) {
       console.log(error);
@@ -107,7 +112,7 @@ export default function SelectClub() {
               console.log(e.target.value);
               setSelectedValue(e.target.value);
             }}
-            className="text-gray-400 px-[4px] border-b border-[#0033A0] font-semibold dark:text-white dark:placeholder:text-black h-[40px] mb-[0] w-[475px] dark:border-[#fff]"
+            className="text-gray-400 px-[4px] border-b border-[#0033A0] font-semibold dark:text-white dark:bg-[#434343] h-[40px] mb-[0] w-[475px] dark:border-[#fff]"
           >
             {imageOptions.map((option) => (
               <option key={option.value} value={option.value}>

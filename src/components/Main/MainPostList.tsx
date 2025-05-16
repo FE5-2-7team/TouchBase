@@ -46,7 +46,7 @@ export default function MainPostList({
                         team_list[item.channel.name as keyof typeof team_list]
                       }
                       alt={item.channel.name}
-                      className="w-[30px]"
+                      className="w-[30px] h-[30px]"
                     />
                   </div>
                   <div>{item.channel.name}</div>

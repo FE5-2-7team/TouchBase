@@ -7,10 +7,13 @@ import SearchThreads from "./SearchThreads";
 import SearchUser from "./SearchUser";
 import UserRecommend from "./UserRecommend";
 import ThreadRecommends from "./ThreadRecommends";
+import { ExtendedUser, Post } from "../../types/postType";
+
+type SearchProps = ExtendedUser & Post;
 
 export default function SearchBox({ onClose }: { onClose: () => void }) {
   const [keyword, setKeyword] = useState("");
-  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [searchResults, setSearchResults] = useState<SearchProps[]>([]);
   const [activeTab, setActiveTab] = useState<"user" | "thread">("user");
 
   const modalHandler = (e: React.MouseEvent) => {
@@ -66,7 +69,7 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
       onClick={onClose}
     >
       <div
-        className={`bg-white md:w-[700px] sm:w-[500px] p-6 rounded-xl bottom-52.5 relative dark:bg-[#35363C]  ${
+        className={`bg-white md:w-[700px] sm:w-[500px] p-6 rounded-xl bottom-52.5 relative dark:bg-[#35363C] ${
           searchResults ? "h-[600px] top-8" : "h-auto"
         }`}
         onClick={modalHandler}
@@ -77,7 +80,7 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
             onClick={onClose}
           />
         </button>
-        <div className="flex ml-2 my-2 ">
+        <div className="flex ml-2 my-2">
           <input
             type="text"
             placeholder="아이디 또는 게시글을 입력하세요"
@@ -95,50 +98,52 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
             <MdSearch className=" mx-2 w-9 h-9 text-gray-400 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-100" />
           </button>
         </div>
-        <div className="flex justify-center mt-4 gap-3">
-          <button
-            className={`px-4 py-1.5 w-40 rounded-2xl text-sm ${
-              activeTab === "user"
-                ? "bg-[#0033A0] text-white dark:bg-[#235BD2] dark:text-gray-200"
-                : "bg-gray-100 text-gray-500"
-            }`}
-            onClick={() => setActiveTab("user")}
-          >
-            유저
-          </button>
-          <button
-            className={`px-4 py-1.5 w-40 rounded-2xl text-sm ${
-              activeTab === "thread"
-                ? "bg-[#0033A0] text-white dark:bg-[#235BD2] dark:text-gray-200"
-                : "bg-gray-100 text-gray-500"
-            }`}
-            onClick={() => setActiveTab("thread")}
-          >
-            게시글
-          </button>
-        </div>
+        <div className="mt-5 rounded-xl ">
+          <div className="flex justify-between w-full border-b border-b-gray-300 dark:border-b dark:border-b-gray-600 ">
+            <button
+              className={`px-4 py-3 w-[50%] text-md cursor-pointer rounded-tl-xl ${
+                activeTab === "user"
+                  ? "dark:bg-[#35363C] dark:text-white text-gray-700 border-b-2 border-b-black dark:border-b-2 dark:border-b-white"
+                  : "dark:bg-[#35363C] text-gray-400"
+              }`}
+              onClick={() => setActiveTab("user")}
+            >
+              유저
+            </button>
+            <button
+              className={`px-4 w-[50%] text-md cursor-pointer rounded-tr-xl ${
+                activeTab === "thread"
+                  ? "dark:bg-[#35363C] dark:text-white text-gray-700 border-b-2 border-b-black dark:border-b-2 dark:border-b-white"
+                  : "dark:bg-[#35363C] text-gray-400 pb-[3px]"
+              }`}
+              onClick={() => setActiveTab("thread")}
+            >
+              게시글
+            </button>
+          </div>
 
-        {keyword.trim() === "" &&
-          searchResults.length === 0 &&
-          (activeTab === "user" ? (
-            <UserRecommend onClose={onClose} />
-          ) : (
-            <ThreadRecommends onClose={onClose} />
-          ))}
-
-        {searchResults && (
-          <>
-            {activeTab === "user" ? (
-              <div>
-                <SearchUser keyword={keyword} results={searchResults} onClose={onClose} />
-              </div>
+          {keyword.trim() === "" &&
+            searchResults.length === 0 &&
+            (activeTab === "user" ? (
+              <UserRecommend onClose={onClose} />
             ) : (
-              <div>
-                <SearchThreads keyword={keyword} results={searchResults} onClose={onClose} />
-              </div>
-            )}
-          </>
-        )}
+              <ThreadRecommends onClose={onClose} />
+            ))}
+
+          {searchResults && (
+            <>
+              {activeTab === "user" ? (
+                <div>
+                  <SearchUser keyword={keyword} results={searchResults} onClose={onClose} />
+                </div>
+              ) : (
+                <div>
+                  <SearchThreads keyword={keyword} results={searchResults} onClose={onClose} />
+                </div>
+              )}
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

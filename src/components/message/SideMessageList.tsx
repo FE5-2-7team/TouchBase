@@ -3,11 +3,13 @@ import { MessageProps, Sender } from "../../types/messageType";
 import { axiosInstance } from "../../api/axiosInstance";
 import { userStore } from "../../stores/userStore";
 import { useNavigate } from "react-router";
+import { useMessageStore } from "../../stores/messageStore";
 
 export default function SideMessageList() {
   const [lists, setLists] = useState<MessageProps[]>([]);
   const myId = userStore.getState().getUser()?._id;
   const navigate = useNavigate();
+  const { refetch } = useMessageStore();
 
   const fetchMessageList = async () => {
     try {
@@ -45,7 +47,7 @@ export default function SideMessageList() {
 
   useEffect(() => {
     fetchMessageList();
-  }, []);
+  }, [refetch]);
 
   return (
     <>

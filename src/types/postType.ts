@@ -66,6 +66,7 @@ export interface Channel {
 }
 
 export interface Post {
+  postTitle?: string;
   _id: string;
   title: string;
   image?: string;
@@ -75,6 +76,18 @@ export interface Post {
   channel: Channel;
   author: ExtendedUser;
   createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface SearchPostType {
+  _id: string;
+  author: string;
+  channel: string;
+  comments: Comment[];
+  createdAt: string;
+  likes: Like[];
+  title: string;
   updatedAt: string;
   __v: number;
 }

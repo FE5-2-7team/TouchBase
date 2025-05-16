@@ -20,25 +20,12 @@ export default function Header() {
   const location = useLocation();
 
   useEffect(() => {
-    const teamList = async () => {
+    const fetchChannels = async () => {
       try {
         const res = await axiosInstance.get("/channels");
         const data: Channel[] = res.data;
         setChannels(data);
-      } catch (err) {
-        console.error("호출에 실패했습니다.", err);
-      }
-    };
-
-    teamList();
-  }, []);
-
-  useEffect(() => {
-    const fetchChannels = async () => {
-      try {
-        const res = await axiosInstance.get("/channels");
-
-        res.data.forEach((channel: Channel) => {
+        data.forEach((channel: Channel) => {
           useChannelStore.getState().setChannel(channel._id, channel.name);
         });
       } catch (err) {
@@ -49,17 +36,6 @@ export default function Header() {
     fetchChannels();
   }, []);
 
-  useEffect(() => {
-    const fetchNoti = async () => {
-      try {
-        const res = await axiosInstance.get("/notifications");
-        console.log("알림 데이터", res.data);
-      } catch (err) {
-        console.error("알림 목록 불러오기 실패", err);
-      }
-    };
-    fetchNoti();
-  }, []);
   return (
     <header>
       <div className="z-70 fixed bg-[#0033A0] w-full h-[80px] dark:bg-[#16171B]">
@@ -82,9 +58,9 @@ export default function Header() {
               <li key={channel._id} className={liItemStyle}>
                 <Link
                   to={`/fanpage/${channel.name}/${channel._id}`}
-                  className={`flex items-center justify-center hover:text-[#ff9500] hover:underline hover:underline-offset-5 hover:decoration-2 ${
+                  className={`flex items-center justify-center hover:text-[#ff9500] hover:underline hover:underline-offset-7 hover:decoration-2 ${
                     location.pathname.includes(channel._id)
-                      ? "text-[#ff9500] underline underline-offset-4 decoration-2"
+                      ? "text-[#ff9500] underline underline-offset-7 decoration-2 font-bold"
                       : ""
                   }`}
                 >

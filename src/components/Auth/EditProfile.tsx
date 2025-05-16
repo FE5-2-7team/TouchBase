@@ -15,6 +15,7 @@ import { ExtendedUser } from "../../types/postType.ts";
 import SelectClub from "./SelectClub.tsx";
 import watermark2 from "../../assets/images/watermark2.png";
 import EditIcons from "./EditIcons.tsx";
+import Swal from "sweetalert2";
 
 export default function EditProfile() {
   const navigate = useNavigate();
@@ -46,19 +47,26 @@ export default function EditProfile() {
     for (const keys in data) {
       if (data[keys as keyof typeof data] == false) return;
     }
+    console.log(data.content);
 
     try {
       const response =
         type === "name"
           ? await axiosInstance.put("settings/update-user", {
-              fullName: data.content,
-              username: user.username,
+              fullName: user.fullName,
+              username: data.content,
             })
           : await axiosInstance.put("settings/update-password", {
               password: data.content,
             });
+      console.log(response);
       if (response.status !== 200) throw new Error();
 
+      Swal.fire({
+        icon: "success",
+        title: "수정이 완료 됐습니다",
+        confirmButtonText: "닫기",
+      });
       if (type === "checkPassword") {
         await logout();
         navigate("/login");
@@ -129,7 +137,7 @@ export default function EditProfile() {
             <Logo className="w-[156px] mb-[30px]" />
             <ProfileImage className="mb-[12px]" />
             <p className="text-[24px] font-bold cursor-default dark:text-[#fff]">
-              {user.fullName}
+              {user.username}
             </p>
             <p className="text-[14px] text-[#7C7B7B] font-regular mb-[42px] cursor-default dark:text-[#7C7B7B]">
               {user.email}

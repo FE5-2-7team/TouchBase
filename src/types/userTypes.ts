@@ -11,10 +11,12 @@ export interface UserStore {
 }
 
 export type SignUpValue = {
-  nickName?: string;
-  email?: string;
-  password?: string;
-  checkPassword?: string;
+  // nickName?: string;
+  // email?: string;
+  // password?: string;
+  // name?: string;
+  // checkPassword?: string;
+  [type: string]: string;
 };
 
 export type SignUpValue1 = {
