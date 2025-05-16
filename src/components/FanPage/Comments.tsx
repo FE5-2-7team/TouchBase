@@ -132,7 +132,9 @@ export default function Comments({
               <ProfileImage size={32} authorId={comment.author._id} />
               <div className="flex flex-col w-full">
                 <span className="font-semibold">
-                  {comment.author.username || "undefined"}
+                  {comment.author.username
+                    ? comment.author.username
+                    : comment.author.fullName}
                 </span>
                 {/* 댓글 본문 + 날짜 + 삭제 */}
                 <div className="flex justify-between items-center w-full">
