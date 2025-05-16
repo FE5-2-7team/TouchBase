@@ -7,6 +7,7 @@ import { useDarkMode } from "../../hooks/useDarkMode";
 import NoticeBox from "../Header/NoticeBox";
 import SearchBox from "../Header/SearchBox";
 import { userStore } from "../../stores/userStore";
+import { BaseUser, ExtendedUser } from "../../types/postType";
 
 const iconDiv =
   "w-[30px] h-[30px] bg-white rounded-2xl relative flex justify-center items-center";
@@ -17,14 +18,36 @@ export type Boxtype = "userMenu" | "notice" | "search" | null;
 export type Alert = {
   _id: string;
   seen: boolean;
-  author?: {
+  author: {
     _id: string;
-    fullName?: string;
+    username: string;
+    fullname: string;
   };
+  user: BaseUser;
+  post: string;
+  like?: {
+    _id: string;
+    user: string;
+    post: {
+      _id: string;
+      channel: string;
+    };
+    createdAt: string;
+    updatedAt: string;
+  };
+  comment?: {
+    _id: string;
+    author: string;
+    post: {
+      _id: string;
+      channel: string;
+    };
+    createdAt: string;
+    updatedAt: string;
+  };
+  follow?: boolean;
+  username: ExtendedUser;
   message?: string;
-  comment?: object;
-  follow?: string;
-  likes?: string;
 };
 
 export default function EditIcons() {
