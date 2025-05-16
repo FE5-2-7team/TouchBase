@@ -3,11 +3,14 @@ import { ExtendedUser } from "../../types/postType";
 import { axiosInstance } from "../../api/axiosInstance";
 import { FaUser } from "react-icons/fa";
 import { Link } from "react-router";
+import { userStore } from "../../stores/userStore";
 interface Props {
   onClose: () => void;
 }
 export default function UserRecommend({ onClose }: Props) {
   const [recommneds, setRecommends] = useState<ExtendedUser[]>([]);
+  const user = userStore.getState().getUser();
+  const isLoggedin = !!user && !!user._id;
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -42,8 +45,9 @@ export default function UserRecommend({ onClose }: Props) {
               <FaUser className="w-4 h-4 ml-2 items-center justify-center mt-2 dark:text-gray-600 text-[#2F6BEB]" />
             </div>
           )}
+
           <Link
-            to={`/profile/${user._id}/posts`}
+            to={isLoggedin ? `/profile/${user._id}/posts` : "/login"}
             className="mt-2.5 text-sm cursor-pointer whitespace-nowrap dark:text-white"
           >
             {user.username ? user.username : "익명의 유저"}
