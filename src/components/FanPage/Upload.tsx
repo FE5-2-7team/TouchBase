@@ -22,6 +22,7 @@ export default function Upload({
 }: UploadProps) {
   const { channelId } = useParams();
   const userName = userStore.getState().getUser()?.username;
+  const userFullName = userStore.getState().getUser()?.fullName;
   const currentUser = userStore.getState().getUser();
 
   const [title, setTitle] = useState(titleValue || "");
@@ -104,7 +105,7 @@ export default function Upload({
           {/* 왼쪽 프로필 영역 */}
           <div className="flex-shrink-0 self-start">
             <ProfileBlock
-              username={userName || "undefined"}
+              username={userName ? userName : userFullName}
               imageUrl={currentUser?.image}
             />
           </div>

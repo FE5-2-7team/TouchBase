@@ -43,7 +43,7 @@ export default function ThreadsList({ location }: { location: Location }) {
       ? [...posts].sort((a, b) => b.likes.length - a.likes.length)
       : [...posts].sort(
           (a, b) =>
-            new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         );
   }, [posts, isSortPage]);
 
@@ -61,12 +61,16 @@ export default function ThreadsList({ location }: { location: Location }) {
               <Threads
                 key={post._id}
                 postId={post._id}
-                username={post.author.username || "undefined"}
+                username={
+                  post.author.username
+                    ? post.author.username
+                    : post.author.fullName
+                }
                 postUserId={post.author._id}
                 author={post.author}
                 title={postTitle}
                 content={postContent}
-                date={new Date(post.updatedAt).toLocaleDateString()}
+                date={new Date(post.createdAt).toLocaleDateString()}
                 channel={post.channel.name}
                 images={post.image ?? ""}
                 imagesPublicId={post.imagePublicId ?? null}

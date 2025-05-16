@@ -4,6 +4,7 @@ import Sidebar from "../components/FanPage/Sidebar";
 import ThreadsList from "./../components/FanPage/ThreadsList";
 import { useParams, useNavigate, useLocation } from "react-router";
 import { userStore } from "../stores/userStore";
+import NewThreadList from "../components/FanPage/NewThreadList";
 
 export default function FanPage() {
   const { teamName } = useParams<{ teamName: string }>();
@@ -60,7 +61,8 @@ export default function FanPage() {
             </div>
           )}
           <div className="my-[50px] border-t border-[#d9d9d9] dark:border-[#4c4c4c] w-full"></div>
-          <ThreadsList location={location} />
+          {/* <ThreadsList location={location} /> */}
+          <NewThreadList location={location} />
           <div className="m-[30px]"></div>
         </div>
       </div>

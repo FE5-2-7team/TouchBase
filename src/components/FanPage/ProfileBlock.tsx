@@ -1,7 +1,7 @@
 import ProfileImage from "./ProfileImage";
 
 interface ProfileBlockProps {
-  username: string;
+  username: string | undefined;
   size?: number;
   imageUrl?: string;
 }
