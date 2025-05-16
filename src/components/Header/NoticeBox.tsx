@@ -24,8 +24,7 @@ export default function NoticeBox({
   const getAlertMessage = (a: Alert) => {
     const authorName = a.author.username;
     if (!a) return;
-    if (authorName === myId) return;
-    if (a.comment?.author === myId) return;
+
     const sender = authorName ? authorName : "익명의 유저";
 
     if (a.message) return `${sender}님이 쪽지를 보냈습니다.`;
