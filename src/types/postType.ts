@@ -98,3 +98,12 @@ export interface KBONewsTypes {
   BD_TT: string;
   URL_LK: string;
 }
+
+export interface NewAndHotPost {
+  newPostList: Post[];
+  hotPostList: Post[];
+  setNewPostList: (newPostList: Post[]) => void;
+  setHotPostList: (hotPostList: Post[]) => void;
+  getNewPostList: () => Post[];
+  getHotPostList: () => Post[];
+}
