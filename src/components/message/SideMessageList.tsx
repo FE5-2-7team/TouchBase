@@ -63,7 +63,9 @@ export default function SideMessageList() {
               }}
             >
               <div className="flex justify-between mt-1">
-                <div className="text-md dark:text-white">{selectedUser.fullName}</div>
+                <div className="text-md dark:text-white">
+                  {selectedUser.username ? selectedUser.username : "익명의 유저"}
+                </div>
                 <div className="text-xs text-right text-gray-400 dark:text-gray-400">
                   {list.createdAt &&
                     new Date(list.createdAt).toLocaleString("ko-KR", {
