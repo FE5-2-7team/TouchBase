@@ -7,6 +7,7 @@ import Message from "./Message.tsx";
 import Swal from "sweetalert2";
 import { ExtendedUser } from "../../types/postType.ts";
 import { useNavigate } from "react-router";
+import axios from "axios";
 
 export default function SelectClub() {
   const [selectedValue, setSelectedValue] = useState("");
@@ -80,10 +81,19 @@ export default function SelectClub() {
 
     try {
       const selectedImage = await fetch(selected.imageUrl);
+      console.log("fetch ok?", selectedImage.ok);
+      console.log("status:", selectedImage.status);
       const blob = await selectedImage.blob();
 
       const fileName = selected.imageUrl.split("/").pop() as string;
       const file = new File([blob], fileName, { type: blob.type });
+
+      console.log("📦 File Info:");
+      console.log("file.name:", file.name);
+      console.log("file.type:", file.type);
+      console.log("file.size:", file.size);
+      console.log("blob type:", blob.type);
+
       const formData = new FormData();
       formData.append("isCover", "true");
       formData.append("image", file);
@@ -99,6 +109,10 @@ export default function SelectClub() {
       navigate(`/profile/${user._id}/posts`);
       userStore.getState().setUser(data);
     } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log("서버 응답 상태코드:", error.response?.status);
+        console.log("서버 응답 메시지:", error.response?.data);
+      }
       console.log(error);
     }
   };
@@ -119,6 +133,7 @@ export default function SelectClub() {
               console.log(e.target.value);
               setSelectedValue(e.target.value);
             }}
+            value={selectedValue}
             className="text-gray-400 px-[4px] border-b border-[#0033A0] font-semibold dark:text-white dark:bg-[#434343] h-[40px] mb-[0] w-[475px] dark:border-[#fff]"
           >
             {imageOptions.map((option) => (
