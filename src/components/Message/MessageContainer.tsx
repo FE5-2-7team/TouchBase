@@ -35,18 +35,18 @@ export default function MessageContainer() {
 
   return (
     <>
-      <div className="w-[100%] items-center mt-10 relative">
-        <div className="flex ml-35 text-2xl font-semibold my-6 text-gray-800 dark:text-white">
+      <div className="w-full mt-6 h-[75vh] relative">
+        <div className="flex ml-[150px] text-2xl font-semibold my-4 text-gray-800 dark:text-white">
           {selectedUser.username ? selectedUser.username : "익명의 유저"} 님과의 쪽지
         </div>
         {messages.length === 0 ? (
           <EmptyMessage message="쪽지를 보내고 대화를 시작해보세요" />
         ) : (
-          <div className="flex justify-center items-center overflow-y-auto">
+          <div className="flex overflow-hidden h-2/3 justify-center">
             <MessageChatView messages={messages} myId={myId} />
           </div>
         )}
-        <div className="flex justify-center mt-2">
+        <div className="w-[75%] absolute justify-center md:ml-[10%] sm:ml-10 bottom-[-10px]">
           <SendMessageForm selectedUserId={selectedUserId} onSend={fetchMessages} />
         </div>
       </div>
