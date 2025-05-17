@@ -84,6 +84,13 @@ export default function SelectClub() {
 
       const fileName = selected.imageUrl.split("/").pop() as string;
       const file = new File([blob], fileName, { type: blob.type });
+
+      console.log("📦 File Info:");
+      console.log("file.name:", file.name);
+      console.log("file.type:", file.type);
+      console.log("file.size:", file.size);
+      console.log("blob type:", blob.type);
+
       const formData = new FormData();
       formData.append("isCover", "true");
       formData.append("image", file);
@@ -119,6 +126,7 @@ export default function SelectClub() {
               console.log(e.target.value);
               setSelectedValue(e.target.value);
             }}
+            value={selectedValue}
             className="text-gray-400 px-[4px] border-b border-[#0033A0] font-semibold dark:text-white dark:bg-[#434343] h-[40px] mb-[0] w-[475px] dark:border-[#fff]"
           >
             {imageOptions.map((option) => (
