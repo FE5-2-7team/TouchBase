@@ -81,6 +81,8 @@ export default function SelectClub() {
 
     try {
       const selectedImage = await fetch(selected.imageUrl);
+      console.log("fetch ok?", selectedImage.ok);
+      console.log("status:", selectedImage.status);
       const blob = await selectedImage.blob();
 
       const fileName = selected.imageUrl.split("/").pop() as string;
