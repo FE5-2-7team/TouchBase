@@ -14,6 +14,7 @@ export default function SideMessageList() {
   const fetchMessageList = async () => {
     try {
       const res = await axiosInstance.get("/messages/conversations");
+      console.log(res.data);
 
       const sorted = res.data.sort(
         (a: MessageProps, b: MessageProps) =>

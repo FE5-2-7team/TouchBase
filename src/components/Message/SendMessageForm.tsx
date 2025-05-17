@@ -40,7 +40,7 @@ export default function SendMessageForm({
         onSubmit={(e) => {
           e.preventDefault();
         }}
-        className="flex w-[75%] mt-4 border-1 border-gray-200 rounded-2xl absolute dark:border-gray-600"
+        className="flex w-[75%] mt-1 border-1 border-gray-200 rounded-2xl absolute dark:border-gray-600"
       >
         <textarea
           className="p-4 h-32 w-[80%] my-2 border-gray-300 resize-none focus:outline-none"
