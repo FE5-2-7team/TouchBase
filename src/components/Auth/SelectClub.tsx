@@ -7,6 +7,7 @@ import Message from "./Message.tsx";
 import Swal from "sweetalert2";
 import { ExtendedUser } from "../../types/postType.ts";
 import { useNavigate } from "react-router";
+import axios from "axios";
 
 export default function SelectClub() {
   const [selectedValue, setSelectedValue] = useState("");
@@ -106,6 +107,10 @@ export default function SelectClub() {
       navigate(`/profile/${user._id}/posts`);
       userStore.getState().setUser(data);
     } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log("서버 응답 상태코드:", error.response?.status);
+        console.log("서버 응답 메시지:", error.response?.data);
+      }
       console.log(error);
     }
   };
