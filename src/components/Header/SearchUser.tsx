@@ -17,9 +17,8 @@ export default function SearchUser({
     const trimkeyword = keyword?.trim().toLowerCase();
 
     const username = (user.username ?? "").trim().toLowerCase() || "";
-    // const admin = user._id
 
-    return username.includes(trimkeyword);
+    return username.includes(trimkeyword) && user.role !== "SuperAdmin";
   });
 
   return (
