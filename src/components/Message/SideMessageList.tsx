@@ -14,7 +14,6 @@ export default function SideMessageList() {
   const fetchMessageList = async () => {
     try {
       const res = await axiosInstance.get("/messages/conversations");
-      console.log(res.data);
 
       const sorted = res.data.sort(
         (a: MessageProps, b: MessageProps) =>
@@ -52,7 +51,7 @@ export default function SideMessageList() {
 
   return (
     <>
-      <ul className="mt-10 w-[258px] overflow-y-auto max-h-[800px]">
+      <ul className="mt-10 w-[258px] overflow-hidden">
         {lists.map((list) => {
           const selectedUser = (list.sender?._id === myId ? list.receiver : list.sender) as Sender;
           return (
