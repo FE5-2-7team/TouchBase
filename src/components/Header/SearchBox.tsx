@@ -68,7 +68,7 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
         <div className="flex ml-2 my-2">
           <input
             type="text"
-            placeholder="아이디 또는 게시글을 입력하세요"
+            placeholder="닉네임 또는 게시글을 입력하세요"
             onChange={(e) => setKeyword(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {

@@ -3,10 +3,13 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 import { useChannelStore } from "../../stores/channelStore";
 import { Post } from "../../types/postType";
+import { userStore } from "../../stores/userStore";
 
 export default function ThreadRecommends({ onClose }: { onClose: () => void }) {
   const [recommends, setRecommends] = useState<Post[]>([]);
   const navigate = useNavigate();
+  const user = userStore.getState().getUser();
+  const isLoggedin = !!user && !!user._id;
 
   useEffect(() => {
     const fetchThreads = async () => {
@@ -54,15 +57,15 @@ export default function ThreadRecommends({ onClose }: { onClose: () => void }) {
           return (
             <div
               key={idx}
-              className="p-2 w-full bg-white rounded-lg border border-gray-300 hover:shadow-sm hover:bg-gray-100 dark:bg-[#191A1E] dark:border-gray-800 dark:hover:bg-gray-800"
+              className="p-2 w-full h-10 bg-white rounded-lg border border-gray-300 hover:shadow-sm hover:bg-gray-100 dark:bg-[#191A1E] dark:border-gray-800 dark:hover:bg-gray-800"
               onClick={() => {
-                navigate(`/fanpage/${teamName}/${channelId}/${post._id}`);
+                navigate(isLoggedin ? `/fanpage/${teamName}/${channelId}/${post._id}` : "/login");
                 onClose();
               }}
             >
               <div>
                 <h4 className="ml-2 text-sm whitespace-nowrap truncate dark:text-white cursor-pointer">
-                  {post.postTitle ? post.postTitle : post.postContent}
+                  {post.postContent ? post.postContent : "제목 없음"}
                 </h4>
               </div>
             </div>

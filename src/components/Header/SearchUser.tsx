@@ -1,6 +1,7 @@
 import { FaUser } from "react-icons/fa";
 import { Link } from "react-router";
 import { ExtendedUser } from "../../types/postType";
+import { userStore } from "../../stores/userStore";
 export default function SearchUser({
   keyword,
   results,
@@ -10,10 +11,13 @@ export default function SearchUser({
   results: ExtendedUser[];
   onClose: () => void;
 }) {
+  const user = userStore.getState().getUser();
+  const isLoggedin = !!user && !!user._id;
   const filterUsers = results.filter((user: ExtendedUser) => {
     const trimkeyword = keyword?.trim().toLowerCase();
 
     const username = (user.username ?? "").trim().toLowerCase() || "";
+    // const admin = user._id
 
     return username.includes(trimkeyword);
   });
@@ -38,8 +42,9 @@ export default function SearchUser({
                       <FaUser className="w-6 h-6 ml-2 items-center justify-center mt-2 dark:text-gray-700 text-[#2F6BEB] " />
                     </div>
                   )}
+
                   <Link
-                    to={`/profile/${user._id}/posts`}
+                    to={isLoggedin ? `/profile/${user._id}/posts` : "/login"}
                     onClick={onClose}
                     className="mt-2 text-md cursor-pointer whitespace-nowrap dark:text-white"
                   >
