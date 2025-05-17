@@ -1,6 +1,6 @@
 # ⚾️ KBO 팬 커뮤니티 TouchBase
 
-![touch-base](https://github-production-user-asset-6210df.s3.amazonaws.com/54721624/444752304-5bd17289-3b6f-40eb-81d6-c2949fb8d9d2.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20250517%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250517T063058Z&X-Amz-Expires=300&X-Amz-Signature=fe497a68367e05d54a7f786b7d1055f609f17a6f4e27ee69a32764d46bd5c4cf&X-Amz-SignedHeaders=host)
+![touch-base](./readmeimg.png)
 
 - 배포 URL : https://kdt-touch-base.netlify.app
 - Test ID : test@email.com
