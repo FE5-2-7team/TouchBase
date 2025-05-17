@@ -1,177 +1,177 @@
-# SNS 프로젝트
+# ⚾️ KBO 팬 커뮤니티 TouchBase
 
-## 📝 프로젝트 소개
+![touch-base](https://github-production-user-asset-6210df.s3.amazonaws.com/54721624/444752304-5bd17289-3b6f-40eb-81d6-c2949fb8d9d2.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20250517%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250517T063058Z&X-Amz-Expires=300&X-Amz-Signature=fe497a68367e05d54a7f786b7d1055f609f17a6f4e27ee69a32764d46bd5c4cf&X-Amz-SignedHeaders=host)
 
-소셜 네트워크 프로젝트
-KBO 야구 소셜 네트워크
-터치 베이스
+- 배포 URL : https://kdt-touch-base.netlify.app
+- Test ID : test@email.com
+- Test PW : qwer1234
 
-- K-Digital Training: 클라우드 기반 프론트엔드 엔지니어링 7팀
-- 박상윤, 김보민, 이준호, 정지유, 최연서
-- 기간: 2025-04-25 (금) ~ 2025-05-19 (월)
+<br>
 
-## 🕹️ 주요 기능
+## 프로젝트 소개
 
-### 기능 정리
+- TouchBase 는 야구를 좋아하는 국내 팬들의 소통 창구로 활용할 수 있는 SNS 서비스입니다.
+- 개인의 프로필에서 구단을 선택하여 응원하는 팀을 고르고 자유롭게 글을 쓸 수 있습니다.
+- 응원하는 팀이 없더라도 글을 작성할 수 있습니다.
+- 검색을 통해 사용자, 게시글로 소통을 이어 나갈 수 있습니다.
+- 다양한 사용자들을 팔로우하며 마음에 드는 게시글에 '좋아요'를 누르거나 댓글을 작성할 수 있습니다.
+- 다양한 사용자들과 DM을 주고받으며 소통을 이어 나갈 수 있습니다.
 
-- 로그인 및 인증 기능 구현 (박상윤, 이준호)
-- 메인 페이지 UI/UX 설계 및 구현 (박상윤)
-- 메시지함 페이지 및 헤더 컴포넌트 구현 (김보민)
-- 회원가입 및 프로필 수정 기능 구현 (이준호)
-- 프로필 상세 보기, 팔로우 기능 구현 (최연서)
-- 쓰레드 작성, 수정 및 삭제 기능 구현 (정지유, 최연서)
-- 팬 페이지 및 사용자 커뮤니티 구현 (정지유)
-- 프로젝트 페이지 디자인 (이준호, 정지유)
-- 발표 자료 작성 및 발표 진행 (최연서)
-- 프로젝트 전반 PM 및 일정/기획 관리 (박상윤)
+<br>
 
-### 역할 분담
+## 팀원 구성
 
-👨‍💼 프로젝트 매니지먼트 (박상윤)
+<div align="center">
 
-- 프로젝트 일정 관리 및 GitHub 프로젝트 보드 운영
-- 팀원 간 작업 분배 및 코드 머지(Merge) 진행
-- 기능 구현 시 팀원 질문 응답 및 로직 협의 지원
-- 메인 페이지 구현
-- 로그인 기능 개발
-- README 및 코드 컨벤션 문서 정리
+|                                                          **박상윤**                                                          |                                                              **김보민**                                                               |                                                               **이준호**                                                                |                                                               **정지유**                                                               |                                                                 **최연서**                                                                 |
+| :--------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------: |
+| [<img src="https://avatars.githubusercontent.com/u/54721624?v=4" height=150 width=150> <br/> @SK](https://github.com/ygvbhy) | [<img src="https://avatars.githubusercontent.com/u/153171193?v=4" height=150 width=150> <br/> @marchbom](https://github.com/marchbom) | [<img src="https://avatars.githubusercontent.com/u/116176572?v=4" height=150 width=150> <br/> @JUNHORANG](https://github.com/JUNHORANG) | [<img src="https://avatars.githubusercontent.com/u/86185120?v=4" height=150 width=150> <br/> @JINJIYU23](https://github.com/JINJIYU23) | [<img src="https://avatars.githubusercontent.com/u/86912810?v=4" height=150 width=150> <br/> @CHOIYEONSEO](https://github.com/CHOIYEONSEO) |
 
-⸻
+</div>
 
-👩‍💻 김보민
+<br>
 
-- 메시지함 페이지 구현
-- 헤더 컴포넌트 제작 및 레이아웃 조정
-- Figma를 활용한 메시지함, 검색 모달 디자인 시안 제작
+## 1. 개발 환경
 
-⸻
+- Front : React, TypeScript, Vite
+- Back-end : 제공된 API 활용
+- 버전 및 이슈관리 : Github, Notion
+- 협업 툴 : Notion, Slack
+- 서비스 배포 환경 : Netlify
+- 디자인: [Figma](https://www.figma.com/design/IMrKyF3XKanKq0Dpm7Wq4N/touchbase?node-id=0-1&t=PoqnuSdtkT8dzggD-1)
+- [커밋 컨벤션](https://github.com/FE5-2-7team/TouchBase/wiki/%EC%BD%94%EB%93%9C-%EC%BB%A8%EB%B2%A4%EC%85%98)
 
-👨‍💻 이준호
+<br>
 
-- 로그인 및 회원가입 페이지 구현
-- 프로필 수정 기능 개발
-- Figma를 활용한 프로젝트 페이지 디자인 기획 및 시안 제작
-
-⸻
-
-👩‍💻 최연서
-
-- 프로필 상세 보기 기능 구현
-- 팔로우 및 언팔로우 기능 개발
-- 쓰레드 수정 및 삭제 기능 구현
-- 발표 자료 제작 및 최종 발표 진행
-
-⸻
-
-👩‍💻 정지유
-
-- 팬페이지 구현 (생성, 조회 등)
-- 쓰레드 작성 기능 개발
-- Figma를 활용한 프로젝트 페이지 디자인 기획 및 시안 제작
-
-⸻
-
-🛠️ 공통 작업
-
-- 각자 맡은 페이지의 퍼블리싱
-- 다크모드 대응 스타일링
-- 재사용 가능한 컴포넌트 기반 구조 설계
-
-## 💡 기술 스택 및 협업도구
-
-### 기술 스택
-
-<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"> <img src="https://img.shields.io/badge/tailwindcss-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white"> <img src="https://img.shields.io/badge/axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white"> <img src="https://img.shields.io/badge/react_router-CA4245?style=for-the-badge&logo=react-router&logoColor=white"> <img src="https://img.shields.io/badge/zustand-000000?style=for-the-badge&logo=zustand&logoColor=white"> <img src="https://img.shields.io/badge/vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"> <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"> <img src="https://img.shields.io/badge/eslint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white">
-
-### 프로젝트 관리
-
-<img src="https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white"> <img alt="GitHub" src ="https://img.shields.io/badge/GitHub-181717.svg?&style=for-the-badge&logo=GitHub&logoColor=white"/>
-
-### 디자인
-
-<img src="https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white">
-
-## ✏️ Code convention
-
-- feat: 새로운 기능 추가
-- fix: 버그 수정
-- docs: 문서 수정 (코드 변경 없음)
-- style: 코드 스타일 수정 (포맷팅, 세미콜론 등)
-- refactor: 리팩토링 (기능 변화 없음)
-- chore: 빌드 설정, 패키지 매니저 설정 등 기타 잡일
-- perf: 성능 개선
-
-## 📂 폴더 구조
+## 2. 폴더 구조
 
 ```plaintext
-📂 폴더 구조
-
-📦src
- ┣ 📂api             # API 요청 모듈
- ┃ ┣ 📜auth.ts
- ┃ ┗ 📜axiosInstance.ts
- ┣ 📜App.tsx         # 루트 컴포넌트
- ┣ 📂assets          # 정적 리소스 (폰트, 이미지 등)
- ┃ ┣ 📂fonts
- ┃ ┗ 📂images
- ┣ 📂components      # UI 컴포넌트 모음 (기능별로 세분화)
- ┃ ┣ 📂Auth
- ┃ ┣ 📂FanPage
- ┃ ┣ 📂Header
- ┃ ┣ 📂Icons
- ┃ ┣ 📂Main
- ┃ ┣ 📂Message
- ┃ ┗ 📂Profile
- ┣ 📂css             # 전역 스타일 및 Tailwind 설정 파일
- ┃ ┣ 📜global.css
- ┃ ┣ 📜index.css
- ┃ ┗ 📜tailwind.css
- ┣ 📂hooks           # 커스텀 훅
- ┃ ┗ 📜useDarkMode.ts
- ┣ 📂layout          # 레이아웃 컴포넌트 (공통 레이아웃, 접근 제어 등)
- ┃ ┣ 📜Footer.tsx
- ┃ ┣ 📜Header.tsx
- ┃ ┣ 📜ProfileLayout.tsx
- ┃ ┣ 📜RejectIfAuth.tsx
- ┃ ┣ 📜RequireAuth.tsx
- ┃ ┗ 📜RootLayout.tsx
- ┣ 📜main.tsx        # 애플리케이션 진입점
- ┣ 📂pages           # 라우팅되는 페이지 컴포넌트
- ┃ ┣ 📜DetailFanPage.tsx
- ┃ ┣ 📜EditProfilePage.tsx
- ┃ ┣ 📜FanPage.tsx
- ┃ ┣ 📜HomePage.tsx
- ┃ ┣ 📜LogInPage.tsx
- ┃ ┣ 📜MessagePage.tsx
- ┃ ┣ 📜NotFoundPage.tsx
- ┃ ┗ 📜SignUpPage.tsx
- ┣ 📂stores          # Zustand 상태 관리 모듈
- ┃ ┣ 📜channelStore.ts
- ┃ ┣ 📜messageStore.ts
- ┃ ┣ 📜refreshStore.ts
- ┃ ┗ 📜userStore.ts
- ┣ 📜swiper.d.ts     # Swiper 관련 타입 정의
- ┣ 📂types           # 전역 타입 정의
- ┃ ┣ 📜mainGame.ts
- ┃ ┣ 📜messageType.ts
- ┃ ┣ 📜postType.ts
- ┃ ┗ 📜userTypes.ts
- ┣ 📂utils           # 유틸리티 함수 모음
- ┃ ┣ 📜getLogoImages.ts
- ┃ ┗ 📜parsePost.ts
- ┗ 📜vite-env.d.ts   # Vite 환경 타입 정의
+src
+├── api
+│   ├── auth.ts
+│   └── axiosInstance.ts
+├── App.tsx
+├── assets
+│   ├── fonts
+│   └── images
+├── components
+│   ├── Auth
+│   ├── FanPage
+│   ├── Header
+│   ├── Icons
+│   ├── Main
+│   ├── Message
+│   └── Profile
+├── css
+│   ├── global.css
+│   ├── index.css
+│   └── tailwind.css
+├── hooks
+│   └── useDarkMode.ts
+├── layout
+│   ├── Footer.tsx
+│   ├── Header.tsx
+│   ├── ProfileLayout.tsx
+│   ├── RejectIfAuth.tsx
+│   ├── RequireAuth.tsx
+│   └── RootLayout.tsx
+├── main.tsx
+├── pages
+│   ├── DetailFanPage.tsx
+│   ├── EditProfilePage.tsx
+│   ├── FanPage.tsx
+│   ├── HomePage.tsx
+│   ├── LogInPage.tsx
+│   ├── MessagePage.tsx
+│   ├── NotFoundPage.tsx
+│   └── SignUpPage.tsx
+├── stores
+│   ├── channelStore.ts
+│   ├── messageStore.ts
+│   ├── newAndHotPostStore.ts
+│   ├── refreshStore.ts
+│   └── userStore.ts
+├── swiper.d.ts
+├── types
+│   ├── mainGame.ts
+│   ├── messageType.ts
+│   ├── postType.ts
+│   └── userTypes.ts
+├── utils
+│   ├── getLogoImages.ts
+│   └── parsePost.ts
+└── vite-env.d.ts
 ```
 
-## ✅ 실행 방법
+## 3. 역할 분담
 
-```bash
-git clone
+### 👨‍💼 박상윤
 
-npm install
+- **UI**
+  - 페이지: 홈 페이지
+- **기능**
+  - 로그인 기능, 유저 정보 저장, 접근제한 설정
+- **ETC**
+  - 팀장
 
-npm run dev
-```
+<br>
 
-## 💻 완성 사진
+### 👩‍💻 김보민
 
-![이미지 미리보기](./preview.png)
+- **UI**
+  - 페이지 : 메시지 함, 메시지 보내기, 헤더, 검색창, 알림창
+- **기능**
+  - 알림 리스트 출력, 메시지 리스트 출력, 유저/게시글 검색, 메시지 보내기,
+- **디자인**
+  - Figma를 활용한 메시지함, 검색 모달 디자인 시안 제작
+
+<br>
+
+### 👨‍💻 이준호
+
+- **UI**
+  - 페이지 : 로그인 페이지, 회원가입 페이지, 회원 정보 수정 페이지, 404 페이지
+- **기능**
+  - 회원가입 유효성, 닉네임 중복 검사, 이메일 검증, 비밀번호 검증, 프로필 설정
+- **디자인**
+  - Figma를 활용한 프로젝트 페이지 디자인 기획 및 시안 제작
+
+<br>
+
+### 👩‍💻 최연서
+
+- **UI**
+  - 페이지 : 사용자 프로필 페이지
+- **기능**
+  - 팔로우 및 언팔로우, 게시글 수정 및 삭제 기능,
+- **ETC**
+  - 발표 자료 제작 및 최종 발표 진행
+
+<br>
+
+### 👩‍💻 정지유
+
+- **UI**
+  - 팬 페이지
+- **기능**
+  - 게시글 작성 기능, 최신순/인기순 정렬 기능
+- **디자인**
+  - Figma를 활용한 프로젝트 페이지 디자인 기획 및 시안 제작
+
+<br>
+
+## 4. 개발 기간
+
+### 개발 기간
+
+- 전체 개발 기간 : 2025.04.24 ~ 2025.05.19
+- UI 구현 : 2025.05.01 ~ 2025.05.06
+- 기능 구현 : 2025.05.08 ~ 2025.05.19
+
+<br>
+
+## 5. 페이지 별 기능
+
+## 6. 트러블 슈팅
+
+## 7. 프로젝트 후기
