@@ -25,8 +25,17 @@ export default function NewMessage() {
     }
 
     try {
-      const res = await axiosInstance.get(`/search/users/${encodeURIComponent(value.trim())}`);
-      setAllUsers(res.data);
+      const res = await axiosInstance.get<ExtendedUser[]>(
+        `/search/users/${encodeURIComponent(value.trim())}`
+      );
+
+      const keywordLower = value.trim().toLowerCase();
+      const usernames = res.data
+        .map((user) => (user.username ?? "").trim())
+        .filter((name) => name.toLowerCase().includes(keywordLower));
+
+      const userObjs = usernames.map((name) => ({ username: name } as ExtendedUser));
+      setAllUsers(userObjs);
     } catch (err) {
       console.error("유저 목록 불러오기 실패", err);
     }
@@ -45,7 +54,7 @@ export default function NewMessage() {
 
               <input
                 type="text"
-                placeholder="아이디 또는 닉네임을 검색해주세요"
+                placeholder="닉네임을 검색해주세요"
                 className="block w-[580px] h-12 mt-6 border-1 border-gray-300 dark:border-gray-500 justify-center px-5 rounded-lg focus:outline-none focus:ring-0"
                 value={keyword}
                 onChange={handleChange}
