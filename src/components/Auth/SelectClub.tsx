@@ -19,48 +19,48 @@ export default function SelectClub() {
     {
       label: "KIA 타이거즈",
       value: "KIA 타이거즈",
-      imageUrl: "/public/images/kia.png",
+      imageUrl: "/images/kia.png",
     },
     {
       label: "삼성 라이온즈",
       value: "삼성 라이온즈",
-      imageUrl: "/public/images/samsung.png",
+      imageUrl: "/images/samsung.png",
     },
     {
       label: "LG 트윈스",
       value: "LG 트윈스",
-      imageUrl: "/public/images/lg.png",
+      imageUrl: "/images/lg.png",
     },
     {
       label: "두산 베어스",
       value: "두산 베어스",
-      imageUrl: "/public/images/doosan.png",
+      imageUrl: "/images/doosan.png",
     },
-    { label: "KT wiz", value: "KT wiz", imageUrl: "/public/images/kt.png" },
+    { label: "KT wiz", value: "KT wiz", imageUrl: "/images/kt.png" },
     {
       label: "SSG 랜더스",
       value: "SSG 랜더스",
-      imageUrl: "/public/images/ssg.png",
+      imageUrl: "/images/ssg.png",
     },
     {
       label: "롯데 자이언츠",
       value: "롯데 자이언츠",
-      imageUrl: "/public/images/lotte.png",
+      imageUrl: "/images/lotte.png",
     },
     {
       label: "한화 이글스",
       value: "한화 이글스",
-      imageUrl: "/public/images/hanwha.png",
+      imageUrl: "/images/hanwha.png",
     },
     {
       label: "NC 다이노스",
       value: "NC 다이노스",
-      imageUrl: "/public/images/nc.png",
+      imageUrl: "/images/nc.png",
     },
     {
       label: "키움 히어로즈",
       value: "키움 히어로즈",
-      imageUrl: "/public/images/kium.png",
+      imageUrl: "/images/kium.png",
     },
   ];
 
@@ -81,18 +81,10 @@ export default function SelectClub() {
 
     try {
       const selectedImage = await fetch(selected.imageUrl);
-      console.log("fetch ok?", selectedImage.ok);
-      console.log("status:", selectedImage.status);
       const blob = await selectedImage.blob();
 
       const fileName = selected.imageUrl.split("/").pop() as string;
       const file = new File([blob], fileName, { type: blob.type });
-
-      console.log("📦 File Info:");
-      console.log("file.name:", file.name);
-      console.log("file.type:", file.type);
-      console.log("file.size:", file.size);
-      console.log("blob type:", blob.type);
 
       const formData = new FormData();
       formData.append("isCover", "true");
