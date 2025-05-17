@@ -30,12 +30,10 @@ export default function NewMessage() {
       );
 
       const keywordLower = value.trim().toLowerCase();
-      const usernames = res.data
-        .map((user) => (user.username ?? "").trim())
-        .filter((name) => name.toLowerCase().includes(keywordLower));
-
-      const userObjs = usernames.map((name) => ({ username: name } as ExtendedUser));
-      setAllUsers(userObjs);
+      const filtered = res.data.filter((user) =>
+        (user.username ?? "").toLowerCase().includes(keywordLower)
+      );
+      setAllUsers(filtered);
     } catch (err) {
       console.error("유저 목록 불러오기 실패", err);
     }
