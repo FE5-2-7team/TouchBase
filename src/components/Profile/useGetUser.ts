@@ -1,7 +1,7 @@
 import { useEffect, useState, useTransition } from "react";
 import { ExtendedUser } from "../../types/postType";
-import { axiosInstance } from "../../api/axiosInstance";
 import { refreshStore } from "../../stores/refreshStore";
+import { getUser } from "../../api/user";
 
 export default function useGetUser(userId: string) {
   const [user, setUser] = useState<ExtendedUser>();
@@ -10,7 +10,7 @@ export default function useGetUser(userId: string) {
 
   const getHandler = async () => {
     try {
-      const { data } = await axiosInstance.get(`/users/${userId}`);
+      const data = await getUser(userId);
       setUser(data);
     } catch (e) {
       console.error(e);

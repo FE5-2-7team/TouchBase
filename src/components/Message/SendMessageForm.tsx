@@ -1,7 +1,8 @@
 import { useState } from "react";
 import SendButton from "./SendButton";
-import { axiosInstance } from "../../api/axiosInstance";
 import { useMessageStore } from "../../stores/messageStore";
+import { createMessage } from "../../api/message";
+import { createNotification } from "../../api/notification";
 
 export default function SendMessageForm({
   selectedUserId,
@@ -14,17 +15,14 @@ export default function SendMessageForm({
   const sendHandler = async () => {
     if (!content.trim()) return;
     try {
-      const res = await axiosInstance.post("/messages/create", {
-        receiver: selectedUserId,
-        message: content,
-      });
+      const res = await createMessage(content, selectedUserId ?? "");
 
-      const messageId = res.data._id;
+      const messageId = res._id;
 
-      await axiosInstance.post("/notifications/create", {
+      await createNotification({
         notificationType: "MESSAGE",
         notificationTypeId: messageId,
-        userId: selectedUserId,
+        userId: selectedUserId || "",
         postId: null,
       });
       setContent("");
@@ -40,7 +38,7 @@ export default function SendMessageForm({
         onSubmit={(e) => {
           e.preventDefault();
         }}
-        className="flex w-[75%] mt-4 border-1 border-gray-200 rounded-2xl absolute dark:border-gray-600"
+        className="flex border-1 border-gray-200 rounded-2xl relative dark:border-gray-600"
       >
         <textarea
           className="p-4 h-32 w-[80%] my-2 border-gray-300 resize-none focus:outline-none"

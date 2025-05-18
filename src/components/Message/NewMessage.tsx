@@ -1,9 +1,9 @@
-import { axiosInstance } from "../../api/axiosInstance";
 import { ExtendedUser } from "../../types/postType";
 import { useState } from "react";
 import { MdSearch } from "react-icons/md";
 import MessageContainer from "./MessageContainer";
 import { useNavigate } from "react-router";
+import { searchUsers } from "../../api/search";
 
 export default function NewMessage() {
   const [allUsers, setAllUsers] = useState<ExtendedUser[]>([]);
@@ -25,8 +25,13 @@ export default function NewMessage() {
     }
 
     try {
-      const res = await axiosInstance.get(`/search/users/${encodeURIComponent(value.trim())}`);
-      setAllUsers(res.data);
+      const res = await searchUsers(encodeURIComponent(value.trim()));
+
+      const keywordLower = value.trim().toLowerCase();
+      const filtered = res.filter((user: ExtendedUser) =>
+        (user.username ?? "").toLowerCase().includes(keywordLower)
+      );
+      setAllUsers(filtered);
     } catch (err) {
       console.error("유저 목록 불러오기 실패", err);
     }
@@ -45,7 +50,7 @@ export default function NewMessage() {
 
               <input
                 type="text"
-                placeholder="아이디 또는 닉네임을 검색해주세요"
+                placeholder="닉네임을 검색해주세요"
                 className="block w-[580px] h-12 mt-6 border-1 border-gray-300 dark:border-gray-500 justify-center px-5 rounded-lg focus:outline-none focus:ring-0"
                 value={keyword}
                 onChange={handleChange}

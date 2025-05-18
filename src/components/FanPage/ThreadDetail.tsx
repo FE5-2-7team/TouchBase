@@ -1,10 +1,10 @@
 import Threads from "./Threads";
-import { axiosInstance } from "../../api/axiosInstance";
 import { Post } from "../../types/postType";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
 import { userStore } from "../../stores/userStore";
 import ThreadSkeleton from "./ThreadSkeleton";
+import { getChannelPosts } from "../../api/posts";
 
 export default function ThreadDetail() {
   const { postId, channelId } = useParams();
@@ -20,8 +20,8 @@ export default function ThreadDetail() {
     setIsLoading(true);
     const fetchPosts = async () => {
       try {
-        const postRes = await axiosInstance.get(`/posts/channel/${channelId}`);
-        setPosts(postRes.data);
+        const postRes = await getChannelPosts(channelId ?? "");
+        setPosts(postRes);
       } catch (error) {
         console.log("로드실패", error);
       } finally {

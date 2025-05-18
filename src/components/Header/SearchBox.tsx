@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { MdSearch, MdClose } from "react-icons/md";
-import { axiosInstance } from "../../api/axiosInstance";
 import Swal from "sweetalert2";
 import SearchThreads from "./SearchThreads";
 import SearchUser from "./SearchUser";
 import UserRecommend from "./UserRecommend";
 import ThreadRecommends from "./ThreadRecommends";
-import { ExtendedUser, Post } from "../../types/postType";
+import { BaseUser, ExtendedUser, Post } from "../../types/postType";
+import { searchAll } from "../../api/search";
 
 type SearchProps = ExtendedUser & Post;
 
@@ -34,8 +34,13 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
       return;
     }
     try {
-      const res = await axiosInstance.get(`/search/all/${encodeURIComponent(trimkeyword)}`);
-      setSearchResults(res.data);
+      const res = await searchAll(encodeURIComponent(trimkeyword));
+
+      const filterResult = res.filter(
+        (user: BaseUser) => user.role !== "SuperAdmin"
+      );
+
+      setSearchResults(filterResult);
     } catch (err) {
       console.error("검색에 실패했습니다:", err);
       setSearchResults([]);
@@ -68,7 +73,7 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
         <div className="flex ml-2 my-2">
           <input
             type="text"
-            placeholder="아이디 또는 게시글을 입력하세요"
+            placeholder="닉네임 또는 게시글을 입력하세요"
             onChange={(e) => setKeyword(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
@@ -79,7 +84,11 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
             value={keyword}
             className="searchInput w-[95%] p-3 pl-6 border border-gray-300 rounded-3xl placeholder: focus:outline-0 dark:border-gray-600 dark:text-gray-100"
           />
-          <button type="button" className="cursor-pointer" onClick={searchHandler}>
+          <button
+            type="button"
+            className="cursor-pointer"
+            onClick={searchHandler}
+          >
             <MdSearch className=" mx-2 w-9 h-9 text-gray-400 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-100" />
           </button>
         </div>
@@ -119,11 +128,19 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
             <>
               {activeTab === "user" ? (
                 <div>
-                  <SearchUser keyword={keyword} results={searchResults} onClose={onClose} />
+                  <SearchUser
+                    keyword={keyword}
+                    results={searchResults}
+                    onClose={onClose}
+                  />
                 </div>
               ) : (
                 <div>
-                  <SearchThreads keyword={keyword} results={searchResults} onClose={onClose} />
+                  <SearchThreads
+                    keyword={keyword}
+                    results={searchResults}
+                    onClose={onClose}
+                  />
                 </div>
               )}
             </>

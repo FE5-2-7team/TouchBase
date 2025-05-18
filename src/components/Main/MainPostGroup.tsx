@@ -10,24 +10,26 @@ const HOT_POST_API_URL = import.meta.env.VITE_API_HOT_POST;
 const KBO_NEWS_API_URL = import.meta.env.VITE_API_NEWS;
 
 const SkeletonPost = () => (
-  <div className="animate-pulse space-y-3 p-4">
-    <div className="h-4 dark:bg-gray-500 bg-gray-200 rounded w-3/4"></div>
+  <div className="animate-pulse space-y-3 p-3">
+    <div className="h-5 dark:bg-gray-500 bg-gray-200 rounded w-3/4"></div>
   </div>
 );
 
 const SkeletonList = ({
   title,
   color = "#FF9500",
+  count = 8,
 }: {
   title: string;
   color?: string;
+  count?: number;
 }) => (
   <div className="">
     <div className="">
       <MainTitle title={title} color={color} />
     </div>
     <div className="mt-10">
-      {[...Array(5)].map((_, index) => (
+      {[...Array(count)].map((_, index) => (
         <SkeletonPost key={index} />
       ))}
     </div>
@@ -125,7 +127,7 @@ export default function MainPostGroup() {
           <SkeletonList title="최신글" />
         </div>
         <div className="col-span-1 sm:col-span-2 lg:col-span-1">
-          <SkeletonList title="주요 소식" color="#0033A0" />
+          <SkeletonList title="주요 소식" color="#0033A0" count={5} />
         </div>
       </>
     );

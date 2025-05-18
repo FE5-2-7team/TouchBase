@@ -67,8 +67,8 @@ export default function SearchThreads({ keyword, results, onClose }: SearchThrea
                       navigate(`/fanpage/${teamName}/${channelId}/${post._id}`);
                     }}
                   >
-                    <h4 className="ml-2 text-sm whitespace-nowrap truncate dark:text-white cursor-pointer">
-                      {post.postTitle ? post.postTitle : post.postContent}
+                    <h4 className="ml-2 h-6 mt-0.5 text-sm whitespace-nowrap truncate dark:text-white cursor-pointer">
+                      {post.postContent}
                     </h4>
                   </div>
                 );

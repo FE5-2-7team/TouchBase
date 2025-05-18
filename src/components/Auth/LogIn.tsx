@@ -95,7 +95,7 @@ export default function LogIn() {
                 <input
                   type="checkbox"
                   id="SaveId"
-                  name="아이디 저장"
+                  name="이메일 저장"
                   className="mr-[5px] w-[16px] h-[16px]"
                   onChange={handleSaveId}
                   checked={idSave}
@@ -104,7 +104,7 @@ export default function LogIn() {
                   htmlFor="SaveId"
                   className="text-[14px] text-[#616161] font-medium dark:text-white"
                 >
-                  아이디 저장
+                  이메일 저장
                 </label>
               </div>
             </div>

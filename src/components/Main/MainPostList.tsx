@@ -49,7 +49,7 @@ export default function MainPostList({
                       className="w-[30px] h-[30px]"
                     />
                   </div>
-                  <div>{item.channel.name}</div>
+                  <div className="kbo-font-medium">{item.channel.name}</div>
                 </>
                 <div className="hover:underline whitespace-nowrap overflow-hidden text-ellipsis w-[70%]">
                   {parseIfJson(item.title)}

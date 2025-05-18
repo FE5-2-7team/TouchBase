@@ -1,14 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { axiosInstance } from "../../api/axiosInstance";
 import { CgBell } from "react-icons/cg";
 import { MdDarkMode, MdPerson, MdSearch, MdLightMode } from "react-icons/md";
 import { useDarkMode } from "../../hooks/useDarkMode";
-
 import UserMenu from "./UserMenu";
 import NoticeBox from "./NoticeBox";
 import SearchBox from "./SearchBox";
 import { userStore } from "../../stores/userStore";
 import { BaseUser, ExtendedUser } from "../../types/postType";
+import { getNotifications } from "../../api/notification";
 
 const iconDiv =
   "w-[30px] h-[30px] bg-white rounded-2xl mt-6 relative flex justify-center items-center";
@@ -58,7 +57,6 @@ export default function HeaderIcon() {
   const [alerts, setAlerts] = useState<Alert[]>([]);
   const UnRead = alerts.some((a) => !a.seen);
   const isLoggedin = !!userStore.getState().getUser();
-  const myId = userStore.getState().getUser()?._id;
 
   const toggleBox = (type: "userMenu" | "notice" | "search" | null) => {
     setActiveBox((prev) => (prev === type ? null : type));
@@ -80,14 +78,13 @@ export default function HeaderIcon() {
   useEffect(() => {
     const fetchAlert = async () => {
       try {
-        const res = await axiosInstance.get("/notifications");
+        const res = await getNotifications();
+        const myId = userStore.getState().getUser()?._id;
 
-        const filtered = res.data.filter((a: Alert) => {
+        const filtered = res.filter((a: Alert) => {
           const myComment = a.comment?.author === myId;
-          const myLike = a.like?.user === myId;
-          console.log(a.comment?.author);
-
-          return !myComment && !myLike;
+          const myAction = a.author._id === myId;
+          return !myAction && !myComment;
         });
         setAlerts(filtered);
       } catch (err) {
@@ -119,7 +116,7 @@ export default function HeaderIcon() {
               <span className="absolute text-red-600 top-[-3px] right-[-1px] text-[9px]">●</span>
             )}
             {activeBox === "notice" && (
-              <div ref={boxRef} className="absolute top-full -left-38 mt-2 z-[100] ">
+              <div ref={boxRef} className="absolute top-full -left-38 mt-2 z-[100]">
                 {activeBox && (
                   <NoticeBox
                     onClose={() => toggleBox(null)}
