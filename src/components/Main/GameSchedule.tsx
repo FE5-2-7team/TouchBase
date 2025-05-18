@@ -30,7 +30,7 @@ const GameTable = ({ team, pitcher }: { team: string; pitcher: string }) => (
 
 const LoadingSkeleton = () => (
   <div className="w-auto border border-[#00000020] dark:border-b-[#35363C] dark:last:border-b-0">
-    <div className="flex flex-row justify-between py-4">
+    <div className="flex flex-row justify-between py-[1.07rem]">
       <div className="flex flex-col gap-4 px-4 w-full">
         <div className="flex items-center">
           <div className="w-[40px]">
@@ -47,7 +47,7 @@ const LoadingSkeleton = () => (
       </div>
       <div className="flex">
         <div className="flex items-center px-8 border-l border-[#00000020] dark:border-[#35363C]">
-          <div className="h-5 bg-gray-200 rounded-full dark:bg-gray-500 w-20"></div>
+          <div className="h-8 bg-gray-200 rounded-full dark:bg-gray-500 w-20"></div>
         </div>
         <div className="flex items-center px-8 border-l border-[#00000020] dark:border-[#35363C]">
           <div className="h-5 bg-gray-200 rounded-full dark:bg-gray-500 w-20"></div>
