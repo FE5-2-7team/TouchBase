@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { axiosInstance } from "../../api/axiosInstance";
 import { CgBell } from "react-icons/cg";
 import { MdDarkMode, MdSearch, MdLightMode } from "react-icons/md";
 import { useDarkMode } from "../../hooks/useDarkMode";
@@ -8,6 +7,8 @@ import NoticeBox from "../Header/NoticeBox";
 import SearchBox from "../Header/SearchBox";
 import { userStore } from "../../stores/userStore";
 import { BaseUser, ExtendedUser } from "../../types/postType";
+
+import { getNotifications } from "../../api/notification";
 
 const iconDiv =
   "w-[30px] h-[30px] bg-white rounded-2xl relative flex justify-center items-center";
@@ -78,8 +79,8 @@ export default function EditIcons() {
   useEffect(() => {
     const fetchAlert = async () => {
       try {
-        const res = await axiosInstance.get("/notifications");
-        setAlerts(res.data);
+        const res = await getNotifications();
+        setAlerts(res);
       } catch (err) {
         console.error("알림 목록 불러오기 실패", err);
       }
