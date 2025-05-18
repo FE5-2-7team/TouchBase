@@ -49,7 +49,14 @@
 src
 ├── api
 │   ├── auth.ts
-│   └── axiosInstance.ts
+│   ├── axiosInstance.ts
+│   ├── follow.ts
+│   ├── like.ts
+│   ├── message.ts
+│   ├── notification.ts
+│   ├── posts.ts
+│   ├── search.ts
+│   └── user.ts
 ├── App.tsx
 ├── assets
 │   ├── fonts
@@ -85,6 +92,8 @@ src
 │   ├── MessagePage.tsx
 │   ├── NotFoundPage.tsx
 │   └── SignUpPage.tsx
+├── router
+│   └── index.tsx
 ├── stores
 │   ├── channelStore.ts
 │   ├── messageStore.ts
