@@ -1,7 +1,8 @@
 import { useState } from "react";
 import SendButton from "./SendButton";
-import { axiosInstance } from "../../api/axiosInstance";
 import { useMessageStore } from "../../stores/messageStore";
+import { createMessage } from "../../api/message";
+import { createNotification } from "../../api/notification";
 
 export default function SendMessageForm({
   selectedUserId,
@@ -14,17 +15,14 @@ export default function SendMessageForm({
   const sendHandler = async () => {
     if (!content.trim()) return;
     try {
-      const res = await axiosInstance.post("/messages/create", {
-        receiver: selectedUserId,
-        message: content,
-      });
+      const res = await createMessage(content, selectedUserId ?? "");
 
-      const messageId = res.data._id;
+      const messageId = res._id;
 
-      await axiosInstance.post("/notifications/create", {
+      await createNotification({
         notificationType: "MESSAGE",
         notificationTypeId: messageId,
-        userId: selectedUserId,
+        userId: selectedUserId || "",
         postId: null,
       });
       setContent("");

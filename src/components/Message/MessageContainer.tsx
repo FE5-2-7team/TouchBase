@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import SendMessageForm from "./SendMessageForm";
 import { MessageProps } from "../../types/messageType";
 import MessageChatView from "./MessageChatView";
-import { axiosInstance } from "../../api/axiosInstance";
 import { userStore } from "../../stores/userStore";
 import { useLocation } from "react-router";
 import { ExtendedUser } from "../../types/postType";
 import EmptyMessage from "./EmptyMessage";
+import { getMessages } from "../../api/message";
 
 export default function MessageContainer() {
   const [messages, setMessages] = useState<MessageProps[]>([]);
@@ -17,11 +17,12 @@ export default function MessageContainer() {
 
   const fetchMessages = async () => {
     try {
-      const res = await axiosInstance.get(`/messages?userId=${selectedUserId}`);
+      const res = await getMessages(selectedUserId);
 
-      const sorted = res.data.sort(
+      const sorted = res.sort(
         (a: MessageProps, b: MessageProps) =>
-          new Date(a.createdAt ?? "").getTime() - new Date(b.createdAt ?? "").getTime()
+          new Date(a.createdAt ?? "").getTime() -
+          new Date(b.createdAt ?? "").getTime()
       );
       setMessages(sorted);
     } catch (err) {
@@ -37,7 +38,8 @@ export default function MessageContainer() {
     <>
       <div className="w-full mt-6 h-[75vh] relative">
         <div className="flex ml-[150px] text-2xl font-semibold my-4 text-gray-800 dark:text-white">
-          {selectedUser.username ? selectedUser.username : "익명의 유저"} 님과의 쪽지
+          {selectedUser.username ? selectedUser.username : "익명의 유저"} 님과의
+          쪽지
         </div>
         {messages.length === 0 ? (
           <EmptyMessage message="쪽지를 보내고 대화를 시작해보세요" />
@@ -47,7 +49,10 @@ export default function MessageContainer() {
           </div>
         )}
         <div className="w-[75%] absolute justify-center md:ml-[10%] sm:ml-10 bottom-[-10px]">
-          <SendMessageForm selectedUserId={selectedUserId} onSend={fetchMessages} />
+          <SendMessageForm
+            selectedUserId={selectedUserId}
+            onSend={fetchMessages}
+          />
         </div>
       </div>
     </>

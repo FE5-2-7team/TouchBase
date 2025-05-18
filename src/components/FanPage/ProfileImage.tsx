@@ -1,6 +1,7 @@
 import { FaUserCircle } from "react-icons/fa";
-import { axiosInstance } from "../../api/axiosInstance";
 import { useEffect, useState } from "react";
+import { getUser } from "../../api/user";
+
 interface ProfileImageProps {
   imageUrl?: string;
   alt?: string;
@@ -21,7 +22,7 @@ export default function ProfileImage({
       try {
         if (authorId) {
           console.log(authorId);
-          const res = await axiosInstance.get(`/users/${authorId}`);
+          const res = await getUser(authorId);
           setFetchImg(res.data.image);
         }
       } catch {

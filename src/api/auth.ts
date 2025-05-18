@@ -1,7 +1,14 @@
 import { axiosInstance } from "./axiosInstance";
 import { userStore } from "../stores/userStore";
 
-export const login = async ({
+interface SignUpFormData {
+  email: string;
+  fullName: string;
+  username: string;
+  password: string;
+}
+
+const login = async ({
   email,
   password,
 }: {
@@ -26,7 +33,7 @@ export const login = async ({
   }
 };
 
-export const logout = async () => {
+const logout = async () => {
   try {
     const response = await axiosInstance.post("/logout");
     if (response.status === 200) {
@@ -39,7 +46,8 @@ export const logout = async () => {
     console.log(error);
   }
 };
-export const checkLogin = async () => {
+
+const checkLogin = async () => {
   try {
     const response = await axiosInstance.get("/auth-user");
     if (response.status === 200) {
@@ -53,3 +61,10 @@ export const checkLogin = async () => {
     console.log(error);
   }
 };
+
+const signUp = async (formData: SignUpFormData) => {
+  const response = await axiosInstance.post("/signup", formData);
+  return response;
+};
+
+export { signUp, login, logout, checkLogin };

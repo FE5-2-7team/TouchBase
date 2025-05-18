@@ -4,7 +4,6 @@ import Input from "./AuthInput";
 import BlueBoard from "./BlueBoard";
 import { useState } from "react";
 import { ExtendedUser } from "../../types/postType.ts";
-import { axiosInstance } from "../../api/axiosInstance.ts";
 import { useNavigate } from "react-router";
 import Message from "./Message.tsx";
 import Swal from "sweetalert2";
@@ -12,6 +11,8 @@ import { inputValidation } from "./inputValidation.ts";
 import { SignUpValue } from "../../types/userTypes.ts";
 import { login } from "../../api/auth";
 import { AxiosError } from "axios";
+import { getUserInfo } from "../../api/user.ts";
+import { signUp } from "../../api/auth.ts";
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -93,7 +94,7 @@ export default function SignUp() {
     if (value.nickName === "" || !valid.nickName) return;
 
     try {
-      const { data } = await axiosInstance(`/users/get-users`);
+      const data = await getUserInfo();
       const result = data.some(
         (el: ExtendedUser) => el.username === value.nickName
       );
@@ -131,7 +132,7 @@ export default function SignUp() {
 
     try {
       //회원가입 데이터 post
-      const response = await axiosInstance.post(`/signup`, {
+      const response = await signUp({
         email: value.email.toLocaleLowerCase().trim(),
         fullName: value.name.toLocaleLowerCase().trim(),
         username: value.nickName.toLocaleLowerCase().trim(),

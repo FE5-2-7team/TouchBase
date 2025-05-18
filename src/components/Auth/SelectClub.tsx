@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { axiosFileInstance } from "../../api/axiosInstance";
 import BlueBoard from "./BlueBoard";
 import Button from "../FanPage/Button";
 import { userStore } from "../../stores/userStore";
@@ -8,6 +7,7 @@ import Swal from "sweetalert2";
 import { ExtendedUser } from "../../types/postType.ts";
 import { useNavigate } from "react-router";
 import axios from "axios";
+import { updateUserImage } from "../../api/user.ts";
 
 export default function SelectClub() {
   const [selectedValue, setSelectedValue] = useState("");
@@ -89,10 +89,7 @@ export default function SelectClub() {
       const formData = new FormData();
       formData.append("isCover", "true");
       formData.append("image", file);
-      const { data } = await axiosFileInstance.post(
-        "/users/upload-photo",
-        formData
-      );
+      const data = await updateUserImage(formData);
       Swal.fire({
         icon: "success",
         title: "구단을 변경 했습니다.",

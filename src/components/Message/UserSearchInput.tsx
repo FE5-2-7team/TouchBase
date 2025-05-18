@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { axiosInstance } from "../../api/axiosInstance";
 import { ExtendedUser } from "../../types/postType";
+import { searchUsers } from "../../api/search";
 
 type Props = {
   onSelect: (user: ExtendedUser) => void;
@@ -10,8 +10,8 @@ export default function UserSearchInput({ onSelect }: Props) {
   const [results, setResults] = useState<ExtendedUser[]>([]);
 
   const searchInput = async () => {
-    const res = await axiosInstance.get(`/search/users/${encodeURIComponent(keyword)}`);
-    setResults(res.data);
+    const res = await searchUsers(encodeURIComponent(keyword));
+    setResults(res);
   };
   return (
     <>
