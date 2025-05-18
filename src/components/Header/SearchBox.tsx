@@ -6,7 +6,7 @@ import SearchThreads from "./SearchThreads";
 import SearchUser from "./SearchUser";
 import UserRecommend from "./UserRecommend";
 import ThreadRecommends from "./ThreadRecommends";
-import { ExtendedUser, Post } from "../../types/postType";
+import { BaseUser, ExtendedUser, Post } from "../../types/postType";
 
 type SearchProps = ExtendedUser & Post;
 
@@ -35,7 +35,10 @@ export default function SearchBox({ onClose }: { onClose: () => void }) {
     }
     try {
       const res = await axiosInstance.get(`/search/all/${encodeURIComponent(trimkeyword)}`);
-      setSearchResults(res.data);
+
+      const filterResult = res.data.filter((user: BaseUser) => user.role !== "SuperAdmin");
+
+      setSearchResults(filterResult);
     } catch (err) {
       console.error("검색에 실패했습니다:", err);
       setSearchResults([]);

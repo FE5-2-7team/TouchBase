@@ -4,6 +4,7 @@ import { axiosInstance } from "../../api/axiosInstance";
 import { FaUser } from "react-icons/fa";
 import { Link } from "react-router";
 import { userStore } from "../../stores/userStore";
+import { BaseUser } from "../../types/postType";
 interface Props {
   onClose: () => void;
 }
@@ -16,8 +17,10 @@ export default function UserRecommend({ onClose }: Props) {
     const fetchUser = async () => {
       try {
         const res = await axiosInstance.get("/users/get-users");
+        const filterResult = res.data.filter((user: BaseUser) => user.role !== "SuperAdmin");
 
-        const randomUser = [...res.data].sort(() => 0.5 - Math.random());
+        const randomUser = [...filterResult].sort(() => 0.5 - Math.random());
+
         setRecommends(randomUser.slice(0, 8));
       } catch (err) {
         console.error("추천 유저 불러오기 실패", err);

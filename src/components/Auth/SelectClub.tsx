@@ -7,6 +7,7 @@ import Message from "./Message.tsx";
 import Swal from "sweetalert2";
 import { ExtendedUser } from "../../types/postType.ts";
 import { useNavigate } from "react-router";
+import axios from "axios";
 
 export default function SelectClub() {
   const [selectedValue, setSelectedValue] = useState("");
@@ -18,48 +19,48 @@ export default function SelectClub() {
     {
       label: "KIA 타이거즈",
       value: "KIA 타이거즈",
-      imageUrl: "/public/images/kia.png",
+      imageUrl: "/images/kia.png",
     },
     {
       label: "삼성 라이온즈",
       value: "삼성 라이온즈",
-      imageUrl: "/public/images/samsung.png",
+      imageUrl: "/images/samsung.png",
     },
     {
       label: "LG 트윈스",
       value: "LG 트윈스",
-      imageUrl: "/public/images/lg.png",
+      imageUrl: "/images/lg.png",
     },
     {
       label: "두산 베어스",
       value: "두산 베어스",
-      imageUrl: "/public/images/doosan.png",
+      imageUrl: "/images/doosan.png",
     },
-    { label: "KT wiz", value: "KT wiz", imageUrl: "/public/images/kt.png" },
+    { label: "KT wiz", value: "KT wiz", imageUrl: "/images/kt.png" },
     {
       label: "SSG 랜더스",
       value: "SSG 랜더스",
-      imageUrl: "/public/images/ssg.png",
+      imageUrl: "/images/ssg.png",
     },
     {
       label: "롯데 자이언츠",
       value: "롯데 자이언츠",
-      imageUrl: "/public/images/lotte.png",
+      imageUrl: "/images/lotte.png",
     },
     {
       label: "한화 이글스",
       value: "한화 이글스",
-      imageUrl: "/public/images/hanwha.png",
+      imageUrl: "/images/hanwha.png",
     },
     {
       label: "NC 다이노스",
       value: "NC 다이노스",
-      imageUrl: "/public/images/nc.png",
+      imageUrl: "/images/nc.png",
     },
     {
       label: "키움 히어로즈",
       value: "키움 히어로즈",
-      imageUrl: "/public/images/kium.png",
+      imageUrl: "/images/kium.png",
     },
   ];
 
@@ -84,6 +85,7 @@ export default function SelectClub() {
 
       const fileName = selected.imageUrl.split("/").pop() as string;
       const file = new File([blob], fileName, { type: blob.type });
+
       const formData = new FormData();
       formData.append("isCover", "true");
       formData.append("image", file);
@@ -99,6 +101,10 @@ export default function SelectClub() {
       navigate(`/profile/${user._id}/posts`);
       userStore.getState().setUser(data);
     } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log("서버 응답 상태코드:", error.response?.status);
+        console.log("서버 응답 메시지:", error.response?.data);
+      }
       console.log(error);
     }
   };
@@ -119,6 +125,7 @@ export default function SelectClub() {
               console.log(e.target.value);
               setSelectedValue(e.target.value);
             }}
+            value={selectedValue}
             className="text-gray-400 px-[4px] border-b border-[#0033A0] font-semibold dark:text-white dark:bg-[#434343] h-[40px] mb-[0] w-[475px] dark:border-[#fff]"
           >
             {imageOptions.map((option) => (
