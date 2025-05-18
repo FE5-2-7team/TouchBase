@@ -235,9 +235,10 @@ export default function SignUp() {
                 value={value.password}
                 onChange={(e) => handleInputValidation(e, "password", value)}
               />
-              {value.password && !valid.password && (
-                <Message>8~16자, 영문, 숫자를 사용해 주세요</Message>
-              )}
+              {!value.password ||
+                (!valid.password && (
+                  <Message>8~16자, 영문, 숫자를 사용해 주세요</Message>
+                ))}
             </div>
             <div className="relative mb-[35px] ">
               <Input
@@ -250,9 +251,10 @@ export default function SignUp() {
                 type="password"
                 className="mb-[35px]"
               />
-              {value.checkPassword && !valid.checkPassword && (
-                <Message>비밀번호가 일치하지 않습니다</Message>
-              )}
+              {!value.checkPassword ||
+                (!valid.checkPassword && (
+                  <Message>비밀번호가 일치하지 않습니다</Message>
+                ))}
             </div>
             <AuthButton
               onClick={(e: React.MouseEvent<HTMLButtonElement>) => {

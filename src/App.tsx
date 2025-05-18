@@ -7,7 +7,7 @@ import FollowBox from "./components/Profile/FollowBox";
 import LogIn from "./pages/LogInPage";
 import SignUp from "./pages/SignUpPage";
 import NotFoundPage from "./pages/NotFoundPage";
-import EditProfile from "./components/Auth/EditProfile";
+import EditProfile from "./pages/EditProfilePage";
 import MyThreadsList from "./components/Profile/MyThreadsList";
 import { useDarkMode } from "./hooks/useDarkMode";
 import AuthLayout from "./layout/RejectIfAuth";

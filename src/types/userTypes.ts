@@ -20,3 +20,37 @@ export type UpdateValue = {
     content: string;
   };
 };
+
+export type SetData = {
+  nickname: {
+    value: string;
+    valid: boolean;
+  };
+  name: {
+    value: string;
+    valid: boolean;
+  };
+  email: {
+    value: string;
+    valid: boolean;
+  };
+  password: {
+    value: string;
+    valid: boolean;
+  };
+  checkPassword: {
+    value: string;
+    valid: boolean;
+  };
+};
+
+export type CheckPasswordType = {
+  password: {
+    content: string;
+    valid: boolean;
+  };
+  checkPassword: {
+    content: string;
+    valid: boolean;
+  };
+};
