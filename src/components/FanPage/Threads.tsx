@@ -59,6 +59,7 @@ export default function Threads({
     return like ? like._id : null;
   });
   const [isHeartSending, setIsHeartSending] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
   const refetch = refreshStore((state) => state.refetch);
 
   const nav = useNavigate();
@@ -102,6 +103,7 @@ export default function Threads({
         data: { id: postId },
       });
       refetch();
+      setIsDeleted(true);
     } catch (e) {
       console.error(e);
     }
@@ -174,6 +176,23 @@ export default function Threads({
     }
     setShowComments((prev) => !prev);
   };
+
+  // 삭제된 경우 메시지 표시
+  if (isDeleted) {
+    return (
+      <div className="border border-gray-300 dark:border-[#4c4c4c] rounded-lg p-4 mb-6 bg-white dark:bg-[#191A1E] shadow-sm text-center">
+        <p className="mb-4 text-gray-700 dark:text-[#fff] font-semibold">
+          삭제된 피드입니다.
+        </p>
+        <button
+          onClick={() => nav("/")}
+          className="px-4 py-2 bg-[#235bd2] text-white rounded-md hover:bg-[#0033A0] transition-all cursor-pointer"
+        >
+          홈으로 돌아가기 ~ 🎵
+        </button>
+      </div>
+    );
+  }
 
   if (isEdit) {
     return (
