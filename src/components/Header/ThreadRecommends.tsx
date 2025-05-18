@@ -2,14 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useChannelStore } from "../../stores/channelStore";
 import { NewAndHotPost, Post } from "../../types/postType";
-import { userStore } from "../../stores/userStore";
 import { useNewAndHotPostStore } from "../../stores/newAndHotPostStore";
 
 export default function ThreadRecommends({ onClose }: { onClose: () => void }) {
   const [recommends, setRecommends] = useState<Post[]>([]);
   const navigate = useNavigate();
-  const user = userStore.getState().getUser();
-  const isLoggedin = !!user && !!user._id;
   const RecommendsPostData = useNewAndHotPostStore((state: NewAndHotPost) => state.newPostList);
 
   useEffect(() => {
@@ -50,7 +47,7 @@ export default function ThreadRecommends({ onClose }: { onClose: () => void }) {
               key={idx}
               className="p-2 w-full h-10 bg-white rounded-lg border border-gray-300 hover:shadow-sm hover:bg-gray-100 dark:bg-[#191A1E] dark:border-gray-800 dark:hover:bg-gray-800"
               onClick={() => {
-                navigate(isLoggedin ? `/fanpage/${teamName}/${channelId}/${post._id}` : "/login");
+                navigate(`/fanpage/${teamName}/${channelId}/${post._id}`);
                 onClose();
               }}
             >
