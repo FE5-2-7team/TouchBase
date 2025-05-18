@@ -3,9 +3,8 @@ import tb_w_logo from "../assets/images/tb_w_logo.svg";
 import { logos } from "../utils/getLogoImages";
 import { Link, useLocation } from "react-router";
 import HeaderIcon from "../components/Header/HeaderIcon";
-import { axiosInstance } from "../api/axiosInstance";
 import { useEffect, useState } from "react";
-import { useChannelStore } from "../stores/channelStore";
+import { getChannel } from "../api/posts";
 
 const liItemStyle = "justify-center cursor-pointer whitespace-nowrap";
 const liImgStyle = "mr-1 h-7 w-7 lg:mr-2";
@@ -22,12 +21,8 @@ export default function Header() {
   useEffect(() => {
     const fetchChannels = async () => {
       try {
-        const res = await axiosInstance.get("/channels");
-        const data: Channel[] = res.data;
+        const data = await getChannel();
         setChannels(data);
-        data.forEach((channel: Channel) => {
-          useChannelStore.getState().setChannel(channel._id, channel.name);
-        });
       } catch (err) {
         console.error("채널 불러오기 실패", err);
       }

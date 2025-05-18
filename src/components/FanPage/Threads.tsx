@@ -7,12 +7,15 @@ import SimpleProfileCard from "./SimpleProfileCard";
 import Comments from "./Comments";
 import MyThreads from "./MyThreads";
 import { AxiosError } from "axios";
-import { axiosInstance } from "../../api/axiosInstance";
 import { Like, Comment, ExtendedUser } from "../../types/postType";
 import { userStore } from "../../stores/userStore";
 import { useNavigate, useLocation } from "react-router";
 import { refreshStore } from "../../stores/refreshStore";
 import EditPosts from "../Profile/EditPosts";
+import { deletePost } from "../../api/posts";
+import { createNotification } from "../../api/notification";
+import { createLike, deleteLike } from "../../api/like";
+
 interface ThreadProps {
   postId: string;
   username: string;
@@ -99,9 +102,7 @@ export default function Threads({
 
   const deleteHandler = async () => {
     try {
-      await axiosInstance.delete("posts/delete", {
-        data: { id: postId },
-      });
+      await deletePost(postId);
       refetch();
       setIsDeleted(true);
     } catch (e) {
@@ -137,25 +138,19 @@ export default function Threads({
 
     try {
       if (!heart) {
-        const res = await axiosInstance.post("/likes/create", {
-          postId: postId,
-        });
-        const newLikeId = res.data._id;
+        const res = await createLike(postId);
+        const newLikeId = res._id;
         setMyLikeId(newLikeId);
 
         // 알림 생성 함수 만들어서 api호출
-        await axiosInstance.post(`/notifications/create`, {
+        await createNotification({
           notificationType: "LIKE",
-          notificationTypeId: res.data._id,
+          notificationTypeId: res._id,
           userId: author._id,
           postId: postId,
         });
       } else {
-        await axiosInstance.delete("/likes/delete", {
-          data: {
-            id: myLikeId,
-          },
-        });
+        await deleteLike(myLikeId ?? "");
         setMyLikeId(null);
       }
       setHeart((prev) => !prev);

@@ -3,9 +3,9 @@ import useGetUser from "../components/Profile/useGetUser";
 import { useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { userStore } from "../stores/userStore";
-import { axiosInstance } from "../api/axiosInstance";
-import { Follow } from "../types/postType";
 import { refreshStore } from "../stores/refreshStore";
+import { follow, unfollow } from "../api/follow";
+import { createNotification } from "../api/notification";
 
 export default function ProfileLayout() {
   const params = useParams();
@@ -39,9 +39,7 @@ export default function ProfileLayout() {
 
   const unfollowHandler = async () => {
     try {
-      await axiosInstance.delete<Follow>("follow/delete", {
-        data: { id: following?._id },
-      });
+      await unfollow(following?._id ?? "");
       refetch();
     } catch (e) {
       console.error(e);
@@ -50,11 +48,9 @@ export default function ProfileLayout() {
 
   const followHandler = async () => {
     try {
-      const { data } = await axiosInstance.post<Follow>("follow/create", {
-        userId: params.id,
-      });
+      const data = await follow(params.id ?? "");
 
-      await axiosInstance.post("notifications/create", {
+      await createNotification({
         notificationType: "FOLLOW",
         notificationTypeId: data._id,
         userId: data.user,
@@ -94,7 +90,9 @@ export default function ProfileLayout() {
     );
   }
 
-  const following = user?.followers.find((follow) => follow.follower === loginUserId);
+  const following = user?.followers.find(
+    (follow) => follow.follower === loginUserId
+  );
 
   return (
     <div className="flex flex-col gap-[34px] w-full max-w-[1200px] mx-auto mt-[40px] min-h-[calc(100vh-190px)]">
@@ -118,7 +116,11 @@ export default function ProfileLayout() {
           <div className="flex flex-start w-[580px] lg:gap-[70px] md:gap-[40px] sm:gap-[40px] mt-[7px] md:mb-[14px] sm:mb-[5px]">
             <NavLink
               to="posts"
-              className={({ isActive }) => (isActive ? "text-[#FF9500]" : "text-[#0033A0] dark:text-[#FFFFFF]")}
+              className={({ isActive }) =>
+                isActive
+                  ? "text-[#FF9500]"
+                  : "text-[#0033A0] dark:text-[#FFFFFF]"
+              }
             >
               <button className="flex items-center cursor-pointer lg:text-[17px] md:text-[16px] sm:text-[9px]">
                 <span className="lg:text-[20px] md:text-[18px] sm:text-[9px] font-bold md:mr-[10px] sm:mr-[6px]">
@@ -129,7 +131,11 @@ export default function ProfileLayout() {
             </NavLink>
             <NavLink
               to="follower"
-              className={({ isActive }) => (isActive ? "text-[#FF9500]" : "text-[#0033A0] dark:text-[#FFFFFF]")}
+              className={({ isActive }) =>
+                isActive
+                  ? "text-[#FF9500]"
+                  : "text-[#0033A0] dark:text-[#FFFFFF]"
+              }
             >
               <button className="flex items-center cursor-pointer lg:text-[17px] md:text-[16px] sm:text-[9px]">
                 <span className="lg:text-[20px] md:text-[18px] sm:text-[9px] font-bold md:mr-[10px] sm:mr-[6px]">
@@ -140,7 +146,11 @@ export default function ProfileLayout() {
             </NavLink>
             <NavLink
               to="following"
-              className={({ isActive }) => (isActive ? "text-[#FF9500]" : "text-[#0033A0] dark:text-[#FFFFFF]")}
+              className={({ isActive }) =>
+                isActive
+                  ? "text-[#FF9500]"
+                  : "text-[#0033A0] dark:text-[#FFFFFF]"
+              }
             >
               <button className="flex items-center cursor-pointer lg:text-[17px] md:text-[16px] sm:text-[9px]">
                 <span className="lg:text-[20px] md:text-[18px] sm:text-[9px] font-bold md:mr-[10px] sm:mr-[6px]">
@@ -152,7 +162,11 @@ export default function ProfileLayout() {
             {params.id && loginUserId === params.id ? (
               <NavLink
                 to="/message"
-                className={({ isActive }) => (isActive ? "text-[#FF9500]" : "text-[#0033A0] dark:text-[#FFFFFF]")}
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-[#FF9500]"
+                    : "text-[#0033A0] dark:text-[#FFFFFF]"
+                }
               >
                 <button className="flex items-center cursor-pointer lg:text-[17px] md:text-[16px] sm:text-[9px]">
                   <span className="lg:text-[20px] md:text-[18px] sm:text-[9px] font-bold md:mr-[10px] sm:mr-[6px]">

@@ -9,13 +9,17 @@ import { editValidation } from "./inputValidation.ts";
 import { UpdateValue } from "../../types/userTypes.ts";
 import Message from "./Message.tsx";
 import { logout } from "../../api/auth";
-import { axiosInstance } from "../../api/axiosInstance.ts";
 import { userStore } from "../../stores/userStore";
 import { ExtendedUser } from "../../types/postType.ts";
 import SelectClub from "./SelectClub.tsx";
 import watermark2 from "../../assets/images/watermark2.png";
 import EditIcons from "./EditIcons.tsx";
 import Swal from "sweetalert2";
+import {
+  updateUserInfo,
+  updateUserPassword,
+  getUserInfo,
+} from "../../api/user.ts";
 
 export default function EditProfile() {
   const navigate = useNavigate();
@@ -64,16 +68,11 @@ export default function EditProfile() {
       let response;
       if (type === "nickName") {
         await handleNickNameCheck();
-        response = await axiosInstance.put("settings/update-user", {
-          fullName: user.fullName,
-          username: data.content,
-        });
+        response = await updateUserInfo(user.fullName, data.content);
       } else {
-        response = await axiosInstance.put("settings/update-password", {
-          password: data.content,
-        });
+        response = await updateUserPassword(data.content);
       }
-      if (response.status !== 200) throw new Error();
+      if (response?.status !== 200) throw new Error();
 
       Swal.fire({
         icon: "success",
@@ -85,7 +84,7 @@ export default function EditProfile() {
         navigate("/login");
         return;
       }
-      userStore.getState().setUser(response.data);
+      userStore.getState().setUser(response?.data);
     } catch (err) {
       Swal.fire({
         icon: "error",
@@ -152,7 +151,7 @@ export default function EditProfile() {
   async function handleNickNameCheck() {
     if (nickName.content === "" || !nickName.valid) return;
 
-    const { data } = await axiosInstance(`/users/get-users`);
+    const data = await getUserInfo();
     const result = data.some(
       (el: ExtendedUser) => el.username === nickName.content
     );

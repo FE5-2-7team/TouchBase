@@ -1,11 +1,11 @@
 import { useEffect, useState, useTransition } from "react";
-import { axiosInstance } from "../../api/axiosInstance";
 import { Post } from "../../types/postType";
 import Threads from "../FanPage/Threads";
 import { useParams } from "react-router";
 import { refreshStore } from "../../stores/refreshStore";
 import EmptyContent from "./EmptyContent";
 import { userStore } from "../../stores/userStore";
+import { getAuthorPosts } from "../../api/posts";
 
 export default function MyThreadsList() {
   const [myPosts, setMyPosts] = useState<Post[]>([]);
@@ -16,7 +16,7 @@ export default function MyThreadsList() {
 
   const getHandler = async () => {
     try {
-      const { data } = await axiosInstance.get(`/posts/author/${params.id}`);
+      const data = await getAuthorPosts(params.id ?? "");
       setMyPosts(data);
     } catch (e) {
       console.log(e);
@@ -45,7 +45,9 @@ export default function MyThreadsList() {
             console.error("파싱실패", e);
           }
 
-          const likeChecked = post.likes.some((like) => like.user === loginUserId);
+          const likeChecked = post.likes.some(
+            (like) => like.user === loginUserId
+          );
 
           return (
             <Threads

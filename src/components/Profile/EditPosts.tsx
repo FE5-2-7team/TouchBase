@@ -5,9 +5,9 @@ import ProfileBlock from "../FanPage/ProfileBlock";
 import { LuImageMinus, LuImagePlus } from "react-icons/lu";
 import { MdOutlineReplay } from "react-icons/md";
 import Button from "../FanPage/Button";
-import { axiosFileInstance } from "../../api/axiosInstance";
 import { AxiosError } from "axios";
 import { refreshStore } from "../../stores/refreshStore";
+import { updatePost } from "../../api/posts";
 
 interface EditProps {
   channelId?: string;
@@ -83,7 +83,10 @@ export default function EditPosts({
       setIsEditing(true);
       const formData = new FormData();
       formData.append("postId", postId);
-      formData.append("title", JSON.stringify([{ postTitle: title, postContent: contents }]));
+      formData.append(
+        "title",
+        JSON.stringify([{ postTitle: title, postContent: contents }])
+      );
       formData.append("channelId", channelId ?? "");
 
       if (imageFiles) {
@@ -94,7 +97,7 @@ export default function EditPosts({
         formData.append("imageToDeletePublicId", deleteImage);
       }
 
-      await axiosFileInstance.put(`posts/update`, formData);
+      await updatePost(formData);
       console.log("파일 수정 성공");
       setIsEditing(false);
     } catch (error) {
@@ -166,7 +169,11 @@ export default function EditPosts({
 
               {images && (
                 <div className="my-4">
-                  <img src={images} alt="Uploaded" className="max-w-full rounded-md" />
+                  <img
+                    src={images}
+                    alt="Uploaded"
+                    className="max-w-full rounded-md"
+                  />
                 </div>
               )}
             </div>
@@ -213,7 +220,10 @@ export default function EditPosts({
 
               {/* 오른쪽 EDIT 버튼 */}
               <div className="flex items-center justify-end w-full">
-                <Button onClick={editHandler} disabled={!title.trim() && !contents.trim() && !images}>
+                <Button
+                  onClick={editHandler}
+                  disabled={!title.trim() && !contents.trim() && !images}
+                >
                   수정완료
                 </Button>
               </div>

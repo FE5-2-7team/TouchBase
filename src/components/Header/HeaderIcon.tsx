@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { axiosInstance } from "../../api/axiosInstance";
 import { CgBell } from "react-icons/cg";
 import { MdDarkMode, MdPerson, MdSearch, MdLightMode } from "react-icons/md";
 import { useDarkMode } from "../../hooks/useDarkMode";
@@ -8,6 +7,7 @@ import NoticeBox from "./NoticeBox";
 import SearchBox from "./SearchBox";
 import { userStore } from "../../stores/userStore";
 import { BaseUser, ExtendedUser } from "../../types/postType";
+import { getNotifications } from "../../api/notification";
 
 const iconDiv =
   "w-[30px] h-[30px] bg-white rounded-2xl mt-6 relative flex justify-center items-center";
@@ -78,10 +78,10 @@ export default function HeaderIcon() {
   useEffect(() => {
     const fetchAlert = async () => {
       try {
-        const res = await axiosInstance.get("/notifications");
+        const res = await getNotifications();
         const myId = userStore.getState().getUser()?._id;
 
-        const filtered = res.data.filter((a: Alert) => {
+        const filtered = res.filter((a: Alert) => {
           const myComment = a.comment?.author === myId;
           const myAction = a.author._id === myId;
           return !myAction && !myComment;
@@ -98,7 +98,9 @@ export default function HeaderIcon() {
     <>
       <div
         className={`flex md:gap-2 hiddenHeader ${
-          !isLoggedin ? "mr-10 md:mr-26 lg:mr-50 gap-1.5" : "lg:mx-5 md:w-72 mr-4 gap-1.5"
+          !isLoggedin
+            ? "mr-10 md:mr-26 lg:mr-50 gap-1.5"
+            : "lg:mx-5 md:w-72 mr-4 gap-1.5"
         }`}
       >
         <div className={iconDiv}>
@@ -113,10 +115,15 @@ export default function HeaderIcon() {
           <div className={iconDiv}>
             <CgBell className={iconStyle} onClick={() => toggleBox("notice")} />
             {UnRead && (
-              <span className="absolute text-red-600 top-[-3px] right-[-1px] text-[9px]">●</span>
+              <span className="absolute text-red-600 top-[-3px] right-[-1px] text-[9px]">
+                ●
+              </span>
             )}
             {activeBox === "notice" && (
-              <div ref={boxRef} className="absolute top-full -left-38 mt-2 z-[100] ">
+              <div
+                ref={boxRef}
+                className="absolute top-full -left-38 mt-2 z-[100] "
+              >
                 {activeBox && (
                   <NoticeBox
                     onClose={() => toggleBox(null)}
@@ -137,9 +144,15 @@ export default function HeaderIcon() {
         </div>
 
         <div className={iconDiv}>
-          <MdPerson className={iconStyle} onClick={() => toggleBox("userMenu")} />
+          <MdPerson
+            className={iconStyle}
+            onClick={() => toggleBox("userMenu")}
+          />
           {activeBox === "userMenu" && (
-            <div ref={boxRef} className="absolute top-full -right-8 mt-2.5 z-[100]  ">
+            <div
+              ref={boxRef}
+              className="absolute top-full -right-8 mt-2.5 z-[100]  "
+            >
               {activeBox && <UserMenu />}
             </div>
           )}

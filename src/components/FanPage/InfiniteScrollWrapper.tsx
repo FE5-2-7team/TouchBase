@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState, useCallback } from "react";
-import { axiosInstance } from "../../api/axiosInstance";
 import Threads from "./Threads";
 import ThreadSkeleton from "./ThreadSkeleton";
 import { Post } from "../../types/postType";
 import { safeParsePost } from "../../utils/parsePost";
+import { getChannelPosts } from "../../api/posts";
 
 interface Props {
   channelId?: string;
@@ -39,14 +39,12 @@ export default function InfiniteScrollWrapper({
       let res;
 
       if (isSortPage) {
-        res = await axiosInstance.get(`/posts/channel/${channelId}`);
+        res = await getChannelPosts(channelId);
       } else {
-        res = await axiosInstance.get(
-          `/posts/channel/${channelId}?limit=${LIMIT}&offset=${offset}`
-        );
+        res = await getChannelPosts(channelId, LIMIT, offset);
       }
 
-      const newPosts = res.data;
+      const newPosts = res ?? [];
       setPosts((prev) => {
         const existingIds = new Set(prev.map((post) => post._id));
         const filtered = newPosts.filter(

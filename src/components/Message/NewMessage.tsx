@@ -1,9 +1,9 @@
-import { axiosInstance } from "../../api/axiosInstance";
 import { ExtendedUser } from "../../types/postType";
 import { useState } from "react";
 import { MdSearch } from "react-icons/md";
 import MessageContainer from "./MessageContainer";
 import { useNavigate } from "react-router";
+import { searchUsers } from "../../api/search";
 
 export default function NewMessage() {
   const [allUsers, setAllUsers] = useState<ExtendedUser[]>([]);
@@ -25,12 +25,10 @@ export default function NewMessage() {
     }
 
     try {
-      const res = await axiosInstance.get<ExtendedUser[]>(
-        `/search/users/${encodeURIComponent(value.trim())}`
-      );
+      const res = await searchUsers(encodeURIComponent(value.trim()));
 
       const keywordLower = value.trim().toLowerCase();
-      const filtered = res.data.filter((user) =>
+      const filtered = res.filter((user: ExtendedUser) =>
         (user.username ?? "").toLowerCase().includes(keywordLower)
       );
       setAllUsers(filtered);
