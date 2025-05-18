@@ -1,11 +1,11 @@
 import { FaUserCircle } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
 import useGetUser from "./useGetUser";
-import { Follow } from "../../types/postType";
-import { axiosInstance } from "../../api/axiosInstance";
+import { createNotification } from "../../api/notification";
 import { refreshStore } from "../../stores/refreshStore";
 import { Link } from "react-router";
 import { userStore } from "../../stores/userStore";
+import { follow, unfollow } from "../../api/follow";
 
 export default function FollowCard({ followId }: { followId: string }) {
   const { user: userDetails, isLoading } = useGetUser(followId);
@@ -25,13 +25,13 @@ export default function FollowCard({ followId }: { followId: string }) {
     );
   }
 
-  const following = userDetails?.followers.find((follow) => follow.follower === loginUserId);
+  const following = userDetails?.followers.find(
+    (follow) => follow.follower === loginUserId
+  );
 
   const unfollowHandler = async () => {
     try {
-      await axiosInstance.delete<Follow>("follow/delete", {
-        data: { id: following?._id },
-      });
+      await unfollow(following?._id ?? "");
       refetch();
     } catch (e) {
       console.error(e);
@@ -40,11 +40,9 @@ export default function FollowCard({ followId }: { followId: string }) {
 
   const followHandler = async () => {
     try {
-      const { data } = await axiosInstance.post<Follow>("follow/create", {
-        userId: followId,
-      });
+      const data = await follow(followId);
 
-      await axiosInstance.post("notifications/create", {
+      await createNotification({
         notificationType: "FOLLOW",
         notificationTypeId: data._id,
         userId: data.user,
@@ -59,7 +57,10 @@ export default function FollowCard({ followId }: { followId: string }) {
 
   return (
     <div className="flex items-center border border-[#335CB3] dark:border-[#4c4c4c] rounded-[10px] w-[470px] h-[63px] justify-between px-[13px] my-[5px]">
-      <Link to={`/profile/${userDetails?._id}/posts`} className="flex items-center">
+      <Link
+        to={`/profile/${userDetails?._id}/posts`}
+        className="flex items-center"
+      >
         <div className="relative w-[34px] h-[34px]">
           {userDetails?.image ? (
             <img
@@ -83,7 +84,10 @@ export default function FollowCard({ followId }: { followId: string }) {
         </div>
       </Link>
 
-      <Link to={`/message/${userDetails?._id}`} state={{ selectedUser: userDetails }}>
+      <Link
+        to={`/message/${userDetails?._id}`}
+        state={{ selectedUser: userDetails }}
+      >
         <button
           className={twMerge(
             "w-[100px] h-[24px] text-[14px] rounded-[10px] bg-[#0033A0] dark:bg-[#2F6BEB] text-[#ffffff] cursor-pointer",

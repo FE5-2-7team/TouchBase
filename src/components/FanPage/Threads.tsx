@@ -7,12 +7,15 @@ import SimpleProfileCard from "./SimpleProfileCard";
 import Comments from "./Comments";
 import MyThreads from "./MyThreads";
 import { AxiosError } from "axios";
-import { axiosInstance } from "../../api/axiosInstance";
 import { Like, Comment, ExtendedUser } from "../../types/postType";
 import { userStore } from "../../stores/userStore";
 import { useNavigate, useLocation } from "react-router";
 import { refreshStore } from "../../stores/refreshStore";
 import EditPosts from "../Profile/EditPosts";
+import { deletePost } from "../../api/posts";
+import { createNotification } from "../../api/notification";
+import { createLike, deleteLike } from "../../api/like";
+
 interface ThreadProps {
   postId: string;
   username: string;
@@ -59,6 +62,7 @@ export default function Threads({
     return like ? like._id : null;
   });
   const [isHeartSending, setIsHeartSending] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
   const refetch = refreshStore((state) => state.refetch);
 
   const nav = useNavigate();
@@ -98,10 +102,9 @@ export default function Threads({
 
   const deleteHandler = async () => {
     try {
-      await axiosInstance.delete("posts/delete", {
-        data: { id: postId },
-      });
+      await deletePost(postId);
       refetch();
+      setIsDeleted(true);
     } catch (e) {
       console.error(e);
     }
@@ -135,25 +138,19 @@ export default function Threads({
 
     try {
       if (!heart) {
-        const res = await axiosInstance.post("/likes/create", {
-          postId: postId,
-        });
-        const newLikeId = res.data._id;
+        const res = await createLike(postId);
+        const newLikeId = res._id;
         setMyLikeId(newLikeId);
 
         // 알림 생성 함수 만들어서 api호출
-        await axiosInstance.post(`/notifications/create`, {
+        await createNotification({
           notificationType: "LIKE",
-          notificationTypeId: res.data._id,
+          notificationTypeId: res._id,
           userId: author._id,
           postId: postId,
         });
       } else {
-        await axiosInstance.delete("/likes/delete", {
-          data: {
-            id: myLikeId,
-          },
-        });
+        await deleteLike(myLikeId ?? "");
         setMyLikeId(null);
       }
       setHeart((prev) => !prev);
@@ -174,6 +171,23 @@ export default function Threads({
     }
     setShowComments((prev) => !prev);
   };
+
+  // 삭제된 경우 메시지 표시
+  if (isDeleted) {
+    return (
+      <div className="border border-gray-300 dark:border-[#4c4c4c] rounded-lg p-4 mb-6 bg-white dark:bg-[#191A1E] shadow-sm text-center">
+        <p className="mb-4 text-gray-700 dark:text-[#fff] font-semibold">
+          삭제된 피드입니다.
+        </p>
+        <button
+          onClick={() => nav("/")}
+          className="px-4 py-2 bg-[#235bd2] text-white rounded-md hover:bg-[#0033A0] transition-all cursor-pointer"
+        >
+          홈으로 돌아가기 ~ 🎵
+        </button>
+      </div>
+    );
+  }
 
   if (isEdit) {
     return (

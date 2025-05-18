@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import { MdClose } from "react-icons/md";
 import { Alert } from "./HeaderIcon";
 import { useNavigate } from "react-router";
-import { axiosInstance } from "../../api/axiosInstance";
 import { useChannelStore } from "../../stores/channelStore";
 import { userStore } from "../../stores/userStore";
+import { seenNotifications } from "../../api/notification";
 
 const alertList =
   "border-b border-gray-200 last:border-0 w-76 py-1 cursor-pointer hover:underline hover:underline-offset-2 relative";
@@ -39,7 +39,9 @@ export default function NoticeBox({
     const prev = JSON.parse(localStorage.getItem("alertId") || "[]");
     const updated = [...new Set([...prev, alert._id])];
     localStorage.setItem("alertId", JSON.stringify(updated));
-    setAlerts((prev) => prev.map((a) => (a._id === alert._id ? { ...a, seen: true } : a)));
+    setAlerts((prev) =>
+      prev.map((a) => (a._id === alert._id ? { ...a, seen: true } : a))
+    );
 
     if (alert.message) {
       navigate(`/message/${alert.author._id}`, {
@@ -50,7 +52,9 @@ export default function NoticeBox({
     }
     if (alert.like) {
       const channelId = alert.like?.post.channel;
-      const teamName = useChannelStore.getState().getChannelName(channelId as string);
+      const teamName = useChannelStore
+        .getState()
+        .getChannelName(channelId as string);
       const postId = alert.like.post._id;
 
       navigate(`/fanpage/${teamName}/${channelId}/${postId}`);
@@ -70,16 +74,17 @@ export default function NoticeBox({
   useEffect(() => {
     const allSeen = alerts.length > 0 && alerts.every((a) => a.seen);
     if (!allSeen) {
-      axiosInstance.put("/notifications/seen").catch((err) => {
-        console.error("알림 읽음 실패", err);
-      });
+      seenNotifications();
     }
   }, [alerts]);
   return (
     <>
       <div className="w-86 h-auto pb-1.5 bg-white border border-gray-200 rounded-md ">
         <button>
-          <MdClose onClick={onClose} className="absolute w-5 h-5 right-2 top-2 cursor-pointer" />
+          <MdClose
+            onClick={onClose}
+            className="absolute w-5 h-5 right-2 top-2 cursor-pointer"
+          />
         </button>
         {alerts.length === 0 ? (
           <div className="mx-4">
@@ -89,14 +94,22 @@ export default function NoticeBox({
           <div className="mx-4">
             {alerts
               .filter(
-                (a) => a.author?._id !== myId && (a.message || a.follow || a.comment || a.like)
+                (a) =>
+                  a.author?._id !== myId &&
+                  (a.message || a.follow || a.comment || a.like)
               )
               .slice(0, 6)
               .map((a) => (
-                <div key={a._id} className={alertList} onClick={() => handleAlertClick(a)}>
+                <div
+                  key={a._id}
+                  className={alertList}
+                  onClick={() => handleAlertClick(a)}
+                >
                   <div className="truncate pr-5">{getAlertMessage(a)}</div>
                   {!a.seen && (
-                    <span className="absolute top-2.5 right-1 text-red-500 text-[8px]">●</span>
+                    <span className="absolute top-2.5 right-1 text-red-500 text-[8px]">
+                      ●
+                    </span>
                   )}
                 </div>
               ))}

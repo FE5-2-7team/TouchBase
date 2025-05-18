@@ -2,10 +2,12 @@ import { useCallback, useEffect, useState } from "react";
 import ProfileImage from "./ProfileImage";
 import Button from "./Button";
 import { Comment, ExtendedUser } from "../../types/postType";
-import { axiosInstance } from "../../api/axiosInstance";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { userStore } from "../../stores/userStore";
 import { Link } from "react-router";
+import { createNotification } from "../../api/notification";
+import { setComments, getPosts, deleteComments } from "../../api/posts";
+
 interface CommentsProps {
   author: ExtendedUser;
   postId: string;
@@ -28,7 +30,7 @@ export default function Comments({
 
   const fetchComments = useCallback(async () => {
     try {
-      const res = await axiosInstance.get(`posts/${postId}`);
+      const res = await getPosts(postId);
 
       setCommentList(res.data.comments);
     } catch (error) {
@@ -42,7 +44,7 @@ export default function Comments({
     setIsSubmitting(true);
 
     try {
-      const res = await axiosInstance.post<Comment>("comments/create", {
+      const res = await setComments({
         comment: input,
         postId: postId,
       });
@@ -51,7 +53,7 @@ export default function Comments({
       setCommentList((prev) => [...prev, res.data]);
       setInput("");
 
-      await axiosInstance.post(`/notifications/create`, {
+      await createNotification({
         notificationType: "COMMENT",
         notificationTypeId: res.data._id,
         userId: author._id,
@@ -72,11 +74,7 @@ export default function Comments({
     if (isDeleting) return;
     setIsDeleting(true);
     try {
-      await axiosInstance.delete("/comments/delete", {
-        data: {
-          id: commentId,
-        },
-      });
+      await deleteComments(commentId);
       setCommentList((prev) =>
         prev.filter((comment) => comment._id !== commentId)
       );

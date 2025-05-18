@@ -4,10 +4,10 @@ import { LuImagePlus, LuImageMinus } from "react-icons/lu";
 import ProfileBlock from "./ProfileBlock";
 import { MdOutlineReplay } from "react-icons/md";
 import { userStore } from "../../stores/userStore";
-import { axiosInstance } from "../../api/axiosInstance";
 import { useParams } from "react-router";
 import { AxiosError } from "axios";
 import { refreshStore } from "../../stores/refreshStore";
+import { createPost } from "../../api/posts";
 
 interface UploadProps {
   titleValue?: string;
@@ -46,6 +46,8 @@ export default function Upload({
   const ImgFileChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
+    e.target.value = "";
+
     if (file) {
       const reader = new FileReader();
       reader.onload = function (e) {
@@ -82,11 +84,7 @@ export default function Upload({
       if (imageFiles) {
         formData.append("image", imageFiles);
       }
-      await axiosInstance.post(`/posts/create`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      await createPost(formData);
 
       console.log("파일 업로드 성공");
     } catch (error) {
