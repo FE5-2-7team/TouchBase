@@ -46,26 +46,24 @@ export default function Header() {
         </div>
       </div>
       <div className="fixed z-60 w-full bg-[#f5f5f5] h-[80px] md:h-[70px] top-[80px] border-b border-gray-200 dark:border-0 hiddenHeader dark:bg-[#202228] dark:text-white">
-        <ul className="grid grid-cols-5 md:grid-cols-10 xl:gap-[1%] md:px-[8%] px-[2%] md:mt-5 mt-3 ">
+        <ul
+          className="grid grid-cols-5 md:grid-cols-10 xl:gap-[1%] md:px-[8%] px-[2%] md:mt-5 mt-3 
+        "
+        >
           {channels.map((channel) => {
             const logoList = logos.find((logo) => logo.name === channel.name);
             return (
               <li key={channel._id} className={liItemStyle}>
                 <Link
                   to={`/fanpage/${channel.name}/${channel._id}`}
+                  onClick={() => window.scrollTo(0, 0)}
                   className={`flex items-center justify-center hover:text-[#ff9500] hover:underline hover:underline-offset-7 hover:decoration-2 ${
                     location.pathname.includes(channel._id)
                       ? "text-[#ff9500] underline underline-offset-7 decoration-2 font-bold"
                       : ""
                   }`}
                 >
-                  {logoList && (
-                    <img
-                      src={logoList.logo}
-                      className={liImgStyle}
-                      alt={channel._id}
-                    />
-                  )}
+                  {logoList && <img src={logoList.logo} className={liImgStyle} alt={channel._id} />}
                   <p className="md:text-lg sm:text-sm">{channel.name}</p>
                 </Link>
               </li>
