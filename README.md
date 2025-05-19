@@ -266,7 +266,7 @@ src
 | 구단 별 팬 페이지                                               |
 | --------------------------------------------------------------- |
 | ![fanpage](https://proxy-ten-rho.vercel.app/fanpage/page_0.gif) |
-| ![fanpage](https://proxy-ten-rho.vercel.app/fanpage/page_2.gif) |
+| ![fanpage](https://proxy-ten-rho.vercel.app/fanpage/page_4.gif) |
 
 2. 게시글 업로드
    - 제목 또는 내용이 입력, 혹은 이미지 첨부 시 업로드 버튼이 활성화됩니다.
