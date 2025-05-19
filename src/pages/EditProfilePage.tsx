@@ -1,5 +1,5 @@
-import EditProfile from "../components/Auth/EditProfile";
+import EditContainer from "../components/EditProfile/EditContainer";
 
 export default function EditProfilePage() {
-  return <EditProfile />;
+  return <EditContainer />;
 }

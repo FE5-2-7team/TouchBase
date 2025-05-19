@@ -1,6 +1,7 @@
 import AuthBoard from "../components/Auth/AuthBoard";
 import Logo from "../components/Auth/Logo";
-import SignUp from "../components/Auth/SignUp";
+// import SignUp from "../components/Auth/SignUp";
+import SubmitForm from "../components/SignUp/SubmitForm";
 
 export default function SignUpPage() {
   return (
@@ -9,7 +10,7 @@ export default function SignUpPage() {
         <header>
           <Logo />
         </header>
-        <SignUp />
+        <SubmitForm />
       </AuthBoard>
     </>
   );
