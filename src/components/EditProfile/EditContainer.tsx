@@ -7,7 +7,6 @@ import { ExtendedUser } from "../../types/postType.ts";
 import SelectClub from "./ChangeClub.tsx";
 import watermark2 from "../../assets/images/watermark2.png";
 import EditIcons from "./EditIcons.tsx";
-
 import ChangeNickname from "./ChangeNickname.tsx";
 import ChangePassword from "./ChangePassword.tsx";
 import { useEffect } from "react";

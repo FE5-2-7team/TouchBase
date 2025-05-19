@@ -1,10 +1,10 @@
 import Swal from "sweetalert2";
 import { ExtendedUser } from "../../types/postType.ts";
 import { userStore } from "../../stores/userStore.ts";
-import { axiosInstance } from "../../api/axiosInstance.ts";
 import { logout } from "../../api/auth.ts";
 import { useNavigate } from "react-router";
 import { useCallback } from "react";
+import { updateUserInfo, updateUserPassword } from "../../api/user.ts";
 
 type FieldType = "nickname" | "checkpassword";
 
@@ -40,16 +40,12 @@ export function useUpdateHandler() {
       try {
         let response;
         if (type === "nickname") {
-          response = await axiosInstance.put("settings/update-user", {
-            fullName: user.fullName,
-            username: data.content,
-          });
+          response = await updateUserInfo(user.fullName, data.content);
         } else {
-          response = await axiosInstance.put("settings/update-password", {
-            password: data.content,
-          });
-          if (response.status !== 200) throw new Error();
+          response = await updateUserPassword(data.content);
         }
+
+        if (response!.status !== 200) throw new Error();
 
         Swal.fire({
           icon: "success",
@@ -63,7 +59,7 @@ export function useUpdateHandler() {
           return;
         }
 
-        userStore.getState().setUser(response.data);
+        userStore.getState().setUser(response!.data);
         console.log(userStore.getState().getUser());
       } catch (err) {
         Swal.fire({

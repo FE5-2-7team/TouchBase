@@ -5,9 +5,9 @@ import Button from "../FanPage/Button.tsx";
 import Message from "../Auth/Message.tsx";
 import BlueBoard from "../Auth/BlueBoard.tsx";
 import { inputValidation } from "../SignUp/validation.ts";
-import { axiosInstance } from "../../api/axiosInstance.ts";
 import { ExtendedUser } from "../../types/postType.ts";
 import useUpdateHandler from "./useUpdateHandler.ts";
+import { getUserInfo } from "../../api/user.ts";
 
 export default function ChangeNickname() {
   const [value, setValue] = useState({ valid: false, content: "" });
@@ -34,7 +34,7 @@ export default function ChangeNickname() {
     if (content === "" || !valid) return;
 
     try {
-      const { data } = await axiosInstance(`/users/get-users`);
+      const data = await getUserInfo();
       const result = data.some((el: ExtendedUser) => el.username === content);
       if (result) {
         //중복있음

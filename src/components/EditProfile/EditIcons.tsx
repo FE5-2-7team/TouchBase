@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { axiosInstance } from "../../api/axiosInstance";
+import { getNotifications } from "../../api/notification";
 import { CgBell } from "react-icons/cg";
 import { MdDarkMode, MdSearch, MdLightMode } from "react-icons/md";
 import { useDarkMode } from "../../hooks/useDarkMode";
@@ -78,8 +78,8 @@ export default function EditIcons() {
   useEffect(() => {
     const fetchAlert = async () => {
       try {
-        const res = await axiosInstance.get("/notifications");
-        setAlerts(res.data);
+        const res = await getNotifications();
+        setAlerts(res);
       } catch (err) {
         console.error("알림 목록 불러오기 실패", err);
       }

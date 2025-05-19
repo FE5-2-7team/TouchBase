@@ -6,10 +6,10 @@ import Name from "./Name";
 import Email from "./Email";
 import AuthButton from "../Auth/AuthButton";
 import Swal from "sweetalert2";
-import { axiosInstance } from "../../api/axiosInstance";
 import { login } from "../../api/auth";
 import { useNavigate } from "react-router";
 import { AxiosError } from "axios";
+import { signUp } from "../../api/auth.ts";
 
 export default function SubmitForm() {
   const navigate = useNavigate();
@@ -59,7 +59,7 @@ export default function SubmitForm() {
     }
 
     try {
-      const response = await axiosInstance.post(`/signup`, {
+      const response = await signUp({
         email: email.value.toLocaleLowerCase().trim(),
         fullName: name.value.toLocaleLowerCase().trim(),
         username: nickname.value.toLocaleLowerCase().trim(),
