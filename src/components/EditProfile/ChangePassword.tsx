@@ -22,6 +22,7 @@ export default function ChangePassword() {
   const updateHandler = useUpdateHandler();
 
   const { password, checkPassword } = value;
+
   const validCheck = [
     ...Object.values(password),
     ...Object.values(checkPassword),
