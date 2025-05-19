@@ -4,9 +4,9 @@ import Button from "../FanPage/Button";
 import Message from "../Auth/Message";
 import InputBox from "./InputBox.tsx";
 import { inputValidation } from "./validation.ts";
-import { axiosInstance } from "../../api/axiosInstance.ts";
 import { ExtendedUser } from "../../types/postType.ts";
 import { SetData } from "../../types/userTypes.ts";
+import { getUserInfo } from "../../api/user.ts";
 
 export default function NickName({
   setFc,
@@ -45,13 +45,12 @@ export default function NickName({
     if (value === "" || !valid) return;
 
     try {
-      const { data } = await axiosInstance(`/users/get-users`);
+      const data = await getUserInfo();
       const result = data.some((el: ExtendedUser) => el.username === value);
       if (result) {
         setValid(true);
         setDuplicateCheck(false);
       } else {
-        // setValid(false);
         setDuplicateCheck(true);
       }
     } catch (error) {

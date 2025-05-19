@@ -1,7 +1,7 @@
 import Swal from "sweetalert2";
-import { axiosFileInstance, axiosInstance } from "../../api/axiosInstance.ts";
 import { userStore } from "../../stores/userStore.ts";
 import { ExtendedUser } from "../../types/postType.ts";
+import { getUser, deleteUserImage, updateUserImage } from "../../api/user.ts";
 
 export const handleimageChange = async (
   e: React.ChangeEvent<HTMLInputElement>
@@ -19,10 +19,7 @@ export const handleimageChange = async (
   formData.append("image", file);
 
   try {
-    const { data } = await axiosFileInstance.post(
-      "/users/upload-photo",
-      formData
-    );
+    const data = await updateUserImage(formData);
 
     Swal.fire({
       icon: "success",
@@ -42,10 +39,8 @@ export const handleimageRemove = async () => {
   formData.append("isCover", "false");
 
   try {
-    await axiosFileInstance.delete("/users/delete-photo", {
-      data: formData,
-    });
-    const { data } = await axiosInstance.get(`users/${user._id}`);
+    await deleteUserImage(formData);
+    const data = await getUser(user._id);
 
     Swal.fire({
       icon: "success",

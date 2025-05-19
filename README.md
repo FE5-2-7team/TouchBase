@@ -43,8 +43,6 @@
 
 <br>
 
-## 2. 폴더 구조
-
 ```plaintext
 src
 ├── api

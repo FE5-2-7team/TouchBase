@@ -68,7 +68,7 @@ export default function SearchThreads({ keyword, results, onClose }: SearchThrea
                     }}
                   >
                     <h4 className="ml-2 h-6 mt-0.5 text-sm whitespace-nowrap truncate dark:text-white cursor-pointer">
-                      {post.postContent}
+                      {post.postTitle ? post.postTitle : "제목 없음"}
                     </h4>
                   </div>
                 );
