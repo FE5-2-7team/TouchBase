@@ -23,7 +23,7 @@ export default function ProfileImage({
         if (authorId) {
           console.log(authorId);
           const res = await getUser(authorId);
-          setFetchImg(res.data.image);
+          setFetchImg(res.image);
         }
       } catch {
         console.log("파싱실패!");

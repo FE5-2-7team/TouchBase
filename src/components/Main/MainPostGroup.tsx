@@ -37,7 +37,8 @@ const SkeletonList = ({
 );
 
 export default function MainPostGroup() {
-  const { setNewPostList, setHotPostList } = useNewAndHotPostStore();
+  const { setNewPostList, setHotPostList, getNewPostList, getHotPostList } =
+    useNewAndHotPostStore();
   const [isLoading, setIsLoading] = useState(true);
   const [newPost, setNewPost] = useState<Post[]>([]);
   const [hotPost, setHotPost] = useState<Post[]>([]);
@@ -68,6 +69,7 @@ export default function MainPostGroup() {
         setNewPost(res.data);
         setNewPostList(res.data);
       } else {
+        setNewPost(getNewPostList());
         console.error("Error fetching new post:", res.status);
       }
     } catch (error) {
@@ -85,6 +87,7 @@ export default function MainPostGroup() {
         setHotPost(res.data);
         setHotPostList(res.data);
       } else {
+        setHotPost(getHotPostList());
         console.error("Error fetching hot post:", res.status);
       }
     } catch (error) {

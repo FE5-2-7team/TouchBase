@@ -11,6 +11,7 @@ type InputTypes = {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
 };
 
 export default function Input({
@@ -22,6 +23,7 @@ export default function Input({
   onChange,
   onFocus,
   onKeyDown,
+  onBlur,
 }: InputTypes) {
   const [passwordShow, setPasswordShow] = useState(true);
 
@@ -34,6 +36,7 @@ export default function Input({
             className
           )}
           onChange={onChange}
+          onBlur={onBlur}
           placeholder={placeholder}
           type={type}
           value={value}
@@ -46,6 +49,7 @@ export default function Input({
             placeholder={placeholder}
             type={passwordShow ? "password" : "text"}
             value={value}
+            onBlur={onBlur}
             onChange={onChange}
             onFocus={onFocus}
             name={name}
