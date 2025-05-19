@@ -18,7 +18,10 @@ const getNotifications = async () => {
 
 const createNotification = async (notification: NotificationType) => {
   try {
-    const response = await axiosInstance.post("/notifications", notification);
+    const response = await axiosInstance.post(
+      "/notifications/create",
+      notification
+    );
     return response.data;
   } catch (error) {
     console.error("알림 생성 실패", error);
