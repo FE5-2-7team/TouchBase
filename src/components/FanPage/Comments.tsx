@@ -50,12 +50,12 @@ export default function Comments({
       });
 
       // console.log(res.data);
-      setCommentList((prev) => [...prev, res.data]);
+      setCommentList((prev) => [...prev, res]);
       setInput("");
 
       await createNotification({
         notificationType: "COMMENT",
-        notificationTypeId: res.data._id,
+        notificationTypeId: res._id,
         userId: author._id,
         postId: postId,
       });
