@@ -18,7 +18,7 @@ export default function MainPostList({
       if (parsed[0].postTitle) {
         return parsed[0].postTitle;
       } else {
-        return "제목이 없는 게시물 입니다.";
+        return "제목 없음";
       }
     } catch {
       return value;
