@@ -69,11 +69,11 @@ export default function Sidebar({ teamName, title, setTitle }: SidebarProps) {
     border-b md:border-r md:border-b-0 border-[#d9d9d9] bg-[#fff] dark:bg-[#191A1E] dark:border-[#4c4c4c]"
       >
         {/* PC에서만 로고 보이게 */}
-        <div className="md:flex hidden md:mt-[50px] md:mb-[40px] items-center justify-center">
+        <div className="md:flex hidden md:mt-[40px] md:mb-[30px] items-center justify-center">
           <img
             src={teams.logo}
             alt={`${teams.name}로고`}
-            className="w-[70%] object-cover"
+            className="w-[170px] h-[170px] object-contain"
           />
         </div>
 

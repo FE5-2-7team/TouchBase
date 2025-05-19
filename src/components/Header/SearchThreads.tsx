@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { Channel, Post } from "../../types/postType";
 import { useChannelStore } from "../../stores/channelStore";
-import { userStore } from "../../stores/userStore";
 type SearchThreadProps = {
   keyword: string;
   results: Post[];
@@ -20,8 +19,6 @@ type ParsedPost = {
 export default function SearchThreads({ keyword, results, onClose }: SearchThreadProps) {
   const [searchThreads, setSearchThreads] = useState<ParsedPost[]>([]);
   const navigate = useNavigate();
-  const user = userStore.getState().getUser();
-  const isLoggedin = !!user && !!user._id;
 
   useEffect(() => {
     const allParsed: ParsedPost[] = [];
@@ -67,9 +64,7 @@ export default function SearchThreads({ keyword, results, onClose }: SearchThrea
                     className="p-2 bg-white rounded-lg border border-gray-300 hover:shadow-sm hover:bg-gray-100 dark:bg-[#191A1E] dark:border-gray-700 dark:hover:bg-gray-600"
                     onClick={() => {
                       onClose();
-                      navigate(
-                        isLoggedin ? `/fanpage/${teamName}/${channelId}/${post._id}` : "/login"
-                      );
+                      navigate(`/fanpage/${teamName}/${channelId}/${post._id}`);
                     }}
                   >
                     <h4 className="ml-2 h-6 mt-0.5 text-sm whitespace-nowrap truncate dark:text-white cursor-pointer">
