@@ -1,6 +1,6 @@
 # ⚾️ KBO 팬 커뮤니티 TouchBase
 
-![touch-base](./readmeimg.png)
+![touch-base](https://github.com/user-attachments/assets/5bd17289-3b6f-40eb-81d6-c2949fb8d9d2)
 
 - 배포 URL : https://kdt-touch-base.netlify.app
 - Test ID : test@email.com
