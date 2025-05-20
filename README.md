@@ -298,8 +298,8 @@ src
 
 | 구단 별 팬 페이지                                               |
 | --------------------------------------------------------------- |
-| ![fanpage](https://proxy-ten-rho.vercel.app/fanpage/page_0.gif) |
-| ![fanpage](https://proxy-ten-rho.vercel.app/fanpage/page_4.gif) |
+| ![fanpage](https://github.com/user-attachments/assets/fc2602c9-fb96-431e-bb78-7fce961ee823) |
+| ![fanpage](https://github.com/user-attachments/assets/e782e175-cc1d-4010-ae70-8c662dd8a737) |
 
 2. 게시글 업로드
    - 제목 또는 내용이 입력, 혹은 이미지 첨부 시 업로드 버튼이 활성화됩니다.
@@ -309,7 +309,7 @@ src
 
 | 게시글 업로드                                                     |
 | ----------------------------------------------------------------- |
-| ![메인](https://proxy-ten-rho.vercel.app/fanpage/uploadfinal.gif) |
+| ![메인](https://github.com/user-attachments/assets/e3675f5a-d149-4839-9e6f-184f81c1b3d4) |
 
 3. 댓글/좋아요
 
@@ -322,7 +322,7 @@ src
 
 | 댓글/좋아요                                                   |
 | ------------------------------------------------------------- |
-| ![메인](https://proxy-ten-rho.vercel.app/fanpage/comment.gif) |
+| ![메인](https://github.com/user-attachments/assets/05879126-2554-4958-b420-e44ad0052ef0) |
 
 4. 비로그인 유저 접근 제한
    - 구단별 페이지의 게시글 목록은 열람이 가능합니다.
@@ -331,7 +331,7 @@ src
 
 | 비로그인 유저 접속 시                                          |
 | -------------------------------------------------------------- |
-| ![메인](https://proxy-ten-rho.vercel.app/fanpage/notlogin.gif) |
+| ![메인](https://github.com/user-attachments/assets/5f191586-e248-4970-bef8-85647c426b2a) |
 
 5. 상세 게시글
    - 홈 화면 또는 알림 클릭 시 해당 구단 팬 페이지 내 상세 게시글로 이동합니다.
@@ -341,14 +341,14 @@ src
 
 | 상세 게시글 이동 시/삭제 된 상세 게시글 이동 시                  |
 | ---------------------------------------------------------------- |
-| ![메인](https://proxy-ten-rho.vercel.app/fanpage/detail.gif)     |
-| ![메인](https://proxy-ten-rho.vercel.app/fanpage/detail_del.gif) |
+| ![메인](https://github.com/user-attachments/assets/dea3b3ff-c752-4b01-a203-b60b414da318)     |
+| ![메인](https://github.com/user-attachments/assets/ec578f5b-3813-4964-bcaf-452c6a0ff54e) |
 
 6. 다크 모드
 
 | 다크 모드                                                       |
 | --------------------------------------------------------------- |
-| ![메인](https://proxy-ten-rho.vercel.app/fanpage/darknmode.gif) |
+| ![메인](https://github.com/user-attachments/assets/441b1de9-dfe4-4d8a-984c-115efb21a1b9) |
 
 ### [메세지]
 
@@ -358,11 +358,11 @@ src
 
 | 메세지 보내기                                                              |
 | -------------------------------------------------------------------------- |
-| ![메시지보내기](https://proxy-ten-rho.vercel.app/message/message-send.gif) |
+| ![메시지보내기](https://github.com/user-attachments/assets/1f773dd7-0fb9-40f2-9a88-aa257e902eb9) |
 
 | 다크모드 메세지 보내기                                            |
 | ----------------------------------------------------------------- |
-| ![유저검색](https://proxy-ten-rho.vercel.app/message/dark-dm.gif) |
+| ![유저검색](https://github.com/user-attachments/assets/e990301e-89f2-483e-94da-5ebeeaf7a3ef) |
 
 ### [헤더]
 
@@ -372,7 +372,7 @@ src
 
 | 추천유저/유저검색                                                        |
 | ------------------------------------------------------------------------ |
-| ![유저검색](https://proxy-ten-rho.vercel.app/message/user-search-HD.gif) |
+| ![유저검색](https://github.com/user-attachments/assets/511cf421-35d9-40a1-9bcd-34b6cb22d185) |
 
 3. 추천 게시물 / 게시물 검색
 
@@ -380,11 +380,11 @@ src
 
 | 추천게시글/게시글 검색                                                     |
 | -------------------------------------------------------------------------- |
-| ![게시글검색](https://proxy-ten-rho.vercel.app/message/post-search-HD.gif) |
+| ![게시글검색](https://github.com/user-attachments/assets/f9aab5ec-135b-4a38-894a-dd700d7113e3) |
 
 | 다크모드 검색                                                         |
 | --------------------------------------------------------------------- |
-| ![유저검색](https://proxy-ten-rho.vercel.app/message/dark-search.gif) |
+| ![유저검색](https://github.com/user-attachments/assets/a8b87572-b3e6-4340-a643-a80eb04ff9f3) |
 
 4. 알림 목록
 
@@ -392,7 +392,7 @@ src
 
 | 알림창                                                                 |
 | ---------------------------------------------------------------------- |
-| ![알림창](https://proxy-ten-rho.vercel.app/message/alert-check-HD.gif) |
+| ![알림창](https://github.com/user-attachments/assets/2ff0bc98-1ef0-4703-bff2-41deef649954) |
 
 5. 로그인 상태에 따른 헤더 아이콘 변경
 
@@ -400,7 +400,7 @@ src
 
 | 로그인/비로그인 헤더 아이콘                                             |
 | ----------------------------------------------------------------------- |
-| ![헤더](https://proxy-ten-rho.vercel.app/message/login-icon-change.gif) |
+| ![헤더](https://github.com/user-attachments/assets/0967e344-5c69-4c2b-a82e-940b86525def) |
 
 ### [회원 가입]
 
@@ -408,35 +408,35 @@ src
 
 | 닉네임 유효성 검사                                                   |
 | -------------------------------------------------------------------- |
-| ![유저검색](https://proxy-ten-rho.vercel.app/user/nicknameValid.gif) |
+| ![유저검색](https://github.com/user-attachments/assets/4c1bd6dc-8488-45f9-ba72-d4b4c6080566) |
 
 | 회원 가입 필드 유효성 검사                                        |
 | ----------------------------------------------------------------- |
-| ![유저검색](https://proxy-ten-rho.vercel.app/user/signupFail.gif) |
+| ![유저검색](https://github.com/user-attachments/assets/705c26ac-fd0f-452c-928e-69b84185adc2) |
 
 ### [프로필 수정 페이지]
 
 | 프로필 이미지 수정, 삭제 기능                                      |
 | ------------------------------------------------------------------ |
-| ![유저검색](https://proxy-ten-rho.vercel.app/user/imageChange.gif) |
+| ![유저검색](https://github.com/user-attachments/assets/00c55968-ccdc-460e-94df-c5bf0861af3e) |
 
 | 닉네임 수정, 유효성 검사 기능                                         |
 | --------------------------------------------------------------------- |
-| ![유저검색](https://proxy-ten-rho.vercel.app/user/changeNickname.gif) |
+| ![유저검색](https://github.com/user-attachments/assets/8b7e86f6-9b59-4254-baec-dab02ad0e39a) |
 
 | 비밀번호 수정, 유효성 검사 기능                                       |
 | --------------------------------------------------------------------- |
-| ![유저검색](https://proxy-ten-rho.vercel.app/user/changePassword.gif) |
+| ![유저검색](https://github.com/user-attachments/assets/6e2b0f83-a50e-4784-bbad-27a4803deadc) |
 
 | 응원 구단 마스코트 수정 기능                                      |
 | ----------------------------------------------------------------- |
-| ![유저검색](https://proxy-ten-rho.vercel.app/user/changeClub.gif) |
+| ![유저검색](https://github.com/user-attachments/assets/07658e49-f28e-4343-9bbf-35e9875848e5) |
 
 ### [오류 페이지]
 
 | 404 페이지                                                      |
 | --------------------------------------------------------------- |
-| ![유저검색](https://proxy-ten-rho.vercel.app/user/notFound.gif) |
+| ![유저검색](https://github.com/user-attachments/assets/317e1610-0991-43d6-b811-3bb39a41c34f) |
 
 ### [프로필 상세 페이지]
 
