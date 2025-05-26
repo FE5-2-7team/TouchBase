@@ -116,15 +116,29 @@ src
 
 **UI**
 
-- 페이지: 홈 페이지, 공통 UI 컴포넌트 제작
+- 홈 페이지 구성
+  - 프로젝트 메인 진입점으로서 홈 UI 구성 및 스타일링
 
 **기능**
 
-- 로그인 기능, 유저 정보 저장, 접근제한 설정
+- 로그인 기능 구현
+  - 사용자 인증 로직 구성
+  - 로그인 성공 시 사용자 정보를 전역 상태로 저장하여 서비스 전반에 활용 가능하도록 처리
+- 접근 제한 기능 구현
+  - 로그인 상태에 따라 접근 가능한 페이지 제어
+  - 비로그인 시 특정 페이지 접근 시 자동 리다이렉션 및 안내 처리
+- API 모듈 전반 추상화 및 통신 구조 설계
+  - axios 기반 API 모듈을 분리하여 요청/응답 형식 통일
+  - 서비스 전반의 API 요청을 공통 모듈화하여 중복 코드 제거 및 유지보수 편의성 향상
+  - 에러 핸들링, 토큰 처리, 공통 헤더 설정 등을 기반 구조에서 일괄 적용
+  - 각 기능별 도메인 분리로 가독성과 협업 효율을 높임
 
 **ETC**
 
-- 팀장
+- 프로젝트 팀장 역할 수행
+  - Git 흐름 관리 및 전체 개발 일정 조율
+  - 기능 기획 및 우선순위 정리, 팀원간 역할 분배
+  - 데일리 스크럼과 회고 진행을 통해 팀 커뮤니케이션을 원활히 유지
 
 <br>
 
@@ -586,16 +600,45 @@ zustand에 전역으로 refetch 상태 값을 false로 주고 클릭 이벤트 �
 → Zustand를 사용해 전역 상태로 refresh 값을 만들고, refetch() 함수로 해당 값을 토글하는 방식 도입.
 useEffect에서 refresh 값을 의존성으로 감지해 데이터 재요청을 유도.
 
-## 7. Light House 성능 테스트 결과
+## 7. Lighthouse 성능 테스트 결과
+
+### 테스트 공통 사항
+
+- 데스크탑 환경에서의 성능 측정 결과입니다.
+- SEO는 내부 시스템 특성상 측정에서 제외되었습니다.
+
+---
 
 ### 메인 페이지
-![mainpage](https://github.com/user-attachments/assets/740ed158-2777-4a41-bf01-7a11d99bd022)
+
+- Performance: **100** / Accessibility: **100** / Best Practices: **96**
+- 모든 측정 항목에서 매우 우수한 점수를 기록하였습니다.
+- 콘텐츠가 0.6초 내에 빠르게 렌더링되며, Blocking Time 및 Layout Shift는 발생하지 않았습니다.
+- 사용자 접근성과 웹 표준 관점에서도 최적화가 잘 이루어졌습니다.
+
+  ![mainpage](https://github.com/user-attachments/assets/740ed158-2777-4a41-bf01-7a11d99bd022)
+
+---
 
 ### 팬 페이지
-![fanpage](https://github.com/user-attachments/assets/b19f5384-0608-4fb1-92c7-34b4048da5e5)
 
-### 프로필 페이지
-![profile](https://github.com/user-attachments/assets/0d7f2054-db98-4608-a7f0-230c22485d1e)
+- Performance: **100** / Accessibility: **93** / Best Practices: **74**
+- 모든 성능 지표가 우수하며 콘텐츠도 빠르게 렌더링됩니다 (FCP/LCP 모두 0.7초).
+- 접근성 경고 및 일부 Best Practices 항목(예: 보안 정책, 이미지 관련 설정 등)에 개선 여지가 있습니다.
+- 전반적인 사용자 경험은 쾌적하지만, 세부 최적화는 가능해 보입니다.
+
+  ![fanpage](https://github.com/user-attachments/assets/b19f5384-0608-4fb1-92c7-34b4048da5e5)
+
+---
+
+### 프로필 페이지 (게시글 포함)
+
+- Performance: **91** / Accessibility: **88** / Best Practices: **74**
+- 게시글 내 **이미지 요소**가 많아 Largest Contentful Paint(LCP)가 2.0초로 측정되었습니다.
+- 일부 Best Practices 위반 및 접근성 경고가 존재합니다.
+- 향후 `lazy loading` 적용, 이미지 최적화 등을 통해 개선 여지가 있습니다.
+
+  ![profile](https://github.com/user-attachments/assets/0d7f2054-db98-4608-a7f0-230c22485d1e)
 
 ## 8. 프로젝트 후기
 
