@@ -286,6 +286,9 @@ src
 - 금일 경기 일정 확인 기능
   - KBO 공식 일정이 표기되고 경기 중일땐 선발 투수, 스코어 등의 정보가 출력됩니다.
   - 금일 경기가 없을 경우 '경기일정이 없습니다.' 출력됩니다.
+
+![detail](https://github.com/user-attachments/assets/a564f608-8ed5-4ff7-9000-f51104af645e)
+
 - 전체 구단의 현재 순위 확인 기능
   - KBO 공식 구단 순위가 출력됩니다.
 - 모든 게시판 통합 인기글/최신글 리스트가 출력됩니다.
@@ -611,12 +614,12 @@ useEffect에서 refresh 값을 의존성으로 감지해 데이터 재요청을 
 
 ### 메인 페이지
 
-- Performance: **100** / Accessibility: **100** / Best Practices: **96**
-- 모든 측정 항목에서 매우 우수한 점수를 기록하였습니다.
-- 콘텐츠가 0.6초 내에 빠르게 렌더링되며, Blocking Time 및 Layout Shift는 발생하지 않았습니다.
-- 사용자 접근성과 웹 표준 관점에서도 최적화가 잘 이루어졌습니다.
+- Performance: **98** / Accessibility: **100** / Best Practices: **96**
+- First Contentful Paint와 LCP가 모두 **0.9초**로 빠르게 렌더링되었습니다.
+- Total Blocking Time은 0ms, Layout Shift는 0.008로 사용자 경험에 영향을 주지 않는 수준입니다.
+- 실제 콘텐츠가 모두 표시된 상태에서도 높은 성능 점수를 안정적으로 유지하고 있습니다.
+![mainpage](https://github.com/user-attachments/assets/d4e4c95c-221c-4d4e-b5a4-267b90ce239d)
 
-  ![mainpage](https://github.com/user-attachments/assets/740ed158-2777-4a41-bf01-7a11d99bd022)
 
 ---
 
@@ -625,7 +628,7 @@ useEffect에서 refresh 값을 의존성으로 감지해 데이터 재요청을 
 - Performance: **100** / Accessibility: **93** / Best Practices: **74**
 - 모든 성능 지표가 우수하며 콘텐츠도 빠르게 렌더링됩니다 (FCP/LCP 모두 0.7초).
 - 접근성 경고 및 일부 Best Practices 항목(예: 보안 정책, 이미지 관련 설정 등)에 개선 여지가 있습니다.
-- 전반적인 사용자 경험은 쾌적하지만, 세부 최적화는 가능해 보입니다.
+- 전반적인 사용자 경험은 쾌적하지만, 세부 최적화할 수 있는 요소가 존재합니다.
 
   ![fanpage](https://github.com/user-attachments/assets/b19f5384-0608-4fb1-92c7-34b4048da5e5)
 
@@ -636,7 +639,7 @@ useEffect에서 refresh 값을 의존성으로 감지해 데이터 재요청을 
 - Performance: **91** / Accessibility: **88** / Best Practices: **74**
 - 게시글 내 **이미지 요소**가 많아 Largest Contentful Paint(LCP)가 2.0초로 측정되었습니다.
 - 일부 Best Practices 위반 및 접근성 경고가 존재합니다.
-- 향후 `lazy loading` 적용, 이미지 최적화 등을 통해 개선 여지가 있습니다.
+- 향후 `lazy loading` 적용, 이미지 최적화 등을 통해 개선할 부분이 있습니다.
 
   ![profile](https://github.com/user-attachments/assets/0d7f2054-db98-4608-a7f0-230c22485d1e)
 
