@@ -589,10 +589,13 @@ useEffect에서 refresh 값을 의존성으로 감지해 데이터 재요청을 
 ## 7. Light House 성능 테스트 결과
 
 ### 메인 페이지
+![mainpage](https://github.com/user-attachments/assets/740ed158-2777-4a41-bf01-7a11d99bd022)
 
 ### 팬 페이지
+![fanpage](https://github.com/user-attachments/assets/b19f5384-0608-4fb1-92c7-34b4048da5e5)
 
 ### 프로필 페이지
+![profile](https://github.com/user-attachments/assets/0d7f2054-db98-4608-a7f0-230c22485d1e)
 
 ## 8. 프로젝트 후기
 
